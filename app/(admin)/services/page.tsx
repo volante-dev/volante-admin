@@ -46,14 +46,11 @@ const ServicesPage = async () => {
         }}
       >
         <Typography variant="h2">Services</Typography>
-        <Button
-          component={Link}
-          href="/services/new"
-          variant="contained"
-          startIcon={<AddIcon />}
-        >
-          Nouveau service
-        </Button>
+        <Link href="/services/new">
+          <Button variant="contained" startIcon={<AddIcon />}>
+            Nouveau service
+          </Button>
+        </Link>
       </Box>
 
       {services.length === 0 ? (
@@ -69,14 +66,11 @@ const ServicesPage = async () => {
           <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
             Aucun service pour le moment.
           </Typography>
-          <Button
-            component={Link}
-            href="/services/new"
-            variant="outlined"
-            startIcon={<AddIcon />}
-          >
-            Creer le premier service
-          </Button>
+          <Link href="/services/new">
+            <Button variant="outlined" startIcon={<AddIcon />}>
+              Creer le premier service
+            </Button>
+          </Link>
         </Box>
       ) : (
         <ServiceTable services={services} />

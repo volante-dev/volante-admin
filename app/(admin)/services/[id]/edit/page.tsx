@@ -33,14 +33,11 @@ const EditServicePage = async ({
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3 }}>
-        <Button
-          component={Link}
-          href="/services"
-          startIcon={<ArrowBackIcon />}
-          size="small"
-        >
-          Services
-        </Button>
+        <Link href="/services">
+          <Button startIcon={<ArrowBackIcon />} size="small">
+            Services
+          </Button>
+        </Link>
       </Box>
       <Typography variant="h2" sx={{ mb: 3 }}>
         Modifier : {service.title}
