@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getAccountSummary, getDisplayName } from "@/lib/account";
 import { getSession } from "@/lib/session";
@@ -34,12 +33,12 @@ export default async function Home() {
               {account?.email ?? session.email ?? "Email indisponible"}
             </p>
           </div>
-          <Link
+          <a
             className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 px-4 text-sm font-medium text-zinc-800 transition hover:bg-zinc-50"
             href="/logout"
           >
             Se deconnecter
-          </Link>
+          </a>
         </header>
 
         {!account || account.account_type === "unknown" ? (
