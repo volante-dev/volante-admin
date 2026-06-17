@@ -18,6 +18,7 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
   }
 
   const account = await getAccountSummary(session);
+  console.log("[admin-layout] account summary:", JSON.stringify(account));
   const displayName = getDisplayName(account, session);
   const email = account?.email ?? session.email ?? "";
 
