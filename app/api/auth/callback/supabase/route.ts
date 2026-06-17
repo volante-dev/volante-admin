@@ -104,21 +104,31 @@ export async function GET(request: NextRequest) {
 }
 
 async function exchangeCodeForTokens(code: string, verifier: string) {
+  const clientSecret = getOAuthClientSecret();
+  const headers: Record<string, string> = {
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
+  if (clientSecret) {
+    headers.Authorization = createBasicAuthHeader(
+      getOAuthClientId(),
+      clientSecret,
+    );
+  }
+
+  const body = new URLSearchParams({
+    grant_type: "authorization_code",
+    code,
+    redirect_uri: getOAuthRedirectUri(),
+    code_verifier: verifier,
+  });
+  if (!clientSecret) {
+    body.set("client_id", getOAuthClientId());
+  }
+
   const response = await fetch(`${getOAuthIssuer()}/oauth/token`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: createBasicAuthHeader(
-        getOAuthClientId(),
-        getOAuthClientSecret(),
-      ),
-    },
-    body: new URLSearchParams({
-      grant_type: "authorization_code",
-      code,
-      redirect_uri: getOAuthRedirectUri(),
-      code_verifier: verifier,
-    }),
+    headers,
+    body,
   });
 
   return (await response.json()) as TokenResponse;

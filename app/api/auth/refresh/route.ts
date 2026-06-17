@@ -27,19 +27,29 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  const clientSecret = getOAuthClientSecret();
+  const headers: Record<string, string> = {
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
+  if (clientSecret) {
+    headers.Authorization = createBasicAuthHeader(
+      getOAuthClientId(),
+      clientSecret,
+    );
+  }
+
+  const body = new URLSearchParams({
+    grant_type: "refresh_token",
+    refresh_token: session.refreshToken,
+  });
+  if (!clientSecret) {
+    body.set("client_id", getOAuthClientId());
+  }
+
   const response = await fetch(`${getOAuthIssuer()}/oauth/token`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: createBasicAuthHeader(
-        getOAuthClientId(),
-        getOAuthClientSecret(),
-      ),
-    },
-    body: new URLSearchParams({
-      grant_type: "refresh_token",
-      refresh_token: session.refreshToken,
-    }),
+    headers,
+    body,
   });
 
   if (!response.ok) {

@@ -25,7 +25,7 @@ export function getOAuthClientId() {
 }
 
 export function getOAuthClientSecret() {
-  return requiredEnv("SUPABASE_OAUTH_CLIENT_SECRET");
+  return process.env.SUPABASE_OAUTH_CLIENT_SECRET;
 }
 
 export function getSupabaseUrl() {
