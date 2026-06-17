@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/session";
-import { getAccountSummary, getDisplayName } from "@/lib/account";
+import { getAccountSummary, getAccountDebug, getDisplayName } from "@/lib/account";
 import { AdminShell } from "@/components/admin/AdminShell";
 
 export const dynamic = "force-dynamic";
@@ -18,7 +18,7 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
   }
 
   const account = await getAccountSummary(session);
-  console.log("[admin-layout] account summary:", JSON.stringify(account));
+  const debug = await getAccountDebug(session);
   const displayName = getDisplayName(account, session);
   const email = account?.email ?? session.email ?? "";
 
@@ -32,7 +32,7 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
             contenu.
           </p>
           <pre className="mt-3 rounded bg-amber-100 p-3 text-xs overflow-auto">
-            {JSON.stringify(account, null, 2)}
+            {JSON.stringify({ account, rpcData: debug.data, rpcError: debug.error, supabaseUrl: debug.supabaseUrl }, null, 2)}
           </pre>
           <a
             className="mt-4 inline-block text-sm font-medium underline"

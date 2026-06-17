@@ -22,11 +22,25 @@ export async function getAccountSummary(session: AdminSession) {
 
   const { data, error } = await supabase.rpc("current_account_summary");
   if (error) {
+    console.error("[account] RPC error:", JSON.stringify(error));
     return null;
   }
 
   const row = Array.isArray(data) ? data[0] : data;
   return (row ?? null) as AccountSummary | null;
+}
+
+export async function getAccountDebug(session: AdminSession) {
+  const supabase = createClient(getSupabaseUrl(), getSupabasePublishableKey(), {
+    global: {
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+    },
+  });
+
+  const { data, error } = await supabase.rpc("current_account_summary");
+  return { data, error, supabaseUrl: getSupabaseUrl() };
 }
 
 export function getDisplayName(
