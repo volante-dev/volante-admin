@@ -31,6 +31,9 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
             Votre compte ne dispose pas des droits d&apos;administration du
             contenu.
           </p>
+          <pre className="mt-3 rounded bg-amber-100 p-3 text-xs overflow-auto">
+            {JSON.stringify(account, null, 2)}
+          </pre>
           <a
             className="mt-4 inline-block text-sm font-medium underline"
             href="/logout"
