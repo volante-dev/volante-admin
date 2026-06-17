@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
+import { ThemeProvider } from "./theme/ThemeProvider";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -6,14 +9,20 @@ export const metadata: Metadata = {
   description: "Portail client Volante",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="fr" className="h-full antialiased">
-      <body className="min-h-full">{children}</body>
-    </html>
-  );
-}
+const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (
+  <html lang="fr">
+    <head>
+      <link rel="stylesheet" href="https://use.typekit.net/mah7tat.css" />
+    </head>
+    <body>
+      <AppRouterCacheProvider>
+        <ThemeProvider>
+          {children}
+          <Toaster position="bottom-right" richColors />
+        </ThemeProvider>
+      </AppRouterCacheProvider>
+    </body>
+  </html>
+);
+
+export default RootLayout;
