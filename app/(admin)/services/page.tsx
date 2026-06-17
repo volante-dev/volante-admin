@@ -8,10 +8,32 @@ import { ServiceTable } from "@/components/admin/ServiceTable";
 
 export const dynamic = "force-dynamic";
 
+export type ServiceData = {
+  id: string;
+  title: string;
+  titleEn: string | null;
+  description: string;
+  descriptionEn: string | null;
+  icon: string | null;
+  order: number;
+  active: boolean;
+};
+
 const ServicesPage = async () => {
-  const services = await prisma.service.findMany({
+  const raw = await prisma.service.findMany({
     orderBy: { order: "asc" },
   });
+
+  const services: ServiceData[] = raw.map((s) => ({
+    id: s.id,
+    title: s.title,
+    titleEn: s.titleEn,
+    description: s.description,
+    descriptionEn: s.descriptionEn,
+    icon: s.icon,
+    order: s.order,
+    active: s.active,
+  }));
 
   return (
     <>

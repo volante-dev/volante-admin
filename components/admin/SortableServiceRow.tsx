@@ -6,9 +6,9 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import Typography from "@mui/material/Typography";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
-import type { Service } from "@/app/generated/prisma/client";
+import type { ServiceData } from "@/app/(admin)/services/page";
 
-export const SortableServiceRow = ({ service }: { service: Service }) => {
+export const SortableServiceRow = ({ service }: { service: ServiceData }) => {
   const {
     attributes,
     listeners,

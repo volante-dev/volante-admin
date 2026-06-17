@@ -14,10 +14,10 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { toast } from "sonner";
 import { createService, updateService } from "@/app/(admin)/services/actions";
-import type { Service } from "@/app/generated/prisma/client";
+import type { ServiceData } from "@/app/(admin)/services/page";
 
 type ServiceFormProps = {
-  service?: Service;
+  service?: ServiceData;
 };
 
 export const ServiceForm = ({ service }: ServiceFormProps) => {

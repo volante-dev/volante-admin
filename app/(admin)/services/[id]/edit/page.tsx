@@ -16,8 +16,19 @@ const EditServicePage = async ({
 }) => {
   const { id } = await params;
 
-  const service = await prisma.service.findUnique({ where: { id } });
-  if (!service) notFound();
+  const raw = await prisma.service.findUnique({ where: { id } });
+  if (!raw) notFound();
+
+  const service = {
+    id: raw.id,
+    title: raw.title,
+    titleEn: raw.titleEn,
+    description: raw.description,
+    descriptionEn: raw.descriptionEn,
+    icon: raw.icon,
+    order: raw.order,
+    active: raw.active,
+  };
 
   return (
     <>

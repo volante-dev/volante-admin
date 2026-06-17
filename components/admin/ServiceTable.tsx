@@ -40,17 +40,17 @@ import {
   deleteService,
   reorderServices,
 } from "@/app/(admin)/services/actions";
-import type { Service } from "@/app/generated/prisma/client";
+import type { ServiceData } from "@/app/(admin)/services/page";
 
 type SortKey = "order" | "title" | "titleEn" | "active";
 type SortDir = "asc" | "desc";
 type Filter = "all" | "active" | "inactive";
 
-export const ServiceTable = ({ services }: { services: Service[] }) => {
+export const ServiceTable = ({ services }: { services: ServiceData[] }) => {
   const [sortKey, setSortKey] = useState<SortKey>("order");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const [filter, setFilter] = useState<Filter>("all");
-  const [deleteTarget, setDeleteTarget] = useState<Service | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<ServiceData | null>(null);
   const [reorderMode, setReorderMode] = useState(false);
   const [orderedServices, setOrderedServices] = useState(services);
   const [saving, startSaveTransition] = useTransition();
