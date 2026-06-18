@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
+import { issueSignedToken } from "@vercel/blob";
+import {
+  handleUploadPresigned,
+  type HandleUploadPresignedBody,
+} from "@vercel/blob/client";
 import { requireCrmAccess } from "@/lib/auth-guard";
 
 const allowedContentTypes = [
@@ -13,17 +17,25 @@ const allowedContentTypes = [
 export const POST = async (request: Request) => {
   try {
     await requireCrmAccess();
-    const body = (await request.json()) as HandleUploadBody;
+    const body = (await request.json()) as HandleUploadPresignedBody;
 
-    const jsonResponse = await handleUpload({
+    const jsonResponse = await handleUploadPresigned({
       body,
       request,
-      onBeforeGenerateToken: async () => {
+      getSignedToken: async (pathname) => {
         await requireCrmAccess();
         return {
-          allowedContentTypes,
-          addRandomSuffix: true,
-          maximumSizeInBytes: 1024 * 1024 * 200,
+          token: await issueSignedToken({
+            pathname,
+            operations: ["put"],
+            allowedContentTypes,
+            maximumSizeInBytes: 1024 * 1024 * 200,
+          }),
+          urlOptions: {
+            addRandomSuffix: true,
+            allowedContentTypes,
+            maximumSizeInBytes: 1024 * 1024 * 200,
+          },
         };
       },
       onUploadCompleted: async () => {

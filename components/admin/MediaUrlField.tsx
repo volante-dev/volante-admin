@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { upload } from "@vercel/blob/client";
+import { uploadPresigned } from "@vercel/blob/client";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import LinearProgress from "@mui/material/LinearProgress";
@@ -50,7 +50,7 @@ export const MediaUrlField = ({
     setUploading(true);
     try {
       const pathname = `projects/${projectId ?? "draft"}/${field}/${Date.now()}-${cleanFileName(file.name)}`;
-      const blob = await upload(pathname, file, {
+      const blob = await uploadPresigned(pathname, file, {
         access: "public",
         handleUploadUrl: "/api/media/upload",
         clientPayload: JSON.stringify({ projectId: projectId ?? null, field }),
