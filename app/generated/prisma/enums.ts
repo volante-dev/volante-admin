@@ -9,7 +9,9 @@
 * 🟢 You can import this file directly.
 */
 
+export const ProjectSlideMediaType = {
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO'
+} as const
 
-
-// This file is empty because there are no enums in the schema.
-export {}
+export type ProjectSlideMediaType = (typeof ProjectSlideMediaType)[keyof typeof ProjectSlideMediaType]

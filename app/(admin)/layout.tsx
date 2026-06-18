@@ -12,6 +12,7 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
     redirect("/login");
   }
 
+  // eslint-disable-next-line react-hooks/purity
   const now = Math.floor(Date.now() / 1000);
   if (session.expiresAt <= now + 30) {
     redirect("/api/auth/refresh?next=/");

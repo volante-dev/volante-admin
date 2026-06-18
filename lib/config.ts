@@ -16,6 +16,11 @@ export function getAuthAppUrl() {
   return new URL(configuredUrl).origin;
 }
 
+export function getFrontendAppUrl() {
+  const configuredUrl = process.env.FRONTEND_APP_URL ?? "http://localhost:3000";
+  return new URL(configuredUrl).origin;
+}
+
 export function getOAuthIssuer() {
   return requiredEnv("SUPABASE_OAUTH_ISSUER").replace(/\/$/, "");
 }

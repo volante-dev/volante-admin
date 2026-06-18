@@ -21,6 +21,32 @@ model Project {
   publishedAt   DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  slides        ProjectSlide[]
+}
+
+enum ProjectSlideMediaType {
+  IMAGE
+  VIDEO
+}
+
+model ProjectSlide {
+  id            String                @id @default(cuid())
+  project       Project               @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId     String
+  order         Int                   @default(0)
+  title         String
+  titleEn       String?
+  contentHtml   String
+  contentHtmlEn String?
+  mediaType     ProjectSlideMediaType @default(IMAGE)
+  mediaUrl      String
+  posterUrl     String?
+  alt           String?
+  altEn         String?
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+
+  @@index([projectId, order])
 }
 
 model Service {

@@ -33,7 +33,7 @@ type NavItem = {
 const navItems: NavItem[] = [
   { label: "Dashboard", href: "/", icon: <DashboardIcon /> },
   { label: "Services", href: "/services", icon: <BuildIcon /> },
-  { label: "Projects", href: "/projects", icon: <FolderIcon />, disabled: true },
+  { label: "Projects", href: "/projects", icon: <FolderIcon /> },
   {
     label: "Testimonials",
     href: "/testimonials",

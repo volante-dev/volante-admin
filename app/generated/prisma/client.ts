@@ -47,6 +47,11 @@ export { Prisma }
  */
 export type Project = Prisma.ProjectModel
 /**
+ * Model ProjectSlide
+ * 
+ */
+export type ProjectSlide = Prisma.ProjectSlideModel
+/**
  * Model Service
  * 
  */

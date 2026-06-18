@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Project: 'Project',
+  ProjectSlide: 'ProjectSlide',
   Service: 'Service',
   Testimonial: 'Testimonial'
 } as const
@@ -402,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "project" | "service" | "testimonial"
+    modelProps: "project" | "projectSlide" | "service" | "testimonial"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -477,6 +478,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ProjectCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ProjectCountAggregateOutputType> | number
+        }
+      }
+    }
+    ProjectSlide: {
+      payload: Prisma.$ProjectSlidePayload<ExtArgs>
+      fields: Prisma.ProjectSlideFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProjectSlideFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectSlidePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProjectSlideFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectSlidePayload>
+        }
+        findFirst: {
+          args: Prisma.ProjectSlideFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectSlidePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProjectSlideFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectSlidePayload>
+        }
+        findMany: {
+          args: Prisma.ProjectSlideFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectSlidePayload>[]
+        }
+        create: {
+          args: Prisma.ProjectSlideCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectSlidePayload>
+        }
+        createMany: {
+          args: Prisma.ProjectSlideCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProjectSlideCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectSlidePayload>[]
+        }
+        delete: {
+          args: Prisma.ProjectSlideDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectSlidePayload>
+        }
+        update: {
+          args: Prisma.ProjectSlideUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectSlidePayload>
+        }
+        deleteMany: {
+          args: Prisma.ProjectSlideDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProjectSlideUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProjectSlideUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectSlidePayload>[]
+        }
+        upsert: {
+          args: Prisma.ProjectSlideUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectSlidePayload>
+        }
+        aggregate: {
+          args: Prisma.ProjectSlideAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProjectSlide>
+        }
+        groupBy: {
+          args: Prisma.ProjectSlideGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectSlideGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProjectSlideCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectSlideCountAggregateOutputType> | number
         }
       }
     }
@@ -686,6 +761,26 @@ export const ProjectScalarFieldEnum = {
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
 
 
+export const ProjectSlideScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  order: 'order',
+  title: 'title',
+  titleEn: 'titleEn',
+  contentHtml: 'contentHtml',
+  contentHtmlEn: 'contentHtmlEn',
+  mediaType: 'mediaType',
+  mediaUrl: 'mediaUrl',
+  posterUrl: 'posterUrl',
+  alt: 'alt',
+  altEn: 'altEn',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectSlideScalarFieldEnum = (typeof ProjectSlideScalarFieldEnum)[keyof typeof ProjectSlideScalarFieldEnum]
+
+
 export const ServiceScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -789,6 +884,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ProjectSlideMediaType'
+ */
+export type EnumProjectSlideMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectSlideMediaType'>
+    
+
+
+/**
+ * Reference to a field of type 'ProjectSlideMediaType[]'
+ */
+export type ListEnumProjectSlideMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectSlideMediaType[]'>
     
 
 
@@ -916,6 +1025,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   project?: Prisma.ProjectOmit
+  projectSlide?: Prisma.ProjectSlideOmit
   service?: Prisma.ServiceOmit
   testimonial?: Prisma.TestimonialOmit
 }
