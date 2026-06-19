@@ -18,10 +18,17 @@ model Project {
   tags          String[]
   featured      Boolean   @default(false)
   order         Int       @default(0)
+  portfolioSize ProjectPortfolioSize @default(NORMAL)
+  portfolioOrder Int      @default(0)
   publishedAt   DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   slides        ProjectSlide[]
+}
+
+enum ProjectPortfolioSize {
+  NORMAL
+  HERO
 }
 
 enum ProjectSlideMediaType {

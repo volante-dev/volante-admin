@@ -84,6 +84,8 @@ export const ProjectScalarFieldEnum = {
   tags: 'tags',
   featured: 'featured',
   order: 'order',
+  portfolioSize: 'portfolioSize',
+  portfolioOrder: 'portfolioOrder',
   publishedAt: 'publishedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

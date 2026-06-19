@@ -4,9 +4,20 @@ export type AdminProjectListItem = {
   slug: string;
   featured: boolean;
   order: number;
+  portfolioSize: "NORMAL" | "HERO";
+  portfolioOrder: number;
   publishedAt: string | null;
   slidesCount: number;
   previewUrl: string | null;
+};
+
+export type AdminMasonryProject = {
+  id: string;
+  title: string;
+  slug: string;
+  imageUrl: string;
+  portfolioSize: "NORMAL" | "HERO";
+  portfolioOrder: number;
 };
 
 export type AdminProjectSlide = {
@@ -34,6 +45,8 @@ export type AdminProjectDetail = {
   tags: string[];
   featured: boolean;
   order: number;
+  portfolioSize: "NORMAL" | "HERO";
+  portfolioOrder: number;
   publishedAt: string | null;
   slides: AdminProjectSlide[];
   previewUrl: string | null;

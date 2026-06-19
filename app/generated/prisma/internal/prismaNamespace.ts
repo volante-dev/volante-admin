@@ -753,6 +753,8 @@ export const ProjectScalarFieldEnum = {
   tags: 'tags',
   featured: 'featured',
   order: 'order',
+  portfolioSize: 'portfolioSize',
+  portfolioOrder: 'portfolioOrder',
   publishedAt: 'publishedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -870,6 +872,20 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ProjectPortfolioSize'
+ */
+export type EnumProjectPortfolioSizeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectPortfolioSize'>
+    
+
+
+/**
+ * Reference to a field of type 'ProjectPortfolioSize[]'
+ */
+export type ListEnumProjectPortfolioSizeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectPortfolioSize[]'>
     
 
 

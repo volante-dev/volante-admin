@@ -9,6 +9,14 @@
 * 🟢 You can import this file directly.
 */
 
+export const ProjectPortfolioSize = {
+  NORMAL: 'NORMAL',
+  HERO: 'HERO'
+} as const
+
+export type ProjectPortfolioSize = (typeof ProjectPortfolioSize)[keyof typeof ProjectPortfolioSize]
+
+
 export const ProjectSlideMediaType = {
   IMAGE: 'IMAGE',
   VIDEO: 'VIDEO'

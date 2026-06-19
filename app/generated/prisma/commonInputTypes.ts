@@ -60,6 +60,13 @@ export type IntFilter<$PrismaModel = never> = {
   not?: Prisma.NestedIntFilter<$PrismaModel> | number
 }
 
+export type EnumProjectPortfolioSizeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProjectPortfolioSize | Prisma.EnumProjectPortfolioSizeFieldRefInput<$PrismaModel>
+  in?: $Enums.ProjectPortfolioSize[] | Prisma.ListEnumProjectPortfolioSizeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ProjectPortfolioSize[] | Prisma.ListEnumProjectPortfolioSizeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumProjectPortfolioSizeFilter<$PrismaModel> | $Enums.ProjectPortfolioSize
+}
+
 export type DateTimeNullableFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel> | null
   in?: Date[] | string[] | Prisma.ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -145,6 +152,16 @@ export type IntWithAggregatesFilter<$PrismaModel = never> = {
   _sum?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedIntFilter<$PrismaModel>
   _max?: Prisma.NestedIntFilter<$PrismaModel>
+}
+
+export type EnumProjectPortfolioSizeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProjectPortfolioSize | Prisma.EnumProjectPortfolioSizeFieldRefInput<$PrismaModel>
+  in?: $Enums.ProjectPortfolioSize[] | Prisma.ListEnumProjectPortfolioSizeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ProjectPortfolioSize[] | Prisma.ListEnumProjectPortfolioSizeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumProjectPortfolioSizeWithAggregatesFilter<$PrismaModel> | $Enums.ProjectPortfolioSize
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumProjectPortfolioSizeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumProjectPortfolioSizeFilter<$PrismaModel>
 }
 
 export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -234,6 +251,13 @@ export type NestedIntFilter<$PrismaModel = never> = {
   gt?: number | Prisma.IntFieldRefInput<$PrismaModel>
   gte?: number | Prisma.IntFieldRefInput<$PrismaModel>
   not?: Prisma.NestedIntFilter<$PrismaModel> | number
+}
+
+export type NestedEnumProjectPortfolioSizeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProjectPortfolioSize | Prisma.EnumProjectPortfolioSizeFieldRefInput<$PrismaModel>
+  in?: $Enums.ProjectPortfolioSize[] | Prisma.ListEnumProjectPortfolioSizeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ProjectPortfolioSize[] | Prisma.ListEnumProjectPortfolioSizeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumProjectPortfolioSizeFilter<$PrismaModel> | $Enums.ProjectPortfolioSize
 }
 
 export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -336,6 +360,16 @@ export type NestedFloatFilter<$PrismaModel = never> = {
   gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>
   not?: Prisma.NestedFloatFilter<$PrismaModel> | number
+}
+
+export type NestedEnumProjectPortfolioSizeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProjectPortfolioSize | Prisma.EnumProjectPortfolioSizeFieldRefInput<$PrismaModel>
+  in?: $Enums.ProjectPortfolioSize[] | Prisma.ListEnumProjectPortfolioSizeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ProjectPortfolioSize[] | Prisma.ListEnumProjectPortfolioSizeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumProjectPortfolioSizeWithAggregatesFilter<$PrismaModel> | $Enums.ProjectPortfolioSize
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumProjectPortfolioSizeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumProjectPortfolioSizeFilter<$PrismaModel>
 }
 
 export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {

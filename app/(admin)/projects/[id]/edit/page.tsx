@@ -35,6 +35,8 @@ const EditProjectPage = async ({
     tags: raw.tags,
     featured: raw.featured,
     order: raw.order,
+    portfolioSize: raw.portfolioSize,
+    portfolioOrder: raw.portfolioOrder,
     publishedAt: raw.publishedAt?.toISOString() ?? null,
     slides: raw.slides.map((slide) => ({
       id: slide.id,

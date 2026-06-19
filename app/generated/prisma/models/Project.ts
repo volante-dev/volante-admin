@@ -28,10 +28,12 @@ export type AggregateProject = {
 
 export type ProjectAvgAggregateOutputType = {
   order: number | null
+  portfolioOrder: number | null
 }
 
 export type ProjectSumAggregateOutputType = {
   order: number | null
+  portfolioOrder: number | null
 }
 
 export type ProjectMinAggregateOutputType = {
@@ -44,6 +46,8 @@ export type ProjectMinAggregateOutputType = {
   imageUrl: string | null
   featured: boolean | null
   order: number | null
+  portfolioSize: $Enums.ProjectPortfolioSize | null
+  portfolioOrder: number | null
   publishedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -59,6 +63,8 @@ export type ProjectMaxAggregateOutputType = {
   imageUrl: string | null
   featured: boolean | null
   order: number | null
+  portfolioSize: $Enums.ProjectPortfolioSize | null
+  portfolioOrder: number | null
   publishedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -75,6 +81,8 @@ export type ProjectCountAggregateOutputType = {
   tags: number
   featured: number
   order: number
+  portfolioSize: number
+  portfolioOrder: number
   publishedAt: number
   createdAt: number
   updatedAt: number
@@ -84,10 +92,12 @@ export type ProjectCountAggregateOutputType = {
 
 export type ProjectAvgAggregateInputType = {
   order?: true
+  portfolioOrder?: true
 }
 
 export type ProjectSumAggregateInputType = {
   order?: true
+  portfolioOrder?: true
 }
 
 export type ProjectMinAggregateInputType = {
@@ -100,6 +110,8 @@ export type ProjectMinAggregateInputType = {
   imageUrl?: true
   featured?: true
   order?: true
+  portfolioSize?: true
+  portfolioOrder?: true
   publishedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -115,6 +127,8 @@ export type ProjectMaxAggregateInputType = {
   imageUrl?: true
   featured?: true
   order?: true
+  portfolioSize?: true
+  portfolioOrder?: true
   publishedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -131,6 +145,8 @@ export type ProjectCountAggregateInputType = {
   tags?: true
   featured?: true
   order?: true
+  portfolioSize?: true
+  portfolioOrder?: true
   publishedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -234,6 +250,8 @@ export type ProjectGroupByOutputType = {
   tags: string[]
   featured: boolean
   order: number
+  portfolioSize: $Enums.ProjectPortfolioSize
+  portfolioOrder: number
   publishedAt: Date | null
   createdAt: Date
   updatedAt: Date
@@ -273,6 +291,8 @@ export type ProjectWhereInput = {
   tags?: Prisma.StringNullableListFilter<"Project">
   featured?: Prisma.BoolFilter<"Project"> | boolean
   order?: Prisma.IntFilter<"Project"> | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFilter<"Project"> | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFilter<"Project"> | number
   publishedAt?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
@@ -290,6 +310,8 @@ export type ProjectOrderByWithRelationInput = {
   tags?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  portfolioSize?: Prisma.SortOrder
+  portfolioOrder?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -310,6 +332,8 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   tags?: Prisma.StringNullableListFilter<"Project">
   featured?: Prisma.BoolFilter<"Project"> | boolean
   order?: Prisma.IntFilter<"Project"> | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFilter<"Project"> | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFilter<"Project"> | number
   publishedAt?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
@@ -327,6 +351,8 @@ export type ProjectOrderByWithAggregationInput = {
   tags?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  portfolioSize?: Prisma.SortOrder
+  portfolioOrder?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -351,6 +377,8 @@ export type ProjectScalarWhereWithAggregatesInput = {
   tags?: Prisma.StringNullableListFilter<"Project">
   featured?: Prisma.BoolWithAggregatesFilter<"Project"> | boolean
   order?: Prisma.IntWithAggregatesFilter<"Project"> | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeWithAggregatesFilter<"Project"> | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntWithAggregatesFilter<"Project"> | number
   publishedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Project"> | Date | string
@@ -367,6 +395,8 @@ export type ProjectCreateInput = {
   tags?: Prisma.ProjectCreatetagsInput | string[]
   featured?: boolean
   order?: number
+  portfolioSize?: $Enums.ProjectPortfolioSize
+  portfolioOrder?: number
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -384,6 +414,8 @@ export type ProjectUncheckedCreateInput = {
   tags?: Prisma.ProjectCreatetagsInput | string[]
   featured?: boolean
   order?: number
+  portfolioSize?: $Enums.ProjectPortfolioSize
+  portfolioOrder?: number
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -401,6 +433,8 @@ export type ProjectUpdateInput = {
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -418,6 +452,8 @@ export type ProjectUncheckedUpdateInput = {
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -435,6 +471,8 @@ export type ProjectCreateManyInput = {
   tags?: Prisma.ProjectCreatetagsInput | string[]
   featured?: boolean
   order?: number
+  portfolioSize?: $Enums.ProjectPortfolioSize
+  portfolioOrder?: number
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -451,6 +489,8 @@ export type ProjectUpdateManyMutationInput = {
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -467,6 +507,8 @@ export type ProjectUncheckedUpdateManyInput = {
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -491,6 +533,8 @@ export type ProjectCountOrderByAggregateInput = {
   tags?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  portfolioSize?: Prisma.SortOrder
+  portfolioOrder?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -498,6 +542,7 @@ export type ProjectCountOrderByAggregateInput = {
 
 export type ProjectAvgOrderByAggregateInput = {
   order?: Prisma.SortOrder
+  portfolioOrder?: Prisma.SortOrder
 }
 
 export type ProjectMaxOrderByAggregateInput = {
@@ -510,6 +555,8 @@ export type ProjectMaxOrderByAggregateInput = {
   imageUrl?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  portfolioSize?: Prisma.SortOrder
+  portfolioOrder?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -525,6 +572,8 @@ export type ProjectMinOrderByAggregateInput = {
   imageUrl?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   order?: Prisma.SortOrder
+  portfolioSize?: Prisma.SortOrder
+  portfolioOrder?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -532,6 +581,7 @@ export type ProjectMinOrderByAggregateInput = {
 
 export type ProjectSumOrderByAggregateInput = {
   order?: Prisma.SortOrder
+  portfolioOrder?: Prisma.SortOrder
 }
 
 export type ProjectScalarRelationFilter = {
@@ -568,6 +618,10 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type EnumProjectPortfolioSizeFieldUpdateOperationsInput = {
+  set?: $Enums.ProjectPortfolioSize
+}
+
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
@@ -601,6 +655,8 @@ export type ProjectCreateWithoutSlidesInput = {
   tags?: Prisma.ProjectCreatetagsInput | string[]
   featured?: boolean
   order?: number
+  portfolioSize?: $Enums.ProjectPortfolioSize
+  portfolioOrder?: number
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -617,6 +673,8 @@ export type ProjectUncheckedCreateWithoutSlidesInput = {
   tags?: Prisma.ProjectCreatetagsInput | string[]
   featured?: boolean
   order?: number
+  portfolioSize?: $Enums.ProjectPortfolioSize
+  portfolioOrder?: number
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -649,6 +707,8 @@ export type ProjectUpdateWithoutSlidesInput = {
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -665,6 +725,8 @@ export type ProjectUncheckedUpdateWithoutSlidesInput = {
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -712,6 +774,8 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   tags?: boolean
   featured?: boolean
   order?: boolean
+  portfolioSize?: boolean
+  portfolioOrder?: boolean
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -730,6 +794,8 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   tags?: boolean
   featured?: boolean
   order?: boolean
+  portfolioSize?: boolean
+  portfolioOrder?: boolean
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -746,6 +812,8 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   tags?: boolean
   featured?: boolean
   order?: boolean
+  portfolioSize?: boolean
+  portfolioOrder?: boolean
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -762,12 +830,14 @@ export type ProjectSelectScalar = {
   tags?: boolean
   featured?: boolean
   order?: boolean
+  portfolioSize?: boolean
+  portfolioOrder?: boolean
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "titleEn" | "slug" | "description" | "descriptionEn" | "imageUrl" | "tags" | "featured" | "order" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "titleEn" | "slug" | "description" | "descriptionEn" | "imageUrl" | "tags" | "featured" | "order" | "portfolioSize" | "portfolioOrder" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   slides?: boolean | Prisma.Project$slidesArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
@@ -791,6 +861,8 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     tags: string[]
     featured: boolean
     order: number
+    portfolioSize: $Enums.ProjectPortfolioSize
+    portfolioOrder: number
     publishedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -1228,6 +1300,8 @@ export interface ProjectFieldRefs {
   readonly tags: Prisma.FieldRef<"Project", 'String[]'>
   readonly featured: Prisma.FieldRef<"Project", 'Boolean'>
   readonly order: Prisma.FieldRef<"Project", 'Int'>
+  readonly portfolioSize: Prisma.FieldRef<"Project", 'ProjectPortfolioSize'>
+  readonly portfolioOrder: Prisma.FieldRef<"Project", 'Int'>
   readonly publishedAt: Prisma.FieldRef<"Project", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Project", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Project", 'DateTime'>

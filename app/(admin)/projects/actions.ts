@@ -20,6 +20,11 @@ type ActionResult = {
   warnings?: string[];
 };
 
+type MasonryLayoutItem = {
+  id: string;
+  portfolioSize: "NORMAL" | "HERO";
+};
+
 type SlidePayload = {
   id?: string;
   title: string;
@@ -234,6 +239,14 @@ export const createProject = async (
     if ("error" in parsed) return { success: false, error: parsed.error };
 
     const project = await prisma.$transaction(async (tx) => {
+      const portfolioOrder = parsed.data.publishedAt
+        ? ((
+            await tx.project.aggregate({
+              where: { publishedAt: { not: null } },
+              _max: { portfolioOrder: true },
+            })
+          )._max.portfolioOrder ?? -1) + 1
+        : 0;
       const created = await tx.project.create({
         data: {
           title: parsed.data.title,
@@ -245,6 +258,8 @@ export const createProject = async (
           tags: parsed.data.tags,
           featured: parsed.data.featured,
           order: parsed.data.order,
+          portfolioOrder,
+          portfolioSize: "NORMAL",
           publishedAt: parsed.data.publishedAt,
         },
       });
@@ -273,6 +288,21 @@ export const updateProject = async (
     if ("error" in parsed) return { success: false, error: parsed.error };
 
     await prisma.$transaction(async (tx) => {
+      const current = await tx.project.findUnique({
+        where: { id },
+        select: { publishedAt: true },
+      });
+      if (!current) throw new Error("Projet introuvable.");
+
+      const newlyPublished = !current.publishedAt && parsed.data.publishedAt;
+      const portfolioOrder = newlyPublished
+        ? ((
+            await tx.project.aggregate({
+              where: { publishedAt: { not: null } },
+              _max: { portfolioOrder: true },
+            })
+          )._max.portfolioOrder ?? -1) + 1
+        : undefined;
       await tx.project.update({
         where: { id },
         data: {
@@ -285,6 +315,9 @@ export const updateProject = async (
           tags: parsed.data.tags,
           featured: parsed.data.featured,
           order: parsed.data.order,
+          ...(newlyPublished
+            ? { portfolioOrder, portfolioSize: "NORMAL" as const }
+            : {}),
           publishedAt: parsed.data.publishedAt,
         },
       });
@@ -323,10 +356,22 @@ export const publishProject = async (id: string): Promise<ActionResult> => {
       return { success: false, error: "L'URL de couverture est invalide." };
     }
 
-    await prisma.project.update({
-      where: { id },
-      data: { publishedAt: project.publishedAt ?? new Date() },
-    });
+    if (!project.publishedAt) {
+      await prisma.$transaction(async (tx) => {
+        const aggregate = await tx.project.aggregate({
+          where: { publishedAt: { not: null } },
+          _max: { portfolioOrder: true },
+        });
+        await tx.project.update({
+          where: { id },
+          data: {
+            publishedAt: new Date(),
+            portfolioOrder: (aggregate._max.portfolioOrder ?? -1) + 1,
+            portfolioSize: "NORMAL",
+          },
+        });
+      });
+    }
 
     revalidatePath("/projects");
     revalidatePath(`/projects/${id}/edit`);
@@ -371,6 +416,71 @@ export const deleteProject = async (id: string): Promise<ActionResult> => {
   try {
     await requireCrmAccess();
     await prisma.project.delete({ where: { id } });
+    revalidatePath("/projects");
+    return { success: true };
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : "Une erreur est survenue.",
+    };
+  }
+};
+
+export const updateProjectMasonryLayout = async (
+  items: MasonryLayoutItem[],
+): Promise<ActionResult> => {
+  try {
+    await requireCrmAccess();
+
+    if (!Array.isArray(items)) {
+      return { success: false, error: "Agencement invalide." };
+    }
+
+    const ids = items.map((item) => item.id);
+    const uniqueIds = new Set(ids);
+    if (uniqueIds.size !== ids.length) {
+      return { success: false, error: "Une realisation est presente plusieurs fois." };
+    }
+
+    if (
+      items.some(
+        (item) =>
+          !item.id ||
+          !["NORMAL", "HERO"].includes(item.portfolioSize),
+      )
+    ) {
+      return { success: false, error: "Agencement invalide." };
+    }
+
+    const publishedProjects = await prisma.project.findMany({
+      where: { publishedAt: { not: null } },
+      select: { id: true },
+    });
+    const publishedIds = new Set(publishedProjects.map((project) => project.id));
+    if (
+      publishedProjects.length !== items.length ||
+      ids.some((id) => !publishedIds.has(id))
+    ) {
+      return {
+        success: false,
+        error:
+          "L’agencement doit contenir exactement les realisations publiees.",
+      };
+    }
+
+    await prisma.$transaction(
+      items.map((item, index) =>
+        prisma.project.update({
+          where: { id: item.id },
+          data: {
+            portfolioOrder: index,
+            portfolioSize: item.portfolioSize,
+          },
+        }),
+      ),
+    );
+
     revalidatePath("/projects");
     return { success: true };
   } catch (error) {

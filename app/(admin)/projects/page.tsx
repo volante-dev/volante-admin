@@ -6,7 +6,11 @@ import Link from "next/link";
 import prisma from "@/lib/prisma";
 import { createProjectPreviewUrl } from "@/lib/preview-token";
 import { ProjectTable } from "@/components/admin/ProjectTable";
-import type { AdminProjectListItem } from "@/components/admin/project-types";
+import { ProjectMasonryEditor } from "@/components/admin/ProjectMasonryEditor";
+import type {
+  AdminMasonryProject,
+  AdminProjectListItem,
+} from "@/components/admin/project-types";
 
 export const dynamic = "force-dynamic";
 
@@ -26,6 +30,8 @@ const ProjectsPage = async () => {
     slug: project.slug,
     featured: project.featured,
     order: project.order,
+    portfolioSize: project.portfolioSize,
+    portfolioOrder: project.portfolioOrder,
     publishedAt: project.publishedAt?.toISOString() ?? null,
     slidesCount: project._count.slides,
     previewUrl: createProjectPreviewUrl(
@@ -33,6 +39,22 @@ const ProjectsPage = async () => {
       project.publishedAt !== null,
     ),
   }));
+  const masonryProjects: AdminMasonryProject[] = raw
+    .filter((project) => project.publishedAt !== null)
+    .sort(
+      (a, b) =>
+        a.portfolioOrder - b.portfolioOrder ||
+        (a.publishedAt?.getTime() ?? 0) - (b.publishedAt?.getTime() ?? 0) ||
+        a.id.localeCompare(b.id),
+    )
+    .map((project) => ({
+      id: project.id,
+      title: project.title,
+      slug: project.slug,
+      imageUrl: project.imageUrl,
+      portfolioSize: project.portfolioSize,
+      portfolioOrder: project.portfolioOrder,
+    }));
 
   return (
     <>
@@ -52,6 +74,16 @@ const ProjectsPage = async () => {
           </Button>
         </Link>
       </Box>
+
+      <ProjectMasonryEditor
+        key={masonryProjects
+          .map(
+            (project) =>
+              `${project.id}:${project.portfolioSize}:${project.portfolioOrder}`,
+          )
+          .join("|")}
+        projects={masonryProjects}
+      />
 
       {projects.length === 0 ? (
         <Box
