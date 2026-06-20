@@ -13,10 +13,7 @@ import {
   parseTags,
 } from "@/lib/validation";
 import { notifyProjectIndexing } from "@/lib/search-indexing";
-import {
-  extractProjectHeroColor,
-  normalizeHexColor,
-} from "@/lib/project-hero-color";
+import { extractProjectHeroPalette } from "@/lib/project-hero-color";
 
 type ActionResult = {
   success: boolean;
@@ -85,10 +82,6 @@ const validateProjectPayload = async (
   const description = normalizeRequired(formData.get("description"));
   const descriptionEn = normalizeNullable(formData.get("descriptionEn"));
   const imageUrl = normalizeRequired(formData.get("imageUrl"));
-  const heroColorOverrideRaw = normalizeNullable(
-    formData.get("heroColorOverride"),
-  );
-  const heroColorOverride = normalizeHexColor(heroColorOverrideRaw);
   const tags = parseTags(formData.get("tags"));
   const clientName = normalizeNullable(formData.get("clientName"));
   const sector = normalizeNullable(formData.get("sector"));
@@ -127,9 +120,6 @@ const validateProjectPayload = async (
   if (!isValidMediaUrl(imageUrl)) {
     return { error: "L'URL de couverture est invalide." };
   }
-  if (heroColorOverride === undefined) {
-    return { error: "La couleur hero doit utiliser le format #RRGGBB." };
-  }
   if (order === null) {
     return { error: "L'ordre doit etre un nombre positif." };
   }
@@ -151,7 +141,7 @@ const validateProjectPayload = async (
     currentId
       ? prisma.project.findUnique({
           where: { id: currentId },
-          select: { imageUrl: true, heroColorComputed: true },
+          select: { imageUrl: true, heroPaletteComputed: true },
         })
       : null,
   ]);
@@ -160,13 +150,17 @@ const validateProjectPayload = async (
   }
 
   const warnings: string[] = [];
-  let heroColorComputed = currentProject?.heroColorComputed ?? null;
-  if (!currentProject || currentProject.imageUrl !== imageUrl || !heroColorComputed) {
+  let heroPaletteComputed = currentProject?.heroPaletteComputed ?? [];
+  if (
+    !currentProject ||
+    currentProject.imageUrl !== imageUrl ||
+    heroPaletteComputed.length !== 4
+  ) {
     try {
-      heroColorComputed = await extractProjectHeroColor(imageUrl);
+      heroPaletteComputed = await extractProjectHeroPalette(imageUrl);
     } catch (error) {
       warnings.push(
-        `Couleur automatique non calculee : ${
+        `Palette automatique non calculee : ${
           error instanceof Error ? error.message : "erreur inconnue"
         }`,
       );
@@ -232,8 +226,7 @@ const validateProjectPayload = async (
       description,
       descriptionEn,
       imageUrl,
-      heroColorOverride,
-      heroColorComputed,
+      heroPaletteComputed,
       tags,
       clientName,
       sector,
@@ -335,8 +328,7 @@ export const createProject = async (
           description: parsed.data.description,
           descriptionEn: parsed.data.descriptionEn,
           imageUrl: parsed.data.imageUrl,
-          heroColorOverride: parsed.data.heroColorOverride,
-          heroColorComputed: parsed.data.heroColorComputed,
+          heroPaletteComputed: parsed.data.heroPaletteComputed,
           tags: parsed.data.tags,
           clientName: parsed.data.clientName,
           sector: parsed.data.sector,
@@ -413,8 +405,7 @@ export const updateProject = async (
           description: parsed.data.description,
           descriptionEn: parsed.data.descriptionEn,
           imageUrl: parsed.data.imageUrl,
-          heroColorOverride: parsed.data.heroColorOverride,
-          heroColorComputed: parsed.data.heroColorComputed,
+          heroPaletteComputed: parsed.data.heroPaletteComputed,
           tags: parsed.data.tags,
           clientName: parsed.data.clientName,
           sector: parsed.data.sector,
@@ -617,11 +608,10 @@ export const updateProjectMasonryLayout = async (
   }
 };
 
-export const recomputeMissingProjectHeroColors = async (): Promise<ActionResult> => {
+export const recomputeProjectHeroPalettes = async (): Promise<ActionResult> => {
   try {
     await requireCrmAccess();
     const projects = await prisma.project.findMany({
-      where: { heroColorComputed: null },
       select: { id: true, title: true, imageUrl: true },
       orderBy: { order: "asc" },
     });
@@ -631,10 +621,12 @@ export const recomputeMissingProjectHeroColors = async (): Promise<ActionResult>
 
     for (const project of projects) {
       try {
-        const heroColorComputed = await extractProjectHeroColor(project.imageUrl);
+        const heroPaletteComputed = await extractProjectHeroPalette(
+          project.imageUrl,
+        );
         await prisma.project.update({
           where: { id: project.id },
-          data: { heroColorComputed },
+          data: { heroPaletteComputed },
         });
         updated += 1;
       } catch {
@@ -646,7 +638,7 @@ export const recomputeMissingProjectHeroColors = async (): Promise<ActionResult>
     return {
       success: true,
       warnings: [
-        `${updated} couleur${updated > 1 ? "s" : ""} calculee${updated > 1 ? "s" : ""}.`,
+        `${updated} palette${updated > 1 ? "s" : ""} calculee${updated > 1 ? "s" : ""}.`,
         ...(failed.length
           ? [`Extraction impossible pour : ${failed.join(", ")}.`]
           : []),

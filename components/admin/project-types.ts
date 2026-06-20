@@ -42,8 +42,7 @@ export type AdminProjectDetail = {
   description: string;
   descriptionEn: string | null;
   imageUrl: string;
-  heroColorOverride: string | null;
-  heroColorComputed: string | null;
+  heroPaletteComputed: string[];
   tags: string[];
   clientName: string | null;
   sector: string | null;

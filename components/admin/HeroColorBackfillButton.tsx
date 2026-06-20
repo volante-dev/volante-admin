@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Button from "@mui/material/Button";
 import PaletteIcon from "@mui/icons-material/Palette";
 import { toast } from "sonner";
-import { recomputeMissingProjectHeroColors } from "@/app/(admin)/projects/actions";
+import { recomputeProjectHeroPalettes } from "@/app/(admin)/projects/actions";
 
 export const HeroColorBackfillButton = () => {
   const router = useRouter();
@@ -18,7 +18,7 @@ export const HeroColorBackfillButton = () => {
       disabled={pending}
       onClick={() => {
         startTransition(async () => {
-          const result = await recomputeMissingProjectHeroColors();
+          const result = await recomputeProjectHeroPalettes();
           if (!result.success) {
             toast.error(result.error ?? "Extraction impossible.");
             return;
@@ -29,7 +29,7 @@ export const HeroColorBackfillButton = () => {
         });
       }}
     >
-      {pending ? "Calcul en cours..." : "Calculer les couleurs manquantes"}
+      {pending ? "Recalcul en cours..." : "Recalculer toutes les palettes"}
     </Button>
   );
 };
