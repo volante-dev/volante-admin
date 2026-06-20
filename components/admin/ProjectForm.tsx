@@ -418,6 +418,34 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
   );
   const [imageUrl, setImageUrl] = useState(project?.imageUrl ?? "");
   const [tags, setTags] = useState(project?.tags.join(", ") ?? "");
+  const [clientName, setClientName] = useState(project?.clientName ?? "");
+  const [sector, setSector] = useState(project?.sector ?? "");
+  const [sectorEn, setSectorEn] = useState(project?.sectorEn ?? "");
+  const [projectYear, setProjectYear] = useState(
+    project?.projectYear ? String(project.projectYear) : "",
+  );
+  const [projectLocation, setProjectLocation] = useState(
+    project?.projectLocation ?? "",
+  );
+  const [projectLocationEn, setProjectLocationEn] = useState(
+    project?.projectLocationEn ?? "",
+  );
+  const [deliveredServices, setDeliveredServices] = useState(
+    project?.deliveredServices.join(", ") ?? "",
+  );
+  const [deliveredServicesEn, setDeliveredServicesEn] = useState(
+    project?.deliveredServicesEn.join(", ") ?? "",
+  );
+  const [challenge, setChallenge] = useState(project?.challenge ?? "");
+  const [challengeEn, setChallengeEn] = useState(project?.challengeEn ?? "");
+  const [approach, setApproach] = useState(project?.approach ?? "");
+  const [approachEn, setApproachEn] = useState(project?.approachEn ?? "");
+  const [results, setResults] = useState(project?.results ?? "");
+  const [resultsEn, setResultsEn] = useState(project?.resultsEn ?? "");
+  const [credits, setCredits] = useState(project?.credits ?? "");
+  const [awards, setAwards] = useState(project?.awards ?? "");
+  const [awardsEn, setAwardsEn] = useState(project?.awardsEn ?? "");
+  const [externalUrl, setExternalUrl] = useState(project?.externalUrl ?? "");
   const [featured, setFeatured] = useState(project?.featured ?? false);
   const [order, setOrder] = useState(String(project?.order ?? 0));
   const [publishedAt, setPublishedAt] = useState(
@@ -505,6 +533,24 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
     formData.set("descriptionEn", descriptionEn);
     formData.set("imageUrl", imageUrl);
     formData.set("tags", tags);
+    formData.set("clientName", clientName);
+    formData.set("sector", sector);
+    formData.set("sectorEn", sectorEn);
+    formData.set("projectYear", projectYear);
+    formData.set("projectLocation", projectLocation);
+    formData.set("projectLocationEn", projectLocationEn);
+    formData.set("deliveredServices", deliveredServices);
+    formData.set("deliveredServicesEn", deliveredServicesEn);
+    formData.set("challenge", challenge);
+    formData.set("challengeEn", challengeEn);
+    formData.set("approach", approach);
+    formData.set("approachEn", approachEn);
+    formData.set("results", results);
+    formData.set("resultsEn", resultsEn);
+    formData.set("credits", credits);
+    formData.set("awards", awards);
+    formData.set("awardsEn", awardsEn);
+    formData.set("externalUrl", externalUrl);
     formData.set("featured", String(featured));
     formData.set("order", order);
     formData.set("publishedAt", nextPublishedAt);
@@ -574,6 +620,7 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
           >
             <Tab label="Francais" />
             <Tab label="English" />
+            <Tab label="Etude de cas" />
             <Tab label="Parametres" />
           </Tabs>
 
@@ -636,6 +683,117 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
           )}
 
           {tab === 2 && (
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+              <Alert severity="info">
+                Ces informations rendent la realisation plus claire pour les
+                visiteurs, les moteurs de recherche et les assistants IA.
+              </Alert>
+              <Typography variant="h4">Informations factuelles</Typography>
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+                  gap: 2.5,
+                }}
+              >
+                <TextField
+                  label="Client"
+                  value={clientName}
+                  onChange={(event) => setClientName(event.target.value)}
+                />
+                <TextField
+                  label="Annee"
+                  type="number"
+                  value={projectYear}
+                  slotProps={{ htmlInput: { min: 1900, max: 2100 } }}
+                  onChange={(event) => setProjectYear(event.target.value)}
+                />
+                <TextField
+                  label="Secteur"
+                  value={sector}
+                  onChange={(event) => setSector(event.target.value)}
+                />
+                <TextField
+                  label="Sector (EN)"
+                  value={sectorEn}
+                  onChange={(event) => setSectorEn(event.target.value)}
+                />
+                <TextField
+                  label="Localisation"
+                  value={projectLocation}
+                  onChange={(event) => setProjectLocation(event.target.value)}
+                />
+                <TextField
+                  label="Location (EN)"
+                  value={projectLocationEn}
+                  onChange={(event) => setProjectLocationEn(event.target.value)}
+                />
+                <TextField
+                  label="Services realises"
+                  value={deliveredServices}
+                  multiline
+                  rows={2}
+                  helperText="Separes par virgule ou retour ligne."
+                  onChange={(event) => setDeliveredServices(event.target.value)}
+                />
+                <TextField
+                  label="Services delivered (EN)"
+                  value={deliveredServicesEn}
+                  multiline
+                  rows={2}
+                  helperText="Separated by comma or line break."
+                  onChange={(event) => setDeliveredServicesEn(event.target.value)}
+                />
+              </Box>
+
+              <Typography variant="h4">Recit et resultats</Typography>
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+                  gap: 2.5,
+                }}
+              >
+                {[
+                  ["Problematique", challenge, setChallenge],
+                  ["Challenge (EN)", challengeEn, setChallengeEn],
+                  ["Approche", approach, setApproach],
+                  ["Approach (EN)", approachEn, setApproachEn],
+                  ["Resultats", results, setResults],
+                  ["Results (EN)", resultsEn, setResultsEn],
+                  ["Distinctions", awards, setAwards],
+                  ["Awards (EN)", awardsEn, setAwardsEn],
+                ].map(([label, value, setter]) => (
+                  <TextField
+                    key={label as string}
+                    label={label as string}
+                    value={value as string}
+                    multiline
+                    rows={3}
+                    onChange={(event) =>
+                      (setter as (value: string) => void)(event.target.value)
+                    }
+                  />
+                ))}
+              </Box>
+              <TextField
+                label="Credits"
+                value={credits}
+                multiline
+                rows={2}
+                onChange={(event) => setCredits(event.target.value)}
+              />
+              <TextField
+                label="Lien externe"
+                value={externalUrl}
+                type="url"
+                helperText="Site du client, publication ou page de reference."
+                onChange={(event) => setExternalUrl(event.target.value)}
+              />
+            </Box>
+          )}
+
+          {tab === 3 && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
               <TextField
                 label="Tags"

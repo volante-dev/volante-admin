@@ -826,6 +826,24 @@ export const ProjectScalarFieldEnum = {
   descriptionEn: 'descriptionEn',
   imageUrl: 'imageUrl',
   tags: 'tags',
+  clientName: 'clientName',
+  sector: 'sector',
+  sectorEn: 'sectorEn',
+  projectYear: 'projectYear',
+  projectLocation: 'projectLocation',
+  projectLocationEn: 'projectLocationEn',
+  deliveredServices: 'deliveredServices',
+  deliveredServicesEn: 'deliveredServicesEn',
+  challenge: 'challenge',
+  challengeEn: 'challengeEn',
+  approach: 'approach',
+  approachEn: 'approachEn',
+  results: 'results',
+  resultsEn: 'resultsEn',
+  credits: 'credits',
+  awards: 'awards',
+  awardsEn: 'awardsEn',
+  externalUrl: 'externalUrl',
   featured: 'featured',
   order: 'order',
   portfolioSize: 'portfolioSize',
@@ -943,13 +961,6 @@ export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaMod
 
 
 /**
- * Reference to a field of type 'Boolean'
- */
-export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-/**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -960,6 +971,13 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 

@@ -12,6 +12,7 @@ import {
   parseNonNegativeInteger,
   parseTags,
 } from "@/lib/validation";
+import { notifyProjectIndexing } from "@/lib/search-indexing";
 
 type ActionResult = {
   success: boolean;
@@ -81,6 +82,25 @@ const validateProjectPayload = async (
   const descriptionEn = normalizeNullable(formData.get("descriptionEn"));
   const imageUrl = normalizeRequired(formData.get("imageUrl"));
   const tags = parseTags(formData.get("tags"));
+  const clientName = normalizeNullable(formData.get("clientName"));
+  const sector = normalizeNullable(formData.get("sector"));
+  const sectorEn = normalizeNullable(formData.get("sectorEn"));
+  const projectYearRaw = normalizeNullable(formData.get("projectYear"));
+  const projectYear = projectYearRaw ? Number.parseInt(projectYearRaw, 10) : null;
+  const projectLocation = normalizeNullable(formData.get("projectLocation"));
+  const projectLocationEn = normalizeNullable(formData.get("projectLocationEn"));
+  const deliveredServices = parseTags(formData.get("deliveredServices"));
+  const deliveredServicesEn = parseTags(formData.get("deliveredServicesEn"));
+  const challenge = normalizeNullable(formData.get("challenge"));
+  const challengeEn = normalizeNullable(formData.get("challengeEn"));
+  const approach = normalizeNullable(formData.get("approach"));
+  const approachEn = normalizeNullable(formData.get("approachEn"));
+  const results = normalizeNullable(formData.get("results"));
+  const resultsEn = normalizeNullable(formData.get("resultsEn"));
+  const credits = normalizeNullable(formData.get("credits"));
+  const awards = normalizeNullable(formData.get("awards"));
+  const awardsEn = normalizeNullable(formData.get("awardsEn"));
+  const externalUrl = normalizeNullable(formData.get("externalUrl"));
   const featured = formData.get("featured") === "true";
   const order = parseNonNegativeInteger(formData.get("order"));
   const publishedAt = parseDateOrNull(formData.get("publishedAt"));
@@ -104,6 +124,15 @@ const validateProjectPayload = async (
   }
   if (publishedAt === undefined) {
     return { error: "La date de publication est invalide." };
+  }
+  if (
+    projectYear !== null &&
+    (!Number.isInteger(projectYear) || projectYear < 1900 || projectYear > 2100)
+  ) {
+    return { error: "L'annee du projet est invalide." };
+  }
+  if (externalUrl && !isValidMediaUrl(externalUrl)) {
+    return { error: "Le lien externe est invalide." };
   }
 
   const existingSlug = await prisma.project.findUnique({ where: { slug } });
@@ -173,6 +202,24 @@ const validateProjectPayload = async (
       descriptionEn,
       imageUrl,
       tags,
+      clientName,
+      sector,
+      sectorEn,
+      projectYear,
+      projectLocation,
+      projectLocationEn,
+      deliveredServices,
+      deliveredServicesEn,
+      challenge,
+      challengeEn,
+      approach,
+      approachEn,
+      results,
+      resultsEn,
+      credits,
+      awards,
+      awardsEn,
+      externalUrl,
       featured,
       order,
       publishedAt,
@@ -256,6 +303,24 @@ export const createProject = async (
           descriptionEn: parsed.data.descriptionEn,
           imageUrl: parsed.data.imageUrl,
           tags: parsed.data.tags,
+          clientName: parsed.data.clientName,
+          sector: parsed.data.sector,
+          sectorEn: parsed.data.sectorEn,
+          projectYear: parsed.data.projectYear,
+          projectLocation: parsed.data.projectLocation,
+          projectLocationEn: parsed.data.projectLocationEn,
+          deliveredServices: parsed.data.deliveredServices,
+          deliveredServicesEn: parsed.data.deliveredServicesEn,
+          challenge: parsed.data.challenge,
+          challengeEn: parsed.data.challengeEn,
+          approach: parsed.data.approach,
+          approachEn: parsed.data.approachEn,
+          results: parsed.data.results,
+          resultsEn: parsed.data.resultsEn,
+          credits: parsed.data.credits,
+          awards: parsed.data.awards,
+          awardsEn: parsed.data.awardsEn,
+          externalUrl: parsed.data.externalUrl,
           featured: parsed.data.featured,
           order: parsed.data.order,
           portfolioOrder,
@@ -268,6 +333,7 @@ export const createProject = async (
     });
 
     revalidatePath("/projects");
+    if (project.publishedAt) await notifyProjectIndexing(project.slug);
     return { success: true, id: project.id, warnings: parsed.warnings };
   } catch (error) {
     return {
@@ -313,6 +379,24 @@ export const updateProject = async (
           descriptionEn: parsed.data.descriptionEn,
           imageUrl: parsed.data.imageUrl,
           tags: parsed.data.tags,
+          clientName: parsed.data.clientName,
+          sector: parsed.data.sector,
+          sectorEn: parsed.data.sectorEn,
+          projectYear: parsed.data.projectYear,
+          projectLocation: parsed.data.projectLocation,
+          projectLocationEn: parsed.data.projectLocationEn,
+          deliveredServices: parsed.data.deliveredServices,
+          deliveredServicesEn: parsed.data.deliveredServicesEn,
+          challenge: parsed.data.challenge,
+          challengeEn: parsed.data.challengeEn,
+          approach: parsed.data.approach,
+          approachEn: parsed.data.approachEn,
+          results: parsed.data.results,
+          resultsEn: parsed.data.resultsEn,
+          credits: parsed.data.credits,
+          awards: parsed.data.awards,
+          awardsEn: parsed.data.awardsEn,
+          externalUrl: parsed.data.externalUrl,
           featured: parsed.data.featured,
           order: parsed.data.order,
           ...(newlyPublished
@@ -326,6 +410,7 @@ export const updateProject = async (
 
     revalidatePath("/projects");
     revalidatePath(`/projects/${id}/edit`);
+    if (parsed.data.publishedAt) await notifyProjectIndexing(parsed.data.slug);
     return { success: true, id, warnings: parsed.warnings };
   } catch (error) {
     return {
@@ -375,6 +460,7 @@ export const publishProject = async (id: string): Promise<ActionResult> => {
 
     revalidatePath("/projects");
     revalidatePath(`/projects/${id}/edit`);
+    await notifyProjectIndexing(project.slug);
     return {
       success: true,
       warnings:
@@ -396,12 +482,13 @@ export const publishProject = async (id: string): Promise<ActionResult> => {
 export const unpublishProject = async (id: string): Promise<ActionResult> => {
   try {
     await requireCrmAccess();
-    await prisma.project.update({
+    const project = await prisma.project.update({
       where: { id },
       data: { publishedAt: null },
     });
     revalidatePath("/projects");
     revalidatePath(`/projects/${id}/edit`);
+    await notifyProjectIndexing(project.slug);
     return { success: true };
   } catch (error) {
     return {
@@ -415,8 +502,9 @@ export const unpublishProject = async (id: string): Promise<ActionResult> => {
 export const deleteProject = async (id: string): Promise<ActionResult> => {
   try {
     await requireCrmAccess();
-    await prisma.project.delete({ where: { id } });
+    const project = await prisma.project.delete({ where: { id } });
     revalidatePath("/projects");
+    await notifyProjectIndexing(project.slug);
     return { success: true };
   } catch (error) {
     return {

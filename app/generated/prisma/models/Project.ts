@@ -27,11 +27,13 @@ export type AggregateProject = {
 }
 
 export type ProjectAvgAggregateOutputType = {
+  projectYear: number | null
   order: number | null
   portfolioOrder: number | null
 }
 
 export type ProjectSumAggregateOutputType = {
+  projectYear: number | null
   order: number | null
   portfolioOrder: number | null
 }
@@ -44,6 +46,22 @@ export type ProjectMinAggregateOutputType = {
   description: string | null
   descriptionEn: string | null
   imageUrl: string | null
+  clientName: string | null
+  sector: string | null
+  sectorEn: string | null
+  projectYear: number | null
+  projectLocation: string | null
+  projectLocationEn: string | null
+  challenge: string | null
+  challengeEn: string | null
+  approach: string | null
+  approachEn: string | null
+  results: string | null
+  resultsEn: string | null
+  credits: string | null
+  awards: string | null
+  awardsEn: string | null
+  externalUrl: string | null
   featured: boolean | null
   order: number | null
   portfolioSize: $Enums.ProjectPortfolioSize | null
@@ -61,6 +79,22 @@ export type ProjectMaxAggregateOutputType = {
   description: string | null
   descriptionEn: string | null
   imageUrl: string | null
+  clientName: string | null
+  sector: string | null
+  sectorEn: string | null
+  projectYear: number | null
+  projectLocation: string | null
+  projectLocationEn: string | null
+  challenge: string | null
+  challengeEn: string | null
+  approach: string | null
+  approachEn: string | null
+  results: string | null
+  resultsEn: string | null
+  credits: string | null
+  awards: string | null
+  awardsEn: string | null
+  externalUrl: string | null
   featured: boolean | null
   order: number | null
   portfolioSize: $Enums.ProjectPortfolioSize | null
@@ -79,6 +113,24 @@ export type ProjectCountAggregateOutputType = {
   descriptionEn: number
   imageUrl: number
   tags: number
+  clientName: number
+  sector: number
+  sectorEn: number
+  projectYear: number
+  projectLocation: number
+  projectLocationEn: number
+  deliveredServices: number
+  deliveredServicesEn: number
+  challenge: number
+  challengeEn: number
+  approach: number
+  approachEn: number
+  results: number
+  resultsEn: number
+  credits: number
+  awards: number
+  awardsEn: number
+  externalUrl: number
   featured: number
   order: number
   portfolioSize: number
@@ -91,11 +143,13 @@ export type ProjectCountAggregateOutputType = {
 
 
 export type ProjectAvgAggregateInputType = {
+  projectYear?: true
   order?: true
   portfolioOrder?: true
 }
 
 export type ProjectSumAggregateInputType = {
+  projectYear?: true
   order?: true
   portfolioOrder?: true
 }
@@ -108,6 +162,22 @@ export type ProjectMinAggregateInputType = {
   description?: true
   descriptionEn?: true
   imageUrl?: true
+  clientName?: true
+  sector?: true
+  sectorEn?: true
+  projectYear?: true
+  projectLocation?: true
+  projectLocationEn?: true
+  challenge?: true
+  challengeEn?: true
+  approach?: true
+  approachEn?: true
+  results?: true
+  resultsEn?: true
+  credits?: true
+  awards?: true
+  awardsEn?: true
+  externalUrl?: true
   featured?: true
   order?: true
   portfolioSize?: true
@@ -125,6 +195,22 @@ export type ProjectMaxAggregateInputType = {
   description?: true
   descriptionEn?: true
   imageUrl?: true
+  clientName?: true
+  sector?: true
+  sectorEn?: true
+  projectYear?: true
+  projectLocation?: true
+  projectLocationEn?: true
+  challenge?: true
+  challengeEn?: true
+  approach?: true
+  approachEn?: true
+  results?: true
+  resultsEn?: true
+  credits?: true
+  awards?: true
+  awardsEn?: true
+  externalUrl?: true
   featured?: true
   order?: true
   portfolioSize?: true
@@ -143,6 +229,24 @@ export type ProjectCountAggregateInputType = {
   descriptionEn?: true
   imageUrl?: true
   tags?: true
+  clientName?: true
+  sector?: true
+  sectorEn?: true
+  projectYear?: true
+  projectLocation?: true
+  projectLocationEn?: true
+  deliveredServices?: true
+  deliveredServicesEn?: true
+  challenge?: true
+  challengeEn?: true
+  approach?: true
+  approachEn?: true
+  results?: true
+  resultsEn?: true
+  credits?: true
+  awards?: true
+  awardsEn?: true
+  externalUrl?: true
   featured?: true
   order?: true
   portfolioSize?: true
@@ -248,6 +352,24 @@ export type ProjectGroupByOutputType = {
   descriptionEn: string | null
   imageUrl: string
   tags: string[]
+  clientName: string | null
+  sector: string | null
+  sectorEn: string | null
+  projectYear: number | null
+  projectLocation: string | null
+  projectLocationEn: string | null
+  deliveredServices: string[]
+  deliveredServicesEn: string[]
+  challenge: string | null
+  challengeEn: string | null
+  approach: string | null
+  approachEn: string | null
+  results: string | null
+  resultsEn: string | null
+  credits: string | null
+  awards: string | null
+  awardsEn: string | null
+  externalUrl: string | null
   featured: boolean
   order: number
   portfolioSize: $Enums.ProjectPortfolioSize
@@ -289,6 +411,24 @@ export type ProjectWhereInput = {
   descriptionEn?: Prisma.StringNullableFilter<"Project"> | string | null
   imageUrl?: Prisma.StringFilter<"Project"> | string
   tags?: Prisma.StringNullableListFilter<"Project">
+  clientName?: Prisma.StringNullableFilter<"Project"> | string | null
+  sector?: Prisma.StringNullableFilter<"Project"> | string | null
+  sectorEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  projectYear?: Prisma.IntNullableFilter<"Project"> | number | null
+  projectLocation?: Prisma.StringNullableFilter<"Project"> | string | null
+  projectLocationEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  deliveredServices?: Prisma.StringNullableListFilter<"Project">
+  deliveredServicesEn?: Prisma.StringNullableListFilter<"Project">
+  challenge?: Prisma.StringNullableFilter<"Project"> | string | null
+  challengeEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  approach?: Prisma.StringNullableFilter<"Project"> | string | null
+  approachEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  results?: Prisma.StringNullableFilter<"Project"> | string | null
+  resultsEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  credits?: Prisma.StringNullableFilter<"Project"> | string | null
+  awards?: Prisma.StringNullableFilter<"Project"> | string | null
+  awardsEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  externalUrl?: Prisma.StringNullableFilter<"Project"> | string | null
   featured?: Prisma.BoolFilter<"Project"> | boolean
   order?: Prisma.IntFilter<"Project"> | number
   portfolioSize?: Prisma.EnumProjectPortfolioSizeFilter<"Project"> | $Enums.ProjectPortfolioSize
@@ -308,6 +448,24 @@ export type ProjectOrderByWithRelationInput = {
   descriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   tags?: Prisma.SortOrder
+  clientName?: Prisma.SortOrderInput | Prisma.SortOrder
+  sector?: Prisma.SortOrderInput | Prisma.SortOrder
+  sectorEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  projectYear?: Prisma.SortOrderInput | Prisma.SortOrder
+  projectLocation?: Prisma.SortOrderInput | Prisma.SortOrder
+  projectLocationEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  deliveredServices?: Prisma.SortOrder
+  deliveredServicesEn?: Prisma.SortOrder
+  challenge?: Prisma.SortOrderInput | Prisma.SortOrder
+  challengeEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  approach?: Prisma.SortOrderInput | Prisma.SortOrder
+  approachEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  results?: Prisma.SortOrderInput | Prisma.SortOrder
+  resultsEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  credits?: Prisma.SortOrderInput | Prisma.SortOrder
+  awards?: Prisma.SortOrderInput | Prisma.SortOrder
+  awardsEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  externalUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   featured?: Prisma.SortOrder
   order?: Prisma.SortOrder
   portfolioSize?: Prisma.SortOrder
@@ -330,6 +488,24 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   descriptionEn?: Prisma.StringNullableFilter<"Project"> | string | null
   imageUrl?: Prisma.StringFilter<"Project"> | string
   tags?: Prisma.StringNullableListFilter<"Project">
+  clientName?: Prisma.StringNullableFilter<"Project"> | string | null
+  sector?: Prisma.StringNullableFilter<"Project"> | string | null
+  sectorEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  projectYear?: Prisma.IntNullableFilter<"Project"> | number | null
+  projectLocation?: Prisma.StringNullableFilter<"Project"> | string | null
+  projectLocationEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  deliveredServices?: Prisma.StringNullableListFilter<"Project">
+  deliveredServicesEn?: Prisma.StringNullableListFilter<"Project">
+  challenge?: Prisma.StringNullableFilter<"Project"> | string | null
+  challengeEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  approach?: Prisma.StringNullableFilter<"Project"> | string | null
+  approachEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  results?: Prisma.StringNullableFilter<"Project"> | string | null
+  resultsEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  credits?: Prisma.StringNullableFilter<"Project"> | string | null
+  awards?: Prisma.StringNullableFilter<"Project"> | string | null
+  awardsEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  externalUrl?: Prisma.StringNullableFilter<"Project"> | string | null
   featured?: Prisma.BoolFilter<"Project"> | boolean
   order?: Prisma.IntFilter<"Project"> | number
   portfolioSize?: Prisma.EnumProjectPortfolioSizeFilter<"Project"> | $Enums.ProjectPortfolioSize
@@ -349,6 +525,24 @@ export type ProjectOrderByWithAggregationInput = {
   descriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   tags?: Prisma.SortOrder
+  clientName?: Prisma.SortOrderInput | Prisma.SortOrder
+  sector?: Prisma.SortOrderInput | Prisma.SortOrder
+  sectorEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  projectYear?: Prisma.SortOrderInput | Prisma.SortOrder
+  projectLocation?: Prisma.SortOrderInput | Prisma.SortOrder
+  projectLocationEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  deliveredServices?: Prisma.SortOrder
+  deliveredServicesEn?: Prisma.SortOrder
+  challenge?: Prisma.SortOrderInput | Prisma.SortOrder
+  challengeEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  approach?: Prisma.SortOrderInput | Prisma.SortOrder
+  approachEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  results?: Prisma.SortOrderInput | Prisma.SortOrder
+  resultsEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  credits?: Prisma.SortOrderInput | Prisma.SortOrder
+  awards?: Prisma.SortOrderInput | Prisma.SortOrder
+  awardsEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  externalUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   featured?: Prisma.SortOrder
   order?: Prisma.SortOrder
   portfolioSize?: Prisma.SortOrder
@@ -375,6 +569,24 @@ export type ProjectScalarWhereWithAggregatesInput = {
   descriptionEn?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   imageUrl?: Prisma.StringWithAggregatesFilter<"Project"> | string
   tags?: Prisma.StringNullableListFilter<"Project">
+  clientName?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  sector?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  sectorEn?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  projectYear?: Prisma.IntNullableWithAggregatesFilter<"Project"> | number | null
+  projectLocation?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  projectLocationEn?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  deliveredServices?: Prisma.StringNullableListFilter<"Project">
+  deliveredServicesEn?: Prisma.StringNullableListFilter<"Project">
+  challenge?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  challengeEn?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  approach?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  approachEn?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  results?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  resultsEn?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  credits?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  awards?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  awardsEn?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  externalUrl?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   featured?: Prisma.BoolWithAggregatesFilter<"Project"> | boolean
   order?: Prisma.IntWithAggregatesFilter<"Project"> | number
   portfolioSize?: Prisma.EnumProjectPortfolioSizeWithAggregatesFilter<"Project"> | $Enums.ProjectPortfolioSize
@@ -393,6 +605,24 @@ export type ProjectCreateInput = {
   descriptionEn?: string | null
   imageUrl: string
   tags?: Prisma.ProjectCreatetagsInput | string[]
+  clientName?: string | null
+  sector?: string | null
+  sectorEn?: string | null
+  projectYear?: number | null
+  projectLocation?: string | null
+  projectLocationEn?: string | null
+  deliveredServices?: Prisma.ProjectCreatedeliveredServicesInput | string[]
+  deliveredServicesEn?: Prisma.ProjectCreatedeliveredServicesEnInput | string[]
+  challenge?: string | null
+  challengeEn?: string | null
+  approach?: string | null
+  approachEn?: string | null
+  results?: string | null
+  resultsEn?: string | null
+  credits?: string | null
+  awards?: string | null
+  awardsEn?: string | null
+  externalUrl?: string | null
   featured?: boolean
   order?: number
   portfolioSize?: $Enums.ProjectPortfolioSize
@@ -412,6 +642,24 @@ export type ProjectUncheckedCreateInput = {
   descriptionEn?: string | null
   imageUrl: string
   tags?: Prisma.ProjectCreatetagsInput | string[]
+  clientName?: string | null
+  sector?: string | null
+  sectorEn?: string | null
+  projectYear?: number | null
+  projectLocation?: string | null
+  projectLocationEn?: string | null
+  deliveredServices?: Prisma.ProjectCreatedeliveredServicesInput | string[]
+  deliveredServicesEn?: Prisma.ProjectCreatedeliveredServicesEnInput | string[]
+  challenge?: string | null
+  challengeEn?: string | null
+  approach?: string | null
+  approachEn?: string | null
+  results?: string | null
+  resultsEn?: string | null
+  credits?: string | null
+  awards?: string | null
+  awardsEn?: string | null
+  externalUrl?: string | null
   featured?: boolean
   order?: number
   portfolioSize?: $Enums.ProjectPortfolioSize
@@ -431,6 +679,24 @@ export type ProjectUpdateInput = {
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectorEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  projectLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectLocationEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveredServices?: Prisma.ProjectUpdatedeliveredServicesInput | string[]
+  deliveredServicesEn?: Prisma.ProjectUpdatedeliveredServicesEnInput | string[]
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
@@ -450,6 +716,24 @@ export type ProjectUncheckedUpdateInput = {
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectorEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  projectLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectLocationEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveredServices?: Prisma.ProjectUpdatedeliveredServicesInput | string[]
+  deliveredServicesEn?: Prisma.ProjectUpdatedeliveredServicesEnInput | string[]
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
@@ -469,6 +753,24 @@ export type ProjectCreateManyInput = {
   descriptionEn?: string | null
   imageUrl: string
   tags?: Prisma.ProjectCreatetagsInput | string[]
+  clientName?: string | null
+  sector?: string | null
+  sectorEn?: string | null
+  projectYear?: number | null
+  projectLocation?: string | null
+  projectLocationEn?: string | null
+  deliveredServices?: Prisma.ProjectCreatedeliveredServicesInput | string[]
+  deliveredServicesEn?: Prisma.ProjectCreatedeliveredServicesEnInput | string[]
+  challenge?: string | null
+  challengeEn?: string | null
+  approach?: string | null
+  approachEn?: string | null
+  results?: string | null
+  resultsEn?: string | null
+  credits?: string | null
+  awards?: string | null
+  awardsEn?: string | null
+  externalUrl?: string | null
   featured?: boolean
   order?: number
   portfolioSize?: $Enums.ProjectPortfolioSize
@@ -487,6 +789,24 @@ export type ProjectUpdateManyMutationInput = {
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectorEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  projectLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectLocationEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveredServices?: Prisma.ProjectUpdatedeliveredServicesInput | string[]
+  deliveredServicesEn?: Prisma.ProjectUpdatedeliveredServicesEnInput | string[]
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
@@ -505,6 +825,24 @@ export type ProjectUncheckedUpdateManyInput = {
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectorEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  projectLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectLocationEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveredServices?: Prisma.ProjectUpdatedeliveredServicesInput | string[]
+  deliveredServicesEn?: Prisma.ProjectUpdatedeliveredServicesEnInput | string[]
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
@@ -531,6 +869,24 @@ export type ProjectCountOrderByAggregateInput = {
   descriptionEn?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   tags?: Prisma.SortOrder
+  clientName?: Prisma.SortOrder
+  sector?: Prisma.SortOrder
+  sectorEn?: Prisma.SortOrder
+  projectYear?: Prisma.SortOrder
+  projectLocation?: Prisma.SortOrder
+  projectLocationEn?: Prisma.SortOrder
+  deliveredServices?: Prisma.SortOrder
+  deliveredServicesEn?: Prisma.SortOrder
+  challenge?: Prisma.SortOrder
+  challengeEn?: Prisma.SortOrder
+  approach?: Prisma.SortOrder
+  approachEn?: Prisma.SortOrder
+  results?: Prisma.SortOrder
+  resultsEn?: Prisma.SortOrder
+  credits?: Prisma.SortOrder
+  awards?: Prisma.SortOrder
+  awardsEn?: Prisma.SortOrder
+  externalUrl?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   order?: Prisma.SortOrder
   portfolioSize?: Prisma.SortOrder
@@ -541,6 +897,7 @@ export type ProjectCountOrderByAggregateInput = {
 }
 
 export type ProjectAvgOrderByAggregateInput = {
+  projectYear?: Prisma.SortOrder
   order?: Prisma.SortOrder
   portfolioOrder?: Prisma.SortOrder
 }
@@ -553,6 +910,22 @@ export type ProjectMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   descriptionEn?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  clientName?: Prisma.SortOrder
+  sector?: Prisma.SortOrder
+  sectorEn?: Prisma.SortOrder
+  projectYear?: Prisma.SortOrder
+  projectLocation?: Prisma.SortOrder
+  projectLocationEn?: Prisma.SortOrder
+  challenge?: Prisma.SortOrder
+  challengeEn?: Prisma.SortOrder
+  approach?: Prisma.SortOrder
+  approachEn?: Prisma.SortOrder
+  results?: Prisma.SortOrder
+  resultsEn?: Prisma.SortOrder
+  credits?: Prisma.SortOrder
+  awards?: Prisma.SortOrder
+  awardsEn?: Prisma.SortOrder
+  externalUrl?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   order?: Prisma.SortOrder
   portfolioSize?: Prisma.SortOrder
@@ -570,6 +943,22 @@ export type ProjectMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   descriptionEn?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  clientName?: Prisma.SortOrder
+  sector?: Prisma.SortOrder
+  sectorEn?: Prisma.SortOrder
+  projectYear?: Prisma.SortOrder
+  projectLocation?: Prisma.SortOrder
+  projectLocationEn?: Prisma.SortOrder
+  challenge?: Prisma.SortOrder
+  challengeEn?: Prisma.SortOrder
+  approach?: Prisma.SortOrder
+  approachEn?: Prisma.SortOrder
+  results?: Prisma.SortOrder
+  resultsEn?: Prisma.SortOrder
+  credits?: Prisma.SortOrder
+  awards?: Prisma.SortOrder
+  awardsEn?: Prisma.SortOrder
+  externalUrl?: Prisma.SortOrder
   featured?: Prisma.SortOrder
   order?: Prisma.SortOrder
   portfolioSize?: Prisma.SortOrder
@@ -580,6 +969,7 @@ export type ProjectMinOrderByAggregateInput = {
 }
 
 export type ProjectSumOrderByAggregateInput = {
+  projectYear?: Prisma.SortOrder
   order?: Prisma.SortOrder
   portfolioOrder?: Prisma.SortOrder
 }
@@ -593,6 +983,14 @@ export type ProjectCreatetagsInput = {
   set: string[]
 }
 
+export type ProjectCreatedeliveredServicesInput = {
+  set: string[]
+}
+
+export type ProjectCreatedeliveredServicesEnInput = {
+  set: string[]
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -602,6 +1000,24 @@ export type NullableStringFieldUpdateOperationsInput = {
 }
 
 export type ProjectUpdatetagsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type ProjectUpdatedeliveredServicesInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type ProjectUpdatedeliveredServicesEnInput = {
   set?: string[]
   push?: string | string[]
 }
@@ -653,6 +1069,24 @@ export type ProjectCreateWithoutSlidesInput = {
   descriptionEn?: string | null
   imageUrl: string
   tags?: Prisma.ProjectCreatetagsInput | string[]
+  clientName?: string | null
+  sector?: string | null
+  sectorEn?: string | null
+  projectYear?: number | null
+  projectLocation?: string | null
+  projectLocationEn?: string | null
+  deliveredServices?: Prisma.ProjectCreatedeliveredServicesInput | string[]
+  deliveredServicesEn?: Prisma.ProjectCreatedeliveredServicesEnInput | string[]
+  challenge?: string | null
+  challengeEn?: string | null
+  approach?: string | null
+  approachEn?: string | null
+  results?: string | null
+  resultsEn?: string | null
+  credits?: string | null
+  awards?: string | null
+  awardsEn?: string | null
+  externalUrl?: string | null
   featured?: boolean
   order?: number
   portfolioSize?: $Enums.ProjectPortfolioSize
@@ -671,6 +1105,24 @@ export type ProjectUncheckedCreateWithoutSlidesInput = {
   descriptionEn?: string | null
   imageUrl: string
   tags?: Prisma.ProjectCreatetagsInput | string[]
+  clientName?: string | null
+  sector?: string | null
+  sectorEn?: string | null
+  projectYear?: number | null
+  projectLocation?: string | null
+  projectLocationEn?: string | null
+  deliveredServices?: Prisma.ProjectCreatedeliveredServicesInput | string[]
+  deliveredServicesEn?: Prisma.ProjectCreatedeliveredServicesEnInput | string[]
+  challenge?: string | null
+  challengeEn?: string | null
+  approach?: string | null
+  approachEn?: string | null
+  results?: string | null
+  resultsEn?: string | null
+  credits?: string | null
+  awards?: string | null
+  awardsEn?: string | null
+  externalUrl?: string | null
   featured?: boolean
   order?: number
   portfolioSize?: $Enums.ProjectPortfolioSize
@@ -705,6 +1157,24 @@ export type ProjectUpdateWithoutSlidesInput = {
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectorEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  projectLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectLocationEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveredServices?: Prisma.ProjectUpdatedeliveredServicesInput | string[]
+  deliveredServicesEn?: Prisma.ProjectUpdatedeliveredServicesEnInput | string[]
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
@@ -723,6 +1193,24 @@ export type ProjectUncheckedUpdateWithoutSlidesInput = {
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectorEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  projectLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectLocationEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deliveredServices?: Prisma.ProjectUpdatedeliveredServicesInput | string[]
+  deliveredServicesEn?: Prisma.ProjectUpdatedeliveredServicesEnInput | string[]
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
   order?: Prisma.IntFieldUpdateOperationsInput | number
   portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
@@ -772,6 +1260,24 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   descriptionEn?: boolean
   imageUrl?: boolean
   tags?: boolean
+  clientName?: boolean
+  sector?: boolean
+  sectorEn?: boolean
+  projectYear?: boolean
+  projectLocation?: boolean
+  projectLocationEn?: boolean
+  deliveredServices?: boolean
+  deliveredServicesEn?: boolean
+  challenge?: boolean
+  challengeEn?: boolean
+  approach?: boolean
+  approachEn?: boolean
+  results?: boolean
+  resultsEn?: boolean
+  credits?: boolean
+  awards?: boolean
+  awardsEn?: boolean
+  externalUrl?: boolean
   featured?: boolean
   order?: boolean
   portfolioSize?: boolean
@@ -792,6 +1298,24 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   descriptionEn?: boolean
   imageUrl?: boolean
   tags?: boolean
+  clientName?: boolean
+  sector?: boolean
+  sectorEn?: boolean
+  projectYear?: boolean
+  projectLocation?: boolean
+  projectLocationEn?: boolean
+  deliveredServices?: boolean
+  deliveredServicesEn?: boolean
+  challenge?: boolean
+  challengeEn?: boolean
+  approach?: boolean
+  approachEn?: boolean
+  results?: boolean
+  resultsEn?: boolean
+  credits?: boolean
+  awards?: boolean
+  awardsEn?: boolean
+  externalUrl?: boolean
   featured?: boolean
   order?: boolean
   portfolioSize?: boolean
@@ -810,6 +1334,24 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   descriptionEn?: boolean
   imageUrl?: boolean
   tags?: boolean
+  clientName?: boolean
+  sector?: boolean
+  sectorEn?: boolean
+  projectYear?: boolean
+  projectLocation?: boolean
+  projectLocationEn?: boolean
+  deliveredServices?: boolean
+  deliveredServicesEn?: boolean
+  challenge?: boolean
+  challengeEn?: boolean
+  approach?: boolean
+  approachEn?: boolean
+  results?: boolean
+  resultsEn?: boolean
+  credits?: boolean
+  awards?: boolean
+  awardsEn?: boolean
+  externalUrl?: boolean
   featured?: boolean
   order?: boolean
   portfolioSize?: boolean
@@ -828,6 +1370,24 @@ export type ProjectSelectScalar = {
   descriptionEn?: boolean
   imageUrl?: boolean
   tags?: boolean
+  clientName?: boolean
+  sector?: boolean
+  sectorEn?: boolean
+  projectYear?: boolean
+  projectLocation?: boolean
+  projectLocationEn?: boolean
+  deliveredServices?: boolean
+  deliveredServicesEn?: boolean
+  challenge?: boolean
+  challengeEn?: boolean
+  approach?: boolean
+  approachEn?: boolean
+  results?: boolean
+  resultsEn?: boolean
+  credits?: boolean
+  awards?: boolean
+  awardsEn?: boolean
+  externalUrl?: boolean
   featured?: boolean
   order?: boolean
   portfolioSize?: boolean
@@ -837,7 +1397,7 @@ export type ProjectSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "titleEn" | "slug" | "description" | "descriptionEn" | "imageUrl" | "tags" | "featured" | "order" | "portfolioSize" | "portfolioOrder" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "titleEn" | "slug" | "description" | "descriptionEn" | "imageUrl" | "tags" | "clientName" | "sector" | "sectorEn" | "projectYear" | "projectLocation" | "projectLocationEn" | "deliveredServices" | "deliveredServicesEn" | "challenge" | "challengeEn" | "approach" | "approachEn" | "results" | "resultsEn" | "credits" | "awards" | "awardsEn" | "externalUrl" | "featured" | "order" | "portfolioSize" | "portfolioOrder" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   slides?: boolean | Prisma.Project$slidesArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
@@ -859,6 +1419,24 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     descriptionEn: string | null
     imageUrl: string
     tags: string[]
+    clientName: string | null
+    sector: string | null
+    sectorEn: string | null
+    projectYear: number | null
+    projectLocation: string | null
+    projectLocationEn: string | null
+    deliveredServices: string[]
+    deliveredServicesEn: string[]
+    challenge: string | null
+    challengeEn: string | null
+    approach: string | null
+    approachEn: string | null
+    results: string | null
+    resultsEn: string | null
+    credits: string | null
+    awards: string | null
+    awardsEn: string | null
+    externalUrl: string | null
     featured: boolean
     order: number
     portfolioSize: $Enums.ProjectPortfolioSize
@@ -1298,6 +1876,24 @@ export interface ProjectFieldRefs {
   readonly descriptionEn: Prisma.FieldRef<"Project", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Project", 'String'>
   readonly tags: Prisma.FieldRef<"Project", 'String[]'>
+  readonly clientName: Prisma.FieldRef<"Project", 'String'>
+  readonly sector: Prisma.FieldRef<"Project", 'String'>
+  readonly sectorEn: Prisma.FieldRef<"Project", 'String'>
+  readonly projectYear: Prisma.FieldRef<"Project", 'Int'>
+  readonly projectLocation: Prisma.FieldRef<"Project", 'String'>
+  readonly projectLocationEn: Prisma.FieldRef<"Project", 'String'>
+  readonly deliveredServices: Prisma.FieldRef<"Project", 'String[]'>
+  readonly deliveredServicesEn: Prisma.FieldRef<"Project", 'String[]'>
+  readonly challenge: Prisma.FieldRef<"Project", 'String'>
+  readonly challengeEn: Prisma.FieldRef<"Project", 'String'>
+  readonly approach: Prisma.FieldRef<"Project", 'String'>
+  readonly approachEn: Prisma.FieldRef<"Project", 'String'>
+  readonly results: Prisma.FieldRef<"Project", 'String'>
+  readonly resultsEn: Prisma.FieldRef<"Project", 'String'>
+  readonly credits: Prisma.FieldRef<"Project", 'String'>
+  readonly awards: Prisma.FieldRef<"Project", 'String'>
+  readonly awardsEn: Prisma.FieldRef<"Project", 'String'>
+  readonly externalUrl: Prisma.FieldRef<"Project", 'String'>
   readonly featured: Prisma.FieldRef<"Project", 'Boolean'>
   readonly order: Prisma.FieldRef<"Project", 'Int'>
   readonly portfolioSize: Prisma.FieldRef<"Project", 'ProjectPortfolioSize'>

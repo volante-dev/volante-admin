@@ -16,6 +16,24 @@ model Project {
   descriptionEn String?
   imageUrl      String
   tags          String[]
+  clientName    String?
+  sector        String?
+  sectorEn      String?
+  projectYear   Int?
+  projectLocation String?
+  projectLocationEn String?
+  deliveredServices String[] @default([])
+  deliveredServicesEn String[] @default([])
+  challenge     String?
+  challengeEn   String?
+  approach      String?
+  approachEn    String?
+  results       String?
+  resultsEn     String?
+  credits       String?
+  awards        String?
+  awardsEn      String?
+  externalUrl   String?
   featured      Boolean   @default(false)
   order         Int       @default(0)
   portfolioSize ProjectPortfolioSize @default(NORMAL)
