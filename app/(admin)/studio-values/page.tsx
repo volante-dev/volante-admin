@@ -25,14 +25,11 @@ const StudioValuesPage = async () => {
         }}
       >
         <Typography variant="h2">Valeurs Studio</Typography>
-        <Button
-          component={Link}
-          href="/studio-values/new"
-          variant="contained"
-          startIcon={<AddIcon />}
-        >
-          Nouvelle valeur
-        </Button>
+        <Link href="/studio-values/new">
+          <Button variant="contained" startIcon={<AddIcon />}>
+            Nouvelle valeur
+          </Button>
+        </Link>
       </Box>
 
       {studioValues.length > 0 ? (
@@ -50,9 +47,9 @@ const StudioValuesPage = async () => {
           <Typography color="text.secondary" sx={{ mb: 2 }}>
             Aucune valeur Studio pour le moment.
           </Typography>
-          <Button component={Link} href="/studio-values/new" variant="outlined">
-            Creer la premiere valeur
-          </Button>
+          <Link href="/studio-values/new">
+            <Button variant="outlined">Creer la premiere valeur</Button>
+          </Link>
         </Box>
       )}
     </>

@@ -8,14 +8,11 @@ import { StudioValueForm } from "@/components/admin/StudioValueForm";
 const NewStudioValuePage = () => (
   <>
     <Box sx={{ mb: 3 }}>
-      <Button
-        component={Link}
-        href="/studio-values"
-        startIcon={<ArrowBackIcon />}
-        size="small"
-      >
-        Valeurs Studio
-      </Button>
+      <Link href="/studio-values">
+        <Button startIcon={<ArrowBackIcon />} size="small">
+          Valeurs Studio
+        </Button>
+      </Link>
     </Box>
     <Typography variant="h2" sx={{ mb: 3 }}>
       Nouvelle valeur
