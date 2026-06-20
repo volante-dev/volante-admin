@@ -7,6 +7,7 @@ import prisma from "@/lib/prisma";
 import { createProjectPreviewUrl } from "@/lib/preview-token";
 import { ProjectTable } from "@/components/admin/ProjectTable";
 import { ProjectMasonryEditor } from "@/components/admin/ProjectMasonryEditor";
+import { HeroColorBackfillButton } from "@/components/admin/HeroColorBackfillButton";
 import type {
   AdminMasonryProject,
   AdminProjectListItem,
@@ -68,11 +69,14 @@ const ProjectsPage = async () => {
         }}
       >
         <Typography variant="h2">Realisations</Typography>
-        <Link href="/projects/new">
-          <Button variant="contained" startIcon={<AddIcon />}>
-            Nouvelle realisation
-          </Button>
-        </Link>
+        <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", justifyContent: "flex-end" }}>
+          <HeroColorBackfillButton />
+          <Link href="/projects/new">
+            <Button variant="contained" startIcon={<AddIcon />}>
+              Nouvelle realisation
+            </Button>
+          </Link>
+        </Box>
       </Box>
 
       <ProjectMasonryEditor

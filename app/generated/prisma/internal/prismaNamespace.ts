@@ -825,6 +825,8 @@ export const ProjectScalarFieldEnum = {
   description: 'description',
   descriptionEn: 'descriptionEn',
   imageUrl: 'imageUrl',
+  heroColorOverride: 'heroColorOverride',
+  heroColorComputed: 'heroColorComputed',
   tags: 'tags',
   clientName: 'clientName',
   sector: 'sector',

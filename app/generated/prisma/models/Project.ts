@@ -46,6 +46,8 @@ export type ProjectMinAggregateOutputType = {
   description: string | null
   descriptionEn: string | null
   imageUrl: string | null
+  heroColorOverride: string | null
+  heroColorComputed: string | null
   clientName: string | null
   sector: string | null
   sectorEn: string | null
@@ -79,6 +81,8 @@ export type ProjectMaxAggregateOutputType = {
   description: string | null
   descriptionEn: string | null
   imageUrl: string | null
+  heroColorOverride: string | null
+  heroColorComputed: string | null
   clientName: string | null
   sector: string | null
   sectorEn: string | null
@@ -112,6 +116,8 @@ export type ProjectCountAggregateOutputType = {
   description: number
   descriptionEn: number
   imageUrl: number
+  heroColorOverride: number
+  heroColorComputed: number
   tags: number
   clientName: number
   sector: number
@@ -162,6 +168,8 @@ export type ProjectMinAggregateInputType = {
   description?: true
   descriptionEn?: true
   imageUrl?: true
+  heroColorOverride?: true
+  heroColorComputed?: true
   clientName?: true
   sector?: true
   sectorEn?: true
@@ -195,6 +203,8 @@ export type ProjectMaxAggregateInputType = {
   description?: true
   descriptionEn?: true
   imageUrl?: true
+  heroColorOverride?: true
+  heroColorComputed?: true
   clientName?: true
   sector?: true
   sectorEn?: true
@@ -228,6 +238,8 @@ export type ProjectCountAggregateInputType = {
   description?: true
   descriptionEn?: true
   imageUrl?: true
+  heroColorOverride?: true
+  heroColorComputed?: true
   tags?: true
   clientName?: true
   sector?: true
@@ -351,6 +363,8 @@ export type ProjectGroupByOutputType = {
   description: string
   descriptionEn: string | null
   imageUrl: string
+  heroColorOverride: string | null
+  heroColorComputed: string | null
   tags: string[]
   clientName: string | null
   sector: string | null
@@ -410,6 +424,8 @@ export type ProjectWhereInput = {
   description?: Prisma.StringFilter<"Project"> | string
   descriptionEn?: Prisma.StringNullableFilter<"Project"> | string | null
   imageUrl?: Prisma.StringFilter<"Project"> | string
+  heroColorOverride?: Prisma.StringNullableFilter<"Project"> | string | null
+  heroColorComputed?: Prisma.StringNullableFilter<"Project"> | string | null
   tags?: Prisma.StringNullableListFilter<"Project">
   clientName?: Prisma.StringNullableFilter<"Project"> | string | null
   sector?: Prisma.StringNullableFilter<"Project"> | string | null
@@ -447,6 +463,8 @@ export type ProjectOrderByWithRelationInput = {
   description?: Prisma.SortOrder
   descriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  heroColorOverride?: Prisma.SortOrderInput | Prisma.SortOrder
+  heroColorComputed?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
   clientName?: Prisma.SortOrderInput | Prisma.SortOrder
   sector?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -487,6 +505,8 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"Project"> | string
   descriptionEn?: Prisma.StringNullableFilter<"Project"> | string | null
   imageUrl?: Prisma.StringFilter<"Project"> | string
+  heroColorOverride?: Prisma.StringNullableFilter<"Project"> | string | null
+  heroColorComputed?: Prisma.StringNullableFilter<"Project"> | string | null
   tags?: Prisma.StringNullableListFilter<"Project">
   clientName?: Prisma.StringNullableFilter<"Project"> | string | null
   sector?: Prisma.StringNullableFilter<"Project"> | string | null
@@ -524,6 +544,8 @@ export type ProjectOrderByWithAggregationInput = {
   description?: Prisma.SortOrder
   descriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  heroColorOverride?: Prisma.SortOrderInput | Prisma.SortOrder
+  heroColorComputed?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
   clientName?: Prisma.SortOrderInput | Prisma.SortOrder
   sector?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -568,6 +590,8 @@ export type ProjectScalarWhereWithAggregatesInput = {
   description?: Prisma.StringWithAggregatesFilter<"Project"> | string
   descriptionEn?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   imageUrl?: Prisma.StringWithAggregatesFilter<"Project"> | string
+  heroColorOverride?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  heroColorComputed?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   tags?: Prisma.StringNullableListFilter<"Project">
   clientName?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   sector?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
@@ -604,6 +628,8 @@ export type ProjectCreateInput = {
   description: string
   descriptionEn?: string | null
   imageUrl: string
+  heroColorOverride?: string | null
+  heroColorComputed?: string | null
   tags?: Prisma.ProjectCreatetagsInput | string[]
   clientName?: string | null
   sector?: string | null
@@ -641,6 +667,8 @@ export type ProjectUncheckedCreateInput = {
   description: string
   descriptionEn?: string | null
   imageUrl: string
+  heroColorOverride?: string | null
+  heroColorComputed?: string | null
   tags?: Prisma.ProjectCreatetagsInput | string[]
   clientName?: string | null
   sector?: string | null
@@ -678,6 +706,8 @@ export type ProjectUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroColorOverride?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heroColorComputed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -715,6 +745,8 @@ export type ProjectUncheckedUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroColorOverride?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heroColorComputed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -752,6 +784,8 @@ export type ProjectCreateManyInput = {
   description: string
   descriptionEn?: string | null
   imageUrl: string
+  heroColorOverride?: string | null
+  heroColorComputed?: string | null
   tags?: Prisma.ProjectCreatetagsInput | string[]
   clientName?: string | null
   sector?: string | null
@@ -788,6 +822,8 @@ export type ProjectUpdateManyMutationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroColorOverride?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heroColorComputed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -824,6 +860,8 @@ export type ProjectUncheckedUpdateManyInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroColorOverride?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heroColorComputed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -868,6 +906,8 @@ export type ProjectCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   descriptionEn?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  heroColorOverride?: Prisma.SortOrder
+  heroColorComputed?: Prisma.SortOrder
   tags?: Prisma.SortOrder
   clientName?: Prisma.SortOrder
   sector?: Prisma.SortOrder
@@ -910,6 +950,8 @@ export type ProjectMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   descriptionEn?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  heroColorOverride?: Prisma.SortOrder
+  heroColorComputed?: Prisma.SortOrder
   clientName?: Prisma.SortOrder
   sector?: Prisma.SortOrder
   sectorEn?: Prisma.SortOrder
@@ -943,6 +985,8 @@ export type ProjectMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   descriptionEn?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  heroColorOverride?: Prisma.SortOrder
+  heroColorComputed?: Prisma.SortOrder
   clientName?: Prisma.SortOrder
   sector?: Prisma.SortOrder
   sectorEn?: Prisma.SortOrder
@@ -1068,6 +1112,8 @@ export type ProjectCreateWithoutSlidesInput = {
   description: string
   descriptionEn?: string | null
   imageUrl: string
+  heroColorOverride?: string | null
+  heroColorComputed?: string | null
   tags?: Prisma.ProjectCreatetagsInput | string[]
   clientName?: string | null
   sector?: string | null
@@ -1104,6 +1150,8 @@ export type ProjectUncheckedCreateWithoutSlidesInput = {
   description: string
   descriptionEn?: string | null
   imageUrl: string
+  heroColorOverride?: string | null
+  heroColorComputed?: string | null
   tags?: Prisma.ProjectCreatetagsInput | string[]
   clientName?: string | null
   sector?: string | null
@@ -1156,6 +1204,8 @@ export type ProjectUpdateWithoutSlidesInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroColorOverride?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heroColorComputed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1192,6 +1242,8 @@ export type ProjectUncheckedUpdateWithoutSlidesInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroColorOverride?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  heroColorComputed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1259,6 +1311,8 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   description?: boolean
   descriptionEn?: boolean
   imageUrl?: boolean
+  heroColorOverride?: boolean
+  heroColorComputed?: boolean
   tags?: boolean
   clientName?: boolean
   sector?: boolean
@@ -1297,6 +1351,8 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   description?: boolean
   descriptionEn?: boolean
   imageUrl?: boolean
+  heroColorOverride?: boolean
+  heroColorComputed?: boolean
   tags?: boolean
   clientName?: boolean
   sector?: boolean
@@ -1333,6 +1389,8 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   description?: boolean
   descriptionEn?: boolean
   imageUrl?: boolean
+  heroColorOverride?: boolean
+  heroColorComputed?: boolean
   tags?: boolean
   clientName?: boolean
   sector?: boolean
@@ -1369,6 +1427,8 @@ export type ProjectSelectScalar = {
   description?: boolean
   descriptionEn?: boolean
   imageUrl?: boolean
+  heroColorOverride?: boolean
+  heroColorComputed?: boolean
   tags?: boolean
   clientName?: boolean
   sector?: boolean
@@ -1397,7 +1457,7 @@ export type ProjectSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "titleEn" | "slug" | "description" | "descriptionEn" | "imageUrl" | "tags" | "clientName" | "sector" | "sectorEn" | "projectYear" | "projectLocation" | "projectLocationEn" | "deliveredServices" | "deliveredServicesEn" | "challenge" | "challengeEn" | "approach" | "approachEn" | "results" | "resultsEn" | "credits" | "awards" | "awardsEn" | "externalUrl" | "featured" | "order" | "portfolioSize" | "portfolioOrder" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "titleEn" | "slug" | "description" | "descriptionEn" | "imageUrl" | "heroColorOverride" | "heroColorComputed" | "tags" | "clientName" | "sector" | "sectorEn" | "projectYear" | "projectLocation" | "projectLocationEn" | "deliveredServices" | "deliveredServicesEn" | "challenge" | "challengeEn" | "approach" | "approachEn" | "results" | "resultsEn" | "credits" | "awards" | "awardsEn" | "externalUrl" | "featured" | "order" | "portfolioSize" | "portfolioOrder" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   slides?: boolean | Prisma.Project$slidesArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
@@ -1418,6 +1478,8 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     description: string
     descriptionEn: string | null
     imageUrl: string
+    heroColorOverride: string | null
+    heroColorComputed: string | null
     tags: string[]
     clientName: string | null
     sector: string | null
@@ -1875,6 +1937,8 @@ export interface ProjectFieldRefs {
   readonly description: Prisma.FieldRef<"Project", 'String'>
   readonly descriptionEn: Prisma.FieldRef<"Project", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Project", 'String'>
+  readonly heroColorOverride: Prisma.FieldRef<"Project", 'String'>
+  readonly heroColorComputed: Prisma.FieldRef<"Project", 'String'>
   readonly tags: Prisma.FieldRef<"Project", 'String[]'>
   readonly clientName: Prisma.FieldRef<"Project", 'String'>
   readonly sector: Prisma.FieldRef<"Project", 'String'>

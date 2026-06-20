@@ -32,6 +32,8 @@ const EditProjectPage = async ({
     description: raw.description,
     descriptionEn: raw.descriptionEn,
     imageUrl: raw.imageUrl,
+    heroColorOverride: raw.heroColorOverride,
+    heroColorComputed: raw.heroColorComputed,
     tags: raw.tags,
     clientName: raw.clientName,
     sector: raw.sector,

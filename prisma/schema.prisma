@@ -15,6 +15,8 @@ model Project {
   description   String
   descriptionEn String?
   imageUrl      String
+  heroColorOverride String?
+  heroColorComputed String?
   tags          String[]
   clientName    String?
   sector        String?

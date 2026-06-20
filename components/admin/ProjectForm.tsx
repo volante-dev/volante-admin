@@ -417,6 +417,9 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
     project?.descriptionEn ?? "",
   );
   const [imageUrl, setImageUrl] = useState(project?.imageUrl ?? "");
+  const [heroColorOverride, setHeroColorOverride] = useState(
+    project?.heroColorOverride ?? "",
+  );
   const [tags, setTags] = useState(project?.tags.join(", ") ?? "");
   const [clientName, setClientName] = useState(project?.clientName ?? "");
   const [sector, setSector] = useState(project?.sector ?? "");
@@ -511,6 +514,12 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
     if (!slug.trim()) return "Le slug est obligatoire.";
     if (!description.trim()) return "La description est obligatoire.";
     if (!imageUrl.trim()) return "L'image de couverture est obligatoire.";
+    if (
+      heroColorOverride.trim() &&
+      !/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(heroColorOverride.trim())
+    ) {
+      return "La couleur hero doit utiliser le format #RRGGBB.";
+    }
     if (slides.some(isIncompleteSlide)) {
       return "Une ou plusieurs slides sont incompletes.";
     }
@@ -532,6 +541,7 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
     formData.set("description", description);
     formData.set("descriptionEn", descriptionEn);
     formData.set("imageUrl", imageUrl);
+    formData.set("heroColorOverride", heroColorOverride);
     formData.set("tags", tags);
     formData.set("clientName", clientName);
     formData.set("sector", sector);
@@ -795,6 +805,69 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
 
           {tab === 3 && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
+              <Box>
+                <Typography variant="h4" sx={{ mb: 1.5 }}>
+                  Couleur du carrousel featured
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  Laissez la surcharge vide pour utiliser la couleur extraite
+                  automatiquement depuis la couverture.
+                </Typography>
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr", sm: "auto 1fr auto" },
+                    alignItems: "center",
+                    gap: 1.5,
+                  }}
+                >
+                  <Box
+                    component="input"
+                    type="color"
+                    aria-label="Choisir la couleur du carrousel"
+                    value={
+                      heroColorOverride ||
+                      project?.heroColorComputed ||
+                      "#3F5E5A"
+                    }
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                      setHeroColorOverride(event.target.value.toUpperCase())
+                    }
+                    sx={{ width: 56, height: 48, p: 0.5, cursor: "pointer" }}
+                  />
+                  <TextField
+                    label="Surcharge couleur"
+                    value={heroColorOverride}
+                    placeholder="#3F5E5A"
+                    helperText="Format hexadecimal. Vide = automatique."
+                    onChange={(event) => setHeroColorOverride(event.target.value)}
+                  />
+                  <Button
+                    variant="text"
+                    disabled={!heroColorOverride}
+                    onClick={() => setHeroColorOverride("")}
+                  >
+                    Revenir à l&apos;automatique
+                  </Button>
+                </Box>
+                {project?.heroColorComputed && (
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1, mt: 1.5 }}>
+                    <Box
+                      sx={{
+                        width: 24,
+                        height: 24,
+                        borderRadius: "50%",
+                        bgcolor: project.heroColorComputed,
+                        border: "1px solid",
+                        borderColor: "divider",
+                      }}
+                    />
+                    <Typography variant="caption">
+                      Couleur calculée : {project.heroColorComputed}
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
               <TextField
                 label="Tags"
                 value={tags}
