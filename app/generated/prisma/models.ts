@@ -11,5 +11,6 @@
 export type * from './models/Project'
 export type * from './models/ProjectSlide'
 export type * from './models/Service'
+export type * from './models/StudioValue'
 export type * from './models/Testimonial'
 export type * from './commonInputTypes'

@@ -54,6 +54,7 @@ export const ModelName = {
   Project: 'Project',
   ProjectSlide: 'ProjectSlide',
   Service: 'Service',
+  StudioValue: 'StudioValue',
   Testimonial: 'Testimonial'
 } as const
 
@@ -126,6 +127,19 @@ export const ServiceScalarFieldEnum = {
 } as const
 
 export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
+
+
+export const StudioValueScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  titleEn: 'titleEn',
+  description: 'description',
+  descriptionEn: 'descriptionEn',
+  order: 'order',
+  active: 'active'
+} as const
+
+export type StudioValueScalarFieldEnum = (typeof StudioValueScalarFieldEnum)[keyof typeof StudioValueScalarFieldEnum]
 
 
 export const TestimonialScalarFieldEnum = {

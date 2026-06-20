@@ -18,6 +18,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import BuildIcon from "@mui/icons-material/Build";
 import FolderIcon from "@mui/icons-material/Folder";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Link from "next/link";
 
@@ -33,6 +34,11 @@ type NavItem = {
 const navItems: NavItem[] = [
   { label: "Dashboard", href: "/", icon: <DashboardIcon /> },
   { label: "Services", href: "/services", icon: <BuildIcon /> },
+  {
+    label: "Valeurs Studio",
+    href: "/studio-values",
+    icon: <AutoAwesomeIcon />,
+  },
   { label: "Projects", href: "/projects", icon: <FolderIcon /> },
   {
     label: "Testimonials",

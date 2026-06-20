@@ -67,6 +67,18 @@ model Service {
   active        Boolean @default(true)
 }
 
+model StudioValue {
+  id            String  @id @default(cuid())
+  title         String
+  titleEn       String?
+  description   String
+  descriptionEn String?
+  order         Int     @default(0)
+  active        Boolean @default(true)
+
+  @@index([active, order])
+}
+
 model Testimonial {
   id        String  @id @default(cuid())
   author    String

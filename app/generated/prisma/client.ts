@@ -57,6 +57,11 @@ export type ProjectSlide = Prisma.ProjectSlideModel
  */
 export type Service = Prisma.ServiceModel
 /**
+ * Model StudioValue
+ * 
+ */
+export type StudioValue = Prisma.StudioValueModel
+/**
  * Model Testimonial
  * 
  */

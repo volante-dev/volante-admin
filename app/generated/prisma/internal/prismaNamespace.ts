@@ -387,6 +387,7 @@ export const ModelName = {
   Project: 'Project',
   ProjectSlide: 'ProjectSlide',
   Service: 'Service',
+  StudioValue: 'StudioValue',
   Testimonial: 'Testimonial'
 } as const
 
@@ -403,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "project" | "projectSlide" | "service" | "testimonial"
+    modelProps: "project" | "projectSlide" | "service" | "studioValue" | "testimonial"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -629,6 +630,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    StudioValue: {
+      payload: Prisma.$StudioValuePayload<ExtArgs>
+      fields: Prisma.StudioValueFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StudioValueFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioValuePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StudioValueFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioValuePayload>
+        }
+        findFirst: {
+          args: Prisma.StudioValueFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioValuePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StudioValueFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioValuePayload>
+        }
+        findMany: {
+          args: Prisma.StudioValueFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioValuePayload>[]
+        }
+        create: {
+          args: Prisma.StudioValueCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioValuePayload>
+        }
+        createMany: {
+          args: Prisma.StudioValueCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StudioValueCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioValuePayload>[]
+        }
+        delete: {
+          args: Prisma.StudioValueDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioValuePayload>
+        }
+        update: {
+          args: Prisma.StudioValueUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioValuePayload>
+        }
+        deleteMany: {
+          args: Prisma.StudioValueDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StudioValueUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StudioValueUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioValuePayload>[]
+        }
+        upsert: {
+          args: Prisma.StudioValueUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioValuePayload>
+        }
+        aggregate: {
+          args: Prisma.StudioValueAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStudioValue>
+        }
+        groupBy: {
+          args: Prisma.StudioValueGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudioValueGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StudioValueCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudioValueCountAggregateOutputType> | number
+        }
+      }
+    }
     Testimonial: {
       payload: Prisma.$TestimonialPayload<ExtArgs>
       fields: Prisma.TestimonialFieldRefs
@@ -795,6 +870,19 @@ export const ServiceScalarFieldEnum = {
 } as const
 
 export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
+
+
+export const StudioValueScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  titleEn: 'titleEn',
+  description: 'description',
+  descriptionEn: 'descriptionEn',
+  order: 'order',
+  active: 'active'
+} as const
+
+export type StudioValueScalarFieldEnum = (typeof StudioValueScalarFieldEnum)[keyof typeof StudioValueScalarFieldEnum]
 
 
 export const TestimonialScalarFieldEnum = {
@@ -1043,6 +1131,7 @@ export type GlobalOmitConfig = {
   project?: Prisma.ProjectOmit
   projectSlide?: Prisma.ProjectSlideOmit
   service?: Prisma.ServiceOmit
+  studioValue?: Prisma.StudioValueOmit
   testimonial?: Prisma.TestimonialOmit
 }
 
