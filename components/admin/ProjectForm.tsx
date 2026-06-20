@@ -51,6 +51,7 @@ import { hasUnsupportedRichTextHtml } from "@/lib/rich-text";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import { MediaUrlField } from "./MediaUrlField";
 import { RichTextEditor } from "./RichTextEditor";
+import { TranslateButton } from "./TranslateButton";
 import type { AdminProjectDetail } from "./project-types";
 
 type EditableSlide = {
@@ -265,17 +266,32 @@ const SortableSlide = ({
 
           {tab === 1 && (
             <>
-              <TextField
-                label="Title (EN)"
-                value={slide.titleEn}
-                fullWidth
-                onChange={(event) => update({ titleEn: event.target.value })}
-              />
-              <RichTextEditor
-                label="Paragraph"
-                value={slide.contentHtmlEn || "<p></p>"}
-                onChange={(value) => update({ contentHtmlEn: value })}
-              />
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <TextField
+                  label="Title (EN)"
+                  value={slide.titleEn}
+                  fullWidth
+                  onChange={(event) => update({ titleEn: event.target.value })}
+                />
+                <TranslateButton
+                  sourceText={slide.title}
+                  onTranslated={(text) => update({ titleEn: text })}
+                />
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <Box sx={{ flex: 1 }}>
+                  <RichTextEditor
+                    label="Paragraph"
+                    value={slide.contentHtmlEn || "<p></p>"}
+                    onChange={(value) => update({ contentHtmlEn: value })}
+                  />
+                </Box>
+                <TranslateButton
+                  sourceText={slide.contentHtml}
+                  onTranslated={(text) => update({ contentHtmlEn: text })}
+                  html
+                />
+              </Box>
             </>
           )}
 
@@ -322,12 +338,18 @@ const SortableSlide = ({
                 helperText="Recommande pour les images."
                 onChange={(event) => update({ alt: event.target.value })}
               />
-              <TextField
-                label="Alt (EN)"
-                value={slide.altEn}
-                fullWidth
-                onChange={(event) => update({ altEn: event.target.value })}
-              />
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <TextField
+                  label="Alt (EN)"
+                  value={slide.altEn}
+                  fullWidth
+                  onChange={(event) => update({ altEn: event.target.value })}
+                />
+                <TranslateButton
+                  sourceText={slide.alt}
+                  onTranslated={(text) => update({ altEn: text })}
+                />
+              </Box>
             </>
           )}
 
@@ -665,20 +687,26 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
 
           {tab === 1 && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
-              <TextField
-                label="Title (EN)"
-                value={titleEn}
-                fullWidth
-                onChange={(event) => setTitleEn(event.target.value)}
-              />
-              <TextField
-                label="Description (EN)"
-                value={descriptionEn}
-                fullWidth
-                multiline
-                rows={4}
-                onChange={(event) => setDescriptionEn(event.target.value)}
-              />
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <TextField
+                  label="Title (EN)"
+                  value={titleEn}
+                  fullWidth
+                  onChange={(event) => setTitleEn(event.target.value)}
+                />
+                <TranslateButton sourceText={title} onTranslated={setTitleEn} />
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <TextField
+                  label="Description (EN)"
+                  value={descriptionEn}
+                  fullWidth
+                  multiline
+                  rows={4}
+                  onChange={(event) => setDescriptionEn(event.target.value)}
+                />
+                <TranslateButton sourceText={description} onTranslated={setDescriptionEn} />
+              </Box>
             </Box>
           )}
 
@@ -713,21 +741,29 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
                   value={sector}
                   onChange={(event) => setSector(event.target.value)}
                 />
-                <TextField
-                  label="Sector (EN)"
-                  value={sectorEn}
-                  onChange={(event) => setSectorEn(event.target.value)}
-                />
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                  <TextField
+                    label="Sector (EN)"
+                    value={sectorEn}
+                    fullWidth
+                    onChange={(event) => setSectorEn(event.target.value)}
+                  />
+                  <TranslateButton sourceText={sector} onTranslated={setSectorEn} />
+                </Box>
                 <TextField
                   label="Localisation"
                   value={projectLocation}
                   onChange={(event) => setProjectLocation(event.target.value)}
                 />
-                <TextField
-                  label="Location (EN)"
-                  value={projectLocationEn}
-                  onChange={(event) => setProjectLocationEn(event.target.value)}
-                />
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                  <TextField
+                    label="Location (EN)"
+                    value={projectLocationEn}
+                    fullWidth
+                    onChange={(event) => setProjectLocationEn(event.target.value)}
+                  />
+                  <TranslateButton sourceText={projectLocation} onTranslated={setProjectLocationEn} />
+                </Box>
                 <TextField
                   label="Services realises"
                   value={deliveredServices}
@@ -736,14 +772,18 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
                   helperText="Separes par virgule ou retour ligne."
                   onChange={(event) => setDeliveredServices(event.target.value)}
                 />
-                <TextField
-                  label="Services delivered (EN)"
-                  value={deliveredServicesEn}
-                  multiline
-                  rows={2}
-                  helperText="Separated by comma or line break."
-                  onChange={(event) => setDeliveredServicesEn(event.target.value)}
-                />
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                  <TextField
+                    label="Services delivered (EN)"
+                    value={deliveredServicesEn}
+                    fullWidth
+                    multiline
+                    rows={2}
+                    helperText="Separated by comma or line break."
+                    onChange={(event) => setDeliveredServicesEn(event.target.value)}
+                  />
+                  <TranslateButton sourceText={deliveredServices} onTranslated={setDeliveredServicesEn} />
+                </Box>
               </Box>
 
               <Typography variant="h4">Recit et resultats</Typography>
@@ -754,27 +794,41 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
                   gap: 2.5,
                 }}
               >
-                {[
-                  ["Problematique", challenge, setChallenge],
-                  ["Challenge (EN)", challengeEn, setChallengeEn],
-                  ["Approche", approach, setApproach],
-                  ["Approach (EN)", approachEn, setApproachEn],
-                  ["Resultats", results, setResults],
-                  ["Results (EN)", resultsEn, setResultsEn],
-                  ["Distinctions", awards, setAwards],
-                  ["Awards (EN)", awardsEn, setAwardsEn],
-                ].map(([label, value, setter]) => (
-                  <TextField
-                    key={label as string}
-                    label={label as string}
-                    value={value as string}
-                    multiline
-                    rows={3}
-                    onChange={(event) =>
-                      (setter as (value: string) => void)(event.target.value)
-                    }
-                  />
-                ))}
+                {(
+                  [
+                    ["Problematique", challenge, setChallenge, undefined],
+                    ["Challenge (EN)", challengeEn, setChallengeEn, challenge],
+                    ["Approche", approach, setApproach, undefined],
+                    ["Approach (EN)", approachEn, setApproachEn, approach],
+                    ["Resultats", results, setResults, undefined],
+                    ["Results (EN)", resultsEn, setResultsEn, results],
+                    ["Distinctions", awards, setAwards, undefined],
+                    ["Awards (EN)", awardsEn, setAwardsEn, awards],
+                  ] as [string, string, (v: string) => void, string | undefined][]
+                ).map(([label, value, setter, translateFrom]) =>
+                  translateFrom !== undefined ? (
+                    <Box key={label} sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                      <TextField
+                        label={label}
+                        value={value}
+                        fullWidth
+                        multiline
+                        rows={3}
+                        onChange={(event) => setter(event.target.value)}
+                      />
+                      <TranslateButton sourceText={translateFrom} onTranslated={setter} />
+                    </Box>
+                  ) : (
+                    <TextField
+                      key={label}
+                      label={label}
+                      value={value}
+                      multiline
+                      rows={3}
+                      onChange={(event) => setter(event.target.value)}
+                    />
+                  ),
+                )}
               </Box>
               <TextField
                 label="Credits"

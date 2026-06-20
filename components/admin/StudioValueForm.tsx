@@ -17,6 +17,7 @@ import {
   createStudioValue,
   updateStudioValue,
 } from "@/app/(admin)/studio-values/actions";
+import { TranslateButton } from "@/components/admin/TranslateButton";
 import type { StudioValueData } from "./studio-value-types";
 
 export const StudioValueForm = ({
@@ -120,22 +121,28 @@ export const StudioValueForm = ({
 
           {tab === 1 && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
-              <TextField
-                label="Title (EN)"
-                value={titleEn}
-                onChange={(event) => setTitleEn(event.target.value)}
-                fullWidth
-                helperText="Optionnel : le francais sera utilise si ce champ est vide."
-              />
-              <TextField
-                label="Description (EN)"
-                value={descriptionEn}
-                onChange={(event) => setDescriptionEn(event.target.value)}
-                multiline
-                rows={5}
-                fullWidth
-                helperText="Optionnel : le francais sera utilise si ce champ est vide."
-              />
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <TextField
+                  label="Title (EN)"
+                  value={titleEn}
+                  onChange={(event) => setTitleEn(event.target.value)}
+                  fullWidth
+                  helperText="Optionnel : le francais sera utilise si ce champ est vide."
+                />
+                <TranslateButton sourceText={title} onTranslated={setTitleEn} />
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <TextField
+                  label="Description (EN)"
+                  value={descriptionEn}
+                  onChange={(event) => setDescriptionEn(event.target.value)}
+                  multiline
+                  rows={5}
+                  fullWidth
+                  helperText="Optionnel : le francais sera utilise si ce champ est vide."
+                />
+                <TranslateButton sourceText={description} onTranslated={setDescriptionEn} />
+              </Box>
             </Box>
           )}
 

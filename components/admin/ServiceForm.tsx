@@ -14,6 +14,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { toast } from "sonner";
 import { createService, updateService } from "@/app/(admin)/services/actions";
+import { TranslateButton } from "@/components/admin/TranslateButton";
 import type { ServiceData } from "@/app/(admin)/services/page";
 
 type ServiceFormProps = {
@@ -126,22 +127,28 @@ export const ServiceForm = ({ service }: ServiceFormProps) => {
 
           {tab === 1 && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
-              <TextField
-                label="Title (EN)"
-                value={titleEn}
-                onChange={(e) => setTitleEn(e.target.value)}
-                fullWidth
-                helperText="Traduction anglaise du titre (optionnel)"
-              />
-              <TextField
-                label="Description (EN)"
-                value={descriptionEn}
-                onChange={(e) => setDescriptionEn(e.target.value)}
-                fullWidth
-                multiline
-                rows={4}
-                helperText="Traduction anglaise de la description (optionnel)"
-              />
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <TextField
+                  label="Title (EN)"
+                  value={titleEn}
+                  onChange={(e) => setTitleEn(e.target.value)}
+                  fullWidth
+                  helperText="Traduction anglaise du titre (optionnel)"
+                />
+                <TranslateButton sourceText={title} onTranslated={setTitleEn} />
+              </Box>
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <TextField
+                  label="Description (EN)"
+                  value={descriptionEn}
+                  onChange={(e) => setDescriptionEn(e.target.value)}
+                  fullWidth
+                  multiline
+                  rows={4}
+                  helperText="Traduction anglaise de la description (optionnel)"
+                />
+                <TranslateButton sourceText={description} onTranslated={setDescriptionEn} />
+              </Box>
             </Box>
           )}
 

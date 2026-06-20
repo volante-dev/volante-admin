@@ -47,3 +47,7 @@ export function getSupabasePublishableKey() {
 export function getOAuthRedirectUri() {
   return `${getAppUrl()}/api/auth/callback/supabase`;
 }
+
+export function getOpenAiApiKey() {
+  return requiredEnv("OPENAI_API_KEY");
+}
