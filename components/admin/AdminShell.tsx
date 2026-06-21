@@ -19,6 +19,7 @@ import BuildIcon from "@mui/icons-material/Build";
 import FolderIcon from "@mui/icons-material/Folder";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import CategoryIcon from "@mui/icons-material/Category";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Link from "next/link";
 
@@ -40,6 +41,11 @@ const navItems: NavItem[] = [
     icon: <AutoAwesomeIcon />,
   },
   { label: "Projects", href: "/projects", icon: <FolderIcon /> },
+  {
+    label: "Taxonomies",
+    href: "/project-taxonomies",
+    icon: <CategoryIcon />,
+  },
   {
     label: "Testimonials",
     href: "/testimonials",

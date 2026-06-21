@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   Project: 'Project',
+  ProjectTaxonomyEntry: 'ProjectTaxonomyEntry',
   ProjectSlide: 'ProjectSlide',
   Service: 'Service',
   StudioValue: 'StudioValue',
@@ -404,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "project" | "projectSlide" | "service" | "studioValue" | "testimonial"
+    modelProps: "project" | "projectTaxonomyEntry" | "projectSlide" | "service" | "studioValue" | "testimonial"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -479,6 +480,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ProjectCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ProjectCountAggregateOutputType> | number
+        }
+      }
+    }
+    ProjectTaxonomyEntry: {
+      payload: Prisma.$ProjectTaxonomyEntryPayload<ExtArgs>
+      fields: Prisma.ProjectTaxonomyEntryFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProjectTaxonomyEntryFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTaxonomyEntryPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProjectTaxonomyEntryFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTaxonomyEntryPayload>
+        }
+        findFirst: {
+          args: Prisma.ProjectTaxonomyEntryFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTaxonomyEntryPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProjectTaxonomyEntryFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTaxonomyEntryPayload>
+        }
+        findMany: {
+          args: Prisma.ProjectTaxonomyEntryFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTaxonomyEntryPayload>[]
+        }
+        create: {
+          args: Prisma.ProjectTaxonomyEntryCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTaxonomyEntryPayload>
+        }
+        createMany: {
+          args: Prisma.ProjectTaxonomyEntryCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProjectTaxonomyEntryCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTaxonomyEntryPayload>[]
+        }
+        delete: {
+          args: Prisma.ProjectTaxonomyEntryDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTaxonomyEntryPayload>
+        }
+        update: {
+          args: Prisma.ProjectTaxonomyEntryUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTaxonomyEntryPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProjectTaxonomyEntryDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProjectTaxonomyEntryUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProjectTaxonomyEntryUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTaxonomyEntryPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProjectTaxonomyEntryUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectTaxonomyEntryPayload>
+        }
+        aggregate: {
+          args: Prisma.ProjectTaxonomyEntryAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProjectTaxonomyEntry>
+        }
+        groupBy: {
+          args: Prisma.ProjectTaxonomyEntryGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectTaxonomyEntryGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProjectTaxonomyEntryCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectTaxonomyEntryCountAggregateOutputType> | number
         }
       }
     }
@@ -828,13 +903,9 @@ export const ProjectScalarFieldEnum = {
   heroPaletteComputed: 'heroPaletteComputed',
   tags: 'tags',
   clientName: 'clientName',
-  sector: 'sector',
-  sectorEn: 'sectorEn',
+  sectorEntryId: 'sectorEntryId',
   projectYear: 'projectYear',
-  projectLocation: 'projectLocation',
-  projectLocationEn: 'projectLocationEn',
-  deliveredServices: 'deliveredServices',
-  deliveredServicesEn: 'deliveredServicesEn',
+  locationEntryId: 'locationEntryId',
   challenge: 'challenge',
   challengeEn: 'challengeEn',
   approach: 'approach',
@@ -855,6 +926,20 @@ export const ProjectScalarFieldEnum = {
 } as const
 
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const ProjectTaxonomyEntryScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  label: 'label',
+  labelEn: 'labelEn',
+  normalizedKey: 'normalizedKey',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectTaxonomyEntryScalarFieldEnum = (typeof ProjectTaxonomyEntryScalarFieldEnum)[keyof typeof ProjectTaxonomyEntryScalarFieldEnum]
 
 
 export const ProjectSlideScalarFieldEnum = {
@@ -1011,6 +1096,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'ProjectTaxonomyType'
+ */
+export type EnumProjectTaxonomyTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectTaxonomyType'>
+    
+
+
+/**
+ * Reference to a field of type 'ProjectTaxonomyType[]'
+ */
+export type ListEnumProjectTaxonomyTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectTaxonomyType[]'>
+    
+
+
+/**
  * Reference to a field of type 'ProjectSlideMediaType'
  */
 export type EnumProjectSlideMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectSlideMediaType'>
@@ -1148,6 +1247,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   project?: Prisma.ProjectOmit
+  projectTaxonomyEntry?: Prisma.ProjectTaxonomyEntryOmit
   projectSlide?: Prisma.ProjectSlideOmit
   service?: Prisma.ServiceOmit
   studioValue?: Prisma.StudioValueOmit

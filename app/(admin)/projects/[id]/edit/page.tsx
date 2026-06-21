@@ -8,6 +8,7 @@ import prisma from "@/lib/prisma";
 import { createProjectPreviewUrl } from "@/lib/preview-token";
 import { ProjectForm } from "@/components/admin/ProjectForm";
 import type { AdminProjectDetail } from "@/components/admin/project-types";
+import { getProjectTaxonomyOptions } from "@/lib/project-taxonomies";
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +21,10 @@ const EditProjectPage = async ({
 
   const raw = await prisma.project.findUnique({
     where: { id },
-    include: { slides: { orderBy: { order: "asc" } } },
+    include: {
+      slides: { orderBy: { order: "asc" } },
+      deliveredServiceEntries: { select: { id: true } },
+    },
   });
   if (!raw) notFound();
 
@@ -35,13 +39,10 @@ const EditProjectPage = async ({
     heroPaletteComputed: raw.heroPaletteComputed,
     tags: raw.tags,
     clientName: raw.clientName,
-    sector: raw.sector,
-    sectorEn: raw.sectorEn,
+    sectorEntryId: raw.sectorEntryId,
     projectYear: raw.projectYear,
-    projectLocation: raw.projectLocation,
-    projectLocationEn: raw.projectLocationEn,
-    deliveredServices: raw.deliveredServices,
-    deliveredServicesEn: raw.deliveredServicesEn,
+    locationEntryId: raw.locationEntryId,
+    deliveredServiceEntryIds: raw.deliveredServiceEntries.map((entry) => entry.id),
     challenge: raw.challenge,
     challengeEn: raw.challengeEn,
     approach: raw.approach,
@@ -72,6 +73,11 @@ const EditProjectPage = async ({
     })),
     previewUrl: createProjectPreviewUrl(raw.slug, raw.publishedAt !== null),
   };
+  const taxonomyOptions = await getProjectTaxonomyOptions([
+    raw.sectorEntryId,
+    raw.locationEntryId,
+    ...project.deliveredServiceEntryIds,
+  ].filter((id): id is string => Boolean(id)));
 
   return (
     <>
@@ -85,7 +91,7 @@ const EditProjectPage = async ({
       <Typography variant="h2" sx={{ mb: 3 }}>
         Modifier : {project.title}
       </Typography>
-      <ProjectForm project={project} />
+      <ProjectForm project={project} taxonomyOptions={taxonomyOptions} />
     </>
   );
 };

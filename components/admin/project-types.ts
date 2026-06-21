@@ -45,13 +45,10 @@ export type AdminProjectDetail = {
   heroPaletteComputed: string[];
   tags: string[];
   clientName: string | null;
-  sector: string | null;
-  sectorEn: string | null;
+  sectorEntryId: string | null;
   projectYear: number | null;
-  projectLocation: string | null;
-  projectLocationEn: string | null;
-  deliveredServices: string[];
-  deliveredServicesEn: string[];
+  locationEntryId: string | null;
+  deliveredServiceEntryIds: string[];
   challenge: string | null;
   challengeEn: string | null;
   approach: string | null;

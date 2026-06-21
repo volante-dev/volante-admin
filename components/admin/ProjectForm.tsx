@@ -21,6 +21,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Alert from "@mui/material/Alert";
+import Autocomplete from "@mui/material/Autocomplete";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -52,7 +53,12 @@ import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import { MediaUrlField } from "./MediaUrlField";
 import { RichTextEditor } from "./RichTextEditor";
 import { TranslateButton } from "./TranslateButton";
+import { TaxonomyCreateDialog } from "./TaxonomyCreateDialog";
 import type { AdminProjectDetail } from "./project-types";
+import type {
+  ProjectTaxonomyOption,
+  ProjectTaxonomyType,
+} from "./project-taxonomy-types";
 
 type EditableSlide = {
   key: string;
@@ -70,6 +76,7 @@ type EditableSlide = {
 
 type ProjectFormProps = {
   project?: AdminProjectDetail;
+  taxonomyOptions: ProjectTaxonomyOption[];
 };
 
 const newKey = () =>
@@ -424,7 +431,7 @@ const SortableSlide = ({
   );
 };
 
-export const ProjectForm = ({ project }: ProjectFormProps) => {
+export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [tab, setTab] = useState(0);
@@ -441,23 +448,19 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
   const [imageUrl, setImageUrl] = useState(project?.imageUrl ?? "");
   const [tags, setTags] = useState(project?.tags.join(", ") ?? "");
   const [clientName, setClientName] = useState(project?.clientName ?? "");
-  const [sector, setSector] = useState(project?.sector ?? "");
-  const [sectorEn, setSectorEn] = useState(project?.sectorEn ?? "");
+  const [availableTaxonomies, setAvailableTaxonomies] = useState(taxonomyOptions);
+  const [sectorEntryId, setSectorEntryId] = useState(project?.sectorEntryId ?? "");
   const [projectYear, setProjectYear] = useState(
     project?.projectYear ? String(project.projectYear) : "",
   );
-  const [projectLocation, setProjectLocation] = useState(
-    project?.projectLocation ?? "",
+  const [locationEntryId, setLocationEntryId] = useState(project?.locationEntryId ?? "");
+  const [deliveredServiceEntryIds, setDeliveredServiceEntryIds] = useState(
+    project?.deliveredServiceEntryIds ?? [],
   );
-  const [projectLocationEn, setProjectLocationEn] = useState(
-    project?.projectLocationEn ?? "",
-  );
-  const [deliveredServices, setDeliveredServices] = useState(
-    project?.deliveredServices.join(", ") ?? "",
-  );
-  const [deliveredServicesEn, setDeliveredServicesEn] = useState(
-    project?.deliveredServicesEn.join(", ") ?? "",
-  );
+  const [taxonomyCreation, setTaxonomyCreation] = useState<{
+    type: ProjectTaxonomyType;
+    label: string;
+  } | null>(null);
   const [challenge, setChallenge] = useState(project?.challenge ?? "");
   const [challengeEn, setChallengeEn] = useState(project?.challengeEn ?? "");
   const [approach, setApproach] = useState(project?.approach ?? "");
@@ -497,6 +500,15 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
     () => slides.filter(isIncompleteSlide).length,
     [slides],
   );
+  const sectorOptions = availableTaxonomies.filter((entry) => entry.type === "SECTOR");
+  const locationOptions = availableTaxonomies.filter((entry) => entry.type === "LOCATION");
+  const deliveredServiceOptions = availableTaxonomies.filter(
+    (entry) => entry.type === "DELIVERED_SERVICE",
+  );
+  const optionLabel = (option: string | ProjectTaxonomyOption) =>
+    typeof option === "string"
+      ? option
+      : `${option.label} — ${option.labelEn}${option.active ? "" : " (inactive)"}`;
 
   const updateSlide = (key: string, next: EditableSlide) => {
     setSlides((current) =>
@@ -556,13 +568,10 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
     formData.set("imageUrl", imageUrl);
     formData.set("tags", tags);
     formData.set("clientName", clientName);
-    formData.set("sector", sector);
-    formData.set("sectorEn", sectorEn);
+    formData.set("sectorEntryId", sectorEntryId);
     formData.set("projectYear", projectYear);
-    formData.set("projectLocation", projectLocation);
-    formData.set("projectLocationEn", projectLocationEn);
-    formData.set("deliveredServices", deliveredServices);
-    formData.set("deliveredServicesEn", deliveredServicesEn);
+    formData.set("locationEntryId", locationEntryId);
+    formData.set("deliveredServiceEntryIds", JSON.stringify(deliveredServiceEntryIds));
     formData.set("challenge", challenge);
     formData.set("challengeEn", challengeEn);
     formData.set("approach", approach);
@@ -736,54 +745,79 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
                   slotProps={{ htmlInput: { min: 1900, max: 2100 } }}
                   onChange={(event) => setProjectYear(event.target.value)}
                 />
-                <TextField
-                  label="Secteur"
-                  value={sector}
-                  onChange={(event) => setSector(event.target.value)}
+                <Autocomplete<ProjectTaxonomyOption, false, false, true>
+                  freeSolo
+                  options={sectorOptions}
+                  value={sectorOptions.find((entry) => entry.id === sectorEntryId) ?? null}
+                  getOptionLabel={optionLabel}
+                  onChange={(_, value) => {
+                    if (typeof value === "string") {
+                      const label = value.trim();
+                      if (label) setTaxonomyCreation({ type: "SECTOR", label });
+                      return;
+                    }
+                    setSectorEntryId(value?.id ?? "");
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Secteur" helperText="Sélectionnez ou saisissez un nouveau secteur." />
+                  )}
                 />
-                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                  <TextField
-                    label="Sector (EN)"
-                    value={sectorEn}
-                    fullWidth
-                    onChange={(event) => setSectorEn(event.target.value)}
-                  />
-                  <TranslateButton sourceText={sector} onTranslated={setSectorEn} />
-                </Box>
-                <TextField
-                  label="Localisation"
-                  value={projectLocation}
-                  onChange={(event) => setProjectLocation(event.target.value)}
+                <Autocomplete<ProjectTaxonomyOption, false, false, true>
+                  freeSolo
+                  options={locationOptions}
+                  value={locationOptions.find((entry) => entry.id === locationEntryId) ?? null}
+                  getOptionLabel={optionLabel}
+                  onChange={(_, value) => {
+                    if (typeof value === "string") {
+                      const label = value.trim();
+                      if (label) setTaxonomyCreation({ type: "LOCATION", label });
+                      return;
+                    }
+                    setLocationEntryId(value?.id ?? "");
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Localisation" helperText="Sélectionnez ou saisissez une nouvelle localisation." />
+                  )}
                 />
-                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                  <TextField
-                    label="Location (EN)"
-                    value={projectLocationEn}
-                    fullWidth
-                    onChange={(event) => setProjectLocationEn(event.target.value)}
-                  />
-                  <TranslateButton sourceText={projectLocation} onTranslated={setProjectLocationEn} />
-                </Box>
-                <TextField
-                  label="Services realises"
-                  value={deliveredServices}
-                  multiline
-                  rows={2}
-                  helperText="Separes par virgule ou retour ligne."
-                  onChange={(event) => setDeliveredServices(event.target.value)}
+                <Autocomplete<ProjectTaxonomyOption, true, false, true>
+                  multiple
+                  freeSolo
+                  filterSelectedOptions
+                  options={deliveredServiceOptions}
+                  value={deliveredServiceOptions.filter((entry) =>
+                    deliveredServiceEntryIds.includes(entry.id),
+                  )}
+                  getOptionLabel={optionLabel}
+                  onChange={(_, values) => {
+                    const createdLabel = values.find(
+                      (value): value is string => typeof value === "string",
+                    );
+                    if (createdLabel?.trim()) {
+                      setTaxonomyCreation({
+                        type: "DELIVERED_SERVICE",
+                        label: createdLabel.trim(),
+                      });
+                    }
+                    setDeliveredServiceEntryIds(
+                      values
+                        .filter(
+                          (value): value is ProjectTaxonomyOption =>
+                            typeof value !== "string",
+                        )
+                        .map((entry) => entry.id),
+                    );
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Services réalisés"
+                      helperText="Sélectionnez plusieurs services ou saisissez-en un nouveau."
+                    />
+                  )}
                 />
-                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                  <TextField
-                    label="Services delivered (EN)"
-                    value={deliveredServicesEn}
-                    fullWidth
-                    multiline
-                    rows={2}
-                    helperText="Separated by comma or line break."
-                    onChange={(event) => setDeliveredServicesEn(event.target.value)}
-                  />
-                  <TranslateButton sourceText={deliveredServices} onTranslated={setDeliveredServicesEn} />
-                </Box>
+                <Alert severity="info">
+                  Les traductions anglaises sont liées aux entrées sélectionnées et se remplissent automatiquement sur le site.
+                </Alert>
               </Box>
 
               <Typography variant="h4">Recit et resultats</Typography>
@@ -1082,6 +1116,30 @@ export const ProjectForm = ({ project }: ProjectFormProps) => {
         message="La slide sera supprimee au prochain enregistrement."
         onClose={() => setDeleteTarget(null)}
         onConfirm={confirmDeleteSlide}
+      />
+      <TaxonomyCreateDialog
+        key={
+          taxonomyCreation
+            ? `${taxonomyCreation.type}-${taxonomyCreation.label}`
+            : "closed"
+        }
+        open={taxonomyCreation !== null}
+        type={taxonomyCreation?.type ?? "SECTOR"}
+        initialLabel={taxonomyCreation?.label ?? ""}
+        onClose={() => setTaxonomyCreation(null)}
+        onCreated={(entry) => {
+          setAvailableTaxonomies((current) =>
+            [...current, entry].sort((first, second) =>
+              first.label.localeCompare(second.label, "fr"),
+            ),
+          );
+          if (entry.type === "SECTOR") setSectorEntryId(entry.id);
+          if (entry.type === "LOCATION") setLocationEntryId(entry.id);
+          if (entry.type === "DELIVERED_SERVICE") {
+            setDeliveredServiceEntryIds((current) => [...current, entry.id]);
+          }
+          setTaxonomyCreation(null);
+        }}
       />
     </Box>
   );

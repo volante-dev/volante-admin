@@ -23,6 +23,11 @@ export * from './enums';
  */
 export type Project = Prisma.ProjectModel
 /**
+ * Model ProjectTaxonomyEntry
+ * 
+ */
+export type ProjectTaxonomyEntry = Prisma.ProjectTaxonomyEntryModel
+/**
  * Model ProjectSlide
  * 
  */

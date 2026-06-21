@@ -9,6 +9,15 @@
 * 🟢 You can import this file directly.
 */
 
+export const ProjectTaxonomyType = {
+  SECTOR: 'SECTOR',
+  LOCATION: 'LOCATION',
+  DELIVERED_SERVICE: 'DELIVERED_SERVICE'
+} as const
+
+export type ProjectTaxonomyType = (typeof ProjectTaxonomyType)[keyof typeof ProjectTaxonomyType]
+
+
 export const ProjectPortfolioSize = {
   NORMAL: 'NORMAL',
   HERO: 'HERO'

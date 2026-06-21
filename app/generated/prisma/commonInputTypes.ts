@@ -219,6 +219,23 @@ export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
 }
 
+export type EnumProjectTaxonomyTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProjectTaxonomyType | Prisma.EnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ProjectTaxonomyType[] | Prisma.ListEnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ProjectTaxonomyType[] | Prisma.ListEnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumProjectTaxonomyTypeFilter<$PrismaModel> | $Enums.ProjectTaxonomyType
+}
+
+export type EnumProjectTaxonomyTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProjectTaxonomyType | Prisma.EnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ProjectTaxonomyType[] | Prisma.ListEnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ProjectTaxonomyType[] | Prisma.ListEnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumProjectTaxonomyTypeWithAggregatesFilter<$PrismaModel> | $Enums.ProjectTaxonomyType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumProjectTaxonomyTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumProjectTaxonomyTypeFilter<$PrismaModel>
+}
+
 export type EnumProjectSlideMediaTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.ProjectSlideMediaType | Prisma.EnumProjectSlideMediaTypeFieldRefInput<$PrismaModel>
   in?: $Enums.ProjectSlideMediaType[] | Prisma.ListEnumProjectSlideMediaTypeFieldRefInput<$PrismaModel>
@@ -452,6 +469,23 @@ export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
+}
+
+export type NestedEnumProjectTaxonomyTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProjectTaxonomyType | Prisma.EnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ProjectTaxonomyType[] | Prisma.ListEnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ProjectTaxonomyType[] | Prisma.ListEnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumProjectTaxonomyTypeFilter<$PrismaModel> | $Enums.ProjectTaxonomyType
+}
+
+export type NestedEnumProjectTaxonomyTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ProjectTaxonomyType | Prisma.EnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.ProjectTaxonomyType[] | Prisma.ListEnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.ProjectTaxonomyType[] | Prisma.ListEnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumProjectTaxonomyTypeWithAggregatesFilter<$PrismaModel> | $Enums.ProjectTaxonomyType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumProjectTaxonomyTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumProjectTaxonomyTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumProjectSlideMediaTypeFilter<$PrismaModel = never> = {

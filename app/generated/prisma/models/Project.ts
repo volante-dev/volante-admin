@@ -47,11 +47,9 @@ export type ProjectMinAggregateOutputType = {
   descriptionEn: string | null
   imageUrl: string | null
   clientName: string | null
-  sector: string | null
-  sectorEn: string | null
+  sectorEntryId: string | null
   projectYear: number | null
-  projectLocation: string | null
-  projectLocationEn: string | null
+  locationEntryId: string | null
   challenge: string | null
   challengeEn: string | null
   approach: string | null
@@ -80,11 +78,9 @@ export type ProjectMaxAggregateOutputType = {
   descriptionEn: string | null
   imageUrl: string | null
   clientName: string | null
-  sector: string | null
-  sectorEn: string | null
+  sectorEntryId: string | null
   projectYear: number | null
-  projectLocation: string | null
-  projectLocationEn: string | null
+  locationEntryId: string | null
   challenge: string | null
   challengeEn: string | null
   approach: string | null
@@ -115,13 +111,9 @@ export type ProjectCountAggregateOutputType = {
   heroPaletteComputed: number
   tags: number
   clientName: number
-  sector: number
-  sectorEn: number
+  sectorEntryId: number
   projectYear: number
-  projectLocation: number
-  projectLocationEn: number
-  deliveredServices: number
-  deliveredServicesEn: number
+  locationEntryId: number
   challenge: number
   challengeEn: number
   approach: number
@@ -164,11 +156,9 @@ export type ProjectMinAggregateInputType = {
   descriptionEn?: true
   imageUrl?: true
   clientName?: true
-  sector?: true
-  sectorEn?: true
+  sectorEntryId?: true
   projectYear?: true
-  projectLocation?: true
-  projectLocationEn?: true
+  locationEntryId?: true
   challenge?: true
   challengeEn?: true
   approach?: true
@@ -197,11 +187,9 @@ export type ProjectMaxAggregateInputType = {
   descriptionEn?: true
   imageUrl?: true
   clientName?: true
-  sector?: true
-  sectorEn?: true
+  sectorEntryId?: true
   projectYear?: true
-  projectLocation?: true
-  projectLocationEn?: true
+  locationEntryId?: true
   challenge?: true
   challengeEn?: true
   approach?: true
@@ -232,13 +220,9 @@ export type ProjectCountAggregateInputType = {
   heroPaletteComputed?: true
   tags?: true
   clientName?: true
-  sector?: true
-  sectorEn?: true
+  sectorEntryId?: true
   projectYear?: true
-  projectLocation?: true
-  projectLocationEn?: true
-  deliveredServices?: true
-  deliveredServicesEn?: true
+  locationEntryId?: true
   challenge?: true
   challengeEn?: true
   approach?: true
@@ -356,13 +340,9 @@ export type ProjectGroupByOutputType = {
   heroPaletteComputed: string[]
   tags: string[]
   clientName: string | null
-  sector: string | null
-  sectorEn: string | null
+  sectorEntryId: string | null
   projectYear: number | null
-  projectLocation: string | null
-  projectLocationEn: string | null
-  deliveredServices: string[]
-  deliveredServicesEn: string[]
+  locationEntryId: string | null
   challenge: string | null
   challengeEn: string | null
   approach: string | null
@@ -416,13 +396,9 @@ export type ProjectWhereInput = {
   heroPaletteComputed?: Prisma.StringNullableListFilter<"Project">
   tags?: Prisma.StringNullableListFilter<"Project">
   clientName?: Prisma.StringNullableFilter<"Project"> | string | null
-  sector?: Prisma.StringNullableFilter<"Project"> | string | null
-  sectorEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  sectorEntryId?: Prisma.StringNullableFilter<"Project"> | string | null
   projectYear?: Prisma.IntNullableFilter<"Project"> | number | null
-  projectLocation?: Prisma.StringNullableFilter<"Project"> | string | null
-  projectLocationEn?: Prisma.StringNullableFilter<"Project"> | string | null
-  deliveredServices?: Prisma.StringNullableListFilter<"Project">
-  deliveredServicesEn?: Prisma.StringNullableListFilter<"Project">
+  locationEntryId?: Prisma.StringNullableFilter<"Project"> | string | null
   challenge?: Prisma.StringNullableFilter<"Project"> | string | null
   challengeEn?: Prisma.StringNullableFilter<"Project"> | string | null
   approach?: Prisma.StringNullableFilter<"Project"> | string | null
@@ -440,6 +416,9 @@ export type ProjectWhereInput = {
   publishedAt?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
+  sectorEntry?: Prisma.XOR<Prisma.ProjectTaxonomyEntryNullableScalarRelationFilter, Prisma.ProjectTaxonomyEntryWhereInput> | null
+  locationEntry?: Prisma.XOR<Prisma.ProjectTaxonomyEntryNullableScalarRelationFilter, Prisma.ProjectTaxonomyEntryWhereInput> | null
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryListRelationFilter
   slides?: Prisma.ProjectSlideListRelationFilter
 }
 
@@ -454,13 +433,9 @@ export type ProjectOrderByWithRelationInput = {
   heroPaletteComputed?: Prisma.SortOrder
   tags?: Prisma.SortOrder
   clientName?: Prisma.SortOrderInput | Prisma.SortOrder
-  sector?: Prisma.SortOrderInput | Prisma.SortOrder
-  sectorEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  sectorEntryId?: Prisma.SortOrderInput | Prisma.SortOrder
   projectYear?: Prisma.SortOrderInput | Prisma.SortOrder
-  projectLocation?: Prisma.SortOrderInput | Prisma.SortOrder
-  projectLocationEn?: Prisma.SortOrderInput | Prisma.SortOrder
-  deliveredServices?: Prisma.SortOrder
-  deliveredServicesEn?: Prisma.SortOrder
+  locationEntryId?: Prisma.SortOrderInput | Prisma.SortOrder
   challenge?: Prisma.SortOrderInput | Prisma.SortOrder
   challengeEn?: Prisma.SortOrderInput | Prisma.SortOrder
   approach?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -478,6 +453,9 @@ export type ProjectOrderByWithRelationInput = {
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  sectorEntry?: Prisma.ProjectTaxonomyEntryOrderByWithRelationInput
+  locationEntry?: Prisma.ProjectTaxonomyEntryOrderByWithRelationInput
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryOrderByRelationAggregateInput
   slides?: Prisma.ProjectSlideOrderByRelationAggregateInput
 }
 
@@ -495,13 +473,9 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   heroPaletteComputed?: Prisma.StringNullableListFilter<"Project">
   tags?: Prisma.StringNullableListFilter<"Project">
   clientName?: Prisma.StringNullableFilter<"Project"> | string | null
-  sector?: Prisma.StringNullableFilter<"Project"> | string | null
-  sectorEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  sectorEntryId?: Prisma.StringNullableFilter<"Project"> | string | null
   projectYear?: Prisma.IntNullableFilter<"Project"> | number | null
-  projectLocation?: Prisma.StringNullableFilter<"Project"> | string | null
-  projectLocationEn?: Prisma.StringNullableFilter<"Project"> | string | null
-  deliveredServices?: Prisma.StringNullableListFilter<"Project">
-  deliveredServicesEn?: Prisma.StringNullableListFilter<"Project">
+  locationEntryId?: Prisma.StringNullableFilter<"Project"> | string | null
   challenge?: Prisma.StringNullableFilter<"Project"> | string | null
   challengeEn?: Prisma.StringNullableFilter<"Project"> | string | null
   approach?: Prisma.StringNullableFilter<"Project"> | string | null
@@ -519,6 +493,9 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   publishedAt?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
+  sectorEntry?: Prisma.XOR<Prisma.ProjectTaxonomyEntryNullableScalarRelationFilter, Prisma.ProjectTaxonomyEntryWhereInput> | null
+  locationEntry?: Prisma.XOR<Prisma.ProjectTaxonomyEntryNullableScalarRelationFilter, Prisma.ProjectTaxonomyEntryWhereInput> | null
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryListRelationFilter
   slides?: Prisma.ProjectSlideListRelationFilter
 }, "id" | "slug">
 
@@ -533,13 +510,9 @@ export type ProjectOrderByWithAggregationInput = {
   heroPaletteComputed?: Prisma.SortOrder
   tags?: Prisma.SortOrder
   clientName?: Prisma.SortOrderInput | Prisma.SortOrder
-  sector?: Prisma.SortOrderInput | Prisma.SortOrder
-  sectorEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  sectorEntryId?: Prisma.SortOrderInput | Prisma.SortOrder
   projectYear?: Prisma.SortOrderInput | Prisma.SortOrder
-  projectLocation?: Prisma.SortOrderInput | Prisma.SortOrder
-  projectLocationEn?: Prisma.SortOrderInput | Prisma.SortOrder
-  deliveredServices?: Prisma.SortOrder
-  deliveredServicesEn?: Prisma.SortOrder
+  locationEntryId?: Prisma.SortOrderInput | Prisma.SortOrder
   challenge?: Prisma.SortOrderInput | Prisma.SortOrder
   challengeEn?: Prisma.SortOrderInput | Prisma.SortOrder
   approach?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -578,13 +551,9 @@ export type ProjectScalarWhereWithAggregatesInput = {
   heroPaletteComputed?: Prisma.StringNullableListFilter<"Project">
   tags?: Prisma.StringNullableListFilter<"Project">
   clientName?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
-  sector?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
-  sectorEn?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  sectorEntryId?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   projectYear?: Prisma.IntNullableWithAggregatesFilter<"Project"> | number | null
-  projectLocation?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
-  projectLocationEn?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
-  deliveredServices?: Prisma.StringNullableListFilter<"Project">
-  deliveredServicesEn?: Prisma.StringNullableListFilter<"Project">
+  locationEntryId?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   challenge?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   challengeEn?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   approach?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
@@ -615,13 +584,7 @@ export type ProjectCreateInput = {
   heroPaletteComputed?: Prisma.ProjectCreateheroPaletteComputedInput | string[]
   tags?: Prisma.ProjectCreatetagsInput | string[]
   clientName?: string | null
-  sector?: string | null
-  sectorEn?: string | null
   projectYear?: number | null
-  projectLocation?: string | null
-  projectLocationEn?: string | null
-  deliveredServices?: Prisma.ProjectCreatedeliveredServicesInput | string[]
-  deliveredServicesEn?: Prisma.ProjectCreatedeliveredServicesEnInput | string[]
   challenge?: string | null
   challengeEn?: string | null
   approach?: string | null
@@ -639,6 +602,9 @@ export type ProjectCreateInput = {
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  sectorEntry?: Prisma.ProjectTaxonomyEntryCreateNestedOneWithoutSectorProjectsInput
+  locationEntry?: Prisma.ProjectTaxonomyEntryCreateNestedOneWithoutLocationProjectsInput
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryCreateNestedManyWithoutDeliveredServiceProjectsInput
   slides?: Prisma.ProjectSlideCreateNestedManyWithoutProjectInput
 }
 
@@ -653,13 +619,9 @@ export type ProjectUncheckedCreateInput = {
   heroPaletteComputed?: Prisma.ProjectCreateheroPaletteComputedInput | string[]
   tags?: Prisma.ProjectCreatetagsInput | string[]
   clientName?: string | null
-  sector?: string | null
-  sectorEn?: string | null
+  sectorEntryId?: string | null
   projectYear?: number | null
-  projectLocation?: string | null
-  projectLocationEn?: string | null
-  deliveredServices?: Prisma.ProjectCreatedeliveredServicesInput | string[]
-  deliveredServicesEn?: Prisma.ProjectCreatedeliveredServicesEnInput | string[]
+  locationEntryId?: string | null
   challenge?: string | null
   challengeEn?: string | null
   approach?: string | null
@@ -677,6 +639,7 @@ export type ProjectUncheckedCreateInput = {
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryUncheckedCreateNestedManyWithoutDeliveredServiceProjectsInput
   slides?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutProjectInput
 }
 
@@ -691,13 +654,7 @@ export type ProjectUpdateInput = {
   heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sectorEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  projectLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  projectLocationEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deliveredServices?: Prisma.ProjectUpdatedeliveredServicesInput | string[]
-  deliveredServicesEn?: Prisma.ProjectUpdatedeliveredServicesEnInput | string[]
   challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -715,6 +672,9 @@ export type ProjectUpdateInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sectorEntry?: Prisma.ProjectTaxonomyEntryUpdateOneWithoutSectorProjectsNestedInput
+  locationEntry?: Prisma.ProjectTaxonomyEntryUpdateOneWithoutLocationProjectsNestedInput
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryUpdateManyWithoutDeliveredServiceProjectsNestedInput
   slides?: Prisma.ProjectSlideUpdateManyWithoutProjectNestedInput
 }
 
@@ -729,13 +689,9 @@ export type ProjectUncheckedUpdateInput = {
   heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sectorEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectorEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  projectLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  projectLocationEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deliveredServices?: Prisma.ProjectUpdatedeliveredServicesInput | string[]
-  deliveredServicesEn?: Prisma.ProjectUpdatedeliveredServicesEnInput | string[]
+  locationEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -753,6 +709,7 @@ export type ProjectUncheckedUpdateInput = {
   publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryUncheckedUpdateManyWithoutDeliveredServiceProjectsNestedInput
   slides?: Prisma.ProjectSlideUncheckedUpdateManyWithoutProjectNestedInput
 }
 
@@ -767,13 +724,9 @@ export type ProjectCreateManyInput = {
   heroPaletteComputed?: Prisma.ProjectCreateheroPaletteComputedInput | string[]
   tags?: Prisma.ProjectCreatetagsInput | string[]
   clientName?: string | null
-  sector?: string | null
-  sectorEn?: string | null
+  sectorEntryId?: string | null
   projectYear?: number | null
-  projectLocation?: string | null
-  projectLocationEn?: string | null
-  deliveredServices?: Prisma.ProjectCreatedeliveredServicesInput | string[]
-  deliveredServicesEn?: Prisma.ProjectCreatedeliveredServicesEnInput | string[]
+  locationEntryId?: string | null
   challenge?: string | null
   challengeEn?: string | null
   approach?: string | null
@@ -804,13 +757,7 @@ export type ProjectUpdateManyMutationInput = {
   heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sectorEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  projectLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  projectLocationEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deliveredServices?: Prisma.ProjectUpdatedeliveredServicesInput | string[]
-  deliveredServicesEn?: Prisma.ProjectUpdatedeliveredServicesEnInput | string[]
   challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -841,13 +788,9 @@ export type ProjectUncheckedUpdateManyInput = {
   heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sectorEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectorEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  projectLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  projectLocationEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deliveredServices?: Prisma.ProjectUpdatedeliveredServicesInput | string[]
-  deliveredServicesEn?: Prisma.ProjectUpdatedeliveredServicesEnInput | string[]
+  locationEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -886,13 +829,9 @@ export type ProjectCountOrderByAggregateInput = {
   heroPaletteComputed?: Prisma.SortOrder
   tags?: Prisma.SortOrder
   clientName?: Prisma.SortOrder
-  sector?: Prisma.SortOrder
-  sectorEn?: Prisma.SortOrder
+  sectorEntryId?: Prisma.SortOrder
   projectYear?: Prisma.SortOrder
-  projectLocation?: Prisma.SortOrder
-  projectLocationEn?: Prisma.SortOrder
-  deliveredServices?: Prisma.SortOrder
-  deliveredServicesEn?: Prisma.SortOrder
+  locationEntryId?: Prisma.SortOrder
   challenge?: Prisma.SortOrder
   challengeEn?: Prisma.SortOrder
   approach?: Prisma.SortOrder
@@ -927,11 +866,9 @@ export type ProjectMaxOrderByAggregateInput = {
   descriptionEn?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   clientName?: Prisma.SortOrder
-  sector?: Prisma.SortOrder
-  sectorEn?: Prisma.SortOrder
+  sectorEntryId?: Prisma.SortOrder
   projectYear?: Prisma.SortOrder
-  projectLocation?: Prisma.SortOrder
-  projectLocationEn?: Prisma.SortOrder
+  locationEntryId?: Prisma.SortOrder
   challenge?: Prisma.SortOrder
   challengeEn?: Prisma.SortOrder
   approach?: Prisma.SortOrder
@@ -960,11 +897,9 @@ export type ProjectMinOrderByAggregateInput = {
   descriptionEn?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   clientName?: Prisma.SortOrder
-  sector?: Prisma.SortOrder
-  sectorEn?: Prisma.SortOrder
+  sectorEntryId?: Prisma.SortOrder
   projectYear?: Prisma.SortOrder
-  projectLocation?: Prisma.SortOrder
-  projectLocationEn?: Prisma.SortOrder
+  locationEntryId?: Prisma.SortOrder
   challenge?: Prisma.SortOrder
   challengeEn?: Prisma.SortOrder
   approach?: Prisma.SortOrder
@@ -990,6 +925,16 @@ export type ProjectSumOrderByAggregateInput = {
   portfolioOrder?: Prisma.SortOrder
 }
 
+export type ProjectListRelationFilter = {
+  every?: Prisma.ProjectWhereInput
+  some?: Prisma.ProjectWhereInput
+  none?: Prisma.ProjectWhereInput
+}
+
+export type ProjectOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type ProjectScalarRelationFilter = {
   is?: Prisma.ProjectWhereInput
   isNot?: Prisma.ProjectWhereInput
@@ -1000,14 +945,6 @@ export type ProjectCreateheroPaletteComputedInput = {
 }
 
 export type ProjectCreatetagsInput = {
-  set: string[]
-}
-
-export type ProjectCreatedeliveredServicesInput = {
-  set: string[]
-}
-
-export type ProjectCreatedeliveredServicesEnInput = {
   set: string[]
 }
 
@@ -1037,16 +974,6 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type ProjectUpdatedeliveredServicesInput = {
-  set?: string[]
-  push?: string | string[]
-}
-
-export type ProjectUpdatedeliveredServicesEnInput = {
-  set?: string[]
-  push?: string | string[]
-}
-
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
@@ -1071,6 +998,128 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type ProjectCreateNestedManyWithoutSectorEntryInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutSectorEntryInput, Prisma.ProjectUncheckedCreateWithoutSectorEntryInput> | Prisma.ProjectCreateWithoutSectorEntryInput[] | Prisma.ProjectUncheckedCreateWithoutSectorEntryInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutSectorEntryInput | Prisma.ProjectCreateOrConnectWithoutSectorEntryInput[]
+  createMany?: Prisma.ProjectCreateManySectorEntryInputEnvelope
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+}
+
+export type ProjectCreateNestedManyWithoutLocationEntryInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutLocationEntryInput, Prisma.ProjectUncheckedCreateWithoutLocationEntryInput> | Prisma.ProjectCreateWithoutLocationEntryInput[] | Prisma.ProjectUncheckedCreateWithoutLocationEntryInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutLocationEntryInput | Prisma.ProjectCreateOrConnectWithoutLocationEntryInput[]
+  createMany?: Prisma.ProjectCreateManyLocationEntryInputEnvelope
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+}
+
+export type ProjectCreateNestedManyWithoutDeliveredServiceEntriesInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutDeliveredServiceEntriesInput, Prisma.ProjectUncheckedCreateWithoutDeliveredServiceEntriesInput> | Prisma.ProjectCreateWithoutDeliveredServiceEntriesInput[] | Prisma.ProjectUncheckedCreateWithoutDeliveredServiceEntriesInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutDeliveredServiceEntriesInput | Prisma.ProjectCreateOrConnectWithoutDeliveredServiceEntriesInput[]
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+}
+
+export type ProjectUncheckedCreateNestedManyWithoutSectorEntryInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutSectorEntryInput, Prisma.ProjectUncheckedCreateWithoutSectorEntryInput> | Prisma.ProjectCreateWithoutSectorEntryInput[] | Prisma.ProjectUncheckedCreateWithoutSectorEntryInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutSectorEntryInput | Prisma.ProjectCreateOrConnectWithoutSectorEntryInput[]
+  createMany?: Prisma.ProjectCreateManySectorEntryInputEnvelope
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+}
+
+export type ProjectUncheckedCreateNestedManyWithoutLocationEntryInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutLocationEntryInput, Prisma.ProjectUncheckedCreateWithoutLocationEntryInput> | Prisma.ProjectCreateWithoutLocationEntryInput[] | Prisma.ProjectUncheckedCreateWithoutLocationEntryInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutLocationEntryInput | Prisma.ProjectCreateOrConnectWithoutLocationEntryInput[]
+  createMany?: Prisma.ProjectCreateManyLocationEntryInputEnvelope
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+}
+
+export type ProjectUncheckedCreateNestedManyWithoutDeliveredServiceEntriesInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutDeliveredServiceEntriesInput, Prisma.ProjectUncheckedCreateWithoutDeliveredServiceEntriesInput> | Prisma.ProjectCreateWithoutDeliveredServiceEntriesInput[] | Prisma.ProjectUncheckedCreateWithoutDeliveredServiceEntriesInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutDeliveredServiceEntriesInput | Prisma.ProjectCreateOrConnectWithoutDeliveredServiceEntriesInput[]
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+}
+
+export type ProjectUpdateManyWithoutSectorEntryNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutSectorEntryInput, Prisma.ProjectUncheckedCreateWithoutSectorEntryInput> | Prisma.ProjectCreateWithoutSectorEntryInput[] | Prisma.ProjectUncheckedCreateWithoutSectorEntryInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutSectorEntryInput | Prisma.ProjectCreateOrConnectWithoutSectorEntryInput[]
+  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutSectorEntryInput | Prisma.ProjectUpsertWithWhereUniqueWithoutSectorEntryInput[]
+  createMany?: Prisma.ProjectCreateManySectorEntryInputEnvelope
+  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutSectorEntryInput | Prisma.ProjectUpdateWithWhereUniqueWithoutSectorEntryInput[]
+  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutSectorEntryInput | Prisma.ProjectUpdateManyWithWhereWithoutSectorEntryInput[]
+  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
+}
+
+export type ProjectUpdateManyWithoutLocationEntryNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutLocationEntryInput, Prisma.ProjectUncheckedCreateWithoutLocationEntryInput> | Prisma.ProjectCreateWithoutLocationEntryInput[] | Prisma.ProjectUncheckedCreateWithoutLocationEntryInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutLocationEntryInput | Prisma.ProjectCreateOrConnectWithoutLocationEntryInput[]
+  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutLocationEntryInput | Prisma.ProjectUpsertWithWhereUniqueWithoutLocationEntryInput[]
+  createMany?: Prisma.ProjectCreateManyLocationEntryInputEnvelope
+  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutLocationEntryInput | Prisma.ProjectUpdateWithWhereUniqueWithoutLocationEntryInput[]
+  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutLocationEntryInput | Prisma.ProjectUpdateManyWithWhereWithoutLocationEntryInput[]
+  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
+}
+
+export type ProjectUpdateManyWithoutDeliveredServiceEntriesNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutDeliveredServiceEntriesInput, Prisma.ProjectUncheckedCreateWithoutDeliveredServiceEntriesInput> | Prisma.ProjectCreateWithoutDeliveredServiceEntriesInput[] | Prisma.ProjectUncheckedCreateWithoutDeliveredServiceEntriesInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutDeliveredServiceEntriesInput | Prisma.ProjectCreateOrConnectWithoutDeliveredServiceEntriesInput[]
+  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutDeliveredServiceEntriesInput | Prisma.ProjectUpsertWithWhereUniqueWithoutDeliveredServiceEntriesInput[]
+  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutDeliveredServiceEntriesInput | Prisma.ProjectUpdateWithWhereUniqueWithoutDeliveredServiceEntriesInput[]
+  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutDeliveredServiceEntriesInput | Prisma.ProjectUpdateManyWithWhereWithoutDeliveredServiceEntriesInput[]
+  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
+}
+
+export type ProjectUncheckedUpdateManyWithoutSectorEntryNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutSectorEntryInput, Prisma.ProjectUncheckedCreateWithoutSectorEntryInput> | Prisma.ProjectCreateWithoutSectorEntryInput[] | Prisma.ProjectUncheckedCreateWithoutSectorEntryInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutSectorEntryInput | Prisma.ProjectCreateOrConnectWithoutSectorEntryInput[]
+  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutSectorEntryInput | Prisma.ProjectUpsertWithWhereUniqueWithoutSectorEntryInput[]
+  createMany?: Prisma.ProjectCreateManySectorEntryInputEnvelope
+  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutSectorEntryInput | Prisma.ProjectUpdateWithWhereUniqueWithoutSectorEntryInput[]
+  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutSectorEntryInput | Prisma.ProjectUpdateManyWithWhereWithoutSectorEntryInput[]
+  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
+}
+
+export type ProjectUncheckedUpdateManyWithoutLocationEntryNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutLocationEntryInput, Prisma.ProjectUncheckedCreateWithoutLocationEntryInput> | Prisma.ProjectCreateWithoutLocationEntryInput[] | Prisma.ProjectUncheckedCreateWithoutLocationEntryInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutLocationEntryInput | Prisma.ProjectCreateOrConnectWithoutLocationEntryInput[]
+  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutLocationEntryInput | Prisma.ProjectUpsertWithWhereUniqueWithoutLocationEntryInput[]
+  createMany?: Prisma.ProjectCreateManyLocationEntryInputEnvelope
+  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutLocationEntryInput | Prisma.ProjectUpdateWithWhereUniqueWithoutLocationEntryInput[]
+  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutLocationEntryInput | Prisma.ProjectUpdateManyWithWhereWithoutLocationEntryInput[]
+  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
+}
+
+export type ProjectUncheckedUpdateManyWithoutDeliveredServiceEntriesNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutDeliveredServiceEntriesInput, Prisma.ProjectUncheckedCreateWithoutDeliveredServiceEntriesInput> | Prisma.ProjectCreateWithoutDeliveredServiceEntriesInput[] | Prisma.ProjectUncheckedCreateWithoutDeliveredServiceEntriesInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutDeliveredServiceEntriesInput | Prisma.ProjectCreateOrConnectWithoutDeliveredServiceEntriesInput[]
+  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutDeliveredServiceEntriesInput | Prisma.ProjectUpsertWithWhereUniqueWithoutDeliveredServiceEntriesInput[]
+  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutDeliveredServiceEntriesInput | Prisma.ProjectUpdateWithWhereUniqueWithoutDeliveredServiceEntriesInput[]
+  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutDeliveredServiceEntriesInput | Prisma.ProjectUpdateManyWithWhereWithoutDeliveredServiceEntriesInput[]
+  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
+}
+
 export type ProjectCreateNestedOneWithoutSlidesInput = {
   create?: Prisma.XOR<Prisma.ProjectCreateWithoutSlidesInput, Prisma.ProjectUncheckedCreateWithoutSlidesInput>
   connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutSlidesInput
@@ -1085,7 +1134,7 @@ export type ProjectUpdateOneRequiredWithoutSlidesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutSlidesInput, Prisma.ProjectUpdateWithoutSlidesInput>, Prisma.ProjectUncheckedUpdateWithoutSlidesInput>
 }
 
-export type ProjectCreateWithoutSlidesInput = {
+export type ProjectCreateWithoutSectorEntryInput = {
   id?: string
   title: string
   titleEn?: string | null
@@ -1096,13 +1145,7 @@ export type ProjectCreateWithoutSlidesInput = {
   heroPaletteComputed?: Prisma.ProjectCreateheroPaletteComputedInput | string[]
   tags?: Prisma.ProjectCreatetagsInput | string[]
   clientName?: string | null
-  sector?: string | null
-  sectorEn?: string | null
   projectYear?: number | null
-  projectLocation?: string | null
-  projectLocationEn?: string | null
-  deliveredServices?: Prisma.ProjectCreatedeliveredServicesInput | string[]
-  deliveredServicesEn?: Prisma.ProjectCreatedeliveredServicesEnInput | string[]
   challenge?: string | null
   challengeEn?: string | null
   approach?: string | null
@@ -1120,6 +1163,322 @@ export type ProjectCreateWithoutSlidesInput = {
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  locationEntry?: Prisma.ProjectTaxonomyEntryCreateNestedOneWithoutLocationProjectsInput
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryCreateNestedManyWithoutDeliveredServiceProjectsInput
+  slides?: Prisma.ProjectSlideCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectUncheckedCreateWithoutSectorEntryInput = {
+  id?: string
+  title: string
+  titleEn?: string | null
+  slug: string
+  description: string
+  descriptionEn?: string | null
+  imageUrl: string
+  heroPaletteComputed?: Prisma.ProjectCreateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectCreatetagsInput | string[]
+  clientName?: string | null
+  projectYear?: number | null
+  locationEntryId?: string | null
+  challenge?: string | null
+  challengeEn?: string | null
+  approach?: string | null
+  approachEn?: string | null
+  results?: string | null
+  resultsEn?: string | null
+  credits?: string | null
+  awards?: string | null
+  awardsEn?: string | null
+  externalUrl?: string | null
+  featured?: boolean
+  order?: number
+  portfolioSize?: $Enums.ProjectPortfolioSize
+  portfolioOrder?: number
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryUncheckedCreateNestedManyWithoutDeliveredServiceProjectsInput
+  slides?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectCreateOrConnectWithoutSectorEntryInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutSectorEntryInput, Prisma.ProjectUncheckedCreateWithoutSectorEntryInput>
+}
+
+export type ProjectCreateManySectorEntryInputEnvelope = {
+  data: Prisma.ProjectCreateManySectorEntryInput | Prisma.ProjectCreateManySectorEntryInput[]
+  skipDuplicates?: boolean
+}
+
+export type ProjectCreateWithoutLocationEntryInput = {
+  id?: string
+  title: string
+  titleEn?: string | null
+  slug: string
+  description: string
+  descriptionEn?: string | null
+  imageUrl: string
+  heroPaletteComputed?: Prisma.ProjectCreateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectCreatetagsInput | string[]
+  clientName?: string | null
+  projectYear?: number | null
+  challenge?: string | null
+  challengeEn?: string | null
+  approach?: string | null
+  approachEn?: string | null
+  results?: string | null
+  resultsEn?: string | null
+  credits?: string | null
+  awards?: string | null
+  awardsEn?: string | null
+  externalUrl?: string | null
+  featured?: boolean
+  order?: number
+  portfolioSize?: $Enums.ProjectPortfolioSize
+  portfolioOrder?: number
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sectorEntry?: Prisma.ProjectTaxonomyEntryCreateNestedOneWithoutSectorProjectsInput
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryCreateNestedManyWithoutDeliveredServiceProjectsInput
+  slides?: Prisma.ProjectSlideCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectUncheckedCreateWithoutLocationEntryInput = {
+  id?: string
+  title: string
+  titleEn?: string | null
+  slug: string
+  description: string
+  descriptionEn?: string | null
+  imageUrl: string
+  heroPaletteComputed?: Prisma.ProjectCreateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectCreatetagsInput | string[]
+  clientName?: string | null
+  sectorEntryId?: string | null
+  projectYear?: number | null
+  challenge?: string | null
+  challengeEn?: string | null
+  approach?: string | null
+  approachEn?: string | null
+  results?: string | null
+  resultsEn?: string | null
+  credits?: string | null
+  awards?: string | null
+  awardsEn?: string | null
+  externalUrl?: string | null
+  featured?: boolean
+  order?: number
+  portfolioSize?: $Enums.ProjectPortfolioSize
+  portfolioOrder?: number
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryUncheckedCreateNestedManyWithoutDeliveredServiceProjectsInput
+  slides?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectCreateOrConnectWithoutLocationEntryInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutLocationEntryInput, Prisma.ProjectUncheckedCreateWithoutLocationEntryInput>
+}
+
+export type ProjectCreateManyLocationEntryInputEnvelope = {
+  data: Prisma.ProjectCreateManyLocationEntryInput | Prisma.ProjectCreateManyLocationEntryInput[]
+  skipDuplicates?: boolean
+}
+
+export type ProjectCreateWithoutDeliveredServiceEntriesInput = {
+  id?: string
+  title: string
+  titleEn?: string | null
+  slug: string
+  description: string
+  descriptionEn?: string | null
+  imageUrl: string
+  heroPaletteComputed?: Prisma.ProjectCreateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectCreatetagsInput | string[]
+  clientName?: string | null
+  projectYear?: number | null
+  challenge?: string | null
+  challengeEn?: string | null
+  approach?: string | null
+  approachEn?: string | null
+  results?: string | null
+  resultsEn?: string | null
+  credits?: string | null
+  awards?: string | null
+  awardsEn?: string | null
+  externalUrl?: string | null
+  featured?: boolean
+  order?: number
+  portfolioSize?: $Enums.ProjectPortfolioSize
+  portfolioOrder?: number
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sectorEntry?: Prisma.ProjectTaxonomyEntryCreateNestedOneWithoutSectorProjectsInput
+  locationEntry?: Prisma.ProjectTaxonomyEntryCreateNestedOneWithoutLocationProjectsInput
+  slides?: Prisma.ProjectSlideCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectUncheckedCreateWithoutDeliveredServiceEntriesInput = {
+  id?: string
+  title: string
+  titleEn?: string | null
+  slug: string
+  description: string
+  descriptionEn?: string | null
+  imageUrl: string
+  heroPaletteComputed?: Prisma.ProjectCreateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectCreatetagsInput | string[]
+  clientName?: string | null
+  sectorEntryId?: string | null
+  projectYear?: number | null
+  locationEntryId?: string | null
+  challenge?: string | null
+  challengeEn?: string | null
+  approach?: string | null
+  approachEn?: string | null
+  results?: string | null
+  resultsEn?: string | null
+  credits?: string | null
+  awards?: string | null
+  awardsEn?: string | null
+  externalUrl?: string | null
+  featured?: boolean
+  order?: number
+  portfolioSize?: $Enums.ProjectPortfolioSize
+  portfolioOrder?: number
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  slides?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectCreateOrConnectWithoutDeliveredServiceEntriesInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutDeliveredServiceEntriesInput, Prisma.ProjectUncheckedCreateWithoutDeliveredServiceEntriesInput>
+}
+
+export type ProjectUpsertWithWhereUniqueWithoutSectorEntryInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutSectorEntryInput, Prisma.ProjectUncheckedUpdateWithoutSectorEntryInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutSectorEntryInput, Prisma.ProjectUncheckedCreateWithoutSectorEntryInput>
+}
+
+export type ProjectUpdateWithWhereUniqueWithoutSectorEntryInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutSectorEntryInput, Prisma.ProjectUncheckedUpdateWithoutSectorEntryInput>
+}
+
+export type ProjectUpdateManyWithWhereWithoutSectorEntryInput = {
+  where: Prisma.ProjectScalarWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateManyMutationInput, Prisma.ProjectUncheckedUpdateManyWithoutSectorEntryInput>
+}
+
+export type ProjectScalarWhereInput = {
+  AND?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
+  OR?: Prisma.ProjectScalarWhereInput[]
+  NOT?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
+  id?: Prisma.StringFilter<"Project"> | string
+  title?: Prisma.StringFilter<"Project"> | string
+  titleEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  slug?: Prisma.StringFilter<"Project"> | string
+  description?: Prisma.StringFilter<"Project"> | string
+  descriptionEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  imageUrl?: Prisma.StringFilter<"Project"> | string
+  heroPaletteComputed?: Prisma.StringNullableListFilter<"Project">
+  tags?: Prisma.StringNullableListFilter<"Project">
+  clientName?: Prisma.StringNullableFilter<"Project"> | string | null
+  sectorEntryId?: Prisma.StringNullableFilter<"Project"> | string | null
+  projectYear?: Prisma.IntNullableFilter<"Project"> | number | null
+  locationEntryId?: Prisma.StringNullableFilter<"Project"> | string | null
+  challenge?: Prisma.StringNullableFilter<"Project"> | string | null
+  challengeEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  approach?: Prisma.StringNullableFilter<"Project"> | string | null
+  approachEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  results?: Prisma.StringNullableFilter<"Project"> | string | null
+  resultsEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  credits?: Prisma.StringNullableFilter<"Project"> | string | null
+  awards?: Prisma.StringNullableFilter<"Project"> | string | null
+  awardsEn?: Prisma.StringNullableFilter<"Project"> | string | null
+  externalUrl?: Prisma.StringNullableFilter<"Project"> | string | null
+  featured?: Prisma.BoolFilter<"Project"> | boolean
+  order?: Prisma.IntFilter<"Project"> | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFilter<"Project"> | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFilter<"Project"> | number
+  publishedAt?: Prisma.DateTimeNullableFilter<"Project"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string
+}
+
+export type ProjectUpsertWithWhereUniqueWithoutLocationEntryInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutLocationEntryInput, Prisma.ProjectUncheckedUpdateWithoutLocationEntryInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutLocationEntryInput, Prisma.ProjectUncheckedCreateWithoutLocationEntryInput>
+}
+
+export type ProjectUpdateWithWhereUniqueWithoutLocationEntryInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutLocationEntryInput, Prisma.ProjectUncheckedUpdateWithoutLocationEntryInput>
+}
+
+export type ProjectUpdateManyWithWhereWithoutLocationEntryInput = {
+  where: Prisma.ProjectScalarWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateManyMutationInput, Prisma.ProjectUncheckedUpdateManyWithoutLocationEntryInput>
+}
+
+export type ProjectUpsertWithWhereUniqueWithoutDeliveredServiceEntriesInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutDeliveredServiceEntriesInput, Prisma.ProjectUncheckedUpdateWithoutDeliveredServiceEntriesInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutDeliveredServiceEntriesInput, Prisma.ProjectUncheckedCreateWithoutDeliveredServiceEntriesInput>
+}
+
+export type ProjectUpdateWithWhereUniqueWithoutDeliveredServiceEntriesInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutDeliveredServiceEntriesInput, Prisma.ProjectUncheckedUpdateWithoutDeliveredServiceEntriesInput>
+}
+
+export type ProjectUpdateManyWithWhereWithoutDeliveredServiceEntriesInput = {
+  where: Prisma.ProjectScalarWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateManyMutationInput, Prisma.ProjectUncheckedUpdateManyWithoutDeliveredServiceEntriesInput>
+}
+
+export type ProjectCreateWithoutSlidesInput = {
+  id?: string
+  title: string
+  titleEn?: string | null
+  slug: string
+  description: string
+  descriptionEn?: string | null
+  imageUrl: string
+  heroPaletteComputed?: Prisma.ProjectCreateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectCreatetagsInput | string[]
+  clientName?: string | null
+  projectYear?: number | null
+  challenge?: string | null
+  challengeEn?: string | null
+  approach?: string | null
+  approachEn?: string | null
+  results?: string | null
+  resultsEn?: string | null
+  credits?: string | null
+  awards?: string | null
+  awardsEn?: string | null
+  externalUrl?: string | null
+  featured?: boolean
+  order?: number
+  portfolioSize?: $Enums.ProjectPortfolioSize
+  portfolioOrder?: number
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sectorEntry?: Prisma.ProjectTaxonomyEntryCreateNestedOneWithoutSectorProjectsInput
+  locationEntry?: Prisma.ProjectTaxonomyEntryCreateNestedOneWithoutLocationProjectsInput
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryCreateNestedManyWithoutDeliveredServiceProjectsInput
 }
 
 export type ProjectUncheckedCreateWithoutSlidesInput = {
@@ -1133,13 +1492,9 @@ export type ProjectUncheckedCreateWithoutSlidesInput = {
   heroPaletteComputed?: Prisma.ProjectCreateheroPaletteComputedInput | string[]
   tags?: Prisma.ProjectCreatetagsInput | string[]
   clientName?: string | null
-  sector?: string | null
-  sectorEn?: string | null
+  sectorEntryId?: string | null
   projectYear?: number | null
-  projectLocation?: string | null
-  projectLocationEn?: string | null
-  deliveredServices?: Prisma.ProjectCreatedeliveredServicesInput | string[]
-  deliveredServicesEn?: Prisma.ProjectCreatedeliveredServicesEnInput | string[]
+  locationEntryId?: string | null
   challenge?: string | null
   challengeEn?: string | null
   approach?: string | null
@@ -1157,6 +1512,7 @@ export type ProjectUncheckedCreateWithoutSlidesInput = {
   publishedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryUncheckedCreateNestedManyWithoutDeliveredServiceProjectsInput
 }
 
 export type ProjectCreateOrConnectWithoutSlidesInput = {
@@ -1186,13 +1542,208 @@ export type ProjectUpdateWithoutSlidesInput = {
   heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sectorEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  projectLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  projectLocationEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deliveredServices?: Prisma.ProjectUpdatedeliveredServicesInput | string[]
-  deliveredServicesEn?: Prisma.ProjectUpdatedeliveredServicesEnInput | string[]
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sectorEntry?: Prisma.ProjectTaxonomyEntryUpdateOneWithoutSectorProjectsNestedInput
+  locationEntry?: Prisma.ProjectTaxonomyEntryUpdateOneWithoutLocationProjectsNestedInput
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryUpdateManyWithoutDeliveredServiceProjectsNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutSlidesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectorEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  locationEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryUncheckedUpdateManyWithoutDeliveredServiceProjectsNestedInput
+}
+
+export type ProjectCreateManySectorEntryInput = {
+  id?: string
+  title: string
+  titleEn?: string | null
+  slug: string
+  description: string
+  descriptionEn?: string | null
+  imageUrl: string
+  heroPaletteComputed?: Prisma.ProjectCreateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectCreatetagsInput | string[]
+  clientName?: string | null
+  projectYear?: number | null
+  locationEntryId?: string | null
+  challenge?: string | null
+  challengeEn?: string | null
+  approach?: string | null
+  approachEn?: string | null
+  results?: string | null
+  resultsEn?: string | null
+  credits?: string | null
+  awards?: string | null
+  awardsEn?: string | null
+  externalUrl?: string | null
+  featured?: boolean
+  order?: number
+  portfolioSize?: $Enums.ProjectPortfolioSize
+  portfolioOrder?: number
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProjectCreateManyLocationEntryInput = {
+  id?: string
+  title: string
+  titleEn?: string | null
+  slug: string
+  description: string
+  descriptionEn?: string | null
+  imageUrl: string
+  heroPaletteComputed?: Prisma.ProjectCreateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectCreatetagsInput | string[]
+  clientName?: string | null
+  sectorEntryId?: string | null
+  projectYear?: number | null
+  challenge?: string | null
+  challengeEn?: string | null
+  approach?: string | null
+  approachEn?: string | null
+  results?: string | null
+  resultsEn?: string | null
+  credits?: string | null
+  awards?: string | null
+  awardsEn?: string | null
+  externalUrl?: string | null
+  featured?: boolean
+  order?: number
+  portfolioSize?: $Enums.ProjectPortfolioSize
+  portfolioOrder?: number
+  publishedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProjectUpdateWithoutSectorEntryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  locationEntry?: Prisma.ProjectTaxonomyEntryUpdateOneWithoutLocationProjectsNestedInput
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryUpdateManyWithoutDeliveredServiceProjectsNestedInput
+  slides?: Prisma.ProjectSlideUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutSectorEntryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  locationEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryUncheckedUpdateManyWithoutDeliveredServiceProjectsNestedInput
+  slides?: Prisma.ProjectSlideUncheckedUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateManyWithoutSectorEntryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  locationEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1212,7 +1763,7 @@ export type ProjectUpdateWithoutSlidesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ProjectUncheckedUpdateWithoutSlidesInput = {
+export type ProjectUpdateWithoutLocationEntryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1223,13 +1774,177 @@ export type ProjectUncheckedUpdateWithoutSlidesInput = {
   heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
   tags?: Prisma.ProjectUpdatetagsInput | string[]
   clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sector?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  sectorEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  projectLocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  projectLocationEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  deliveredServices?: Prisma.ProjectUpdatedeliveredServicesInput | string[]
-  deliveredServicesEn?: Prisma.ProjectUpdatedeliveredServicesEnInput | string[]
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sectorEntry?: Prisma.ProjectTaxonomyEntryUpdateOneWithoutSectorProjectsNestedInput
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryUpdateManyWithoutDeliveredServiceProjectsNestedInput
+  slides?: Prisma.ProjectSlideUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutLocationEntryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectorEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deliveredServiceEntries?: Prisma.ProjectTaxonomyEntryUncheckedUpdateManyWithoutDeliveredServiceProjectsNestedInput
+  slides?: Prisma.ProjectSlideUncheckedUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateManyWithoutLocationEntryInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectorEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ProjectUpdateWithoutDeliveredServiceEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sectorEntry?: Prisma.ProjectTaxonomyEntryUpdateOneWithoutSectorProjectsNestedInput
+  locationEntry?: Prisma.ProjectTaxonomyEntryUpdateOneWithoutLocationProjectsNestedInput
+  slides?: Prisma.ProjectSlideUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutDeliveredServiceEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectorEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  locationEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  approachEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  results?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resultsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  credits?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awards?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  awardsEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  externalUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  portfolioSize?: Prisma.EnumProjectPortfolioSizeFieldUpdateOperationsInput | $Enums.ProjectPortfolioSize
+  portfolioOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  publishedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slides?: Prisma.ProjectSlideUncheckedUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateManyWithoutDeliveredServiceEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  heroPaletteComputed?: Prisma.ProjectUpdateheroPaletteComputedInput | string[]
+  tags?: Prisma.ProjectUpdatetagsInput | string[]
+  clientName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sectorEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectYear?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  locationEntryId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   challenge?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   challengeEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   approach?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1255,10 +1970,12 @@ export type ProjectUncheckedUpdateWithoutSlidesInput = {
  */
 
 export type ProjectCountOutputType = {
+  deliveredServiceEntries: number
   slides: number
 }
 
 export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  deliveredServiceEntries?: boolean | ProjectCountOutputTypeCountDeliveredServiceEntriesArgs
   slides?: boolean | ProjectCountOutputTypeCountSlidesArgs
 }
 
@@ -1270,6 +1987,13 @@ export type ProjectCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
    * Select specific fields to fetch from the ProjectCountOutputType
    */
   select?: Prisma.ProjectCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ProjectCountOutputType without action
+ */
+export type ProjectCountOutputTypeCountDeliveredServiceEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProjectTaxonomyEntryWhereInput
 }
 
 /**
@@ -1291,13 +2015,9 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   heroPaletteComputed?: boolean
   tags?: boolean
   clientName?: boolean
-  sector?: boolean
-  sectorEn?: boolean
+  sectorEntryId?: boolean
   projectYear?: boolean
-  projectLocation?: boolean
-  projectLocationEn?: boolean
-  deliveredServices?: boolean
-  deliveredServicesEn?: boolean
+  locationEntryId?: boolean
   challenge?: boolean
   challengeEn?: boolean
   approach?: boolean
@@ -1315,6 +2035,9 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  sectorEntry?: boolean | Prisma.Project$sectorEntryArgs<ExtArgs>
+  locationEntry?: boolean | Prisma.Project$locationEntryArgs<ExtArgs>
+  deliveredServiceEntries?: boolean | Prisma.Project$deliveredServiceEntriesArgs<ExtArgs>
   slides?: boolean | Prisma.Project$slidesArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
@@ -1330,13 +2053,9 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   heroPaletteComputed?: boolean
   tags?: boolean
   clientName?: boolean
-  sector?: boolean
-  sectorEn?: boolean
+  sectorEntryId?: boolean
   projectYear?: boolean
-  projectLocation?: boolean
-  projectLocationEn?: boolean
-  deliveredServices?: boolean
-  deliveredServicesEn?: boolean
+  locationEntryId?: boolean
   challenge?: boolean
   challengeEn?: boolean
   approach?: boolean
@@ -1354,6 +2073,8 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  sectorEntry?: boolean | Prisma.Project$sectorEntryArgs<ExtArgs>
+  locationEntry?: boolean | Prisma.Project$locationEntryArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1367,13 +2088,9 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   heroPaletteComputed?: boolean
   tags?: boolean
   clientName?: boolean
-  sector?: boolean
-  sectorEn?: boolean
+  sectorEntryId?: boolean
   projectYear?: boolean
-  projectLocation?: boolean
-  projectLocationEn?: boolean
-  deliveredServices?: boolean
-  deliveredServicesEn?: boolean
+  locationEntryId?: boolean
   challenge?: boolean
   challengeEn?: boolean
   approach?: boolean
@@ -1391,6 +2108,8 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   publishedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  sectorEntry?: boolean | Prisma.Project$sectorEntryArgs<ExtArgs>
+  locationEntry?: boolean | Prisma.Project$locationEntryArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectScalar = {
@@ -1404,13 +2123,9 @@ export type ProjectSelectScalar = {
   heroPaletteComputed?: boolean
   tags?: boolean
   clientName?: boolean
-  sector?: boolean
-  sectorEn?: boolean
+  sectorEntryId?: boolean
   projectYear?: boolean
-  projectLocation?: boolean
-  projectLocationEn?: boolean
-  deliveredServices?: boolean
-  deliveredServicesEn?: boolean
+  locationEntryId?: boolean
   challenge?: boolean
   challengeEn?: boolean
   approach?: boolean
@@ -1430,17 +2145,29 @@ export type ProjectSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "titleEn" | "slug" | "description" | "descriptionEn" | "imageUrl" | "heroPaletteComputed" | "tags" | "clientName" | "sector" | "sectorEn" | "projectYear" | "projectLocation" | "projectLocationEn" | "deliveredServices" | "deliveredServicesEn" | "challenge" | "challengeEn" | "approach" | "approachEn" | "results" | "resultsEn" | "credits" | "awards" | "awardsEn" | "externalUrl" | "featured" | "order" | "portfolioSize" | "portfolioOrder" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "titleEn" | "slug" | "description" | "descriptionEn" | "imageUrl" | "heroPaletteComputed" | "tags" | "clientName" | "sectorEntryId" | "projectYear" | "locationEntryId" | "challenge" | "challengeEn" | "approach" | "approachEn" | "results" | "resultsEn" | "credits" | "awards" | "awardsEn" | "externalUrl" | "featured" | "order" | "portfolioSize" | "portfolioOrder" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  sectorEntry?: boolean | Prisma.Project$sectorEntryArgs<ExtArgs>
+  locationEntry?: boolean | Prisma.Project$locationEntryArgs<ExtArgs>
+  deliveredServiceEntries?: boolean | Prisma.Project$deliveredServiceEntriesArgs<ExtArgs>
   slides?: boolean | Prisma.Project$slidesArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  sectorEntry?: boolean | Prisma.Project$sectorEntryArgs<ExtArgs>
+  locationEntry?: boolean | Prisma.Project$locationEntryArgs<ExtArgs>
+}
+export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  sectorEntry?: boolean | Prisma.Project$sectorEntryArgs<ExtArgs>
+  locationEntry?: boolean | Prisma.Project$locationEntryArgs<ExtArgs>
+}
 
 export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Project"
   objects: {
+    sectorEntry: Prisma.$ProjectTaxonomyEntryPayload<ExtArgs> | null
+    locationEntry: Prisma.$ProjectTaxonomyEntryPayload<ExtArgs> | null
+    deliveredServiceEntries: Prisma.$ProjectTaxonomyEntryPayload<ExtArgs>[]
     slides: Prisma.$ProjectSlidePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1454,13 +2181,9 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     heroPaletteComputed: string[]
     tags: string[]
     clientName: string | null
-    sector: string | null
-    sectorEn: string | null
+    sectorEntryId: string | null
     projectYear: number | null
-    projectLocation: string | null
-    projectLocationEn: string | null
-    deliveredServices: string[]
-    deliveredServicesEn: string[]
+    locationEntryId: string | null
     challenge: string | null
     challengeEn: string | null
     approach: string | null
@@ -1872,6 +2595,9 @@ readonly fields: ProjectFieldRefs;
  */
 export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  sectorEntry<T extends Prisma.Project$sectorEntryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$sectorEntryArgs<ExtArgs>>): Prisma.Prisma__ProjectTaxonomyEntryClient<runtime.Types.Result.GetResult<Prisma.$ProjectTaxonomyEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  locationEntry<T extends Prisma.Project$locationEntryArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$locationEntryArgs<ExtArgs>>): Prisma.Prisma__ProjectTaxonomyEntryClient<runtime.Types.Result.GetResult<Prisma.$ProjectTaxonomyEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  deliveredServiceEntries<T extends Prisma.Project$deliveredServiceEntriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$deliveredServiceEntriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectTaxonomyEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   slides<T extends Prisma.Project$slidesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$slidesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectSlidePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1912,13 +2638,9 @@ export interface ProjectFieldRefs {
   readonly heroPaletteComputed: Prisma.FieldRef<"Project", 'String[]'>
   readonly tags: Prisma.FieldRef<"Project", 'String[]'>
   readonly clientName: Prisma.FieldRef<"Project", 'String'>
-  readonly sector: Prisma.FieldRef<"Project", 'String'>
-  readonly sectorEn: Prisma.FieldRef<"Project", 'String'>
+  readonly sectorEntryId: Prisma.FieldRef<"Project", 'String'>
   readonly projectYear: Prisma.FieldRef<"Project", 'Int'>
-  readonly projectLocation: Prisma.FieldRef<"Project", 'String'>
-  readonly projectLocationEn: Prisma.FieldRef<"Project", 'String'>
-  readonly deliveredServices: Prisma.FieldRef<"Project", 'String[]'>
-  readonly deliveredServicesEn: Prisma.FieldRef<"Project", 'String[]'>
+  readonly locationEntryId: Prisma.FieldRef<"Project", 'String'>
   readonly challenge: Prisma.FieldRef<"Project", 'String'>
   readonly challengeEn: Prisma.FieldRef<"Project", 'String'>
   readonly approach: Prisma.FieldRef<"Project", 'String'>
@@ -2190,6 +2912,10 @@ export type ProjectCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    */
   data: Prisma.ProjectCreateManyInput | Prisma.ProjectCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2260,6 +2986,10 @@ export type ProjectUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many Projects to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2326,6 +3056,68 @@ export type ProjectDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Projects to delete.
    */
   limit?: number
+}
+
+/**
+ * Project.sectorEntry
+ */
+export type Project$sectorEntryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProjectTaxonomyEntry
+   */
+  select?: Prisma.ProjectTaxonomyEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProjectTaxonomyEntry
+   */
+  omit?: Prisma.ProjectTaxonomyEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectTaxonomyEntryInclude<ExtArgs> | null
+  where?: Prisma.ProjectTaxonomyEntryWhereInput
+}
+
+/**
+ * Project.locationEntry
+ */
+export type Project$locationEntryArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProjectTaxonomyEntry
+   */
+  select?: Prisma.ProjectTaxonomyEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProjectTaxonomyEntry
+   */
+  omit?: Prisma.ProjectTaxonomyEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectTaxonomyEntryInclude<ExtArgs> | null
+  where?: Prisma.ProjectTaxonomyEntryWhereInput
+}
+
+/**
+ * Project.deliveredServiceEntries
+ */
+export type Project$deliveredServiceEntriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProjectTaxonomyEntry
+   */
+  select?: Prisma.ProjectTaxonomyEntrySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProjectTaxonomyEntry
+   */
+  omit?: Prisma.ProjectTaxonomyEntryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectTaxonomyEntryInclude<ExtArgs> | null
+  where?: Prisma.ProjectTaxonomyEntryWhereInput
+  orderBy?: Prisma.ProjectTaxonomyEntryOrderByWithRelationInput | Prisma.ProjectTaxonomyEntryOrderByWithRelationInput[]
+  cursor?: Prisma.ProjectTaxonomyEntryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProjectTaxonomyEntryScalarFieldEnum | Prisma.ProjectTaxonomyEntryScalarFieldEnum[]
 }
 
 /**

@@ -18,13 +18,12 @@ model Project {
   heroPaletteComputed String[] @default([])
   tags          String[]
   clientName    String?
-  sector        String?
-  sectorEn      String?
+  sectorEntryId String?
+  sectorEntry   ProjectTaxonomyEntry? @relation("ProjectSector", fields: [sectorEntryId], references: [id], onDelete: SetNull)
   projectYear   Int?
-  projectLocation String?
-  projectLocationEn String?
-  deliveredServices String[] @default([])
-  deliveredServicesEn String[] @default([])
+  locationEntryId String?
+  locationEntry   ProjectTaxonomyEntry? @relation("ProjectLocation", fields: [locationEntryId], references: [id], onDelete: SetNull)
+  deliveredServiceEntries ProjectTaxonomyEntry[] @relation("ProjectDeliveredServices")
   challenge     String?
   challengeEn   String?
   approach      String?
@@ -43,6 +42,29 @@ model Project {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   slides        ProjectSlide[]
+}
+
+enum ProjectTaxonomyType {
+  SECTOR
+  LOCATION
+  DELIVERED_SERVICE
+}
+
+model ProjectTaxonomyEntry {
+  id                       String              @id @default(cuid())
+  type                     ProjectTaxonomyType
+  label                    String
+  labelEn                  String
+  normalizedKey            String
+  active                   Boolean             @default(true)
+  createdAt                DateTime            @default(now())
+  updatedAt                DateTime            @updatedAt
+  sectorProjects           Project[]           @relation("ProjectSector")
+  locationProjects         Project[]           @relation("ProjectLocation")
+  deliveredServiceProjects Project[]           @relation("ProjectDeliveredServices")
+
+  @@unique([type, normalizedKey])
+  @@index([type, active, label])
 }
 
 enum ProjectPortfolioSize {

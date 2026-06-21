@@ -42,6 +42,18 @@ type SlidePayload = {
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+const parseIdArray = (value: FormDataEntryValue | null) => {
+  if (typeof value !== "string") return [];
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    return Array.isArray(parsed)
+      ? parsed.filter((id): id is string => typeof id === "string" && id.length > 0)
+      : [];
+  } catch {
+    return [];
+  }
+};
+
 const parseSlides = (formData: FormData): SlidePayload[] => {
   const raw = formData.get("slides");
   if (typeof raw !== "string" || !raw.trim()) return [];
@@ -84,14 +96,13 @@ const validateProjectPayload = async (
   const imageUrl = normalizeRequired(formData.get("imageUrl"));
   const tags = parseTags(formData.get("tags"));
   const clientName = normalizeNullable(formData.get("clientName"));
-  const sector = normalizeNullable(formData.get("sector"));
-  const sectorEn = normalizeNullable(formData.get("sectorEn"));
+  const sectorEntryId = normalizeNullable(formData.get("sectorEntryId"));
   const projectYearRaw = normalizeNullable(formData.get("projectYear"));
   const projectYear = projectYearRaw ? Number.parseInt(projectYearRaw, 10) : null;
-  const projectLocation = normalizeNullable(formData.get("projectLocation"));
-  const projectLocationEn = normalizeNullable(formData.get("projectLocationEn"));
-  const deliveredServices = parseTags(formData.get("deliveredServices"));
-  const deliveredServicesEn = parseTags(formData.get("deliveredServicesEn"));
+  const locationEntryId = normalizeNullable(formData.get("locationEntryId"));
+  const deliveredServiceEntryIds = parseIdArray(
+    formData.get("deliveredServiceEntryIds"),
+  );
   const challenge = normalizeNullable(formData.get("challenge"));
   const challengeEn = normalizeNullable(formData.get("challengeEn"));
   const approach = normalizeNullable(formData.get("approach"));
@@ -147,6 +158,35 @@ const validateProjectPayload = async (
   ]);
   if (existingSlug && existingSlug.id !== currentId) {
     return { error: "Ce slug est deja utilise." };
+  }
+
+  if (new Set(deliveredServiceEntryIds).size !== deliveredServiceEntryIds.length) {
+    return { error: "Un service réalisé est sélectionné plusieurs fois." };
+  }
+  const taxonomyIds = [
+    sectorEntryId,
+    locationEntryId,
+    ...deliveredServiceEntryIds,
+  ].filter((id): id is string => Boolean(id));
+  const taxonomyEntries = taxonomyIds.length
+    ? await prisma.projectTaxonomyEntry.findMany({
+        where: { id: { in: taxonomyIds } },
+        select: { id: true, type: true },
+      })
+    : [];
+  const taxonomyById = new Map(taxonomyEntries.map((entry) => [entry.id, entry.type]));
+  if (sectorEntryId && taxonomyById.get(sectorEntryId) !== "SECTOR") {
+    return { error: "Le secteur sélectionné est invalide." };
+  }
+  if (locationEntryId && taxonomyById.get(locationEntryId) !== "LOCATION") {
+    return { error: "La localisation sélectionnée est invalide." };
+  }
+  if (
+    deliveredServiceEntryIds.some(
+      (id) => taxonomyById.get(id) !== "DELIVERED_SERVICE",
+    )
+  ) {
+    return { error: "Un service réalisé sélectionné est invalide." };
   }
 
   const warnings: string[] = [];
@@ -229,13 +269,10 @@ const validateProjectPayload = async (
       heroPaletteComputed,
       tags,
       clientName,
-      sector,
-      sectorEn,
+      sectorEntryId,
       projectYear,
-      projectLocation,
-      projectLocationEn,
-      deliveredServices,
-      deliveredServicesEn,
+      locationEntryId,
+      deliveredServiceEntryIds,
       challenge,
       challengeEn,
       approach,
@@ -331,13 +368,12 @@ export const createProject = async (
           heroPaletteComputed: parsed.data.heroPaletteComputed,
           tags: parsed.data.tags,
           clientName: parsed.data.clientName,
-          sector: parsed.data.sector,
-          sectorEn: parsed.data.sectorEn,
+          sectorEntryId: parsed.data.sectorEntryId,
           projectYear: parsed.data.projectYear,
-          projectLocation: parsed.data.projectLocation,
-          projectLocationEn: parsed.data.projectLocationEn,
-          deliveredServices: parsed.data.deliveredServices,
-          deliveredServicesEn: parsed.data.deliveredServicesEn,
+          locationEntryId: parsed.data.locationEntryId,
+          deliveredServiceEntries: {
+            connect: parsed.data.deliveredServiceEntryIds.map((id) => ({ id })),
+          },
           challenge: parsed.data.challenge,
           challengeEn: parsed.data.challengeEn,
           approach: parsed.data.approach,
@@ -408,13 +444,12 @@ export const updateProject = async (
           heroPaletteComputed: parsed.data.heroPaletteComputed,
           tags: parsed.data.tags,
           clientName: parsed.data.clientName,
-          sector: parsed.data.sector,
-          sectorEn: parsed.data.sectorEn,
+          sectorEntryId: parsed.data.sectorEntryId,
           projectYear: parsed.data.projectYear,
-          projectLocation: parsed.data.projectLocation,
-          projectLocationEn: parsed.data.projectLocationEn,
-          deliveredServices: parsed.data.deliveredServices,
-          deliveredServicesEn: parsed.data.deliveredServicesEn,
+          locationEntryId: parsed.data.locationEntryId,
+          deliveredServiceEntries: {
+            set: parsed.data.deliveredServiceEntryIds.map((id) => ({ id })),
+          },
           challenge: parsed.data.challenge,
           challengeEn: parsed.data.challengeEn,
           approach: parsed.data.approach,

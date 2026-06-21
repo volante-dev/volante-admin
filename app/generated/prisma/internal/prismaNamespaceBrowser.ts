@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Project: 'Project',
+  ProjectTaxonomyEntry: 'ProjectTaxonomyEntry',
   ProjectSlide: 'ProjectSlide',
   Service: 'Service',
   StudioValue: 'StudioValue',
@@ -85,13 +86,9 @@ export const ProjectScalarFieldEnum = {
   heroPaletteComputed: 'heroPaletteComputed',
   tags: 'tags',
   clientName: 'clientName',
-  sector: 'sector',
-  sectorEn: 'sectorEn',
+  sectorEntryId: 'sectorEntryId',
   projectYear: 'projectYear',
-  projectLocation: 'projectLocation',
-  projectLocationEn: 'projectLocationEn',
-  deliveredServices: 'deliveredServices',
-  deliveredServicesEn: 'deliveredServicesEn',
+  locationEntryId: 'locationEntryId',
   challenge: 'challenge',
   challengeEn: 'challengeEn',
   approach: 'approach',
@@ -112,6 +109,20 @@ export const ProjectScalarFieldEnum = {
 } as const
 
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const ProjectTaxonomyEntryScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  label: 'label',
+  labelEn: 'labelEn',
+  normalizedKey: 'normalizedKey',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectTaxonomyEntryScalarFieldEnum = (typeof ProjectTaxonomyEntryScalarFieldEnum)[keyof typeof ProjectTaxonomyEntryScalarFieldEnum]
 
 
 export const ProjectSlideScalarFieldEnum = {
