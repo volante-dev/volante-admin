@@ -20,6 +20,7 @@ type ActionResult = {
   error?: string;
   id?: string;
   warnings?: string[];
+  palette?: string[];
 };
 
 type MasonryLayoutItem = {
@@ -647,7 +648,7 @@ export const recomputeProjectHeroPalettes = async (): Promise<ActionResult> => {
   try {
     await requireCrmAccess();
     const projects = await prisma.project.findMany({
-      select: { id: true, title: true, imageUrl: true },
+      select: { id: true, title: true, imageUrl: true, heroPaletteComputed: true },
       orderBy: { order: "asc" },
     });
 
@@ -658,6 +659,7 @@ export const recomputeProjectHeroPalettes = async (): Promise<ActionResult> => {
       try {
         const heroPaletteComputed = await extractProjectHeroPalette(
           project.imageUrl,
+          project.heroPaletteComputed,
         );
         await prisma.project.update({
           where: { id: project.id },
@@ -685,5 +687,32 @@ export const recomputeProjectHeroPalettes = async (): Promise<ActionResult> => {
       error:
         error instanceof Error ? error.message : "Une erreur est survenue.",
     };
+  }
+};
+
+export const recomputeProjectHeroPalette = async (
+  id: string,
+): Promise<ActionResult> => {
+  try {
+    await requireCrmAccess();
+    const project = await prisma.project.findUnique({
+      where: { id },
+      select: { imageUrl: true, heroPaletteComputed: true },
+    });
+    if (!project) return { success: false, error: "Réalisation introuvable." };
+
+    const palette = await extractProjectHeroPalette(
+      project.imageUrl,
+      project.heroPaletteComputed,
+    );
+    await prisma.project.update({
+      where: { id },
+      data: { heroPaletteComputed: palette },
+    });
+    revalidatePath("/projects");
+    revalidatePath(`/projects/${id}/edit`);
+    return { success: true, palette };
+  } catch {
+    return { success: false, error: "Le recalcul de la palette a échoué." };
   }
 };

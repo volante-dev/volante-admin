@@ -35,6 +35,7 @@ import type {
   ProjectTaxonomyRow,
   ProjectTaxonomyType,
 } from "./project-taxonomy-types";
+import { TranslateButton } from "./TranslateButton";
 
 const categories: { type: ProjectTaxonomyType; label: string; singular: string }[] = [
   { type: "SECTOR", label: "Secteurs", singular: "secteur" },
@@ -176,7 +177,16 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
         <DialogTitle>{editing ? "Modifier l’entrée" : `Nouveau ${currentCategory.singular}`}</DialogTitle>
         <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, pt: "12px !important" }}>
           <TextField label="Libellé français" value={label} required onChange={(event) => setLabel(event.target.value)} />
-          <TextField label="English label" value={labelEn} required onChange={(event) => setLabelEn(event.target.value)} />
+          <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+            <TextField
+              label="English label"
+              value={labelEn}
+              required
+              fullWidth
+              onChange={(event) => setLabelEn(event.target.value)}
+            />
+            <TranslateButton sourceText={label} onTranslated={setLabelEn} />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDialogOpen(false)} disabled={pending}>Annuler</Button>

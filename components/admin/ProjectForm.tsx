@@ -46,8 +46,13 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import SaveIcon from "@mui/icons-material/Save";
 import UnpublishedIcon from "@mui/icons-material/Unpublished";
 import PublishIcon from "@mui/icons-material/Publish";
+import PaletteIcon from "@mui/icons-material/Palette";
 import { toast } from "sonner";
-import { createProject, updateProject } from "@/app/(admin)/projects/actions";
+import {
+  createProject,
+  recomputeProjectHeroPalette,
+  updateProject,
+} from "@/app/(admin)/projects/actions";
 import { hasUnsupportedRichTextHtml } from "@/lib/rich-text";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import { MediaUrlField } from "./MediaUrlField";
@@ -434,6 +439,7 @@ const SortableSlide = ({
 export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
+  const [palettePending, startPaletteTransition] = useTransition();
   const [tab, setTab] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<EditableSlide | null>(null);
@@ -446,6 +452,7 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
     project?.descriptionEn ?? "",
   );
   const [imageUrl, setImageUrl] = useState(project?.imageUrl ?? "");
+  const [paletteOverride, setPaletteOverride] = useState<string[] | null>(null);
   const [tags, setTags] = useState(project?.tags.join(", ") ?? "");
   const [clientName, setClientName] = useState(project?.clientName ?? "");
   const [availableTaxonomies, setAvailableTaxonomies] = useState(taxonomyOptions);
@@ -509,6 +516,7 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
     typeof option === "string"
       ? option
       : `${option.label} — ${option.labelEn}${option.active ? "" : " (inactive)"}`;
+  const displayedPalette = paletteOverride ?? project?.heroPaletteComputed ?? [];
 
   const updateSlide = (key: string, next: EditableSlide) => {
     setSlides((current) =>
@@ -900,14 +908,14 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
                     border: "1px solid",
                     borderColor: "divider",
                     background:
-                      project?.heroPaletteComputed.length === 4
-                        ? `radial-gradient(circle at 18% 25%, ${project.heroPaletteComputed[0]} 0%, transparent 55%), radial-gradient(circle at 82% 20%, ${project.heroPaletteComputed[1]} 0%, transparent 55%), radial-gradient(circle at 28% 85%, ${project.heroPaletteComputed[2]} 0%, transparent 58%), radial-gradient(circle at 78% 80%, ${project.heroPaletteComputed[3]} 0%, transparent 58%), ${project.heroPaletteComputed[0]}`
+                      displayedPalette.length === 4
+                        ? `radial-gradient(circle at 18% 25%, ${displayedPalette[0]} 0%, transparent 55%), radial-gradient(circle at 82% 20%, ${displayedPalette[1]} 0%, transparent 55%), radial-gradient(circle at 28% 85%, ${displayedPalette[2]} 0%, transparent 58%), radial-gradient(circle at 78% 80%, ${displayedPalette[3]} 0%, transparent 58%), ${displayedPalette[0]}`
                         : "linear-gradient(135deg, #E7E8E3, #C9CCC5)",
                   }}
                 />
                 <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mt: 1.5 }}>
-                  {project?.heroPaletteComputed.length ? (
-                    project.heroPaletteComputed.map((color) => (
+                  {displayedPalette.length ? (
+                    displayedPalette.map((color) => (
                       <Box
                         key={color}
                         sx={{ display: "flex", alignItems: "center", gap: 0.75 }}
@@ -931,6 +939,35 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
                     </Typography>
                   )}
                 </Box>
+                <Button
+                  variant="outlined"
+                  startIcon={<PaletteIcon />}
+                  sx={{ mt: 2 }}
+                  disabled={
+                    !project ||
+                    palettePending ||
+                    imageUrl.trim() !== project.imageUrl
+                  }
+                  onClick={() => {
+                    if (!project) return;
+                    startPaletteTransition(async () => {
+                      const result = await recomputeProjectHeroPalette(project.id);
+                      if (!result.success || !result.palette) {
+                        toast.error(result.error ?? "Recalcul impossible.");
+                        return;
+                      }
+                      setPaletteOverride(result.palette);
+                      toast.success("Nouvelle palette calculée.");
+                    });
+                  }}
+                >
+                  {palettePending ? "Recalcul en cours..." : "Choisir une autre palette"}
+                </Button>
+                {project && imageUrl.trim() !== project.imageUrl && (
+                  <Typography variant="caption" color="text.secondary" sx={{ display: "block", mt: 1 }}>
+                    Enregistrez d’abord la nouvelle couverture pour recalculer sa palette.
+                  </Typography>
+                )}
               </Box>
               <TextField
                 label="Tags"
