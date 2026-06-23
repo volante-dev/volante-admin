@@ -56,6 +56,7 @@ export const ModelName = {
   ProjectSlide: 'ProjectSlide',
   Service: 'Service',
   StudioValue: 'StudioValue',
+  StudioPageContent: 'StudioPageContent',
   Testimonial: 'Testimonial'
 } as const
 
@@ -170,6 +171,39 @@ export const StudioValueScalarFieldEnum = {
 } as const
 
 export type StudioValueScalarFieldEnum = (typeof StudioValueScalarFieldEnum)[keyof typeof StudioValueScalarFieldEnum]
+
+
+export const StudioPageContentScalarFieldEnum = {
+  id: 'id',
+  eyebrow: 'eyebrow',
+  eyebrowEn: 'eyebrowEn',
+  title: 'title',
+  titleEn: 'titleEn',
+  intro: 'intro',
+  introEn: 'introEn',
+  founderOneName: 'founderOneName',
+  founderOneNameEn: 'founderOneNameEn',
+  founderOneRole: 'founderOneRole',
+  founderOneRoleEn: 'founderOneRoleEn',
+  founderOneDescription: 'founderOneDescription',
+  founderOneDescriptionEn: 'founderOneDescriptionEn',
+  founderOneImageUrl: 'founderOneImageUrl',
+  founderOneImageAlt: 'founderOneImageAlt',
+  founderOneImageAltEn: 'founderOneImageAltEn',
+  founderTwoName: 'founderTwoName',
+  founderTwoNameEn: 'founderTwoNameEn',
+  founderTwoRole: 'founderTwoRole',
+  founderTwoRoleEn: 'founderTwoRoleEn',
+  founderTwoDescription: 'founderTwoDescription',
+  founderTwoDescriptionEn: 'founderTwoDescriptionEn',
+  founderTwoImageUrl: 'founderTwoImageUrl',
+  founderTwoImageAlt: 'founderTwoImageAlt',
+  founderTwoImageAltEn: 'founderTwoImageAltEn',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StudioPageContentScalarFieldEnum = (typeof StudioPageContentScalarFieldEnum)[keyof typeof StudioPageContentScalarFieldEnum]
 
 
 export const TestimonialScalarFieldEnum = {

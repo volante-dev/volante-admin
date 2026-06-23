@@ -17,6 +17,7 @@ type MediaUrlFieldProps = {
   required?: boolean;
   accept: string;
   projectId?: string;
+  basePath?: string;
   field: string;
   helperText?: string;
   previewType?: "IMAGE" | "VIDEO";
@@ -35,6 +36,7 @@ export const MediaUrlField = ({
   required = false,
   accept,
   projectId,
+  basePath,
   field,
   helperText,
   previewType = "IMAGE",
@@ -49,7 +51,8 @@ export const MediaUrlField = ({
 
     setUploading(true);
     try {
-      const pathname = `projects/${projectId ?? "draft"}/${field}/${Date.now()}-${cleanFileName(file.name)}`;
+      const prefix = basePath ?? `projects/${projectId ?? "draft"}`;
+      const pathname = `${prefix}/${field}/${Date.now()}-${cleanFileName(file.name)}`;
       const blob = await uploadPresigned(pathname, file, {
         access: "public",
         handleUploadUrl: "/api/media/upload",

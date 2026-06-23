@@ -1,0 +1,27 @@
+export type StudioPageContentData = {
+  id: string;
+  eyebrow: string;
+  eyebrowEn: string | null;
+  title: string;
+  titleEn: string | null;
+  intro: string;
+  introEn: string | null;
+  founderOneName: string;
+  founderOneNameEn: string | null;
+  founderOneRole: string;
+  founderOneRoleEn: string | null;
+  founderOneDescription: string;
+  founderOneDescriptionEn: string | null;
+  founderOneImageUrl: string;
+  founderOneImageAlt: string | null;
+  founderOneImageAltEn: string | null;
+  founderTwoName: string;
+  founderTwoNameEn: string | null;
+  founderTwoRole: string;
+  founderTwoRoleEn: string | null;
+  founderTwoDescription: string;
+  founderTwoDescriptionEn: string | null;
+  founderTwoImageUrl: string;
+  founderTwoImageAlt: string | null;
+  founderTwoImageAltEn: string | null;
+};

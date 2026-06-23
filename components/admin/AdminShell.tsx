@@ -20,6 +20,7 @@ import FolderIcon from "@mui/icons-material/Folder";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import CategoryIcon from "@mui/icons-material/Category";
+import ArticleIcon from "@mui/icons-material/Article";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Link from "next/link";
 
@@ -32,25 +33,38 @@ type NavItem = {
   disabled?: boolean;
 };
 
-const navItems: NavItem[] = [
-  { label: "Dashboard", href: "/", icon: <DashboardIcon /> },
-  { label: "Services", href: "/services", icon: <BuildIcon /> },
+type NavGroup = {
+  title?: string;
+  items: NavItem[];
+};
+
+const navGroups: NavGroup[] = [
   {
-    label: "Valeurs Studio",
-    href: "/studio-values",
-    icon: <AutoAwesomeIcon />,
+    items: [
+      { label: "Dashboard", href: "/", icon: <DashboardIcon /> },
+      { label: "Services", href: "/services", icon: <BuildIcon /> },
+      {
+        label: "Valeurs Studio",
+        href: "/studio-values",
+        icon: <AutoAwesomeIcon />,
+      },
+      { label: "Projects", href: "/projects", icon: <FolderIcon /> },
+      {
+        label: "Taxonomies",
+        href: "/project-taxonomies",
+        icon: <CategoryIcon />,
+      },
+      {
+        label: "Testimonials",
+        href: "/testimonials",
+        icon: <FormatQuoteIcon />,
+        disabled: true,
+      },
+    ],
   },
-  { label: "Projects", href: "/projects", icon: <FolderIcon /> },
   {
-    label: "Taxonomies",
-    href: "/project-taxonomies",
-    icon: <CategoryIcon />,
-  },
-  {
-    label: "Testimonials",
-    href: "/testimonials",
-    icon: <FormatQuoteIcon />,
-    disabled: true,
+    title: "Pages",
+    items: [{ label: "Studio", href: "/pages/studio", icon: <ArticleIcon /> }],
   },
 ];
 
@@ -80,31 +94,53 @@ export const AdminShell = ({
       </Toolbar>
       <Divider />
       <List sx={{ flex: 1, py: 1 }}>
-        {navItems.map((item) => (
-          <ListItemButton
-            key={item.href}
-            component={item.disabled ? "div" : Link}
-            href={item.disabled ? undefined : item.href}
-            selected={isActive(item.href)}
-            disabled={item.disabled}
-            sx={{
-              mx: 1,
-              borderRadius: 1,
-              mb: 0.5,
-              "&.Mui-selected": {
-                backgroundColor: "primary.main",
-                color: "primary.contrastText",
-                "& .MuiListItemIcon-root": { color: "primary.contrastText" },
-                "&:hover": { backgroundColor: "primary.dark" },
-              },
-            }}
-          >
-            <ListItemIcon sx={{ minWidth: 36 }}>{item.icon}</ListItemIcon>
-            <ListItemText
-              primary={item.label}
-              primaryTypographyProps={{ fontSize: "0.875rem" }}
-            />
-          </ListItemButton>
+        {navGroups.map((group, groupIndex) => (
+          <Box key={group.title ?? groupIndex} sx={{ mb: group.title ? 1 : 0 }}>
+            {group.title && (
+              <Typography
+                variant="caption"
+                sx={{
+                  display: "block",
+                  px: 2,
+                  pt: 1.5,
+                  pb: 0.5,
+                  color: "text.secondary",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                }}
+              >
+                {group.title}
+              </Typography>
+            )}
+            {group.items.map((item) => (
+              <ListItemButton
+                key={item.href}
+                component={item.disabled ? "div" : Link}
+                href={item.disabled ? undefined : item.href}
+                selected={isActive(item.href)}
+                disabled={item.disabled}
+                sx={{
+                  mx: 1,
+                  borderRadius: 1,
+                  mb: 0.5,
+                  "&.Mui-selected": {
+                    backgroundColor: "primary.main",
+                    color: "primary.contrastText",
+                    "& .MuiListItemIcon-root": {
+                      color: "primary.contrastText",
+                    },
+                    "&:hover": { backgroundColor: "primary.dark" },
+                  },
+                }}
+              >
+                <ListItemIcon sx={{ minWidth: 36 }}>{item.icon}</ListItemIcon>
+                <ListItemText
+                  primary={item.label}
+                  primaryTypographyProps={{ fontSize: "0.875rem" }}
+                />
+              </ListItemButton>
+            ))}
+          </Box>
         ))}
       </List>
       <Divider />

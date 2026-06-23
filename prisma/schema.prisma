@@ -8,40 +8,40 @@ datasource db {
 }
 
 model Project {
-  id            String    @id @default(cuid())
-  title         String
-  titleEn       String?
-  slug          String    @unique
-  description   String
-  descriptionEn String?
-  imageUrl      String
-  heroPaletteComputed String[] @default([])
-  tags          String[]
-  clientName    String?
-  sectorEntryId String?
-  sectorEntry   ProjectTaxonomyEntry? @relation("ProjectSector", fields: [sectorEntryId], references: [id], onDelete: SetNull)
-  projectYear   Int?
-  locationEntryId String?
-  locationEntry   ProjectTaxonomyEntry? @relation("ProjectLocation", fields: [locationEntryId], references: [id], onDelete: SetNull)
+  id                      String                 @id @default(cuid())
+  title                   String
+  titleEn                 String?
+  slug                    String                 @unique
+  description             String
+  descriptionEn           String?
+  imageUrl                String
+  heroPaletteComputed     String[]               @default([])
+  tags                    String[]
+  clientName              String?
+  sectorEntryId           String?
+  sectorEntry             ProjectTaxonomyEntry?  @relation("ProjectSector", fields: [sectorEntryId], references: [id], onDelete: SetNull)
+  projectYear             Int?
+  locationEntryId         String?
+  locationEntry           ProjectTaxonomyEntry?  @relation("ProjectLocation", fields: [locationEntryId], references: [id], onDelete: SetNull)
   deliveredServiceEntries ProjectTaxonomyEntry[] @relation("ProjectDeliveredServices")
-  challenge     String?
-  challengeEn   String?
-  approach      String?
-  approachEn    String?
-  results       String?
-  resultsEn     String?
-  credits       String?
-  awards        String?
-  awardsEn      String?
-  externalUrl   String?
-  featured      Boolean   @default(false)
-  order         Int       @default(0)
-  portfolioSize ProjectPortfolioSize @default(NORMAL)
-  portfolioOrder Int      @default(0)
-  publishedAt   DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  slides        ProjectSlide[]
+  challenge               String?
+  challengeEn             String?
+  approach                String?
+  approachEn              String?
+  results                 String?
+  resultsEn               String?
+  credits                 String?
+  awards                  String?
+  awardsEn                String?
+  externalUrl             String?
+  featured                Boolean                @default(false)
+  order                   Int                    @default(0)
+  portfolioSize           ProjectPortfolioSize   @default(NORMAL)
+  portfolioOrder          Int                    @default(0)
+  publishedAt             DateTime?
+  createdAt               DateTime               @default(now())
+  updatedAt               DateTime               @updatedAt
+  slides                  ProjectSlide[]
 }
 
 enum ProjectTaxonomyType {
@@ -118,6 +118,36 @@ model StudioValue {
   active        Boolean @default(true)
 
   @@index([active, order])
+}
+
+model StudioPageContent {
+  id                      String   @id
+  eyebrow                 String
+  eyebrowEn               String?
+  title                   String
+  titleEn                 String?
+  intro                   String
+  introEn                 String?
+  founderOneName          String
+  founderOneNameEn        String?
+  founderOneRole          String
+  founderOneRoleEn        String?
+  founderOneDescription   String
+  founderOneDescriptionEn String?
+  founderOneImageUrl      String
+  founderOneImageAlt      String?
+  founderOneImageAltEn    String?
+  founderTwoName          String
+  founderTwoNameEn        String?
+  founderTwoRole          String
+  founderTwoRoleEn        String?
+  founderTwoDescription   String
+  founderTwoDescriptionEn String?
+  founderTwoImageUrl      String
+  founderTwoImageAlt      String?
+  founderTwoImageAltEn    String?
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
 }
 
 model Testimonial {

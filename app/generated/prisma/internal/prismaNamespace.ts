@@ -389,6 +389,7 @@ export const ModelName = {
   ProjectSlide: 'ProjectSlide',
   Service: 'Service',
   StudioValue: 'StudioValue',
+  StudioPageContent: 'StudioPageContent',
   Testimonial: 'Testimonial'
 } as const
 
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "project" | "projectTaxonomyEntry" | "projectSlide" | "service" | "studioValue" | "testimonial"
+    modelProps: "project" | "projectTaxonomyEntry" | "projectSlide" | "service" | "studioValue" | "studioPageContent" | "testimonial"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -779,6 +780,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    StudioPageContent: {
+      payload: Prisma.$StudioPageContentPayload<ExtArgs>
+      fields: Prisma.StudioPageContentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.StudioPageContentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioPageContentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.StudioPageContentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioPageContentPayload>
+        }
+        findFirst: {
+          args: Prisma.StudioPageContentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioPageContentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.StudioPageContentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioPageContentPayload>
+        }
+        findMany: {
+          args: Prisma.StudioPageContentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioPageContentPayload>[]
+        }
+        create: {
+          args: Prisma.StudioPageContentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioPageContentPayload>
+        }
+        createMany: {
+          args: Prisma.StudioPageContentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.StudioPageContentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioPageContentPayload>[]
+        }
+        delete: {
+          args: Prisma.StudioPageContentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioPageContentPayload>
+        }
+        update: {
+          args: Prisma.StudioPageContentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioPageContentPayload>
+        }
+        deleteMany: {
+          args: Prisma.StudioPageContentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.StudioPageContentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.StudioPageContentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioPageContentPayload>[]
+        }
+        upsert: {
+          args: Prisma.StudioPageContentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$StudioPageContentPayload>
+        }
+        aggregate: {
+          args: Prisma.StudioPageContentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateStudioPageContent>
+        }
+        groupBy: {
+          args: Prisma.StudioPageContentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudioPageContentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.StudioPageContentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.StudioPageContentCountAggregateOutputType> | number
+        }
+      }
+    }
     Testimonial: {
       payload: Prisma.$TestimonialPayload<ExtArgs>
       fields: Prisma.TestimonialFieldRefs
@@ -987,6 +1062,39 @@ export const StudioValueScalarFieldEnum = {
 } as const
 
 export type StudioValueScalarFieldEnum = (typeof StudioValueScalarFieldEnum)[keyof typeof StudioValueScalarFieldEnum]
+
+
+export const StudioPageContentScalarFieldEnum = {
+  id: 'id',
+  eyebrow: 'eyebrow',
+  eyebrowEn: 'eyebrowEn',
+  title: 'title',
+  titleEn: 'titleEn',
+  intro: 'intro',
+  introEn: 'introEn',
+  founderOneName: 'founderOneName',
+  founderOneNameEn: 'founderOneNameEn',
+  founderOneRole: 'founderOneRole',
+  founderOneRoleEn: 'founderOneRoleEn',
+  founderOneDescription: 'founderOneDescription',
+  founderOneDescriptionEn: 'founderOneDescriptionEn',
+  founderOneImageUrl: 'founderOneImageUrl',
+  founderOneImageAlt: 'founderOneImageAlt',
+  founderOneImageAltEn: 'founderOneImageAltEn',
+  founderTwoName: 'founderTwoName',
+  founderTwoNameEn: 'founderTwoNameEn',
+  founderTwoRole: 'founderTwoRole',
+  founderTwoRoleEn: 'founderTwoRoleEn',
+  founderTwoDescription: 'founderTwoDescription',
+  founderTwoDescriptionEn: 'founderTwoDescriptionEn',
+  founderTwoImageUrl: 'founderTwoImageUrl',
+  founderTwoImageAlt: 'founderTwoImageAlt',
+  founderTwoImageAltEn: 'founderTwoImageAltEn',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type StudioPageContentScalarFieldEnum = (typeof StudioPageContentScalarFieldEnum)[keyof typeof StudioPageContentScalarFieldEnum]
 
 
 export const TestimonialScalarFieldEnum = {
@@ -1251,6 +1359,7 @@ export type GlobalOmitConfig = {
   projectSlide?: Prisma.ProjectSlideOmit
   service?: Prisma.ServiceOmit
   studioValue?: Prisma.StudioValueOmit
+  studioPageContent?: Prisma.StudioPageContentOmit
   testimonial?: Prisma.TestimonialOmit
 }
 
