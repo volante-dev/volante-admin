@@ -13,6 +13,7 @@ export type StudioPageContentData = {
   founderOneDescription: string;
   founderOneDescriptionEn: string | null;
   founderOneImageUrl: string;
+  founderOneImageAssetId: string | null;
   founderOneImageAlt: string | null;
   founderOneImageAltEn: string | null;
   founderTwoName: string;
@@ -22,6 +23,7 @@ export type StudioPageContentData = {
   founderTwoDescription: string;
   founderTwoDescriptionEn: string | null;
   founderTwoImageUrl: string;
+  founderTwoImageAssetId: string | null;
   founderTwoImageAlt: string | null;
   founderTwoImageAltEn: string | null;
   historyTitle: string;

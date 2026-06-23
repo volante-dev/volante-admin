@@ -44,7 +44,9 @@ export type ProjectSlideMinAggregateOutputType = {
   contentHtmlEn: string | null
   mediaType: $Enums.ProjectSlideMediaType | null
   mediaUrl: string | null
+  mediaAssetId: string | null
   posterUrl: string | null
+  posterAssetId: string | null
   alt: string | null
   altEn: string | null
   createdAt: Date | null
@@ -61,7 +63,9 @@ export type ProjectSlideMaxAggregateOutputType = {
   contentHtmlEn: string | null
   mediaType: $Enums.ProjectSlideMediaType | null
   mediaUrl: string | null
+  mediaAssetId: string | null
   posterUrl: string | null
+  posterAssetId: string | null
   alt: string | null
   altEn: string | null
   createdAt: Date | null
@@ -78,7 +82,9 @@ export type ProjectSlideCountAggregateOutputType = {
   contentHtmlEn: number
   mediaType: number
   mediaUrl: number
+  mediaAssetId: number
   posterUrl: number
+  posterAssetId: number
   alt: number
   altEn: number
   createdAt: number
@@ -105,7 +111,9 @@ export type ProjectSlideMinAggregateInputType = {
   contentHtmlEn?: true
   mediaType?: true
   mediaUrl?: true
+  mediaAssetId?: true
   posterUrl?: true
+  posterAssetId?: true
   alt?: true
   altEn?: true
   createdAt?: true
@@ -122,7 +130,9 @@ export type ProjectSlideMaxAggregateInputType = {
   contentHtmlEn?: true
   mediaType?: true
   mediaUrl?: true
+  mediaAssetId?: true
   posterUrl?: true
+  posterAssetId?: true
   alt?: true
   altEn?: true
   createdAt?: true
@@ -139,7 +149,9 @@ export type ProjectSlideCountAggregateInputType = {
   contentHtmlEn?: true
   mediaType?: true
   mediaUrl?: true
+  mediaAssetId?: true
   posterUrl?: true
+  posterAssetId?: true
   alt?: true
   altEn?: true
   createdAt?: true
@@ -243,7 +255,9 @@ export type ProjectSlideGroupByOutputType = {
   contentHtmlEn: string | null
   mediaType: $Enums.ProjectSlideMediaType
   mediaUrl: string
+  mediaAssetId: string | null
   posterUrl: string | null
+  posterAssetId: string | null
   alt: string | null
   altEn: string | null
   createdAt: Date
@@ -283,12 +297,16 @@ export type ProjectSlideWhereInput = {
   contentHtmlEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFilter<"ProjectSlide"> | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFilter<"ProjectSlide"> | string
+  mediaAssetId?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   posterUrl?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
+  posterAssetId?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   alt?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   altEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ProjectSlide"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProjectSlide"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
+  mediaAsset?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
+  posterAsset?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
 }
 
 export type ProjectSlideOrderByWithRelationInput = {
@@ -301,12 +319,16 @@ export type ProjectSlideOrderByWithRelationInput = {
   contentHtmlEn?: Prisma.SortOrderInput | Prisma.SortOrder
   mediaType?: Prisma.SortOrder
   mediaUrl?: Prisma.SortOrder
+  mediaAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   posterUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  posterAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   alt?: Prisma.SortOrderInput | Prisma.SortOrder
   altEn?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
+  mediaAsset?: Prisma.MediaAssetOrderByWithRelationInput
+  posterAsset?: Prisma.MediaAssetOrderByWithRelationInput
 }
 
 export type ProjectSlideWhereUniqueInput = Prisma.AtLeast<{
@@ -322,12 +344,16 @@ export type ProjectSlideWhereUniqueInput = Prisma.AtLeast<{
   contentHtmlEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFilter<"ProjectSlide"> | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFilter<"ProjectSlide"> | string
+  mediaAssetId?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   posterUrl?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
+  posterAssetId?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   alt?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   altEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ProjectSlide"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProjectSlide"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
+  mediaAsset?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
+  posterAsset?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
 }, "id">
 
 export type ProjectSlideOrderByWithAggregationInput = {
@@ -340,7 +366,9 @@ export type ProjectSlideOrderByWithAggregationInput = {
   contentHtmlEn?: Prisma.SortOrderInput | Prisma.SortOrder
   mediaType?: Prisma.SortOrder
   mediaUrl?: Prisma.SortOrder
+  mediaAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   posterUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  posterAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   alt?: Prisma.SortOrderInput | Prisma.SortOrder
   altEn?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -365,7 +393,9 @@ export type ProjectSlideScalarWhereWithAggregatesInput = {
   contentHtmlEn?: Prisma.StringNullableWithAggregatesFilter<"ProjectSlide"> | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeWithAggregatesFilter<"ProjectSlide"> | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringWithAggregatesFilter<"ProjectSlide"> | string
+  mediaAssetId?: Prisma.StringNullableWithAggregatesFilter<"ProjectSlide"> | string | null
   posterUrl?: Prisma.StringNullableWithAggregatesFilter<"ProjectSlide"> | string | null
+  posterAssetId?: Prisma.StringNullableWithAggregatesFilter<"ProjectSlide"> | string | null
   alt?: Prisma.StringNullableWithAggregatesFilter<"ProjectSlide"> | string | null
   altEn?: Prisma.StringNullableWithAggregatesFilter<"ProjectSlide"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ProjectSlide"> | Date | string
@@ -387,6 +417,8 @@ export type ProjectSlideCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutSlidesInput
+  mediaAsset?: Prisma.MediaAssetCreateNestedOneWithoutProjectSlideMediaInput
+  posterAsset?: Prisma.MediaAssetCreateNestedOneWithoutProjectSlidePostersInput
 }
 
 export type ProjectSlideUncheckedCreateInput = {
@@ -399,7 +431,9 @@ export type ProjectSlideUncheckedCreateInput = {
   contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
+  mediaAssetId?: string | null
   posterUrl?: string | null
+  posterAssetId?: string | null
   alt?: string | null
   altEn?: string | null
   createdAt?: Date | string
@@ -421,6 +455,8 @@ export type ProjectSlideUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutSlidesNestedInput
+  mediaAsset?: Prisma.MediaAssetUpdateOneWithoutProjectSlideMediaNestedInput
+  posterAsset?: Prisma.MediaAssetUpdateOneWithoutProjectSlidePostersNestedInput
 }
 
 export type ProjectSlideUncheckedUpdateInput = {
@@ -433,7 +469,9 @@ export type ProjectSlideUncheckedUpdateInput = {
   contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -450,7 +488,9 @@ export type ProjectSlideCreateManyInput = {
   contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
+  mediaAssetId?: string | null
   posterUrl?: string | null
+  posterAssetId?: string | null
   alt?: string | null
   altEn?: string | null
   createdAt?: Date | string
@@ -483,7 +523,9 @@ export type ProjectSlideUncheckedUpdateManyInput = {
   contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -510,7 +552,9 @@ export type ProjectSlideCountOrderByAggregateInput = {
   contentHtmlEn?: Prisma.SortOrder
   mediaType?: Prisma.SortOrder
   mediaUrl?: Prisma.SortOrder
+  mediaAssetId?: Prisma.SortOrder
   posterUrl?: Prisma.SortOrder
+  posterAssetId?: Prisma.SortOrder
   alt?: Prisma.SortOrder
   altEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -531,7 +575,9 @@ export type ProjectSlideMaxOrderByAggregateInput = {
   contentHtmlEn?: Prisma.SortOrder
   mediaType?: Prisma.SortOrder
   mediaUrl?: Prisma.SortOrder
+  mediaAssetId?: Prisma.SortOrder
   posterUrl?: Prisma.SortOrder
+  posterAssetId?: Prisma.SortOrder
   alt?: Prisma.SortOrder
   altEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -548,7 +594,9 @@ export type ProjectSlideMinOrderByAggregateInput = {
   contentHtmlEn?: Prisma.SortOrder
   mediaType?: Prisma.SortOrder
   mediaUrl?: Prisma.SortOrder
+  mediaAssetId?: Prisma.SortOrder
   posterUrl?: Prisma.SortOrder
+  posterAssetId?: Prisma.SortOrder
   alt?: Prisma.SortOrder
   altEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -605,6 +653,90 @@ export type EnumProjectSlideMediaTypeFieldUpdateOperationsInput = {
   set?: $Enums.ProjectSlideMediaType
 }
 
+export type ProjectSlideCreateNestedManyWithoutMediaAssetInput = {
+  create?: Prisma.XOR<Prisma.ProjectSlideCreateWithoutMediaAssetInput, Prisma.ProjectSlideUncheckedCreateWithoutMediaAssetInput> | Prisma.ProjectSlideCreateWithoutMediaAssetInput[] | Prisma.ProjectSlideUncheckedCreateWithoutMediaAssetInput[]
+  connectOrCreate?: Prisma.ProjectSlideCreateOrConnectWithoutMediaAssetInput | Prisma.ProjectSlideCreateOrConnectWithoutMediaAssetInput[]
+  createMany?: Prisma.ProjectSlideCreateManyMediaAssetInputEnvelope
+  connect?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+}
+
+export type ProjectSlideCreateNestedManyWithoutPosterAssetInput = {
+  create?: Prisma.XOR<Prisma.ProjectSlideCreateWithoutPosterAssetInput, Prisma.ProjectSlideUncheckedCreateWithoutPosterAssetInput> | Prisma.ProjectSlideCreateWithoutPosterAssetInput[] | Prisma.ProjectSlideUncheckedCreateWithoutPosterAssetInput[]
+  connectOrCreate?: Prisma.ProjectSlideCreateOrConnectWithoutPosterAssetInput | Prisma.ProjectSlideCreateOrConnectWithoutPosterAssetInput[]
+  createMany?: Prisma.ProjectSlideCreateManyPosterAssetInputEnvelope
+  connect?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+}
+
+export type ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput = {
+  create?: Prisma.XOR<Prisma.ProjectSlideCreateWithoutMediaAssetInput, Prisma.ProjectSlideUncheckedCreateWithoutMediaAssetInput> | Prisma.ProjectSlideCreateWithoutMediaAssetInput[] | Prisma.ProjectSlideUncheckedCreateWithoutMediaAssetInput[]
+  connectOrCreate?: Prisma.ProjectSlideCreateOrConnectWithoutMediaAssetInput | Prisma.ProjectSlideCreateOrConnectWithoutMediaAssetInput[]
+  createMany?: Prisma.ProjectSlideCreateManyMediaAssetInputEnvelope
+  connect?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+}
+
+export type ProjectSlideUncheckedCreateNestedManyWithoutPosterAssetInput = {
+  create?: Prisma.XOR<Prisma.ProjectSlideCreateWithoutPosterAssetInput, Prisma.ProjectSlideUncheckedCreateWithoutPosterAssetInput> | Prisma.ProjectSlideCreateWithoutPosterAssetInput[] | Prisma.ProjectSlideUncheckedCreateWithoutPosterAssetInput[]
+  connectOrCreate?: Prisma.ProjectSlideCreateOrConnectWithoutPosterAssetInput | Prisma.ProjectSlideCreateOrConnectWithoutPosterAssetInput[]
+  createMany?: Prisma.ProjectSlideCreateManyPosterAssetInputEnvelope
+  connect?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+}
+
+export type ProjectSlideUpdateManyWithoutMediaAssetNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectSlideCreateWithoutMediaAssetInput, Prisma.ProjectSlideUncheckedCreateWithoutMediaAssetInput> | Prisma.ProjectSlideCreateWithoutMediaAssetInput[] | Prisma.ProjectSlideUncheckedCreateWithoutMediaAssetInput[]
+  connectOrCreate?: Prisma.ProjectSlideCreateOrConnectWithoutMediaAssetInput | Prisma.ProjectSlideCreateOrConnectWithoutMediaAssetInput[]
+  upsert?: Prisma.ProjectSlideUpsertWithWhereUniqueWithoutMediaAssetInput | Prisma.ProjectSlideUpsertWithWhereUniqueWithoutMediaAssetInput[]
+  createMany?: Prisma.ProjectSlideCreateManyMediaAssetInputEnvelope
+  set?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  disconnect?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  delete?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  connect?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  update?: Prisma.ProjectSlideUpdateWithWhereUniqueWithoutMediaAssetInput | Prisma.ProjectSlideUpdateWithWhereUniqueWithoutMediaAssetInput[]
+  updateMany?: Prisma.ProjectSlideUpdateManyWithWhereWithoutMediaAssetInput | Prisma.ProjectSlideUpdateManyWithWhereWithoutMediaAssetInput[]
+  deleteMany?: Prisma.ProjectSlideScalarWhereInput | Prisma.ProjectSlideScalarWhereInput[]
+}
+
+export type ProjectSlideUpdateManyWithoutPosterAssetNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectSlideCreateWithoutPosterAssetInput, Prisma.ProjectSlideUncheckedCreateWithoutPosterAssetInput> | Prisma.ProjectSlideCreateWithoutPosterAssetInput[] | Prisma.ProjectSlideUncheckedCreateWithoutPosterAssetInput[]
+  connectOrCreate?: Prisma.ProjectSlideCreateOrConnectWithoutPosterAssetInput | Prisma.ProjectSlideCreateOrConnectWithoutPosterAssetInput[]
+  upsert?: Prisma.ProjectSlideUpsertWithWhereUniqueWithoutPosterAssetInput | Prisma.ProjectSlideUpsertWithWhereUniqueWithoutPosterAssetInput[]
+  createMany?: Prisma.ProjectSlideCreateManyPosterAssetInputEnvelope
+  set?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  disconnect?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  delete?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  connect?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  update?: Prisma.ProjectSlideUpdateWithWhereUniqueWithoutPosterAssetInput | Prisma.ProjectSlideUpdateWithWhereUniqueWithoutPosterAssetInput[]
+  updateMany?: Prisma.ProjectSlideUpdateManyWithWhereWithoutPosterAssetInput | Prisma.ProjectSlideUpdateManyWithWhereWithoutPosterAssetInput[]
+  deleteMany?: Prisma.ProjectSlideScalarWhereInput | Prisma.ProjectSlideScalarWhereInput[]
+}
+
+export type ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectSlideCreateWithoutMediaAssetInput, Prisma.ProjectSlideUncheckedCreateWithoutMediaAssetInput> | Prisma.ProjectSlideCreateWithoutMediaAssetInput[] | Prisma.ProjectSlideUncheckedCreateWithoutMediaAssetInput[]
+  connectOrCreate?: Prisma.ProjectSlideCreateOrConnectWithoutMediaAssetInput | Prisma.ProjectSlideCreateOrConnectWithoutMediaAssetInput[]
+  upsert?: Prisma.ProjectSlideUpsertWithWhereUniqueWithoutMediaAssetInput | Prisma.ProjectSlideUpsertWithWhereUniqueWithoutMediaAssetInput[]
+  createMany?: Prisma.ProjectSlideCreateManyMediaAssetInputEnvelope
+  set?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  disconnect?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  delete?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  connect?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  update?: Prisma.ProjectSlideUpdateWithWhereUniqueWithoutMediaAssetInput | Prisma.ProjectSlideUpdateWithWhereUniqueWithoutMediaAssetInput[]
+  updateMany?: Prisma.ProjectSlideUpdateManyWithWhereWithoutMediaAssetInput | Prisma.ProjectSlideUpdateManyWithWhereWithoutMediaAssetInput[]
+  deleteMany?: Prisma.ProjectSlideScalarWhereInput | Prisma.ProjectSlideScalarWhereInput[]
+}
+
+export type ProjectSlideUncheckedUpdateManyWithoutPosterAssetNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectSlideCreateWithoutPosterAssetInput, Prisma.ProjectSlideUncheckedCreateWithoutPosterAssetInput> | Prisma.ProjectSlideCreateWithoutPosterAssetInput[] | Prisma.ProjectSlideUncheckedCreateWithoutPosterAssetInput[]
+  connectOrCreate?: Prisma.ProjectSlideCreateOrConnectWithoutPosterAssetInput | Prisma.ProjectSlideCreateOrConnectWithoutPosterAssetInput[]
+  upsert?: Prisma.ProjectSlideUpsertWithWhereUniqueWithoutPosterAssetInput | Prisma.ProjectSlideUpsertWithWhereUniqueWithoutPosterAssetInput[]
+  createMany?: Prisma.ProjectSlideCreateManyPosterAssetInputEnvelope
+  set?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  disconnect?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  delete?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  connect?: Prisma.ProjectSlideWhereUniqueInput | Prisma.ProjectSlideWhereUniqueInput[]
+  update?: Prisma.ProjectSlideUpdateWithWhereUniqueWithoutPosterAssetInput | Prisma.ProjectSlideUpdateWithWhereUniqueWithoutPosterAssetInput[]
+  updateMany?: Prisma.ProjectSlideUpdateManyWithWhereWithoutPosterAssetInput | Prisma.ProjectSlideUpdateManyWithWhereWithoutPosterAssetInput[]
+  deleteMany?: Prisma.ProjectSlideScalarWhereInput | Prisma.ProjectSlideScalarWhereInput[]
+}
+
 export type ProjectSlideCreateWithoutProjectInput = {
   id?: string
   order?: number
@@ -619,6 +751,8 @@ export type ProjectSlideCreateWithoutProjectInput = {
   altEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  mediaAsset?: Prisma.MediaAssetCreateNestedOneWithoutProjectSlideMediaInput
+  posterAsset?: Prisma.MediaAssetCreateNestedOneWithoutProjectSlidePostersInput
 }
 
 export type ProjectSlideUncheckedCreateWithoutProjectInput = {
@@ -630,7 +764,9 @@ export type ProjectSlideUncheckedCreateWithoutProjectInput = {
   contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
+  mediaAssetId?: string | null
   posterUrl?: string | null
+  posterAssetId?: string | null
   alt?: string | null
   altEn?: string | null
   createdAt?: Date | string
@@ -676,11 +812,137 @@ export type ProjectSlideScalarWhereInput = {
   contentHtmlEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFilter<"ProjectSlide"> | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFilter<"ProjectSlide"> | string
+  mediaAssetId?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   posterUrl?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
+  posterAssetId?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   alt?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   altEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ProjectSlide"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProjectSlide"> | Date | string
+}
+
+export type ProjectSlideCreateWithoutMediaAssetInput = {
+  id?: string
+  order?: number
+  title: string
+  titleEn?: string | null
+  contentHtml: string
+  contentHtmlEn?: string | null
+  mediaType?: $Enums.ProjectSlideMediaType
+  mediaUrl: string
+  posterUrl?: string | null
+  alt?: string | null
+  altEn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  project: Prisma.ProjectCreateNestedOneWithoutSlidesInput
+  posterAsset?: Prisma.MediaAssetCreateNestedOneWithoutProjectSlidePostersInput
+}
+
+export type ProjectSlideUncheckedCreateWithoutMediaAssetInput = {
+  id?: string
+  projectId: string
+  order?: number
+  title: string
+  titleEn?: string | null
+  contentHtml: string
+  contentHtmlEn?: string | null
+  mediaType?: $Enums.ProjectSlideMediaType
+  mediaUrl: string
+  posterUrl?: string | null
+  posterAssetId?: string | null
+  alt?: string | null
+  altEn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProjectSlideCreateOrConnectWithoutMediaAssetInput = {
+  where: Prisma.ProjectSlideWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectSlideCreateWithoutMediaAssetInput, Prisma.ProjectSlideUncheckedCreateWithoutMediaAssetInput>
+}
+
+export type ProjectSlideCreateManyMediaAssetInputEnvelope = {
+  data: Prisma.ProjectSlideCreateManyMediaAssetInput | Prisma.ProjectSlideCreateManyMediaAssetInput[]
+  skipDuplicates?: boolean
+}
+
+export type ProjectSlideCreateWithoutPosterAssetInput = {
+  id?: string
+  order?: number
+  title: string
+  titleEn?: string | null
+  contentHtml: string
+  contentHtmlEn?: string | null
+  mediaType?: $Enums.ProjectSlideMediaType
+  mediaUrl: string
+  posterUrl?: string | null
+  alt?: string | null
+  altEn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  project: Prisma.ProjectCreateNestedOneWithoutSlidesInput
+  mediaAsset?: Prisma.MediaAssetCreateNestedOneWithoutProjectSlideMediaInput
+}
+
+export type ProjectSlideUncheckedCreateWithoutPosterAssetInput = {
+  id?: string
+  projectId: string
+  order?: number
+  title: string
+  titleEn?: string | null
+  contentHtml: string
+  contentHtmlEn?: string | null
+  mediaType?: $Enums.ProjectSlideMediaType
+  mediaUrl: string
+  mediaAssetId?: string | null
+  posterUrl?: string | null
+  alt?: string | null
+  altEn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProjectSlideCreateOrConnectWithoutPosterAssetInput = {
+  where: Prisma.ProjectSlideWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectSlideCreateWithoutPosterAssetInput, Prisma.ProjectSlideUncheckedCreateWithoutPosterAssetInput>
+}
+
+export type ProjectSlideCreateManyPosterAssetInputEnvelope = {
+  data: Prisma.ProjectSlideCreateManyPosterAssetInput | Prisma.ProjectSlideCreateManyPosterAssetInput[]
+  skipDuplicates?: boolean
+}
+
+export type ProjectSlideUpsertWithWhereUniqueWithoutMediaAssetInput = {
+  where: Prisma.ProjectSlideWhereUniqueInput
+  update: Prisma.XOR<Prisma.ProjectSlideUpdateWithoutMediaAssetInput, Prisma.ProjectSlideUncheckedUpdateWithoutMediaAssetInput>
+  create: Prisma.XOR<Prisma.ProjectSlideCreateWithoutMediaAssetInput, Prisma.ProjectSlideUncheckedCreateWithoutMediaAssetInput>
+}
+
+export type ProjectSlideUpdateWithWhereUniqueWithoutMediaAssetInput = {
+  where: Prisma.ProjectSlideWhereUniqueInput
+  data: Prisma.XOR<Prisma.ProjectSlideUpdateWithoutMediaAssetInput, Prisma.ProjectSlideUncheckedUpdateWithoutMediaAssetInput>
+}
+
+export type ProjectSlideUpdateManyWithWhereWithoutMediaAssetInput = {
+  where: Prisma.ProjectSlideScalarWhereInput
+  data: Prisma.XOR<Prisma.ProjectSlideUpdateManyMutationInput, Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetInput>
+}
+
+export type ProjectSlideUpsertWithWhereUniqueWithoutPosterAssetInput = {
+  where: Prisma.ProjectSlideWhereUniqueInput
+  update: Prisma.XOR<Prisma.ProjectSlideUpdateWithoutPosterAssetInput, Prisma.ProjectSlideUncheckedUpdateWithoutPosterAssetInput>
+  create: Prisma.XOR<Prisma.ProjectSlideCreateWithoutPosterAssetInput, Prisma.ProjectSlideUncheckedCreateWithoutPosterAssetInput>
+}
+
+export type ProjectSlideUpdateWithWhereUniqueWithoutPosterAssetInput = {
+  where: Prisma.ProjectSlideWhereUniqueInput
+  data: Prisma.XOR<Prisma.ProjectSlideUpdateWithoutPosterAssetInput, Prisma.ProjectSlideUncheckedUpdateWithoutPosterAssetInput>
+}
+
+export type ProjectSlideUpdateManyWithWhereWithoutPosterAssetInput = {
+  where: Prisma.ProjectSlideScalarWhereInput
+  data: Prisma.XOR<Prisma.ProjectSlideUpdateManyMutationInput, Prisma.ProjectSlideUncheckedUpdateManyWithoutPosterAssetInput>
 }
 
 export type ProjectSlideCreateManyProjectInput = {
@@ -692,7 +954,9 @@ export type ProjectSlideCreateManyProjectInput = {
   contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
+  mediaAssetId?: string | null
   posterUrl?: string | null
+  posterAssetId?: string | null
   alt?: string | null
   altEn?: string | null
   createdAt?: Date | string
@@ -713,6 +977,8 @@ export type ProjectSlideUpdateWithoutProjectInput = {
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  mediaAsset?: Prisma.MediaAssetUpdateOneWithoutProjectSlideMediaNestedInput
+  posterAsset?: Prisma.MediaAssetUpdateOneWithoutProjectSlidePostersNestedInput
 }
 
 export type ProjectSlideUncheckedUpdateWithoutProjectInput = {
@@ -724,7 +990,9 @@ export type ProjectSlideUncheckedUpdateWithoutProjectInput = {
   contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -740,6 +1008,152 @@ export type ProjectSlideUncheckedUpdateManyWithoutProjectInput = {
   contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ProjectSlideCreateManyMediaAssetInput = {
+  id?: string
+  projectId: string
+  order?: number
+  title: string
+  titleEn?: string | null
+  contentHtml: string
+  contentHtmlEn?: string | null
+  mediaType?: $Enums.ProjectSlideMediaType
+  mediaUrl: string
+  posterUrl?: string | null
+  posterAssetId?: string | null
+  alt?: string | null
+  altEn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProjectSlideCreateManyPosterAssetInput = {
+  id?: string
+  projectId: string
+  order?: number
+  title: string
+  titleEn?: string | null
+  contentHtml: string
+  contentHtmlEn?: string | null
+  mediaType?: $Enums.ProjectSlideMediaType
+  mediaUrl: string
+  mediaAssetId?: string | null
+  posterUrl?: string | null
+  alt?: string | null
+  altEn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ProjectSlideUpdateWithoutMediaAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
+  mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  project?: Prisma.ProjectUpdateOneRequiredWithoutSlidesNestedInput
+  posterAsset?: Prisma.MediaAssetUpdateOneWithoutProjectSlidePostersNestedInput
+}
+
+export type ProjectSlideUncheckedUpdateWithoutMediaAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
+  mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ProjectSlideUncheckedUpdateManyWithoutMediaAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
+  mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ProjectSlideUpdateWithoutPosterAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
+  mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  project?: Prisma.ProjectUpdateOneRequiredWithoutSlidesNestedInput
+  mediaAsset?: Prisma.MediaAssetUpdateOneWithoutProjectSlideMediaNestedInput
+}
+
+export type ProjectSlideUncheckedUpdateWithoutPosterAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
+  mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ProjectSlideUncheckedUpdateManyWithoutPosterAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
+  mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -759,12 +1173,16 @@ export type ProjectSlideSelect<ExtArgs extends runtime.Types.Extensions.Internal
   contentHtmlEn?: boolean
   mediaType?: boolean
   mediaUrl?: boolean
+  mediaAssetId?: boolean
   posterUrl?: boolean
+  posterAssetId?: boolean
   alt?: boolean
   altEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  mediaAsset?: boolean | Prisma.ProjectSlide$mediaAssetArgs<ExtArgs>
+  posterAsset?: boolean | Prisma.ProjectSlide$posterAssetArgs<ExtArgs>
 }, ExtArgs["result"]["projectSlide"]>
 
 export type ProjectSlideSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -777,12 +1195,16 @@ export type ProjectSlideSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   contentHtmlEn?: boolean
   mediaType?: boolean
   mediaUrl?: boolean
+  mediaAssetId?: boolean
   posterUrl?: boolean
+  posterAssetId?: boolean
   alt?: boolean
   altEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  mediaAsset?: boolean | Prisma.ProjectSlide$mediaAssetArgs<ExtArgs>
+  posterAsset?: boolean | Prisma.ProjectSlide$posterAssetArgs<ExtArgs>
 }, ExtArgs["result"]["projectSlide"]>
 
 export type ProjectSlideSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -795,12 +1217,16 @@ export type ProjectSlideSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   contentHtmlEn?: boolean
   mediaType?: boolean
   mediaUrl?: boolean
+  mediaAssetId?: boolean
   posterUrl?: boolean
+  posterAssetId?: boolean
   alt?: boolean
   altEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  mediaAsset?: boolean | Prisma.ProjectSlide$mediaAssetArgs<ExtArgs>
+  posterAsset?: boolean | Prisma.ProjectSlide$posterAssetArgs<ExtArgs>
 }, ExtArgs["result"]["projectSlide"]>
 
 export type ProjectSlideSelectScalar = {
@@ -813,28 +1239,38 @@ export type ProjectSlideSelectScalar = {
   contentHtmlEn?: boolean
   mediaType?: boolean
   mediaUrl?: boolean
+  mediaAssetId?: boolean
   posterUrl?: boolean
+  posterAssetId?: boolean
   alt?: boolean
   altEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ProjectSlideOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "order" | "title" | "titleEn" | "contentHtml" | "contentHtmlEn" | "mediaType" | "mediaUrl" | "posterUrl" | "alt" | "altEn" | "createdAt" | "updatedAt", ExtArgs["result"]["projectSlide"]>
+export type ProjectSlideOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "order" | "title" | "titleEn" | "contentHtml" | "contentHtmlEn" | "mediaType" | "mediaUrl" | "mediaAssetId" | "posterUrl" | "posterAssetId" | "alt" | "altEn" | "createdAt" | "updatedAt", ExtArgs["result"]["projectSlide"]>
 export type ProjectSlideInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  mediaAsset?: boolean | Prisma.ProjectSlide$mediaAssetArgs<ExtArgs>
+  posterAsset?: boolean | Prisma.ProjectSlide$posterAssetArgs<ExtArgs>
 }
 export type ProjectSlideIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  mediaAsset?: boolean | Prisma.ProjectSlide$mediaAssetArgs<ExtArgs>
+  posterAsset?: boolean | Prisma.ProjectSlide$posterAssetArgs<ExtArgs>
 }
 export type ProjectSlideIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  mediaAsset?: boolean | Prisma.ProjectSlide$mediaAssetArgs<ExtArgs>
+  posterAsset?: boolean | Prisma.ProjectSlide$posterAssetArgs<ExtArgs>
 }
 
 export type $ProjectSlidePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ProjectSlide"
   objects: {
     project: Prisma.$ProjectPayload<ExtArgs>
+    mediaAsset: Prisma.$MediaAssetPayload<ExtArgs> | null
+    posterAsset: Prisma.$MediaAssetPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -846,7 +1282,9 @@ export type $ProjectSlidePayload<ExtArgs extends runtime.Types.Extensions.Intern
     contentHtmlEn: string | null
     mediaType: $Enums.ProjectSlideMediaType
     mediaUrl: string
+    mediaAssetId: string | null
     posterUrl: string | null
+    posterAssetId: string | null
     alt: string | null
     altEn: string | null
     createdAt: Date
@@ -1246,6 +1684,8 @@ readonly fields: ProjectSlideFieldRefs;
 export interface Prisma__ProjectSlideClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   project<T extends Prisma.ProjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  mediaAsset<T extends Prisma.ProjectSlide$mediaAssetArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectSlide$mediaAssetArgs<ExtArgs>>): Prisma.Prisma__MediaAssetClient<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  posterAsset<T extends Prisma.ProjectSlide$posterAssetArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectSlide$posterAssetArgs<ExtArgs>>): Prisma.Prisma__MediaAssetClient<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1284,7 +1724,9 @@ export interface ProjectSlideFieldRefs {
   readonly contentHtmlEn: Prisma.FieldRef<"ProjectSlide", 'String'>
   readonly mediaType: Prisma.FieldRef<"ProjectSlide", 'ProjectSlideMediaType'>
   readonly mediaUrl: Prisma.FieldRef<"ProjectSlide", 'String'>
+  readonly mediaAssetId: Prisma.FieldRef<"ProjectSlide", 'String'>
   readonly posterUrl: Prisma.FieldRef<"ProjectSlide", 'String'>
+  readonly posterAssetId: Prisma.FieldRef<"ProjectSlide", 'String'>
   readonly alt: Prisma.FieldRef<"ProjectSlide", 'String'>
   readonly altEn: Prisma.FieldRef<"ProjectSlide", 'String'>
   readonly createdAt: Prisma.FieldRef<"ProjectSlide", 'DateTime'>
@@ -1687,6 +2129,44 @@ export type ProjectSlideDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many ProjectSlides to delete.
    */
   limit?: number
+}
+
+/**
+ * ProjectSlide.mediaAsset
+ */
+export type ProjectSlide$mediaAssetArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MediaAsset
+   */
+  select?: Prisma.MediaAssetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MediaAsset
+   */
+  omit?: Prisma.MediaAssetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MediaAssetInclude<ExtArgs> | null
+  where?: Prisma.MediaAssetWhereInput
+}
+
+/**
+ * ProjectSlide.posterAsset
+ */
+export type ProjectSlide$posterAssetArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MediaAsset
+   */
+  select?: Prisma.MediaAssetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MediaAsset
+   */
+  omit?: Prisma.MediaAssetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MediaAssetInclude<ExtArgs> | null
+  where?: Prisma.MediaAssetWhereInput
 }
 
 /**

@@ -57,6 +57,7 @@ export const ModelName = {
   Service: 'Service',
   StudioValue: 'StudioValue',
   StudioPageContent: 'StudioPageContent',
+  MediaAsset: 'MediaAsset',
   Testimonial: 'Testimonial'
 } as const
 
@@ -84,6 +85,7 @@ export const ProjectScalarFieldEnum = {
   description: 'description',
   descriptionEn: 'descriptionEn',
   imageUrl: 'imageUrl',
+  imageAssetId: 'imageAssetId',
   heroPaletteComputed: 'heroPaletteComputed',
   tags: 'tags',
   clientName: 'clientName',
@@ -136,7 +138,9 @@ export const ProjectSlideScalarFieldEnum = {
   contentHtmlEn: 'contentHtmlEn',
   mediaType: 'mediaType',
   mediaUrl: 'mediaUrl',
+  mediaAssetId: 'mediaAssetId',
   posterUrl: 'posterUrl',
+  posterAssetId: 'posterAssetId',
   alt: 'alt',
   altEn: 'altEn',
   createdAt: 'createdAt',
@@ -190,6 +194,7 @@ export const StudioPageContentScalarFieldEnum = {
   founderOneDescription: 'founderOneDescription',
   founderOneDescriptionEn: 'founderOneDescriptionEn',
   founderOneImageUrl: 'founderOneImageUrl',
+  founderOneImageAssetId: 'founderOneImageAssetId',
   founderOneImageAlt: 'founderOneImageAlt',
   founderOneImageAltEn: 'founderOneImageAltEn',
   founderTwoName: 'founderTwoName',
@@ -199,6 +204,7 @@ export const StudioPageContentScalarFieldEnum = {
   founderTwoDescription: 'founderTwoDescription',
   founderTwoDescriptionEn: 'founderTwoDescriptionEn',
   founderTwoImageUrl: 'founderTwoImageUrl',
+  founderTwoImageAssetId: 'founderTwoImageAssetId',
   founderTwoImageAlt: 'founderTwoImageAlt',
   founderTwoImageAltEn: 'founderTwoImageAltEn',
   historyTitle: 'historyTitle',
@@ -212,12 +218,34 @@ export const StudioPageContentScalarFieldEnum = {
 export type StudioPageContentScalarFieldEnum = (typeof StudioPageContentScalarFieldEnum)[keyof typeof StudioPageContentScalarFieldEnum]
 
 
+export const MediaAssetScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  pathname: 'pathname',
+  mediaType: 'mediaType',
+  mimeType: 'mimeType',
+  size: 'size',
+  width: 'width',
+  height: 'height',
+  name: 'name',
+  alt: 'alt',
+  altEn: 'altEn',
+  tags: 'tags',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MediaAssetScalarFieldEnum = (typeof MediaAssetScalarFieldEnum)[keyof typeof MediaAssetScalarFieldEnum]
+
+
 export const TestimonialScalarFieldEnum = {
   id: 'id',
   author: 'author',
   company: 'company',
   quote: 'quote',
   avatarUrl: 'avatarUrl',
+  avatarAssetId: 'avatarAssetId',
   order: 'order',
   active: 'active'
 } as const

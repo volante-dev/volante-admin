@@ -21,6 +21,7 @@ import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import CategoryIcon from "@mui/icons-material/Category";
 import ArticleIcon from "@mui/icons-material/Article";
+import PermMediaIcon from "@mui/icons-material/PermMedia";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Link from "next/link";
 
@@ -49,6 +50,11 @@ const navGroups: NavGroup[] = [
         icon: <AutoAwesomeIcon />,
       },
       { label: "Projects", href: "/projects", icon: <FolderIcon /> },
+      {
+        label: "Galerie de medias",
+        href: "/media-assets",
+        icon: <PermMediaIcon />,
+      },
       {
         label: "Taxonomies",
         href: "/project-taxonomies",

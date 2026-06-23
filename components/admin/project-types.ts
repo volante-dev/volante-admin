@@ -29,7 +29,9 @@ export type AdminProjectSlide = {
   contentHtmlEn: string | null;
   mediaType: "IMAGE" | "VIDEO";
   mediaUrl: string;
+  mediaAssetId: string | null;
   posterUrl: string | null;
+  posterAssetId: string | null;
   alt: string | null;
   altEn: string | null;
 };
@@ -42,6 +44,7 @@ export type AdminProjectDetail = {
   description: string;
   descriptionEn: string | null;
   imageUrl: string;
+  imageAssetId: string | null;
   heroPaletteComputed: string[];
   tags: string[];
   clientName: string | null;

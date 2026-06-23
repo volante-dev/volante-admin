@@ -15,6 +15,8 @@ model Project {
   description             String
   descriptionEn           String?
   imageUrl                String
+  imageAssetId            String?
+  imageAsset              MediaAsset?            @relation("ProjectImageAsset", fields: [imageAssetId], references: [id], onDelete: SetNull)
   heroPaletteComputed     String[]               @default([])
   tags                    String[]
   clientName              String?
@@ -88,7 +90,11 @@ model ProjectSlide {
   contentHtmlEn String?
   mediaType     ProjectSlideMediaType @default(IMAGE)
   mediaUrl      String
+  mediaAssetId  String?
+  mediaAsset    MediaAsset?           @relation("ProjectSlideMediaAsset", fields: [mediaAssetId], references: [id], onDelete: SetNull)
   posterUrl     String?
+  posterAssetId String?
+  posterAsset   MediaAsset?           @relation("ProjectSlidePosterAsset", fields: [posterAssetId], references: [id], onDelete: SetNull)
   alt           String?
   altEn         String?
   createdAt     DateTime              @default(now())
@@ -123,7 +129,7 @@ model StudioValue {
 }
 
 model StudioPageContent {
-  id                      String   @id
+  id                      String      @id
   eyebrow                 String
   eyebrowEn               String?
   title                   String
@@ -137,6 +143,8 @@ model StudioPageContent {
   founderOneDescription   String
   founderOneDescriptionEn String?
   founderOneImageUrl      String
+  founderOneImageAssetId  String?
+  founderOneImageAsset    MediaAsset? @relation("StudioFounderOneImageAsset", fields: [founderOneImageAssetId], references: [id], onDelete: SetNull)
   founderOneImageAlt      String?
   founderOneImageAltEn    String?
   founderTwoName          String
@@ -146,22 +154,57 @@ model StudioPageContent {
   founderTwoDescription   String
   founderTwoDescriptionEn String?
   founderTwoImageUrl      String
+  founderTwoImageAssetId  String?
+  founderTwoImageAsset    MediaAsset? @relation("StudioFounderTwoImageAsset", fields: [founderTwoImageAssetId], references: [id], onDelete: SetNull)
   founderTwoImageAlt      String?
   founderTwoImageAltEn    String?
   historyTitle            String
   historyTitleEn          String?
   historyContentHtml      String
   historyContentHtmlEn    String?
-  createdAt               DateTime @default(now())
-  updatedAt               DateTime @updatedAt
+  createdAt               DateTime    @default(now())
+  updatedAt               DateTime    @updatedAt
+}
+
+enum MediaAssetType {
+  IMAGE
+  VIDEO
+}
+
+model MediaAsset {
+  id                     String              @id @default(cuid())
+  url                    String              @unique
+  pathname               String
+  mediaType              MediaAssetType
+  mimeType               String?
+  size                   Int?
+  width                  Int?
+  height                 Int?
+  name                   String
+  alt                    String?
+  altEn                  String?
+  tags                   String[]
+  active                 Boolean             @default(true)
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
+  projectImages          Project[]           @relation("ProjectImageAsset")
+  projectSlideMedia      ProjectSlide[]      @relation("ProjectSlideMediaAsset")
+  projectSlidePosters    ProjectSlide[]      @relation("ProjectSlidePosterAsset")
+  studioFounderOneImages StudioPageContent[] @relation("StudioFounderOneImageAsset")
+  studioFounderTwoImages StudioPageContent[] @relation("StudioFounderTwoImageAsset")
+  testimonialAvatars     Testimonial[]       @relation("TestimonialAvatarAsset")
+
+  @@index([active, mediaType, createdAt])
 }
 
 model Testimonial {
-  id        String  @id @default(cuid())
-  author    String
-  company   String
-  quote     String
-  avatarUrl String?
-  order     Int     @default(0)
-  active    Boolean @default(true)
+  id            String      @id @default(cuid())
+  author        String
+  company       String
+  quote         String
+  avatarUrl     String?
+  avatarAssetId String?
+  avatarAsset   MediaAsset? @relation("TestimonialAvatarAsset", fields: [avatarAssetId], references: [id], onDelete: SetNull)
+  order         Int         @default(0)
+  active        Boolean     @default(true)
 }

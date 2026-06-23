@@ -36,7 +36,9 @@ type SlidePayload = {
   contentHtmlEn?: string;
   mediaType: "IMAGE" | "VIDEO";
   mediaUrl: string;
+  mediaAssetId?: string;
   posterUrl?: string;
+  posterAssetId?: string;
   alt?: string;
   altEn?: string;
 };
@@ -77,8 +79,16 @@ const parseSlides = (formData: FormData): SlidePayload[] => {
           : undefined,
       mediaType: value.mediaType === "VIDEO" ? "VIDEO" : "IMAGE",
       mediaUrl: typeof value.mediaUrl === "string" ? value.mediaUrl.trim() : "",
+      mediaAssetId:
+        typeof value.mediaAssetId === "string" && value.mediaAssetId
+          ? value.mediaAssetId
+          : undefined,
       posterUrl:
         typeof value.posterUrl === "string" ? value.posterUrl.trim() : undefined,
+      posterAssetId:
+        typeof value.posterAssetId === "string" && value.posterAssetId
+          ? value.posterAssetId
+          : undefined,
       alt: typeof value.alt === "string" ? value.alt.trim() : undefined,
       altEn: typeof value.altEn === "string" ? value.altEn.trim() : undefined,
     };
@@ -95,6 +105,7 @@ const validateProjectPayload = async (
   const description = normalizeRequired(formData.get("description"));
   const descriptionEn = normalizeNullable(formData.get("descriptionEn"));
   const imageUrl = normalizeRequired(formData.get("imageUrl"));
+  const imageAssetId = normalizeNullable(formData.get("imageAssetId"));
   const tags = parseTags(formData.get("tags"));
   const clientName = normalizeNullable(formData.get("clientName"));
   const sectorEntryId = normalizeNullable(formData.get("sectorEntryId"));
@@ -146,6 +157,30 @@ const validateProjectPayload = async (
   }
   if (externalUrl && !isValidMediaUrl(externalUrl)) {
     return { error: "Le lien externe est invalide." };
+  }
+
+  const mediaAssetIds = [
+    imageAssetId,
+    ...slides.flatMap((slide) => [slide.mediaAssetId, slide.posterAssetId]),
+  ].filter((id): id is string => Boolean(id));
+  const mediaAssets = mediaAssetIds.length
+    ? await prisma.mediaAsset.findMany({
+        where: { id: { in: mediaAssetIds } },
+        select: { id: true, url: true, mediaType: true, active: true },
+      })
+    : [];
+  const mediaAssetById = new Map(mediaAssets.map((asset) => [asset.id, asset]));
+  for (const id of mediaAssetIds) {
+    if (!mediaAssetById.has(id)) return { error: "Un media selectionne est invalide." };
+  }
+  const imageAsset = imageAssetId ? mediaAssetById.get(imageAssetId) : null;
+  if (imageAsset) {
+    if (!imageAsset.active || imageAsset.mediaType !== "IMAGE") {
+      return { error: "L'image de couverture selectionnee est invalide." };
+    }
+    if (imageAsset.url !== imageUrl) {
+      return { error: "L'image de couverture ne correspond pas au media selectionne." };
+    }
   }
 
   const [existingSlug, currentProject] = await Promise.all([
@@ -219,8 +254,30 @@ const validateProjectPayload = async (
     if (!slide.mediaUrl || !isValidMediaUrl(slide.mediaUrl)) {
       throw new Error(`${label}: l'URL media est obligatoire et valide.`);
     }
+    const mediaAsset = slide.mediaAssetId
+      ? mediaAssetById.get(slide.mediaAssetId)
+      : null;
+    if (mediaAsset) {
+      if (!mediaAsset.active || mediaAsset.mediaType !== slide.mediaType) {
+        throw new Error(`${label}: le media selectionne est invalide.`);
+      }
+      if (mediaAsset.url !== slide.mediaUrl) {
+        throw new Error(`${label}: l'URL ne correspond pas au media selectionne.`);
+      }
+    }
     if (slide.posterUrl && !isValidMediaUrl(slide.posterUrl)) {
       throw new Error(`${label}: l'URL poster est invalide.`);
+    }
+    const posterAsset = slide.posterAssetId
+      ? mediaAssetById.get(slide.posterAssetId)
+      : null;
+    if (posterAsset) {
+      if (!posterAsset.active || posterAsset.mediaType !== "IMAGE") {
+        throw new Error(`${label}: le poster selectionne est invalide.`);
+      }
+      if (posterAsset.url !== slide.posterUrl) {
+        throw new Error(`${label}: l'URL poster ne correspond pas au media selectionne.`);
+      }
     }
     if (slide.mediaType === "VIDEO" && !slide.posterUrl) {
       warnings.push(`${label}: poster conseille pour une video.`);
@@ -247,7 +304,9 @@ const validateProjectPayload = async (
       contentHtmlEn,
       mediaType: slide.mediaType,
       mediaUrl: slide.mediaUrl,
+      mediaAssetId: slide.mediaAssetId || null,
       posterUrl: slide.posterUrl || null,
+      posterAssetId: slide.posterAssetId || null,
       alt: slide.alt || null,
       altEn: slide.altEn || null,
     };
@@ -267,6 +326,7 @@ const validateProjectPayload = async (
       description,
       descriptionEn,
       imageUrl,
+      imageAssetId,
       heroPaletteComputed,
       tags,
       clientName,
@@ -320,7 +380,9 @@ const saveSlides = async (
       contentHtmlEn: slide.contentHtmlEn,
       mediaType: slide.mediaType,
       mediaUrl: slide.mediaUrl,
+      mediaAssetId: slide.mediaAssetId,
       posterUrl: slide.posterUrl,
+      posterAssetId: slide.posterAssetId,
       alt: slide.alt,
       altEn: slide.altEn,
     };
@@ -366,6 +428,7 @@ export const createProject = async (
           description: parsed.data.description,
           descriptionEn: parsed.data.descriptionEn,
           imageUrl: parsed.data.imageUrl,
+          imageAssetId: parsed.data.imageAssetId,
           heroPaletteComputed: parsed.data.heroPaletteComputed,
           tags: parsed.data.tags,
           clientName: parsed.data.clientName,
@@ -442,6 +505,7 @@ export const updateProject = async (
           description: parsed.data.description,
           descriptionEn: parsed.data.descriptionEn,
           imageUrl: parsed.data.imageUrl,
+          imageAssetId: parsed.data.imageAssetId,
           heroPaletteComputed: parsed.data.heroPaletteComputed,
           tags: parsed.data.tags,
           clientName: parsed.data.clientName,

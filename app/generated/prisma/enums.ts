@@ -32,3 +32,11 @@ export const ProjectSlideMediaType = {
 } as const
 
 export type ProjectSlideMediaType = (typeof ProjectSlideMediaType)[keyof typeof ProjectSlideMediaType]
+
+
+export const MediaAssetType = {
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO'
+} as const
+
+export type MediaAssetType = (typeof MediaAssetType)[keyof typeof MediaAssetType]

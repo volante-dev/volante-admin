@@ -39,6 +39,7 @@ export type StudioPageContentMinAggregateOutputType = {
   founderOneDescription: string | null
   founderOneDescriptionEn: string | null
   founderOneImageUrl: string | null
+  founderOneImageAssetId: string | null
   founderOneImageAlt: string | null
   founderOneImageAltEn: string | null
   founderTwoName: string | null
@@ -48,6 +49,7 @@ export type StudioPageContentMinAggregateOutputType = {
   founderTwoDescription: string | null
   founderTwoDescriptionEn: string | null
   founderTwoImageUrl: string | null
+  founderTwoImageAssetId: string | null
   founderTwoImageAlt: string | null
   founderTwoImageAltEn: string | null
   historyTitle: string | null
@@ -73,6 +75,7 @@ export type StudioPageContentMaxAggregateOutputType = {
   founderOneDescription: string | null
   founderOneDescriptionEn: string | null
   founderOneImageUrl: string | null
+  founderOneImageAssetId: string | null
   founderOneImageAlt: string | null
   founderOneImageAltEn: string | null
   founderTwoName: string | null
@@ -82,6 +85,7 @@ export type StudioPageContentMaxAggregateOutputType = {
   founderTwoDescription: string | null
   founderTwoDescriptionEn: string | null
   founderTwoImageUrl: string | null
+  founderTwoImageAssetId: string | null
   founderTwoImageAlt: string | null
   founderTwoImageAltEn: string | null
   historyTitle: string | null
@@ -107,6 +111,7 @@ export type StudioPageContentCountAggregateOutputType = {
   founderOneDescription: number
   founderOneDescriptionEn: number
   founderOneImageUrl: number
+  founderOneImageAssetId: number
   founderOneImageAlt: number
   founderOneImageAltEn: number
   founderTwoName: number
@@ -116,6 +121,7 @@ export type StudioPageContentCountAggregateOutputType = {
   founderTwoDescription: number
   founderTwoDescriptionEn: number
   founderTwoImageUrl: number
+  founderTwoImageAssetId: number
   founderTwoImageAlt: number
   founderTwoImageAltEn: number
   historyTitle: number
@@ -143,6 +149,7 @@ export type StudioPageContentMinAggregateInputType = {
   founderOneDescription?: true
   founderOneDescriptionEn?: true
   founderOneImageUrl?: true
+  founderOneImageAssetId?: true
   founderOneImageAlt?: true
   founderOneImageAltEn?: true
   founderTwoName?: true
@@ -152,6 +159,7 @@ export type StudioPageContentMinAggregateInputType = {
   founderTwoDescription?: true
   founderTwoDescriptionEn?: true
   founderTwoImageUrl?: true
+  founderTwoImageAssetId?: true
   founderTwoImageAlt?: true
   founderTwoImageAltEn?: true
   historyTitle?: true
@@ -177,6 +185,7 @@ export type StudioPageContentMaxAggregateInputType = {
   founderOneDescription?: true
   founderOneDescriptionEn?: true
   founderOneImageUrl?: true
+  founderOneImageAssetId?: true
   founderOneImageAlt?: true
   founderOneImageAltEn?: true
   founderTwoName?: true
@@ -186,6 +195,7 @@ export type StudioPageContentMaxAggregateInputType = {
   founderTwoDescription?: true
   founderTwoDescriptionEn?: true
   founderTwoImageUrl?: true
+  founderTwoImageAssetId?: true
   founderTwoImageAlt?: true
   founderTwoImageAltEn?: true
   historyTitle?: true
@@ -211,6 +221,7 @@ export type StudioPageContentCountAggregateInputType = {
   founderOneDescription?: true
   founderOneDescriptionEn?: true
   founderOneImageUrl?: true
+  founderOneImageAssetId?: true
   founderOneImageAlt?: true
   founderOneImageAltEn?: true
   founderTwoName?: true
@@ -220,6 +231,7 @@ export type StudioPageContentCountAggregateInputType = {
   founderTwoDescription?: true
   founderTwoDescriptionEn?: true
   founderTwoImageUrl?: true
+  founderTwoImageAssetId?: true
   founderTwoImageAlt?: true
   founderTwoImageAltEn?: true
   historyTitle?: true
@@ -318,6 +330,7 @@ export type StudioPageContentGroupByOutputType = {
   founderOneDescription: string
   founderOneDescriptionEn: string | null
   founderOneImageUrl: string
+  founderOneImageAssetId: string | null
   founderOneImageAlt: string | null
   founderOneImageAltEn: string | null
   founderTwoName: string
@@ -327,6 +340,7 @@ export type StudioPageContentGroupByOutputType = {
   founderTwoDescription: string
   founderTwoDescriptionEn: string | null
   founderTwoImageUrl: string
+  founderTwoImageAssetId: string | null
   founderTwoImageAlt: string | null
   founderTwoImageAltEn: string | null
   historyTitle: string
@@ -373,6 +387,7 @@ export type StudioPageContentWhereInput = {
   founderOneDescription?: Prisma.StringFilter<"StudioPageContent"> | string
   founderOneDescriptionEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderOneImageUrl?: Prisma.StringFilter<"StudioPageContent"> | string
+  founderOneImageAssetId?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderOneImageAlt?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderOneImageAltEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderTwoName?: Prisma.StringFilter<"StudioPageContent"> | string
@@ -382,6 +397,7 @@ export type StudioPageContentWhereInput = {
   founderTwoDescription?: Prisma.StringFilter<"StudioPageContent"> | string
   founderTwoDescriptionEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderTwoImageUrl?: Prisma.StringFilter<"StudioPageContent"> | string
+  founderTwoImageAssetId?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderTwoImageAlt?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderTwoImageAltEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   historyTitle?: Prisma.StringFilter<"StudioPageContent"> | string
@@ -390,6 +406,8 @@ export type StudioPageContentWhereInput = {
   historyContentHtmlEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   createdAt?: Prisma.DateTimeFilter<"StudioPageContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StudioPageContent"> | Date | string
+  founderOneImageAsset?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
+  founderTwoImageAsset?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
 }
 
 export type StudioPageContentOrderByWithRelationInput = {
@@ -407,6 +425,7 @@ export type StudioPageContentOrderByWithRelationInput = {
   founderOneDescription?: Prisma.SortOrder
   founderOneDescriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   founderOneImageUrl?: Prisma.SortOrder
+  founderOneImageAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   founderOneImageAlt?: Prisma.SortOrderInput | Prisma.SortOrder
   founderOneImageAltEn?: Prisma.SortOrderInput | Prisma.SortOrder
   founderTwoName?: Prisma.SortOrder
@@ -416,6 +435,7 @@ export type StudioPageContentOrderByWithRelationInput = {
   founderTwoDescription?: Prisma.SortOrder
   founderTwoDescriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   founderTwoImageUrl?: Prisma.SortOrder
+  founderTwoImageAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   founderTwoImageAlt?: Prisma.SortOrderInput | Prisma.SortOrder
   founderTwoImageAltEn?: Prisma.SortOrderInput | Prisma.SortOrder
   historyTitle?: Prisma.SortOrder
@@ -424,6 +444,8 @@ export type StudioPageContentOrderByWithRelationInput = {
   historyContentHtmlEn?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  founderOneImageAsset?: Prisma.MediaAssetOrderByWithRelationInput
+  founderTwoImageAsset?: Prisma.MediaAssetOrderByWithRelationInput
 }
 
 export type StudioPageContentWhereUniqueInput = Prisma.AtLeast<{
@@ -444,6 +466,7 @@ export type StudioPageContentWhereUniqueInput = Prisma.AtLeast<{
   founderOneDescription?: Prisma.StringFilter<"StudioPageContent"> | string
   founderOneDescriptionEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderOneImageUrl?: Prisma.StringFilter<"StudioPageContent"> | string
+  founderOneImageAssetId?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderOneImageAlt?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderOneImageAltEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderTwoName?: Prisma.StringFilter<"StudioPageContent"> | string
@@ -453,6 +476,7 @@ export type StudioPageContentWhereUniqueInput = Prisma.AtLeast<{
   founderTwoDescription?: Prisma.StringFilter<"StudioPageContent"> | string
   founderTwoDescriptionEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderTwoImageUrl?: Prisma.StringFilter<"StudioPageContent"> | string
+  founderTwoImageAssetId?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderTwoImageAlt?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderTwoImageAltEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   historyTitle?: Prisma.StringFilter<"StudioPageContent"> | string
@@ -461,6 +485,8 @@ export type StudioPageContentWhereUniqueInput = Prisma.AtLeast<{
   historyContentHtmlEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   createdAt?: Prisma.DateTimeFilter<"StudioPageContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StudioPageContent"> | Date | string
+  founderOneImageAsset?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
+  founderTwoImageAsset?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
 }, "id">
 
 export type StudioPageContentOrderByWithAggregationInput = {
@@ -478,6 +504,7 @@ export type StudioPageContentOrderByWithAggregationInput = {
   founderOneDescription?: Prisma.SortOrder
   founderOneDescriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   founderOneImageUrl?: Prisma.SortOrder
+  founderOneImageAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   founderOneImageAlt?: Prisma.SortOrderInput | Prisma.SortOrder
   founderOneImageAltEn?: Prisma.SortOrderInput | Prisma.SortOrder
   founderTwoName?: Prisma.SortOrder
@@ -487,6 +514,7 @@ export type StudioPageContentOrderByWithAggregationInput = {
   founderTwoDescription?: Prisma.SortOrder
   founderTwoDescriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   founderTwoImageUrl?: Prisma.SortOrder
+  founderTwoImageAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   founderTwoImageAlt?: Prisma.SortOrderInput | Prisma.SortOrder
   founderTwoImageAltEn?: Prisma.SortOrderInput | Prisma.SortOrder
   historyTitle?: Prisma.SortOrder
@@ -518,6 +546,7 @@ export type StudioPageContentScalarWhereWithAggregatesInput = {
   founderOneDescription?: Prisma.StringWithAggregatesFilter<"StudioPageContent"> | string
   founderOneDescriptionEn?: Prisma.StringNullableWithAggregatesFilter<"StudioPageContent"> | string | null
   founderOneImageUrl?: Prisma.StringWithAggregatesFilter<"StudioPageContent"> | string
+  founderOneImageAssetId?: Prisma.StringNullableWithAggregatesFilter<"StudioPageContent"> | string | null
   founderOneImageAlt?: Prisma.StringNullableWithAggregatesFilter<"StudioPageContent"> | string | null
   founderOneImageAltEn?: Prisma.StringNullableWithAggregatesFilter<"StudioPageContent"> | string | null
   founderTwoName?: Prisma.StringWithAggregatesFilter<"StudioPageContent"> | string
@@ -527,6 +556,7 @@ export type StudioPageContentScalarWhereWithAggregatesInput = {
   founderTwoDescription?: Prisma.StringWithAggregatesFilter<"StudioPageContent"> | string
   founderTwoDescriptionEn?: Prisma.StringNullableWithAggregatesFilter<"StudioPageContent"> | string | null
   founderTwoImageUrl?: Prisma.StringWithAggregatesFilter<"StudioPageContent"> | string
+  founderTwoImageAssetId?: Prisma.StringNullableWithAggregatesFilter<"StudioPageContent"> | string | null
   founderTwoImageAlt?: Prisma.StringNullableWithAggregatesFilter<"StudioPageContent"> | string | null
   founderTwoImageAltEn?: Prisma.StringNullableWithAggregatesFilter<"StudioPageContent"> | string | null
   historyTitle?: Prisma.StringWithAggregatesFilter<"StudioPageContent"> | string
@@ -569,6 +599,8 @@ export type StudioPageContentCreateInput = {
   historyContentHtmlEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  founderOneImageAsset?: Prisma.MediaAssetCreateNestedOneWithoutStudioFounderOneImagesInput
+  founderTwoImageAsset?: Prisma.MediaAssetCreateNestedOneWithoutStudioFounderTwoImagesInput
 }
 
 export type StudioPageContentUncheckedCreateInput = {
@@ -586,6 +618,7 @@ export type StudioPageContentUncheckedCreateInput = {
   founderOneDescription: string
   founderOneDescriptionEn?: string | null
   founderOneImageUrl: string
+  founderOneImageAssetId?: string | null
   founderOneImageAlt?: string | null
   founderOneImageAltEn?: string | null
   founderTwoName: string
@@ -595,6 +628,7 @@ export type StudioPageContentUncheckedCreateInput = {
   founderTwoDescription: string
   founderTwoDescriptionEn?: string | null
   founderTwoImageUrl: string
+  founderTwoImageAssetId?: string | null
   founderTwoImageAlt?: string | null
   founderTwoImageAltEn?: string | null
   historyTitle: string
@@ -637,6 +671,8 @@ export type StudioPageContentUpdateInput = {
   historyContentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  founderOneImageAsset?: Prisma.MediaAssetUpdateOneWithoutStudioFounderOneImagesNestedInput
+  founderTwoImageAsset?: Prisma.MediaAssetUpdateOneWithoutStudioFounderTwoImagesNestedInput
 }
 
 export type StudioPageContentUncheckedUpdateInput = {
@@ -654,6 +690,7 @@ export type StudioPageContentUncheckedUpdateInput = {
   founderOneDescription?: Prisma.StringFieldUpdateOperationsInput | string
   founderOneDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderOneImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneImageAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderOneImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderOneImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderTwoName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -663,6 +700,7 @@ export type StudioPageContentUncheckedUpdateInput = {
   founderTwoDescription?: Prisma.StringFieldUpdateOperationsInput | string
   founderTwoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderTwoImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoImageAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderTwoImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderTwoImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   historyTitle?: Prisma.StringFieldUpdateOperationsInput | string
@@ -688,6 +726,7 @@ export type StudioPageContentCreateManyInput = {
   founderOneDescription: string
   founderOneDescriptionEn?: string | null
   founderOneImageUrl: string
+  founderOneImageAssetId?: string | null
   founderOneImageAlt?: string | null
   founderOneImageAltEn?: string | null
   founderTwoName: string
@@ -697,6 +736,7 @@ export type StudioPageContentCreateManyInput = {
   founderTwoDescription: string
   founderTwoDescriptionEn?: string | null
   founderTwoImageUrl: string
+  founderTwoImageAssetId?: string | null
   founderTwoImageAlt?: string | null
   founderTwoImageAltEn?: string | null
   historyTitle: string
@@ -756,6 +796,7 @@ export type StudioPageContentUncheckedUpdateManyInput = {
   founderOneDescription?: Prisma.StringFieldUpdateOperationsInput | string
   founderOneDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderOneImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneImageAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderOneImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderOneImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderTwoName?: Prisma.StringFieldUpdateOperationsInput | string
@@ -765,6 +806,7 @@ export type StudioPageContentUncheckedUpdateManyInput = {
   founderTwoDescription?: Prisma.StringFieldUpdateOperationsInput | string
   founderTwoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderTwoImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoImageAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderTwoImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderTwoImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   historyTitle?: Prisma.StringFieldUpdateOperationsInput | string
@@ -790,6 +832,7 @@ export type StudioPageContentCountOrderByAggregateInput = {
   founderOneDescription?: Prisma.SortOrder
   founderOneDescriptionEn?: Prisma.SortOrder
   founderOneImageUrl?: Prisma.SortOrder
+  founderOneImageAssetId?: Prisma.SortOrder
   founderOneImageAlt?: Prisma.SortOrder
   founderOneImageAltEn?: Prisma.SortOrder
   founderTwoName?: Prisma.SortOrder
@@ -799,6 +842,7 @@ export type StudioPageContentCountOrderByAggregateInput = {
   founderTwoDescription?: Prisma.SortOrder
   founderTwoDescriptionEn?: Prisma.SortOrder
   founderTwoImageUrl?: Prisma.SortOrder
+  founderTwoImageAssetId?: Prisma.SortOrder
   founderTwoImageAlt?: Prisma.SortOrder
   founderTwoImageAltEn?: Prisma.SortOrder
   historyTitle?: Prisma.SortOrder
@@ -824,6 +868,7 @@ export type StudioPageContentMaxOrderByAggregateInput = {
   founderOneDescription?: Prisma.SortOrder
   founderOneDescriptionEn?: Prisma.SortOrder
   founderOneImageUrl?: Prisma.SortOrder
+  founderOneImageAssetId?: Prisma.SortOrder
   founderOneImageAlt?: Prisma.SortOrder
   founderOneImageAltEn?: Prisma.SortOrder
   founderTwoName?: Prisma.SortOrder
@@ -833,6 +878,7 @@ export type StudioPageContentMaxOrderByAggregateInput = {
   founderTwoDescription?: Prisma.SortOrder
   founderTwoDescriptionEn?: Prisma.SortOrder
   founderTwoImageUrl?: Prisma.SortOrder
+  founderTwoImageAssetId?: Prisma.SortOrder
   founderTwoImageAlt?: Prisma.SortOrder
   founderTwoImageAltEn?: Prisma.SortOrder
   historyTitle?: Prisma.SortOrder
@@ -858,6 +904,7 @@ export type StudioPageContentMinOrderByAggregateInput = {
   founderOneDescription?: Prisma.SortOrder
   founderOneDescriptionEn?: Prisma.SortOrder
   founderOneImageUrl?: Prisma.SortOrder
+  founderOneImageAssetId?: Prisma.SortOrder
   founderOneImageAlt?: Prisma.SortOrder
   founderOneImageAltEn?: Prisma.SortOrder
   founderTwoName?: Prisma.SortOrder
@@ -867,6 +914,7 @@ export type StudioPageContentMinOrderByAggregateInput = {
   founderTwoDescription?: Prisma.SortOrder
   founderTwoDescriptionEn?: Prisma.SortOrder
   founderTwoImageUrl?: Prisma.SortOrder
+  founderTwoImageAssetId?: Prisma.SortOrder
   founderTwoImageAlt?: Prisma.SortOrder
   founderTwoImageAltEn?: Prisma.SortOrder
   historyTitle?: Prisma.SortOrder
@@ -875,6 +923,611 @@ export type StudioPageContentMinOrderByAggregateInput = {
   historyContentHtmlEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type StudioPageContentListRelationFilter = {
+  every?: Prisma.StudioPageContentWhereInput
+  some?: Prisma.StudioPageContentWhereInput
+  none?: Prisma.StudioPageContentWhereInput
+}
+
+export type StudioPageContentOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput = {
+  create?: Prisma.XOR<Prisma.StudioPageContentCreateWithoutFounderOneImageAssetInput, Prisma.StudioPageContentUncheckedCreateWithoutFounderOneImageAssetInput> | Prisma.StudioPageContentCreateWithoutFounderOneImageAssetInput[] | Prisma.StudioPageContentUncheckedCreateWithoutFounderOneImageAssetInput[]
+  connectOrCreate?: Prisma.StudioPageContentCreateOrConnectWithoutFounderOneImageAssetInput | Prisma.StudioPageContentCreateOrConnectWithoutFounderOneImageAssetInput[]
+  createMany?: Prisma.StudioPageContentCreateManyFounderOneImageAssetInputEnvelope
+  connect?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+}
+
+export type StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput = {
+  create?: Prisma.XOR<Prisma.StudioPageContentCreateWithoutFounderTwoImageAssetInput, Prisma.StudioPageContentUncheckedCreateWithoutFounderTwoImageAssetInput> | Prisma.StudioPageContentCreateWithoutFounderTwoImageAssetInput[] | Prisma.StudioPageContentUncheckedCreateWithoutFounderTwoImageAssetInput[]
+  connectOrCreate?: Prisma.StudioPageContentCreateOrConnectWithoutFounderTwoImageAssetInput | Prisma.StudioPageContentCreateOrConnectWithoutFounderTwoImageAssetInput[]
+  createMany?: Prisma.StudioPageContentCreateManyFounderTwoImageAssetInputEnvelope
+  connect?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+}
+
+export type StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput = {
+  create?: Prisma.XOR<Prisma.StudioPageContentCreateWithoutFounderOneImageAssetInput, Prisma.StudioPageContentUncheckedCreateWithoutFounderOneImageAssetInput> | Prisma.StudioPageContentCreateWithoutFounderOneImageAssetInput[] | Prisma.StudioPageContentUncheckedCreateWithoutFounderOneImageAssetInput[]
+  connectOrCreate?: Prisma.StudioPageContentCreateOrConnectWithoutFounderOneImageAssetInput | Prisma.StudioPageContentCreateOrConnectWithoutFounderOneImageAssetInput[]
+  createMany?: Prisma.StudioPageContentCreateManyFounderOneImageAssetInputEnvelope
+  connect?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+}
+
+export type StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput = {
+  create?: Prisma.XOR<Prisma.StudioPageContentCreateWithoutFounderTwoImageAssetInput, Prisma.StudioPageContentUncheckedCreateWithoutFounderTwoImageAssetInput> | Prisma.StudioPageContentCreateWithoutFounderTwoImageAssetInput[] | Prisma.StudioPageContentUncheckedCreateWithoutFounderTwoImageAssetInput[]
+  connectOrCreate?: Prisma.StudioPageContentCreateOrConnectWithoutFounderTwoImageAssetInput | Prisma.StudioPageContentCreateOrConnectWithoutFounderTwoImageAssetInput[]
+  createMany?: Prisma.StudioPageContentCreateManyFounderTwoImageAssetInputEnvelope
+  connect?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+}
+
+export type StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput = {
+  create?: Prisma.XOR<Prisma.StudioPageContentCreateWithoutFounderOneImageAssetInput, Prisma.StudioPageContentUncheckedCreateWithoutFounderOneImageAssetInput> | Prisma.StudioPageContentCreateWithoutFounderOneImageAssetInput[] | Prisma.StudioPageContentUncheckedCreateWithoutFounderOneImageAssetInput[]
+  connectOrCreate?: Prisma.StudioPageContentCreateOrConnectWithoutFounderOneImageAssetInput | Prisma.StudioPageContentCreateOrConnectWithoutFounderOneImageAssetInput[]
+  upsert?: Prisma.StudioPageContentUpsertWithWhereUniqueWithoutFounderOneImageAssetInput | Prisma.StudioPageContentUpsertWithWhereUniqueWithoutFounderOneImageAssetInput[]
+  createMany?: Prisma.StudioPageContentCreateManyFounderOneImageAssetInputEnvelope
+  set?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  disconnect?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  delete?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  connect?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  update?: Prisma.StudioPageContentUpdateWithWhereUniqueWithoutFounderOneImageAssetInput | Prisma.StudioPageContentUpdateWithWhereUniqueWithoutFounderOneImageAssetInput[]
+  updateMany?: Prisma.StudioPageContentUpdateManyWithWhereWithoutFounderOneImageAssetInput | Prisma.StudioPageContentUpdateManyWithWhereWithoutFounderOneImageAssetInput[]
+  deleteMany?: Prisma.StudioPageContentScalarWhereInput | Prisma.StudioPageContentScalarWhereInput[]
+}
+
+export type StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput = {
+  create?: Prisma.XOR<Prisma.StudioPageContentCreateWithoutFounderTwoImageAssetInput, Prisma.StudioPageContentUncheckedCreateWithoutFounderTwoImageAssetInput> | Prisma.StudioPageContentCreateWithoutFounderTwoImageAssetInput[] | Prisma.StudioPageContentUncheckedCreateWithoutFounderTwoImageAssetInput[]
+  connectOrCreate?: Prisma.StudioPageContentCreateOrConnectWithoutFounderTwoImageAssetInput | Prisma.StudioPageContentCreateOrConnectWithoutFounderTwoImageAssetInput[]
+  upsert?: Prisma.StudioPageContentUpsertWithWhereUniqueWithoutFounderTwoImageAssetInput | Prisma.StudioPageContentUpsertWithWhereUniqueWithoutFounderTwoImageAssetInput[]
+  createMany?: Prisma.StudioPageContentCreateManyFounderTwoImageAssetInputEnvelope
+  set?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  disconnect?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  delete?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  connect?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  update?: Prisma.StudioPageContentUpdateWithWhereUniqueWithoutFounderTwoImageAssetInput | Prisma.StudioPageContentUpdateWithWhereUniqueWithoutFounderTwoImageAssetInput[]
+  updateMany?: Prisma.StudioPageContentUpdateManyWithWhereWithoutFounderTwoImageAssetInput | Prisma.StudioPageContentUpdateManyWithWhereWithoutFounderTwoImageAssetInput[]
+  deleteMany?: Prisma.StudioPageContentScalarWhereInput | Prisma.StudioPageContentScalarWhereInput[]
+}
+
+export type StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput = {
+  create?: Prisma.XOR<Prisma.StudioPageContentCreateWithoutFounderOneImageAssetInput, Prisma.StudioPageContentUncheckedCreateWithoutFounderOneImageAssetInput> | Prisma.StudioPageContentCreateWithoutFounderOneImageAssetInput[] | Prisma.StudioPageContentUncheckedCreateWithoutFounderOneImageAssetInput[]
+  connectOrCreate?: Prisma.StudioPageContentCreateOrConnectWithoutFounderOneImageAssetInput | Prisma.StudioPageContentCreateOrConnectWithoutFounderOneImageAssetInput[]
+  upsert?: Prisma.StudioPageContentUpsertWithWhereUniqueWithoutFounderOneImageAssetInput | Prisma.StudioPageContentUpsertWithWhereUniqueWithoutFounderOneImageAssetInput[]
+  createMany?: Prisma.StudioPageContentCreateManyFounderOneImageAssetInputEnvelope
+  set?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  disconnect?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  delete?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  connect?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  update?: Prisma.StudioPageContentUpdateWithWhereUniqueWithoutFounderOneImageAssetInput | Prisma.StudioPageContentUpdateWithWhereUniqueWithoutFounderOneImageAssetInput[]
+  updateMany?: Prisma.StudioPageContentUpdateManyWithWhereWithoutFounderOneImageAssetInput | Prisma.StudioPageContentUpdateManyWithWhereWithoutFounderOneImageAssetInput[]
+  deleteMany?: Prisma.StudioPageContentScalarWhereInput | Prisma.StudioPageContentScalarWhereInput[]
+}
+
+export type StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput = {
+  create?: Prisma.XOR<Prisma.StudioPageContentCreateWithoutFounderTwoImageAssetInput, Prisma.StudioPageContentUncheckedCreateWithoutFounderTwoImageAssetInput> | Prisma.StudioPageContentCreateWithoutFounderTwoImageAssetInput[] | Prisma.StudioPageContentUncheckedCreateWithoutFounderTwoImageAssetInput[]
+  connectOrCreate?: Prisma.StudioPageContentCreateOrConnectWithoutFounderTwoImageAssetInput | Prisma.StudioPageContentCreateOrConnectWithoutFounderTwoImageAssetInput[]
+  upsert?: Prisma.StudioPageContentUpsertWithWhereUniqueWithoutFounderTwoImageAssetInput | Prisma.StudioPageContentUpsertWithWhereUniqueWithoutFounderTwoImageAssetInput[]
+  createMany?: Prisma.StudioPageContentCreateManyFounderTwoImageAssetInputEnvelope
+  set?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  disconnect?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  delete?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  connect?: Prisma.StudioPageContentWhereUniqueInput | Prisma.StudioPageContentWhereUniqueInput[]
+  update?: Prisma.StudioPageContentUpdateWithWhereUniqueWithoutFounderTwoImageAssetInput | Prisma.StudioPageContentUpdateWithWhereUniqueWithoutFounderTwoImageAssetInput[]
+  updateMany?: Prisma.StudioPageContentUpdateManyWithWhereWithoutFounderTwoImageAssetInput | Prisma.StudioPageContentUpdateManyWithWhereWithoutFounderTwoImageAssetInput[]
+  deleteMany?: Prisma.StudioPageContentScalarWhereInput | Prisma.StudioPageContentScalarWhereInput[]
+}
+
+export type StudioPageContentCreateWithoutFounderOneImageAssetInput = {
+  id: string
+  eyebrow: string
+  eyebrowEn?: string | null
+  title: string
+  titleEn?: string | null
+  intro: string
+  introEn?: string | null
+  founderOneName: string
+  founderOneNameEn?: string | null
+  founderOneRole: string
+  founderOneRoleEn?: string | null
+  founderOneDescription: string
+  founderOneDescriptionEn?: string | null
+  founderOneImageUrl: string
+  founderOneImageAlt?: string | null
+  founderOneImageAltEn?: string | null
+  founderTwoName: string
+  founderTwoNameEn?: string | null
+  founderTwoRole: string
+  founderTwoRoleEn?: string | null
+  founderTwoDescription: string
+  founderTwoDescriptionEn?: string | null
+  founderTwoImageUrl: string
+  founderTwoImageAlt?: string | null
+  founderTwoImageAltEn?: string | null
+  historyTitle: string
+  historyTitleEn?: string | null
+  historyContentHtml: string
+  historyContentHtmlEn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  founderTwoImageAsset?: Prisma.MediaAssetCreateNestedOneWithoutStudioFounderTwoImagesInput
+}
+
+export type StudioPageContentUncheckedCreateWithoutFounderOneImageAssetInput = {
+  id: string
+  eyebrow: string
+  eyebrowEn?: string | null
+  title: string
+  titleEn?: string | null
+  intro: string
+  introEn?: string | null
+  founderOneName: string
+  founderOneNameEn?: string | null
+  founderOneRole: string
+  founderOneRoleEn?: string | null
+  founderOneDescription: string
+  founderOneDescriptionEn?: string | null
+  founderOneImageUrl: string
+  founderOneImageAlt?: string | null
+  founderOneImageAltEn?: string | null
+  founderTwoName: string
+  founderTwoNameEn?: string | null
+  founderTwoRole: string
+  founderTwoRoleEn?: string | null
+  founderTwoDescription: string
+  founderTwoDescriptionEn?: string | null
+  founderTwoImageUrl: string
+  founderTwoImageAssetId?: string | null
+  founderTwoImageAlt?: string | null
+  founderTwoImageAltEn?: string | null
+  historyTitle: string
+  historyTitleEn?: string | null
+  historyContentHtml: string
+  historyContentHtmlEn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type StudioPageContentCreateOrConnectWithoutFounderOneImageAssetInput = {
+  where: Prisma.StudioPageContentWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudioPageContentCreateWithoutFounderOneImageAssetInput, Prisma.StudioPageContentUncheckedCreateWithoutFounderOneImageAssetInput>
+}
+
+export type StudioPageContentCreateManyFounderOneImageAssetInputEnvelope = {
+  data: Prisma.StudioPageContentCreateManyFounderOneImageAssetInput | Prisma.StudioPageContentCreateManyFounderOneImageAssetInput[]
+  skipDuplicates?: boolean
+}
+
+export type StudioPageContentCreateWithoutFounderTwoImageAssetInput = {
+  id: string
+  eyebrow: string
+  eyebrowEn?: string | null
+  title: string
+  titleEn?: string | null
+  intro: string
+  introEn?: string | null
+  founderOneName: string
+  founderOneNameEn?: string | null
+  founderOneRole: string
+  founderOneRoleEn?: string | null
+  founderOneDescription: string
+  founderOneDescriptionEn?: string | null
+  founderOneImageUrl: string
+  founderOneImageAlt?: string | null
+  founderOneImageAltEn?: string | null
+  founderTwoName: string
+  founderTwoNameEn?: string | null
+  founderTwoRole: string
+  founderTwoRoleEn?: string | null
+  founderTwoDescription: string
+  founderTwoDescriptionEn?: string | null
+  founderTwoImageUrl: string
+  founderTwoImageAlt?: string | null
+  founderTwoImageAltEn?: string | null
+  historyTitle: string
+  historyTitleEn?: string | null
+  historyContentHtml: string
+  historyContentHtmlEn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  founderOneImageAsset?: Prisma.MediaAssetCreateNestedOneWithoutStudioFounderOneImagesInput
+}
+
+export type StudioPageContentUncheckedCreateWithoutFounderTwoImageAssetInput = {
+  id: string
+  eyebrow: string
+  eyebrowEn?: string | null
+  title: string
+  titleEn?: string | null
+  intro: string
+  introEn?: string | null
+  founderOneName: string
+  founderOneNameEn?: string | null
+  founderOneRole: string
+  founderOneRoleEn?: string | null
+  founderOneDescription: string
+  founderOneDescriptionEn?: string | null
+  founderOneImageUrl: string
+  founderOneImageAssetId?: string | null
+  founderOneImageAlt?: string | null
+  founderOneImageAltEn?: string | null
+  founderTwoName: string
+  founderTwoNameEn?: string | null
+  founderTwoRole: string
+  founderTwoRoleEn?: string | null
+  founderTwoDescription: string
+  founderTwoDescriptionEn?: string | null
+  founderTwoImageUrl: string
+  founderTwoImageAlt?: string | null
+  founderTwoImageAltEn?: string | null
+  historyTitle: string
+  historyTitleEn?: string | null
+  historyContentHtml: string
+  historyContentHtmlEn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type StudioPageContentCreateOrConnectWithoutFounderTwoImageAssetInput = {
+  where: Prisma.StudioPageContentWhereUniqueInput
+  create: Prisma.XOR<Prisma.StudioPageContentCreateWithoutFounderTwoImageAssetInput, Prisma.StudioPageContentUncheckedCreateWithoutFounderTwoImageAssetInput>
+}
+
+export type StudioPageContentCreateManyFounderTwoImageAssetInputEnvelope = {
+  data: Prisma.StudioPageContentCreateManyFounderTwoImageAssetInput | Prisma.StudioPageContentCreateManyFounderTwoImageAssetInput[]
+  skipDuplicates?: boolean
+}
+
+export type StudioPageContentUpsertWithWhereUniqueWithoutFounderOneImageAssetInput = {
+  where: Prisma.StudioPageContentWhereUniqueInput
+  update: Prisma.XOR<Prisma.StudioPageContentUpdateWithoutFounderOneImageAssetInput, Prisma.StudioPageContentUncheckedUpdateWithoutFounderOneImageAssetInput>
+  create: Prisma.XOR<Prisma.StudioPageContentCreateWithoutFounderOneImageAssetInput, Prisma.StudioPageContentUncheckedCreateWithoutFounderOneImageAssetInput>
+}
+
+export type StudioPageContentUpdateWithWhereUniqueWithoutFounderOneImageAssetInput = {
+  where: Prisma.StudioPageContentWhereUniqueInput
+  data: Prisma.XOR<Prisma.StudioPageContentUpdateWithoutFounderOneImageAssetInput, Prisma.StudioPageContentUncheckedUpdateWithoutFounderOneImageAssetInput>
+}
+
+export type StudioPageContentUpdateManyWithWhereWithoutFounderOneImageAssetInput = {
+  where: Prisma.StudioPageContentScalarWhereInput
+  data: Prisma.XOR<Prisma.StudioPageContentUpdateManyMutationInput, Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetInput>
+}
+
+export type StudioPageContentScalarWhereInput = {
+  AND?: Prisma.StudioPageContentScalarWhereInput | Prisma.StudioPageContentScalarWhereInput[]
+  OR?: Prisma.StudioPageContentScalarWhereInput[]
+  NOT?: Prisma.StudioPageContentScalarWhereInput | Prisma.StudioPageContentScalarWhereInput[]
+  id?: Prisma.StringFilter<"StudioPageContent"> | string
+  eyebrow?: Prisma.StringFilter<"StudioPageContent"> | string
+  eyebrowEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  title?: Prisma.StringFilter<"StudioPageContent"> | string
+  titleEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  intro?: Prisma.StringFilter<"StudioPageContent"> | string
+  introEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  founderOneName?: Prisma.StringFilter<"StudioPageContent"> | string
+  founderOneNameEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  founderOneRole?: Prisma.StringFilter<"StudioPageContent"> | string
+  founderOneRoleEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  founderOneDescription?: Prisma.StringFilter<"StudioPageContent"> | string
+  founderOneDescriptionEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  founderOneImageUrl?: Prisma.StringFilter<"StudioPageContent"> | string
+  founderOneImageAssetId?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  founderOneImageAlt?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  founderOneImageAltEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  founderTwoName?: Prisma.StringFilter<"StudioPageContent"> | string
+  founderTwoNameEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  founderTwoRole?: Prisma.StringFilter<"StudioPageContent"> | string
+  founderTwoRoleEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  founderTwoDescription?: Prisma.StringFilter<"StudioPageContent"> | string
+  founderTwoDescriptionEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  founderTwoImageUrl?: Prisma.StringFilter<"StudioPageContent"> | string
+  founderTwoImageAssetId?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  founderTwoImageAlt?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  founderTwoImageAltEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  historyTitle?: Prisma.StringFilter<"StudioPageContent"> | string
+  historyTitleEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  historyContentHtml?: Prisma.StringFilter<"StudioPageContent"> | string
+  historyContentHtmlEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"StudioPageContent"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"StudioPageContent"> | Date | string
+}
+
+export type StudioPageContentUpsertWithWhereUniqueWithoutFounderTwoImageAssetInput = {
+  where: Prisma.StudioPageContentWhereUniqueInput
+  update: Prisma.XOR<Prisma.StudioPageContentUpdateWithoutFounderTwoImageAssetInput, Prisma.StudioPageContentUncheckedUpdateWithoutFounderTwoImageAssetInput>
+  create: Prisma.XOR<Prisma.StudioPageContentCreateWithoutFounderTwoImageAssetInput, Prisma.StudioPageContentUncheckedCreateWithoutFounderTwoImageAssetInput>
+}
+
+export type StudioPageContentUpdateWithWhereUniqueWithoutFounderTwoImageAssetInput = {
+  where: Prisma.StudioPageContentWhereUniqueInput
+  data: Prisma.XOR<Prisma.StudioPageContentUpdateWithoutFounderTwoImageAssetInput, Prisma.StudioPageContentUncheckedUpdateWithoutFounderTwoImageAssetInput>
+}
+
+export type StudioPageContentUpdateManyWithWhereWithoutFounderTwoImageAssetInput = {
+  where: Prisma.StudioPageContentScalarWhereInput
+  data: Prisma.XOR<Prisma.StudioPageContentUpdateManyMutationInput, Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetInput>
+}
+
+export type StudioPageContentCreateManyFounderOneImageAssetInput = {
+  id: string
+  eyebrow: string
+  eyebrowEn?: string | null
+  title: string
+  titleEn?: string | null
+  intro: string
+  introEn?: string | null
+  founderOneName: string
+  founderOneNameEn?: string | null
+  founderOneRole: string
+  founderOneRoleEn?: string | null
+  founderOneDescription: string
+  founderOneDescriptionEn?: string | null
+  founderOneImageUrl: string
+  founderOneImageAlt?: string | null
+  founderOneImageAltEn?: string | null
+  founderTwoName: string
+  founderTwoNameEn?: string | null
+  founderTwoRole: string
+  founderTwoRoleEn?: string | null
+  founderTwoDescription: string
+  founderTwoDescriptionEn?: string | null
+  founderTwoImageUrl: string
+  founderTwoImageAssetId?: string | null
+  founderTwoImageAlt?: string | null
+  founderTwoImageAltEn?: string | null
+  historyTitle: string
+  historyTitleEn?: string | null
+  historyContentHtml: string
+  historyContentHtmlEn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type StudioPageContentCreateManyFounderTwoImageAssetInput = {
+  id: string
+  eyebrow: string
+  eyebrowEn?: string | null
+  title: string
+  titleEn?: string | null
+  intro: string
+  introEn?: string | null
+  founderOneName: string
+  founderOneNameEn?: string | null
+  founderOneRole: string
+  founderOneRoleEn?: string | null
+  founderOneDescription: string
+  founderOneDescriptionEn?: string | null
+  founderOneImageUrl: string
+  founderOneImageAssetId?: string | null
+  founderOneImageAlt?: string | null
+  founderOneImageAltEn?: string | null
+  founderTwoName: string
+  founderTwoNameEn?: string | null
+  founderTwoRole: string
+  founderTwoRoleEn?: string | null
+  founderTwoDescription: string
+  founderTwoDescriptionEn?: string | null
+  founderTwoImageUrl: string
+  founderTwoImageAlt?: string | null
+  founderTwoImageAltEn?: string | null
+  historyTitle: string
+  historyTitleEn?: string | null
+  historyContentHtml: string
+  historyContentHtmlEn?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type StudioPageContentUpdateWithoutFounderOneImageAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intro?: Prisma.StringFieldUpdateOperationsInput | string
+  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneName?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneNameEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneRole?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneRoleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoName?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoNameEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoRole?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoRoleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  historyTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyContentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  historyContentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  founderTwoImageAsset?: Prisma.MediaAssetUpdateOneWithoutStudioFounderTwoImagesNestedInput
+}
+
+export type StudioPageContentUncheckedUpdateWithoutFounderOneImageAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intro?: Prisma.StringFieldUpdateOperationsInput | string
+  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneName?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneNameEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneRole?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneRoleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoName?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoNameEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoRole?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoRoleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoImageAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  historyTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyContentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  historyContentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intro?: Prisma.StringFieldUpdateOperationsInput | string
+  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneName?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneNameEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneRole?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneRoleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoName?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoNameEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoRole?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoRoleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoImageAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  historyTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyContentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  historyContentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type StudioPageContentUpdateWithoutFounderTwoImageAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intro?: Prisma.StringFieldUpdateOperationsInput | string
+  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneName?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneNameEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneRole?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneRoleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoName?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoNameEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoRole?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoRoleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  historyTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyContentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  historyContentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  founderOneImageAsset?: Prisma.MediaAssetUpdateOneWithoutStudioFounderOneImagesNestedInput
+}
+
+export type StudioPageContentUncheckedUpdateWithoutFounderTwoImageAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intro?: Prisma.StringFieldUpdateOperationsInput | string
+  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneName?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneNameEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneRole?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneRoleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneImageAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoName?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoNameEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoRole?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoRoleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  historyTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyContentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  historyContentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
+  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  intro?: Prisma.StringFieldUpdateOperationsInput | string
+  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneName?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneNameEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneRole?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneRoleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderOneImageAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderOneImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoName?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoNameEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoRole?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoRoleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoDescription?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
+  founderTwoImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  founderTwoImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  historyTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyContentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  historyContentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -894,6 +1547,7 @@ export type StudioPageContentSelect<ExtArgs extends runtime.Types.Extensions.Int
   founderOneDescription?: boolean
   founderOneDescriptionEn?: boolean
   founderOneImageUrl?: boolean
+  founderOneImageAssetId?: boolean
   founderOneImageAlt?: boolean
   founderOneImageAltEn?: boolean
   founderTwoName?: boolean
@@ -903,6 +1557,7 @@ export type StudioPageContentSelect<ExtArgs extends runtime.Types.Extensions.Int
   founderTwoDescription?: boolean
   founderTwoDescriptionEn?: boolean
   founderTwoImageUrl?: boolean
+  founderTwoImageAssetId?: boolean
   founderTwoImageAlt?: boolean
   founderTwoImageAltEn?: boolean
   historyTitle?: boolean
@@ -911,6 +1566,8 @@ export type StudioPageContentSelect<ExtArgs extends runtime.Types.Extensions.Int
   historyContentHtmlEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  founderOneImageAsset?: boolean | Prisma.StudioPageContent$founderOneImageAssetArgs<ExtArgs>
+  founderTwoImageAsset?: boolean | Prisma.StudioPageContent$founderTwoImageAssetArgs<ExtArgs>
 }, ExtArgs["result"]["studioPageContent"]>
 
 export type StudioPageContentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -928,6 +1585,7 @@ export type StudioPageContentSelectCreateManyAndReturn<ExtArgs extends runtime.T
   founderOneDescription?: boolean
   founderOneDescriptionEn?: boolean
   founderOneImageUrl?: boolean
+  founderOneImageAssetId?: boolean
   founderOneImageAlt?: boolean
   founderOneImageAltEn?: boolean
   founderTwoName?: boolean
@@ -937,6 +1595,7 @@ export type StudioPageContentSelectCreateManyAndReturn<ExtArgs extends runtime.T
   founderTwoDescription?: boolean
   founderTwoDescriptionEn?: boolean
   founderTwoImageUrl?: boolean
+  founderTwoImageAssetId?: boolean
   founderTwoImageAlt?: boolean
   founderTwoImageAltEn?: boolean
   historyTitle?: boolean
@@ -945,6 +1604,8 @@ export type StudioPageContentSelectCreateManyAndReturn<ExtArgs extends runtime.T
   historyContentHtmlEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  founderOneImageAsset?: boolean | Prisma.StudioPageContent$founderOneImageAssetArgs<ExtArgs>
+  founderTwoImageAsset?: boolean | Prisma.StudioPageContent$founderTwoImageAssetArgs<ExtArgs>
 }, ExtArgs["result"]["studioPageContent"]>
 
 export type StudioPageContentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -962,6 +1623,7 @@ export type StudioPageContentSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   founderOneDescription?: boolean
   founderOneDescriptionEn?: boolean
   founderOneImageUrl?: boolean
+  founderOneImageAssetId?: boolean
   founderOneImageAlt?: boolean
   founderOneImageAltEn?: boolean
   founderTwoName?: boolean
@@ -971,6 +1633,7 @@ export type StudioPageContentSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   founderTwoDescription?: boolean
   founderTwoDescriptionEn?: boolean
   founderTwoImageUrl?: boolean
+  founderTwoImageAssetId?: boolean
   founderTwoImageAlt?: boolean
   founderTwoImageAltEn?: boolean
   historyTitle?: boolean
@@ -979,6 +1642,8 @@ export type StudioPageContentSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   historyContentHtmlEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  founderOneImageAsset?: boolean | Prisma.StudioPageContent$founderOneImageAssetArgs<ExtArgs>
+  founderTwoImageAsset?: boolean | Prisma.StudioPageContent$founderTwoImageAssetArgs<ExtArgs>
 }, ExtArgs["result"]["studioPageContent"]>
 
 export type StudioPageContentSelectScalar = {
@@ -996,6 +1661,7 @@ export type StudioPageContentSelectScalar = {
   founderOneDescription?: boolean
   founderOneDescriptionEn?: boolean
   founderOneImageUrl?: boolean
+  founderOneImageAssetId?: boolean
   founderOneImageAlt?: boolean
   founderOneImageAltEn?: boolean
   founderTwoName?: boolean
@@ -1005,6 +1671,7 @@ export type StudioPageContentSelectScalar = {
   founderTwoDescription?: boolean
   founderTwoDescriptionEn?: boolean
   founderTwoImageUrl?: boolean
+  founderTwoImageAssetId?: boolean
   founderTwoImageAlt?: boolean
   founderTwoImageAltEn?: boolean
   historyTitle?: boolean
@@ -1015,11 +1682,26 @@ export type StudioPageContentSelectScalar = {
   updatedAt?: boolean
 }
 
-export type StudioPageContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eyebrow" | "eyebrowEn" | "title" | "titleEn" | "intro" | "introEn" | "founderOneName" | "founderOneNameEn" | "founderOneRole" | "founderOneRoleEn" | "founderOneDescription" | "founderOneDescriptionEn" | "founderOneImageUrl" | "founderOneImageAlt" | "founderOneImageAltEn" | "founderTwoName" | "founderTwoNameEn" | "founderTwoRole" | "founderTwoRoleEn" | "founderTwoDescription" | "founderTwoDescriptionEn" | "founderTwoImageUrl" | "founderTwoImageAlt" | "founderTwoImageAltEn" | "historyTitle" | "historyTitleEn" | "historyContentHtml" | "historyContentHtmlEn" | "createdAt" | "updatedAt", ExtArgs["result"]["studioPageContent"]>
+export type StudioPageContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eyebrow" | "eyebrowEn" | "title" | "titleEn" | "intro" | "introEn" | "founderOneName" | "founderOneNameEn" | "founderOneRole" | "founderOneRoleEn" | "founderOneDescription" | "founderOneDescriptionEn" | "founderOneImageUrl" | "founderOneImageAssetId" | "founderOneImageAlt" | "founderOneImageAltEn" | "founderTwoName" | "founderTwoNameEn" | "founderTwoRole" | "founderTwoRoleEn" | "founderTwoDescription" | "founderTwoDescriptionEn" | "founderTwoImageUrl" | "founderTwoImageAssetId" | "founderTwoImageAlt" | "founderTwoImageAltEn" | "historyTitle" | "historyTitleEn" | "historyContentHtml" | "historyContentHtmlEn" | "createdAt" | "updatedAt", ExtArgs["result"]["studioPageContent"]>
+export type StudioPageContentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  founderOneImageAsset?: boolean | Prisma.StudioPageContent$founderOneImageAssetArgs<ExtArgs>
+  founderTwoImageAsset?: boolean | Prisma.StudioPageContent$founderTwoImageAssetArgs<ExtArgs>
+}
+export type StudioPageContentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  founderOneImageAsset?: boolean | Prisma.StudioPageContent$founderOneImageAssetArgs<ExtArgs>
+  founderTwoImageAsset?: boolean | Prisma.StudioPageContent$founderTwoImageAssetArgs<ExtArgs>
+}
+export type StudioPageContentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  founderOneImageAsset?: boolean | Prisma.StudioPageContent$founderOneImageAssetArgs<ExtArgs>
+  founderTwoImageAsset?: boolean | Prisma.StudioPageContent$founderTwoImageAssetArgs<ExtArgs>
+}
 
 export type $StudioPageContentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "StudioPageContent"
-  objects: {}
+  objects: {
+    founderOneImageAsset: Prisma.$MediaAssetPayload<ExtArgs> | null
+    founderTwoImageAsset: Prisma.$MediaAssetPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     eyebrow: string
@@ -1035,6 +1717,7 @@ export type $StudioPageContentPayload<ExtArgs extends runtime.Types.Extensions.I
     founderOneDescription: string
     founderOneDescriptionEn: string | null
     founderOneImageUrl: string
+    founderOneImageAssetId: string | null
     founderOneImageAlt: string | null
     founderOneImageAltEn: string | null
     founderTwoName: string
@@ -1044,6 +1727,7 @@ export type $StudioPageContentPayload<ExtArgs extends runtime.Types.Extensions.I
     founderTwoDescription: string
     founderTwoDescriptionEn: string | null
     founderTwoImageUrl: string
+    founderTwoImageAssetId: string | null
     founderTwoImageAlt: string | null
     founderTwoImageAltEn: string | null
     historyTitle: string
@@ -1446,6 +2130,8 @@ readonly fields: StudioPageContentFieldRefs;
  */
 export interface Prisma__StudioPageContentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  founderOneImageAsset<T extends Prisma.StudioPageContent$founderOneImageAssetArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudioPageContent$founderOneImageAssetArgs<ExtArgs>>): Prisma.Prisma__MediaAssetClient<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  founderTwoImageAsset<T extends Prisma.StudioPageContent$founderTwoImageAssetArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.StudioPageContent$founderTwoImageAssetArgs<ExtArgs>>): Prisma.Prisma__MediaAssetClient<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1489,6 +2175,7 @@ export interface StudioPageContentFieldRefs {
   readonly founderOneDescription: Prisma.FieldRef<"StudioPageContent", 'String'>
   readonly founderOneDescriptionEn: Prisma.FieldRef<"StudioPageContent", 'String'>
   readonly founderOneImageUrl: Prisma.FieldRef<"StudioPageContent", 'String'>
+  readonly founderOneImageAssetId: Prisma.FieldRef<"StudioPageContent", 'String'>
   readonly founderOneImageAlt: Prisma.FieldRef<"StudioPageContent", 'String'>
   readonly founderOneImageAltEn: Prisma.FieldRef<"StudioPageContent", 'String'>
   readonly founderTwoName: Prisma.FieldRef<"StudioPageContent", 'String'>
@@ -1498,6 +2185,7 @@ export interface StudioPageContentFieldRefs {
   readonly founderTwoDescription: Prisma.FieldRef<"StudioPageContent", 'String'>
   readonly founderTwoDescriptionEn: Prisma.FieldRef<"StudioPageContent", 'String'>
   readonly founderTwoImageUrl: Prisma.FieldRef<"StudioPageContent", 'String'>
+  readonly founderTwoImageAssetId: Prisma.FieldRef<"StudioPageContent", 'String'>
   readonly founderTwoImageAlt: Prisma.FieldRef<"StudioPageContent", 'String'>
   readonly founderTwoImageAltEn: Prisma.FieldRef<"StudioPageContent", 'String'>
   readonly historyTitle: Prisma.FieldRef<"StudioPageContent", 'String'>
@@ -1523,6 +2211,10 @@ export type StudioPageContentFindUniqueArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.StudioPageContentOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioPageContentInclude<ExtArgs> | null
+  /**
    * Filter, which StudioPageContent to fetch.
    */
   where: Prisma.StudioPageContentWhereUniqueInput
@@ -1541,6 +2233,10 @@ export type StudioPageContentFindUniqueOrThrowArgs<ExtArgs extends runtime.Types
    */
   omit?: Prisma.StudioPageContentOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioPageContentInclude<ExtArgs> | null
+  /**
    * Filter, which StudioPageContent to fetch.
    */
   where: Prisma.StudioPageContentWhereUniqueInput
@@ -1558,6 +2254,10 @@ export type StudioPageContentFindFirstArgs<ExtArgs extends runtime.Types.Extensi
    * Omit specific fields from the StudioPageContent
    */
   omit?: Prisma.StudioPageContentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioPageContentInclude<ExtArgs> | null
   /**
    * Filter, which StudioPageContent to fetch.
    */
@@ -1607,6 +2307,10 @@ export type StudioPageContentFindFirstOrThrowArgs<ExtArgs extends runtime.Types.
    */
   omit?: Prisma.StudioPageContentOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioPageContentInclude<ExtArgs> | null
+  /**
    * Filter, which StudioPageContent to fetch.
    */
   where?: Prisma.StudioPageContentWhereInput
@@ -1654,6 +2358,10 @@ export type StudioPageContentFindManyArgs<ExtArgs extends runtime.Types.Extensio
    * Omit specific fields from the StudioPageContent
    */
   omit?: Prisma.StudioPageContentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioPageContentInclude<ExtArgs> | null
   /**
    * Filter, which StudioPageContents to fetch.
    */
@@ -1703,6 +2411,10 @@ export type StudioPageContentCreateArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.StudioPageContentOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioPageContentInclude<ExtArgs> | null
+  /**
    * The data needed to create a StudioPageContent.
    */
   data: Prisma.XOR<Prisma.StudioPageContentCreateInput, Prisma.StudioPageContentUncheckedCreateInput>
@@ -1736,6 +2448,10 @@ export type StudioPageContentCreateManyAndReturnArgs<ExtArgs extends runtime.Typ
    */
   data: Prisma.StudioPageContentCreateManyInput | Prisma.StudioPageContentCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioPageContentIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1750,6 +2466,10 @@ export type StudioPageContentUpdateArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the StudioPageContent
    */
   omit?: Prisma.StudioPageContentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioPageContentInclude<ExtArgs> | null
   /**
    * The data needed to update a StudioPageContent.
    */
@@ -1802,6 +2522,10 @@ export type StudioPageContentUpdateManyAndReturnArgs<ExtArgs extends runtime.Typ
    * Limit how many StudioPageContents to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioPageContentIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1816,6 +2540,10 @@ export type StudioPageContentUpsertArgs<ExtArgs extends runtime.Types.Extensions
    * Omit specific fields from the StudioPageContent
    */
   omit?: Prisma.StudioPageContentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioPageContentInclude<ExtArgs> | null
   /**
    * The filter to search for the StudioPageContent to update in case it exists.
    */
@@ -1843,6 +2571,10 @@ export type StudioPageContentDeleteArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.StudioPageContentOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioPageContentInclude<ExtArgs> | null
+  /**
    * Filter which StudioPageContent to delete.
    */
   where: Prisma.StudioPageContentWhereUniqueInput
@@ -1863,6 +2595,44 @@ export type StudioPageContentDeleteManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
+ * StudioPageContent.founderOneImageAsset
+ */
+export type StudioPageContent$founderOneImageAssetArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MediaAsset
+   */
+  select?: Prisma.MediaAssetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MediaAsset
+   */
+  omit?: Prisma.MediaAssetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MediaAssetInclude<ExtArgs> | null
+  where?: Prisma.MediaAssetWhereInput
+}
+
+/**
+ * StudioPageContent.founderTwoImageAsset
+ */
+export type StudioPageContent$founderTwoImageAssetArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MediaAsset
+   */
+  select?: Prisma.MediaAssetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MediaAsset
+   */
+  omit?: Prisma.MediaAssetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MediaAssetInclude<ExtArgs> | null
+  where?: Prisma.MediaAssetWhereInput
+}
+
+/**
  * StudioPageContent without action
  */
 export type StudioPageContentDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1874,4 +2644,8 @@ export type StudioPageContentDefaultArgs<ExtArgs extends runtime.Types.Extension
    * Omit specific fields from the StudioPageContent
    */
   omit?: Prisma.StudioPageContentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.StudioPageContentInclude<ExtArgs> | null
 }

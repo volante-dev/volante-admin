@@ -29,7 +29,7 @@ const requiredImageFields = [
   ["founderTwoImageUrl", "La photo du fondateur 2 est obligatoire."],
 ] as const;
 
-const parseStudioPageContent = (formData: FormData) => {
+const parseStudioPageContent = async (formData: FormData) => {
   const values = {
     eyebrow: normalizeRequired(formData.get("eyebrow")),
     eyebrowEn: normalizeNullable(formData.get("eyebrowEn")),
@@ -48,6 +48,9 @@ const parseStudioPageContent = (formData: FormData) => {
       formData.get("founderOneDescriptionEn"),
     ),
     founderOneImageUrl: normalizeRequired(formData.get("founderOneImageUrl")),
+    founderOneImageAssetId: normalizeNullable(
+      formData.get("founderOneImageAssetId"),
+    ),
     founderOneImageAlt: normalizeNullable(formData.get("founderOneImageAlt")),
     founderOneImageAltEn: normalizeNullable(
       formData.get("founderOneImageAltEn"),
@@ -63,6 +66,9 @@ const parseStudioPageContent = (formData: FormData) => {
       formData.get("founderTwoDescriptionEn"),
     ),
     founderTwoImageUrl: normalizeRequired(formData.get("founderTwoImageUrl")),
+    founderTwoImageAssetId: normalizeNullable(
+      formData.get("founderTwoImageAssetId"),
+    ),
     founderTwoImageAlt: normalizeNullable(formData.get("founderTwoImageAlt")),
     founderTwoImageAltEn: normalizeNullable(
       formData.get("founderTwoImageAltEn"),
@@ -96,6 +102,51 @@ const parseStudioPageContent = (formData: FormData) => {
     }
   }
 
+  const mediaAssetIds = [
+    values.founderOneImageAssetId,
+    values.founderTwoImageAssetId,
+  ].filter((id): id is string => Boolean(id));
+  const mediaAssets = mediaAssetIds.length
+    ? await prisma.mediaAsset.findMany({
+        where: { id: { in: mediaAssetIds } },
+        select: { id: true, url: true, mediaType: true, active: true },
+      })
+    : [];
+  const mediaAssetById = new Map(mediaAssets.map((asset) => [asset.id, asset]));
+  for (const id of mediaAssetIds) {
+    if (!mediaAssetById.has(id)) {
+      return { error: "Un media selectionne est invalide." } as const;
+    }
+  }
+
+  const founderOneAsset = values.founderOneImageAssetId
+    ? mediaAssetById.get(values.founderOneImageAssetId)
+    : null;
+  if (founderOneAsset) {
+    if (!founderOneAsset.active || founderOneAsset.mediaType !== "IMAGE") {
+      return { error: "La photo du fondateur 1 selectionnee est invalide." } as const;
+    }
+    if (founderOneAsset.url !== values.founderOneImageUrl) {
+      return {
+        error: "La photo du fondateur 1 ne correspond pas au media selectionne.",
+      } as const;
+    }
+  }
+
+  const founderTwoAsset = values.founderTwoImageAssetId
+    ? mediaAssetById.get(values.founderTwoImageAssetId)
+    : null;
+  if (founderTwoAsset) {
+    if (!founderTwoAsset.active || founderTwoAsset.mediaType !== "IMAGE") {
+      return { error: "La photo du fondateur 2 selectionnee est invalide." } as const;
+    }
+    if (founderTwoAsset.url !== values.founderTwoImageUrl) {
+      return {
+        error: "La photo du fondateur 2 ne correspond pas au media selectionne.",
+      } as const;
+    }
+  }
+
   return {
     data: {
       ...values,
@@ -117,7 +168,7 @@ export const updateStudioPageContent = async (
 ): Promise<ActionResult> => {
   try {
     await requireCrmAccess();
-    const parsed = parseStudioPageContent(formData);
+    const parsed = await parseStudioPageContent(formData);
     if ("error" in parsed) return { success: false, error: parsed.error };
 
     await prisma.studioPageContent.upsert({

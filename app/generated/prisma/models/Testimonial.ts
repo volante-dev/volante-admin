@@ -40,6 +40,7 @@ export type TestimonialMinAggregateOutputType = {
   company: string | null
   quote: string | null
   avatarUrl: string | null
+  avatarAssetId: string | null
   order: number | null
   active: boolean | null
 }
@@ -50,6 +51,7 @@ export type TestimonialMaxAggregateOutputType = {
   company: string | null
   quote: string | null
   avatarUrl: string | null
+  avatarAssetId: string | null
   order: number | null
   active: boolean | null
 }
@@ -60,6 +62,7 @@ export type TestimonialCountAggregateOutputType = {
   company: number
   quote: number
   avatarUrl: number
+  avatarAssetId: number
   order: number
   active: number
   _all: number
@@ -80,6 +83,7 @@ export type TestimonialMinAggregateInputType = {
   company?: true
   quote?: true
   avatarUrl?: true
+  avatarAssetId?: true
   order?: true
   active?: true
 }
@@ -90,6 +94,7 @@ export type TestimonialMaxAggregateInputType = {
   company?: true
   quote?: true
   avatarUrl?: true
+  avatarAssetId?: true
   order?: true
   active?: true
 }
@@ -100,6 +105,7 @@ export type TestimonialCountAggregateInputType = {
   company?: true
   quote?: true
   avatarUrl?: true
+  avatarAssetId?: true
   order?: true
   active?: true
   _all?: true
@@ -197,6 +203,7 @@ export type TestimonialGroupByOutputType = {
   company: string
   quote: string
   avatarUrl: string | null
+  avatarAssetId: string | null
   order: number
   active: boolean
   _count: TestimonialCountAggregateOutputType | null
@@ -230,8 +237,10 @@ export type TestimonialWhereInput = {
   company?: Prisma.StringFilter<"Testimonial"> | string
   quote?: Prisma.StringFilter<"Testimonial"> | string
   avatarUrl?: Prisma.StringNullableFilter<"Testimonial"> | string | null
+  avatarAssetId?: Prisma.StringNullableFilter<"Testimonial"> | string | null
   order?: Prisma.IntFilter<"Testimonial"> | number
   active?: Prisma.BoolFilter<"Testimonial"> | boolean
+  avatarAsset?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
 }
 
 export type TestimonialOrderByWithRelationInput = {
@@ -240,8 +249,10 @@ export type TestimonialOrderByWithRelationInput = {
   company?: Prisma.SortOrder
   quote?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  avatarAsset?: Prisma.MediaAssetOrderByWithRelationInput
 }
 
 export type TestimonialWhereUniqueInput = Prisma.AtLeast<{
@@ -253,8 +264,10 @@ export type TestimonialWhereUniqueInput = Prisma.AtLeast<{
   company?: Prisma.StringFilter<"Testimonial"> | string
   quote?: Prisma.StringFilter<"Testimonial"> | string
   avatarUrl?: Prisma.StringNullableFilter<"Testimonial"> | string | null
+  avatarAssetId?: Prisma.StringNullableFilter<"Testimonial"> | string | null
   order?: Prisma.IntFilter<"Testimonial"> | number
   active?: Prisma.BoolFilter<"Testimonial"> | boolean
+  avatarAsset?: Prisma.XOR<Prisma.MediaAssetNullableScalarRelationFilter, Prisma.MediaAssetWhereInput> | null
 }, "id">
 
 export type TestimonialOrderByWithAggregationInput = {
@@ -263,6 +276,7 @@ export type TestimonialOrderByWithAggregationInput = {
   company?: Prisma.SortOrder
   quote?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
   _count?: Prisma.TestimonialCountOrderByAggregateInput
@@ -281,6 +295,7 @@ export type TestimonialScalarWhereWithAggregatesInput = {
   company?: Prisma.StringWithAggregatesFilter<"Testimonial"> | string
   quote?: Prisma.StringWithAggregatesFilter<"Testimonial"> | string
   avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"Testimonial"> | string | null
+  avatarAssetId?: Prisma.StringNullableWithAggregatesFilter<"Testimonial"> | string | null
   order?: Prisma.IntWithAggregatesFilter<"Testimonial"> | number
   active?: Prisma.BoolWithAggregatesFilter<"Testimonial"> | boolean
 }
@@ -293,6 +308,7 @@ export type TestimonialCreateInput = {
   avatarUrl?: string | null
   order?: number
   active?: boolean
+  avatarAsset?: Prisma.MediaAssetCreateNestedOneWithoutTestimonialAvatarsInput
 }
 
 export type TestimonialUncheckedCreateInput = {
@@ -301,6 +317,7 @@ export type TestimonialUncheckedCreateInput = {
   company: string
   quote: string
   avatarUrl?: string | null
+  avatarAssetId?: string | null
   order?: number
   active?: boolean
 }
@@ -313,6 +330,7 @@ export type TestimonialUpdateInput = {
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  avatarAsset?: Prisma.MediaAssetUpdateOneWithoutTestimonialAvatarsNestedInput
 }
 
 export type TestimonialUncheckedUpdateInput = {
@@ -321,6 +339,7 @@ export type TestimonialUncheckedUpdateInput = {
   company?: Prisma.StringFieldUpdateOperationsInput | string
   quote?: Prisma.StringFieldUpdateOperationsInput | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -331,6 +350,7 @@ export type TestimonialCreateManyInput = {
   company: string
   quote: string
   avatarUrl?: string | null
+  avatarAssetId?: string | null
   order?: number
   active?: boolean
 }
@@ -351,8 +371,19 @@ export type TestimonialUncheckedUpdateManyInput = {
   company?: Prisma.StringFieldUpdateOperationsInput | string
   quote?: Prisma.StringFieldUpdateOperationsInput | string
   avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+export type TestimonialListRelationFilter = {
+  every?: Prisma.TestimonialWhereInput
+  some?: Prisma.TestimonialWhereInput
+  none?: Prisma.TestimonialWhereInput
+}
+
+export type TestimonialOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type TestimonialCountOrderByAggregateInput = {
@@ -361,6 +392,7 @@ export type TestimonialCountOrderByAggregateInput = {
   company?: Prisma.SortOrder
   quote?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  avatarAssetId?: Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
 }
@@ -375,6 +407,7 @@ export type TestimonialMaxOrderByAggregateInput = {
   company?: Prisma.SortOrder
   quote?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  avatarAssetId?: Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
 }
@@ -385,12 +418,155 @@ export type TestimonialMinOrderByAggregateInput = {
   company?: Prisma.SortOrder
   quote?: Prisma.SortOrder
   avatarUrl?: Prisma.SortOrder
+  avatarAssetId?: Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
 }
 
 export type TestimonialSumOrderByAggregateInput = {
   order?: Prisma.SortOrder
+}
+
+export type TestimonialCreateNestedManyWithoutAvatarAssetInput = {
+  create?: Prisma.XOR<Prisma.TestimonialCreateWithoutAvatarAssetInput, Prisma.TestimonialUncheckedCreateWithoutAvatarAssetInput> | Prisma.TestimonialCreateWithoutAvatarAssetInput[] | Prisma.TestimonialUncheckedCreateWithoutAvatarAssetInput[]
+  connectOrCreate?: Prisma.TestimonialCreateOrConnectWithoutAvatarAssetInput | Prisma.TestimonialCreateOrConnectWithoutAvatarAssetInput[]
+  createMany?: Prisma.TestimonialCreateManyAvatarAssetInputEnvelope
+  connect?: Prisma.TestimonialWhereUniqueInput | Prisma.TestimonialWhereUniqueInput[]
+}
+
+export type TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput = {
+  create?: Prisma.XOR<Prisma.TestimonialCreateWithoutAvatarAssetInput, Prisma.TestimonialUncheckedCreateWithoutAvatarAssetInput> | Prisma.TestimonialCreateWithoutAvatarAssetInput[] | Prisma.TestimonialUncheckedCreateWithoutAvatarAssetInput[]
+  connectOrCreate?: Prisma.TestimonialCreateOrConnectWithoutAvatarAssetInput | Prisma.TestimonialCreateOrConnectWithoutAvatarAssetInput[]
+  createMany?: Prisma.TestimonialCreateManyAvatarAssetInputEnvelope
+  connect?: Prisma.TestimonialWhereUniqueInput | Prisma.TestimonialWhereUniqueInput[]
+}
+
+export type TestimonialUpdateManyWithoutAvatarAssetNestedInput = {
+  create?: Prisma.XOR<Prisma.TestimonialCreateWithoutAvatarAssetInput, Prisma.TestimonialUncheckedCreateWithoutAvatarAssetInput> | Prisma.TestimonialCreateWithoutAvatarAssetInput[] | Prisma.TestimonialUncheckedCreateWithoutAvatarAssetInput[]
+  connectOrCreate?: Prisma.TestimonialCreateOrConnectWithoutAvatarAssetInput | Prisma.TestimonialCreateOrConnectWithoutAvatarAssetInput[]
+  upsert?: Prisma.TestimonialUpsertWithWhereUniqueWithoutAvatarAssetInput | Prisma.TestimonialUpsertWithWhereUniqueWithoutAvatarAssetInput[]
+  createMany?: Prisma.TestimonialCreateManyAvatarAssetInputEnvelope
+  set?: Prisma.TestimonialWhereUniqueInput | Prisma.TestimonialWhereUniqueInput[]
+  disconnect?: Prisma.TestimonialWhereUniqueInput | Prisma.TestimonialWhereUniqueInput[]
+  delete?: Prisma.TestimonialWhereUniqueInput | Prisma.TestimonialWhereUniqueInput[]
+  connect?: Prisma.TestimonialWhereUniqueInput | Prisma.TestimonialWhereUniqueInput[]
+  update?: Prisma.TestimonialUpdateWithWhereUniqueWithoutAvatarAssetInput | Prisma.TestimonialUpdateWithWhereUniqueWithoutAvatarAssetInput[]
+  updateMany?: Prisma.TestimonialUpdateManyWithWhereWithoutAvatarAssetInput | Prisma.TestimonialUpdateManyWithWhereWithoutAvatarAssetInput[]
+  deleteMany?: Prisma.TestimonialScalarWhereInput | Prisma.TestimonialScalarWhereInput[]
+}
+
+export type TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput = {
+  create?: Prisma.XOR<Prisma.TestimonialCreateWithoutAvatarAssetInput, Prisma.TestimonialUncheckedCreateWithoutAvatarAssetInput> | Prisma.TestimonialCreateWithoutAvatarAssetInput[] | Prisma.TestimonialUncheckedCreateWithoutAvatarAssetInput[]
+  connectOrCreate?: Prisma.TestimonialCreateOrConnectWithoutAvatarAssetInput | Prisma.TestimonialCreateOrConnectWithoutAvatarAssetInput[]
+  upsert?: Prisma.TestimonialUpsertWithWhereUniqueWithoutAvatarAssetInput | Prisma.TestimonialUpsertWithWhereUniqueWithoutAvatarAssetInput[]
+  createMany?: Prisma.TestimonialCreateManyAvatarAssetInputEnvelope
+  set?: Prisma.TestimonialWhereUniqueInput | Prisma.TestimonialWhereUniqueInput[]
+  disconnect?: Prisma.TestimonialWhereUniqueInput | Prisma.TestimonialWhereUniqueInput[]
+  delete?: Prisma.TestimonialWhereUniqueInput | Prisma.TestimonialWhereUniqueInput[]
+  connect?: Prisma.TestimonialWhereUniqueInput | Prisma.TestimonialWhereUniqueInput[]
+  update?: Prisma.TestimonialUpdateWithWhereUniqueWithoutAvatarAssetInput | Prisma.TestimonialUpdateWithWhereUniqueWithoutAvatarAssetInput[]
+  updateMany?: Prisma.TestimonialUpdateManyWithWhereWithoutAvatarAssetInput | Prisma.TestimonialUpdateManyWithWhereWithoutAvatarAssetInput[]
+  deleteMany?: Prisma.TestimonialScalarWhereInput | Prisma.TestimonialScalarWhereInput[]
+}
+
+export type TestimonialCreateWithoutAvatarAssetInput = {
+  id?: string
+  author: string
+  company: string
+  quote: string
+  avatarUrl?: string | null
+  order?: number
+  active?: boolean
+}
+
+export type TestimonialUncheckedCreateWithoutAvatarAssetInput = {
+  id?: string
+  author: string
+  company: string
+  quote: string
+  avatarUrl?: string | null
+  order?: number
+  active?: boolean
+}
+
+export type TestimonialCreateOrConnectWithoutAvatarAssetInput = {
+  where: Prisma.TestimonialWhereUniqueInput
+  create: Prisma.XOR<Prisma.TestimonialCreateWithoutAvatarAssetInput, Prisma.TestimonialUncheckedCreateWithoutAvatarAssetInput>
+}
+
+export type TestimonialCreateManyAvatarAssetInputEnvelope = {
+  data: Prisma.TestimonialCreateManyAvatarAssetInput | Prisma.TestimonialCreateManyAvatarAssetInput[]
+  skipDuplicates?: boolean
+}
+
+export type TestimonialUpsertWithWhereUniqueWithoutAvatarAssetInput = {
+  where: Prisma.TestimonialWhereUniqueInput
+  update: Prisma.XOR<Prisma.TestimonialUpdateWithoutAvatarAssetInput, Prisma.TestimonialUncheckedUpdateWithoutAvatarAssetInput>
+  create: Prisma.XOR<Prisma.TestimonialCreateWithoutAvatarAssetInput, Prisma.TestimonialUncheckedCreateWithoutAvatarAssetInput>
+}
+
+export type TestimonialUpdateWithWhereUniqueWithoutAvatarAssetInput = {
+  where: Prisma.TestimonialWhereUniqueInput
+  data: Prisma.XOR<Prisma.TestimonialUpdateWithoutAvatarAssetInput, Prisma.TestimonialUncheckedUpdateWithoutAvatarAssetInput>
+}
+
+export type TestimonialUpdateManyWithWhereWithoutAvatarAssetInput = {
+  where: Prisma.TestimonialScalarWhereInput
+  data: Prisma.XOR<Prisma.TestimonialUpdateManyMutationInput, Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetInput>
+}
+
+export type TestimonialScalarWhereInput = {
+  AND?: Prisma.TestimonialScalarWhereInput | Prisma.TestimonialScalarWhereInput[]
+  OR?: Prisma.TestimonialScalarWhereInput[]
+  NOT?: Prisma.TestimonialScalarWhereInput | Prisma.TestimonialScalarWhereInput[]
+  id?: Prisma.StringFilter<"Testimonial"> | string
+  author?: Prisma.StringFilter<"Testimonial"> | string
+  company?: Prisma.StringFilter<"Testimonial"> | string
+  quote?: Prisma.StringFilter<"Testimonial"> | string
+  avatarUrl?: Prisma.StringNullableFilter<"Testimonial"> | string | null
+  avatarAssetId?: Prisma.StringNullableFilter<"Testimonial"> | string | null
+  order?: Prisma.IntFilter<"Testimonial"> | number
+  active?: Prisma.BoolFilter<"Testimonial"> | boolean
+}
+
+export type TestimonialCreateManyAvatarAssetInput = {
+  id?: string
+  author: string
+  company: string
+  quote: string
+  avatarUrl?: string | null
+  order?: number
+  active?: boolean
+}
+
+export type TestimonialUpdateWithoutAvatarAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.StringFieldUpdateOperationsInput | string
+  quote?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+export type TestimonialUncheckedUpdateWithoutAvatarAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.StringFieldUpdateOperationsInput | string
+  quote?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+export type TestimonialUncheckedUpdateManyWithoutAvatarAssetInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  author?: Prisma.StringFieldUpdateOperationsInput | string
+  company?: Prisma.StringFieldUpdateOperationsInput | string
+  quote?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -401,8 +577,10 @@ export type TestimonialSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   company?: boolean
   quote?: boolean
   avatarUrl?: boolean
+  avatarAssetId?: boolean
   order?: boolean
   active?: boolean
+  avatarAsset?: boolean | Prisma.Testimonial$avatarAssetArgs<ExtArgs>
 }, ExtArgs["result"]["testimonial"]>
 
 export type TestimonialSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -411,8 +589,10 @@ export type TestimonialSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   company?: boolean
   quote?: boolean
   avatarUrl?: boolean
+  avatarAssetId?: boolean
   order?: boolean
   active?: boolean
+  avatarAsset?: boolean | Prisma.Testimonial$avatarAssetArgs<ExtArgs>
 }, ExtArgs["result"]["testimonial"]>
 
 export type TestimonialSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -421,8 +601,10 @@ export type TestimonialSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   company?: boolean
   quote?: boolean
   avatarUrl?: boolean
+  avatarAssetId?: boolean
   order?: boolean
   active?: boolean
+  avatarAsset?: boolean | Prisma.Testimonial$avatarAssetArgs<ExtArgs>
 }, ExtArgs["result"]["testimonial"]>
 
 export type TestimonialSelectScalar = {
@@ -431,21 +613,34 @@ export type TestimonialSelectScalar = {
   company?: boolean
   quote?: boolean
   avatarUrl?: boolean
+  avatarAssetId?: boolean
   order?: boolean
   active?: boolean
 }
 
-export type TestimonialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "author" | "company" | "quote" | "avatarUrl" | "order" | "active", ExtArgs["result"]["testimonial"]>
+export type TestimonialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "author" | "company" | "quote" | "avatarUrl" | "avatarAssetId" | "order" | "active", ExtArgs["result"]["testimonial"]>
+export type TestimonialInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  avatarAsset?: boolean | Prisma.Testimonial$avatarAssetArgs<ExtArgs>
+}
+export type TestimonialIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  avatarAsset?: boolean | Prisma.Testimonial$avatarAssetArgs<ExtArgs>
+}
+export type TestimonialIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  avatarAsset?: boolean | Prisma.Testimonial$avatarAssetArgs<ExtArgs>
+}
 
 export type $TestimonialPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Testimonial"
-  objects: {}
+  objects: {
+    avatarAsset: Prisma.$MediaAssetPayload<ExtArgs> | null
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     author: string
     company: string
     quote: string
     avatarUrl: string | null
+    avatarAssetId: string | null
     order: number
     active: boolean
   }, ExtArgs["result"]["testimonial"]>
@@ -842,6 +1037,7 @@ readonly fields: TestimonialFieldRefs;
  */
 export interface Prisma__TestimonialClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  avatarAsset<T extends Prisma.Testimonial$avatarAssetArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Testimonial$avatarAssetArgs<ExtArgs>>): Prisma.Prisma__MediaAssetClient<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -876,6 +1072,7 @@ export interface TestimonialFieldRefs {
   readonly company: Prisma.FieldRef<"Testimonial", 'String'>
   readonly quote: Prisma.FieldRef<"Testimonial", 'String'>
   readonly avatarUrl: Prisma.FieldRef<"Testimonial", 'String'>
+  readonly avatarAssetId: Prisma.FieldRef<"Testimonial", 'String'>
   readonly order: Prisma.FieldRef<"Testimonial", 'Int'>
   readonly active: Prisma.FieldRef<"Testimonial", 'Boolean'>
 }
@@ -895,6 +1092,10 @@ export type TestimonialFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.TestimonialOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TestimonialInclude<ExtArgs> | null
+  /**
    * Filter, which Testimonial to fetch.
    */
   where: Prisma.TestimonialWhereUniqueInput
@@ -913,6 +1114,10 @@ export type TestimonialFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.TestimonialOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TestimonialInclude<ExtArgs> | null
+  /**
    * Filter, which Testimonial to fetch.
    */
   where: Prisma.TestimonialWhereUniqueInput
@@ -930,6 +1135,10 @@ export type TestimonialFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the Testimonial
    */
   omit?: Prisma.TestimonialOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TestimonialInclude<ExtArgs> | null
   /**
    * Filter, which Testimonial to fetch.
    */
@@ -979,6 +1188,10 @@ export type TestimonialFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.TestimonialOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TestimonialInclude<ExtArgs> | null
+  /**
    * Filter, which Testimonial to fetch.
    */
   where?: Prisma.TestimonialWhereInput
@@ -1026,6 +1239,10 @@ export type TestimonialFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the Testimonial
    */
   omit?: Prisma.TestimonialOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TestimonialInclude<ExtArgs> | null
   /**
    * Filter, which Testimonials to fetch.
    */
@@ -1075,6 +1292,10 @@ export type TestimonialCreateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.TestimonialOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TestimonialInclude<ExtArgs> | null
+  /**
    * The data needed to create a Testimonial.
    */
   data: Prisma.XOR<Prisma.TestimonialCreateInput, Prisma.TestimonialUncheckedCreateInput>
@@ -1108,6 +1329,10 @@ export type TestimonialCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    */
   data: Prisma.TestimonialCreateManyInput | Prisma.TestimonialCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TestimonialIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1122,6 +1347,10 @@ export type TestimonialUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the Testimonial
    */
   omit?: Prisma.TestimonialOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TestimonialInclude<ExtArgs> | null
   /**
    * The data needed to update a Testimonial.
    */
@@ -1174,6 +1403,10 @@ export type TestimonialUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * Limit how many Testimonials to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TestimonialIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1188,6 +1421,10 @@ export type TestimonialUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the Testimonial
    */
   omit?: Prisma.TestimonialOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TestimonialInclude<ExtArgs> | null
   /**
    * The filter to search for the Testimonial to update in case it exists.
    */
@@ -1215,6 +1452,10 @@ export type TestimonialDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.TestimonialOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TestimonialInclude<ExtArgs> | null
+  /**
    * Filter which Testimonial to delete.
    */
   where: Prisma.TestimonialWhereUniqueInput
@@ -1235,6 +1476,25 @@ export type TestimonialDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * Testimonial.avatarAsset
+ */
+export type Testimonial$avatarAssetArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MediaAsset
+   */
+  select?: Prisma.MediaAssetSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MediaAsset
+   */
+  omit?: Prisma.MediaAssetOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MediaAssetInclude<ExtArgs> | null
+  where?: Prisma.MediaAssetWhereInput
+}
+
+/**
  * Testimonial without action
  */
 export type TestimonialDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1246,4 +1506,8 @@ export type TestimonialDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the Testimonial
    */
   omit?: Prisma.TestimonialOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TestimonialInclude<ExtArgs> | null
 }

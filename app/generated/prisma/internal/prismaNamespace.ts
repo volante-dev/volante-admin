@@ -390,6 +390,7 @@ export const ModelName = {
   Service: 'Service',
   StudioValue: 'StudioValue',
   StudioPageContent: 'StudioPageContent',
+  MediaAsset: 'MediaAsset',
   Testimonial: 'Testimonial'
 } as const
 
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "project" | "projectTaxonomyEntry" | "projectSlide" | "service" | "studioValue" | "studioPageContent" | "testimonial"
+    modelProps: "project" | "projectTaxonomyEntry" | "projectSlide" | "service" | "studioValue" | "studioPageContent" | "mediaAsset" | "testimonial"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -854,6 +855,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    MediaAsset: {
+      payload: Prisma.$MediaAssetPayload<ExtArgs>
+      fields: Prisma.MediaAssetFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.MediaAssetFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.MediaAssetFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>
+        }
+        findFirst: {
+          args: Prisma.MediaAssetFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.MediaAssetFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>
+        }
+        findMany: {
+          args: Prisma.MediaAssetFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>[]
+        }
+        create: {
+          args: Prisma.MediaAssetCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>
+        }
+        createMany: {
+          args: Prisma.MediaAssetCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.MediaAssetCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>[]
+        }
+        delete: {
+          args: Prisma.MediaAssetDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>
+        }
+        update: {
+          args: Prisma.MediaAssetUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>
+        }
+        deleteMany: {
+          args: Prisma.MediaAssetDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.MediaAssetUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.MediaAssetUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>[]
+        }
+        upsert: {
+          args: Prisma.MediaAssetUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$MediaAssetPayload>
+        }
+        aggregate: {
+          args: Prisma.MediaAssetAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateMediaAsset>
+        }
+        groupBy: {
+          args: Prisma.MediaAssetGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MediaAssetGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.MediaAssetCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.MediaAssetCountAggregateOutputType> | number
+        }
+      }
+    }
     Testimonial: {
       payload: Prisma.$TestimonialPayload<ExtArgs>
       fields: Prisma.TestimonialFieldRefs
@@ -975,6 +1050,7 @@ export const ProjectScalarFieldEnum = {
   description: 'description',
   descriptionEn: 'descriptionEn',
   imageUrl: 'imageUrl',
+  imageAssetId: 'imageAssetId',
   heroPaletteComputed: 'heroPaletteComputed',
   tags: 'tags',
   clientName: 'clientName',
@@ -1027,7 +1103,9 @@ export const ProjectSlideScalarFieldEnum = {
   contentHtmlEn: 'contentHtmlEn',
   mediaType: 'mediaType',
   mediaUrl: 'mediaUrl',
+  mediaAssetId: 'mediaAssetId',
   posterUrl: 'posterUrl',
+  posterAssetId: 'posterAssetId',
   alt: 'alt',
   altEn: 'altEn',
   createdAt: 'createdAt',
@@ -1081,6 +1159,7 @@ export const StudioPageContentScalarFieldEnum = {
   founderOneDescription: 'founderOneDescription',
   founderOneDescriptionEn: 'founderOneDescriptionEn',
   founderOneImageUrl: 'founderOneImageUrl',
+  founderOneImageAssetId: 'founderOneImageAssetId',
   founderOneImageAlt: 'founderOneImageAlt',
   founderOneImageAltEn: 'founderOneImageAltEn',
   founderTwoName: 'founderTwoName',
@@ -1090,6 +1169,7 @@ export const StudioPageContentScalarFieldEnum = {
   founderTwoDescription: 'founderTwoDescription',
   founderTwoDescriptionEn: 'founderTwoDescriptionEn',
   founderTwoImageUrl: 'founderTwoImageUrl',
+  founderTwoImageAssetId: 'founderTwoImageAssetId',
   founderTwoImageAlt: 'founderTwoImageAlt',
   founderTwoImageAltEn: 'founderTwoImageAltEn',
   historyTitle: 'historyTitle',
@@ -1103,12 +1183,34 @@ export const StudioPageContentScalarFieldEnum = {
 export type StudioPageContentScalarFieldEnum = (typeof StudioPageContentScalarFieldEnum)[keyof typeof StudioPageContentScalarFieldEnum]
 
 
+export const MediaAssetScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  pathname: 'pathname',
+  mediaType: 'mediaType',
+  mimeType: 'mimeType',
+  size: 'size',
+  width: 'width',
+  height: 'height',
+  name: 'name',
+  alt: 'alt',
+  altEn: 'altEn',
+  tags: 'tags',
+  active: 'active',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MediaAssetScalarFieldEnum = (typeof MediaAssetScalarFieldEnum)[keyof typeof MediaAssetScalarFieldEnum]
+
+
 export const TestimonialScalarFieldEnum = {
   id: 'id',
   author: 'author',
   company: 'company',
   quote: 'quote',
   avatarUrl: 'avatarUrl',
+  avatarAssetId: 'avatarAssetId',
   order: 'order',
   active: 'active'
 } as const
@@ -1150,105 +1252,119 @@ export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
  * Reference to a field of type 'String'
  */
 export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
-    
+
 
 
 /**
  * Reference to a field of type 'String[]'
  */
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
-    
+
 
 
 /**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
+
 
 
 /**
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
+
 
 
 /**
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
+
 
 
 /**
  * Reference to a field of type 'ProjectPortfolioSize'
  */
 export type EnumProjectPortfolioSizeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectPortfolioSize'>
-    
+
 
 
 /**
  * Reference to a field of type 'ProjectPortfolioSize[]'
  */
 export type ListEnumProjectPortfolioSizeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectPortfolioSize[]'>
-    
+
 
 
 /**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
+
 
 
 /**
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
+
 
 
 /**
  * Reference to a field of type 'ProjectTaxonomyType'
  */
 export type EnumProjectTaxonomyTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectTaxonomyType'>
-    
+
 
 
 /**
  * Reference to a field of type 'ProjectTaxonomyType[]'
  */
 export type ListEnumProjectTaxonomyTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectTaxonomyType[]'>
-    
+
 
 
 /**
  * Reference to a field of type 'ProjectSlideMediaType'
  */
 export type EnumProjectSlideMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectSlideMediaType'>
-    
+
 
 
 /**
  * Reference to a field of type 'ProjectSlideMediaType[]'
  */
 export type ListEnumProjectSlideMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectSlideMediaType[]'>
-    
+
+
+
+/**
+ * Reference to a field of type 'MediaAssetType'
+ */
+export type EnumMediaAssetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MediaAssetType'>
+
+
+
+/**
+ * Reference to a field of type 'MediaAssetType[]'
+ */
+export type ListEnumMediaAssetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MediaAssetType[]'>
+
 
 
 /**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
+
 
 
 /**
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
+
 
 /**
  * Batch Payload for updateMany & deleteMany & createMany
@@ -1282,7 +1398,7 @@ export type PrismaClientOptions = ({
    * ```
    * // Shorthand for `emit: 'stdout'`
    * log: ['query', 'info', 'warn', 'error']
-   * 
+   *
    * // Emit as events only
    * log: [
    *   { emit: 'event', level: 'query' },
@@ -1290,14 +1406,14 @@ export type PrismaClientOptions = ({
    *   { emit: 'event', level: 'warn' }
    *   { emit: 'event', level: 'error' }
    * ]
-   * 
+   *
    * / Emit as events and log to stdout
    * og: [
    *  { emit: 'stdout', level: 'query' },
    *  { emit: 'stdout', level: 'info' },
    *  { emit: 'stdout', level: 'warn' }
    *  { emit: 'stdout', level: 'error' }
-   * 
+   *
    * ```
    * Read more in our [docs](https://pris.ly/d/logging).
    */
@@ -1314,7 +1430,7 @@ export type PrismaClientOptions = ({
   }
   /**
    * Global configuration for omitting model fields by default.
-   * 
+   *
    * @example
    * ```
    * const prisma = new PrismaClient({
@@ -1330,7 +1446,7 @@ export type PrismaClientOptions = ({
   /**
    * SQL commenter plugins that add metadata to SQL queries as comments.
    * Comments follow the sqlcommenter format: https://google.github.io/sqlcommenter/
-   * 
+   *
    * @example
    * ```
    * const prisma = new PrismaClient({
@@ -1348,7 +1464,7 @@ export type PrismaClientOptions = ({
    * A value of `0` can be used to disable the cache entirely. A higher cache size can improve
    * performance for applications that execute a large number of unique queries, while a smaller
    * cache size can reduce memory usage.
-   * 
+   *
    * @example
    * ```
    * const prisma = new PrismaClient({
@@ -1366,6 +1482,7 @@ export type GlobalOmitConfig = {
   service?: Prisma.ServiceOmit
   studioValue?: Prisma.StudioValueOmit
   studioPageContent?: Prisma.StudioPageContentOmit
+  mediaAsset?: Prisma.MediaAssetOmit
   testimonial?: Prisma.TestimonialOmit
 }
 

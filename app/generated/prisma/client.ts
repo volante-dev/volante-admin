@@ -34,7 +34,7 @@ export * from "./enums"
  * // Fetch zero or more Projects
  * const projects = await prisma.project.findMany()
  * ```
- * 
+ *
  * Read more in our [docs](https://pris.ly/d/client).
  */
 export const PrismaClient = $Class.getPrismaClientClass()
@@ -43,27 +43,27 @@ export { Prisma }
 
 /**
  * Model Project
- * 
+ *
  */
 export type Project = Prisma.ProjectModel
 /**
  * Model ProjectTaxonomyEntry
- * 
+ *
  */
 export type ProjectTaxonomyEntry = Prisma.ProjectTaxonomyEntryModel
 /**
  * Model ProjectSlide
- * 
+ *
  */
 export type ProjectSlide = Prisma.ProjectSlideModel
 /**
  * Model Service
- * 
+ *
  */
 export type Service = Prisma.ServiceModel
 /**
  * Model StudioValue
- * 
+ *
  */
 export type StudioValue = Prisma.StudioValueModel
 /**
@@ -72,7 +72,12 @@ export type StudioValue = Prisma.StudioValueModel
  */
 export type StudioPageContent = Prisma.StudioPageContentModel
 /**
+ * Model MediaAsset
+ *
+ */
+export type MediaAsset = Prisma.MediaAssetModel
+/**
  * Model Testimonial
- * 
+ *
  */
 export type Testimonial = Prisma.TestimonialModel

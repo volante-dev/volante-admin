@@ -40,6 +40,7 @@ const toEditableContent = (
   founderOneDescription: content.founderOneDescription,
   founderOneDescriptionEn: content.founderOneDescriptionEn ?? "",
   founderOneImageUrl: content.founderOneImageUrl,
+  founderOneImageAssetId: content.founderOneImageAssetId ?? "",
   founderOneImageAlt: content.founderOneImageAlt ?? "",
   founderOneImageAltEn: content.founderOneImageAltEn ?? "",
   founderTwoName: content.founderTwoName,
@@ -49,6 +50,7 @@ const toEditableContent = (
   founderTwoDescription: content.founderTwoDescription,
   founderTwoDescriptionEn: content.founderTwoDescriptionEn ?? "",
   founderTwoImageUrl: content.founderTwoImageUrl,
+  founderTwoImageAssetId: content.founderTwoImageAssetId ?? "",
   founderTwoImageAlt: content.founderTwoImageAlt ?? "",
   founderTwoImageAltEn: content.founderTwoImageAltEn ?? "",
   historyTitle: content.historyTitle,
@@ -383,24 +385,26 @@ export const StudioPageForm = ({
                 label="Photo fondateur 1"
                 value={fields.founderOneImageUrl}
                 onChange={updateField("founderOneImageUrl")}
+                assetId={fields.founderOneImageAssetId}
+                onAssetChange={(assetId) =>
+                  updateField("founderOneImageAssetId")(assetId ?? "")
+                }
                 required
                 accept={imageAccept}
                 basePath="pages/studio"
                 field="founder-one-photo"
                 helperText="Image portrait recommandee."
               />
-              <TextFieldRow
-                label="Texte alternatif"
-                value={fields.founderOneImageAlt}
-                onChange={updateField("founderOneImageAlt")}
-                helperText="Optionnel. Le nom sera utilise si vide."
-              />
-              <TextFieldRow
-                label="Alt (EN)"
-                value={fields.founderOneImageAltEn}
-                onChange={updateField("founderOneImageAltEn")}
-                translateFrom={fields.founderOneImageAlt}
-              />
+              {(fields.founderOneImageAlt || fields.founderOneImageAltEn) && (
+                <Alert severity="info">
+                  Ancien alt conserve en lecture seule :{" "}
+                  {fields.founderOneImageAlt || "N/A"}
+                  {fields.founderOneImageAltEn
+                    ? ` / ${fields.founderOneImageAltEn}`
+                    : ""}
+                  . Les nouveaux alts se gerent depuis la galerie.
+                </Alert>
+              )}
 
               <Typography variant="h3" sx={{ mt: 2 }}>
                 Fondateur 2
@@ -409,24 +413,26 @@ export const StudioPageForm = ({
                 label="Photo fondateur 2"
                 value={fields.founderTwoImageUrl}
                 onChange={updateField("founderTwoImageUrl")}
+                assetId={fields.founderTwoImageAssetId}
+                onAssetChange={(assetId) =>
+                  updateField("founderTwoImageAssetId")(assetId ?? "")
+                }
                 required
                 accept={imageAccept}
                 basePath="pages/studio"
                 field="founder-two-photo"
                 helperText="Image portrait recommandee."
               />
-              <TextFieldRow
-                label="Texte alternatif"
-                value={fields.founderTwoImageAlt}
-                onChange={updateField("founderTwoImageAlt")}
-                helperText="Optionnel. Le nom sera utilise si vide."
-              />
-              <TextFieldRow
-                label="Alt (EN)"
-                value={fields.founderTwoImageAltEn}
-                onChange={updateField("founderTwoImageAltEn")}
-                translateFrom={fields.founderTwoImageAlt}
-              />
+              {(fields.founderTwoImageAlt || fields.founderTwoImageAltEn) && (
+                <Alert severity="info">
+                  Ancien alt conserve en lecture seule :{" "}
+                  {fields.founderTwoImageAlt || "N/A"}
+                  {fields.founderTwoImageAltEn
+                    ? ` / ${fields.founderTwoImageAltEn}`
+                    : ""}
+                  . Les nouveaux alts se gerent depuis la galerie.
+                </Alert>
+              )}
             </Box>
           )}
 

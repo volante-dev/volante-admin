@@ -74,7 +74,9 @@ type EditableSlide = {
   contentHtmlEn: string;
   mediaType: "IMAGE" | "VIDEO";
   mediaUrl: string;
+  mediaAssetId: string;
   posterUrl: string;
+  posterAssetId: string;
   alt: string;
   altEn: string;
 };
@@ -97,7 +99,9 @@ const emptySlide = (): EditableSlide => ({
   contentHtmlEn: "",
   mediaType: "IMAGE",
   mediaUrl: "",
+  mediaAssetId: "",
   posterUrl: "",
+  posterAssetId: "",
   alt: "",
   altEn: "",
 });
@@ -322,6 +326,8 @@ const SortableSlide = ({
                 label="URL media"
                 value={slide.mediaUrl}
                 onChange={(value) => update({ mediaUrl: value })}
+                assetId={slide.mediaAssetId}
+                onAssetChange={(assetId) => update({ mediaAssetId: assetId ?? "" })}
                 required
                 accept={
                   slide.mediaType === "VIDEO"
@@ -337,31 +343,23 @@ const SortableSlide = ({
                   label="Poster video"
                   value={slide.posterUrl}
                   onChange={(value) => update({ posterUrl: value })}
+                  assetId={slide.posterAssetId}
+                  onAssetChange={(assetId) =>
+                    update({ posterAssetId: assetId ?? "" })
+                  }
                   accept="image/jpeg,image/png,image/webp,image/avif"
                   projectId={projectId}
                   field={`slide-${index + 1}-poster`}
                   helperText="Recommande pour eviter un ecran vide avant lecture."
                 />
               )}
-              <TextField
-                label="Alt"
-                value={slide.alt}
-                fullWidth
-                helperText="Recommande pour les images."
-                onChange={(event) => update({ alt: event.target.value })}
-              />
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <TextField
-                  label="Alt (EN)"
-                  value={slide.altEn}
-                  fullWidth
-                  onChange={(event) => update({ altEn: event.target.value })}
-                />
-                <TranslateButton
-                  sourceText={slide.alt}
-                  onTranslated={(text) => update({ altEn: text })}
-                />
-              </Box>
+              {(slide.alt || slide.altEn) && (
+                <Alert severity="info">
+                  Ancien alt conserve en lecture seule : {slide.alt || "N/A"}
+                  {slide.altEn ? ` / ${slide.altEn}` : ""}. Les nouveaux alts se
+                  gerent depuis la galerie.
+                </Alert>
+              )}
             </>
           )}
 
@@ -454,6 +452,7 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
     project?.descriptionEn ?? "",
   );
   const [imageUrl, setImageUrl] = useState(project?.imageUrl ?? "");
+  const [imageAssetId, setImageAssetId] = useState(project?.imageAssetId ?? "");
   const [paletteOverride, setPaletteOverride] = useState<string[] | null>(null);
   const [tags, setTags] = useState(project?.tags.join(", ") ?? "");
   const [clientName, setClientName] = useState(project?.clientName ?? "");
@@ -495,7 +494,9 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
       contentHtmlEn: slide.contentHtmlEn ?? "",
       mediaType: slide.mediaType,
       mediaUrl: slide.mediaUrl,
+      mediaAssetId: slide.mediaAssetId ?? "",
       posterUrl: slide.posterUrl ?? "",
+      posterAssetId: slide.posterAssetId ?? "",
       alt: slide.alt ?? "",
       altEn: slide.altEn ?? "",
     })) ?? [],
@@ -576,6 +577,7 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
     formData.set("description", description);
     formData.set("descriptionEn", descriptionEn);
     formData.set("imageUrl", imageUrl);
+    formData.set("imageAssetId", imageAssetId);
     formData.set("tags", tags);
     formData.set("clientName", clientName);
     formData.set("sectorEntryId", sectorEntryId);
@@ -608,7 +610,9 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
             : "",
           mediaType: slide.mediaType,
           mediaUrl: slide.mediaUrl,
+          mediaAssetId: slide.mediaAssetId,
           posterUrl: slide.posterUrl,
+          posterAssetId: slide.posterAssetId,
           alt: slide.alt,
           altEn: slide.altEn,
         })),
@@ -695,6 +699,8 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
                 label="Image de couverture"
                 value={imageUrl}
                 onChange={setImageUrl}
+                assetId={imageAssetId}
+                onAssetChange={(assetId) => setImageAssetId(assetId ?? "")}
                 required
                 accept="image/jpeg,image/png,image/webp,image/avif"
                 projectId={project?.id}

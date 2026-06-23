@@ -24,22 +24,22 @@ export * from './enums';
 export type Project = Prisma.ProjectModel
 /**
  * Model ProjectTaxonomyEntry
- * 
+ *
  */
 export type ProjectTaxonomyEntry = Prisma.ProjectTaxonomyEntryModel
 /**
  * Model ProjectSlide
- * 
+ *
  */
 export type ProjectSlide = Prisma.ProjectSlideModel
 /**
  * Model Service
- * 
+ *
  */
 export type Service = Prisma.ServiceModel
 /**
  * Model StudioValue
- * 
+ *
  */
 export type StudioValue = Prisma.StudioValueModel
 /**
@@ -48,7 +48,12 @@ export type StudioValue = Prisma.StudioValueModel
  */
 export type StudioPageContent = Prisma.StudioPageContentModel
 /**
+ * Model MediaAsset
+ *
+ */
+export type MediaAsset = Prisma.MediaAssetModel
+/**
  * Model Testimonial
- * 
+ *
  */
 export type Testimonial = Prisma.TestimonialModel
