@@ -27,6 +27,7 @@ import UploadIcon from "@mui/icons-material/Upload";
 import { toast } from "sonner";
 import {
   deleteMediaAsset,
+  optimizeMediaAsset,
   updateMediaAsset,
 } from "@/app/(admin)/media-assets/actions";
 import { DeleteConfirmDialog } from "@/components/admin/DeleteConfirmDialog";
@@ -37,6 +38,7 @@ import type { MediaAssetData } from "./media-types";
 const hasMissingAlt = (asset: MediaAssetData) => !asset.alt || !asset.altEn;
 const hasMissingTags = (asset: MediaAssetData) => asset.tags.length === 0;
 const posterAccept = "image/jpeg,image/png,image/webp,image/avif";
+const optimizableMimeTypes = new Set(["image/png", "image/jpeg"]);
 
 const cleanFileName = (name: string) =>
   name
@@ -54,6 +56,26 @@ const isMediaMetadataOutput = (
   "tags" in output &&
   Array.isArray((output as MediaMetadataOutput).tags);
 
+const inferMimeTypeFromPath = (value: string) => {
+  const normalized = value.toLowerCase();
+  if (normalized.includes(".png")) return "image/png";
+  if (normalized.includes(".jpg") || normalized.includes(".jpeg")) return "image/jpeg";
+  return null;
+};
+
+const canOptimize = (asset: MediaAssetData | null) => {
+  if (!asset || asset.mediaType !== "IMAGE") return false;
+  const mimeType =
+    asset.mimeType ?? inferMimeTypeFromPath(asset.pathname) ?? inferMimeTypeFromPath(asset.url);
+  return Boolean(mimeType && optimizableMimeTypes.has(mimeType));
+};
+
+const formatBytes = (value: number) => {
+  if (value < 1024) return `${value} o`;
+  if (value < 1024 * 1024) return `${Math.round(value / 1024)} Ko`;
+  return `${(value / (1024 * 1024)).toFixed(1)} Mo`;
+};
+
 export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
   const [rows, setRows] = useState(assets);
   const [query, setQuery] = useState("");
@@ -67,6 +89,7 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
   const [draftPosterMimeType, setDraftPosterMimeType] = useState("");
   const [draftPosterSize, setDraftPosterSize] = useState("");
   const [posterUploading, setPosterUploading] = useState(false);
+  const [optimizing, setOptimizing] = useState(false);
   const [pending, startTransition] = useTransition();
   const { execute, loading: generating } = useAiRequest();
 
@@ -177,6 +200,36 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
     setDraftAltEn(result.altEn);
     setDraftTags(result.tags.join(", "));
     toast.success("Alt et tags generes.");
+  };
+
+  const handleOptimize = async () => {
+    if (!editing || !canOptimize(editing)) return;
+
+    setOptimizing(true);
+    try {
+      const result = await optimizeMediaAsset(editing.id);
+      if (!result.success) {
+        toast.error(result.error ?? "Impossible d'optimiser l'image.");
+        return;
+      }
+      if (result.asset) {
+        setRows((current) =>
+          current.map((asset) =>
+            asset.id === result.asset?.id ? result.asset : asset,
+          ),
+        );
+        setEditing(result.asset);
+      }
+      if (result.optimization?.applied) {
+        toast.success(
+          `Image optimisee : ${formatBytes(result.optimization.savedBytes)} economises.`,
+        );
+      } else {
+        toast.info("Aucun remplacement : l'image optimisee n'etait pas plus legere.");
+      }
+    } finally {
+      setOptimizing(false);
+    }
   };
 
   const handleDelete = async () => {
@@ -443,6 +496,15 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
           >
             {generating ? "Generation..." : "Generer alt & tags"}
           </Button>
+          {canOptimize(editing) && (
+            <Button
+              variant="outlined"
+              onClick={handleOptimize}
+              disabled={optimizing || generating || pending}
+            >
+              {optimizing ? "Optimisation..." : "Optimize"}
+            </Button>
+          )}
           <TextField
             label="Alt FR"
             value={draftAlt}

@@ -1,16 +1,28 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { del } from "@vercel/blob";
+import sharp from "sharp";
+import { del, put } from "@vercel/blob";
 import prisma from "@/lib/prisma";
 import { requireCrmAccess } from "@/lib/auth-guard";
 import { isValidMediaUrl, normalizeNullable, normalizeRequired } from "@/lib/validation";
 import type { MediaAssetData, MediaAssetType } from "@/components/admin/media/media-types";
 
+const MAX_OPTIMIZE_SOURCE_BYTES = 25 * 1024 * 1024;
+const OPTIMIZED_CONTENT_TYPE = "image/jpeg";
+const OPTIMIZED_MAX_WIDTH = 1920;
+const OPTIMIZED_QUALITY = 82;
+
 type ActionResult = {
   success: boolean;
   error?: string;
   asset?: MediaAssetData;
+  optimization?: {
+    applied: boolean;
+    originalSize: number;
+    optimizedSize: number;
+    savedBytes: number;
+  };
 };
 
 type UploadedBlob = {
@@ -22,6 +34,7 @@ type UploadedBlob = {
 
 const imageTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/avif"]);
 const videoTypes = new Set(["video/mp4"]);
+const optimizableImageTypes = new Set(["image/jpeg", "image/png"]);
 
 const inferMediaType = (mimeType: string | null | undefined): MediaAssetType =>
   mimeType && videoTypes.has(mimeType) ? "VIDEO" : "IMAGE";
@@ -32,6 +45,16 @@ const parseTags = (value: FormDataEntryValue | string[] | null | undefined) => {
     .split(/[\n,]/)
     .map((tag) => tag.trim())
     .filter(Boolean);
+};
+
+const inferMimeTypeFromPath = (value: string) => {
+  const normalized = value.toLowerCase();
+  if (normalized.includes(".png")) return "image/png";
+  if (normalized.includes(".jpg") || normalized.includes(".jpeg")) return "image/jpeg";
+  if (normalized.includes(".webp")) return "image/webp";
+  if (normalized.includes(".avif")) return "image/avif";
+  if (normalized.includes(".mp4")) return "video/mp4";
+  return null;
 };
 
 const toMediaAssetData = (
@@ -227,6 +250,112 @@ export const updateMediaAsset = async (
     return {
       success: true,
       asset: toMediaAssetData(asset, await getUsageCount(asset)),
+    };
+  } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Une erreur est survenue.",
+    };
+  }
+};
+
+export const optimizeMediaAsset = async (id: string): Promise<ActionResult> => {
+  try {
+    await requireCrmAccess();
+    const current = await prisma.mediaAsset.findUnique({ where: { id } });
+    if (!current) return { success: false, error: "Media introuvable." };
+    if (current.mediaType !== "IMAGE") {
+      return { success: false, error: "Seules les images peuvent etre optimisees." };
+    }
+
+    const sourceMimeType =
+      current.mimeType ??
+      inferMimeTypeFromPath(current.pathname) ??
+      inferMimeTypeFromPath(current.url);
+    if (!sourceMimeType || !optimizableImageTypes.has(sourceMimeType)) {
+      return {
+        success: false,
+        error: "Seuls les PNG et JPEG peuvent etre optimises.",
+      };
+    }
+
+    const response = await fetch(current.url, {
+      headers: { Accept: "image/png,image/jpeg" },
+      signal: AbortSignal.timeout(15_000),
+    });
+    if (!response.ok) {
+      return {
+        success: false,
+        error: `Image inaccessible (${response.status}).`,
+      };
+    }
+
+    const declaredSize = Number(response.headers.get("content-length") ?? 0);
+    if (declaredSize > MAX_OPTIMIZE_SOURCE_BYTES) {
+      return {
+        success: false,
+        error: "L'image depasse 25 Mo et ne peut pas etre optimisee.",
+      };
+    }
+
+    const source = Buffer.from(await response.arrayBuffer());
+    if (source.byteLength > MAX_OPTIMIZE_SOURCE_BYTES) {
+      return {
+        success: false,
+        error: "L'image depasse 25 Mo et ne peut pas etre optimisee.",
+      };
+    }
+
+    const originalSize = current.size ?? source.byteLength;
+    const { data, info } = await sharp(source, { failOn: "error" })
+      .rotate()
+      .resize({
+        width: OPTIMIZED_MAX_WIDTH,
+        withoutEnlargement: true,
+      })
+      .flatten({ background: "#ffffff" })
+      .jpeg({ quality: OPTIMIZED_QUALITY, mozjpeg: true })
+      .toBuffer({ resolveWithObject: true });
+
+    if (data.byteLength >= originalSize) {
+      return {
+        success: true,
+        asset: toMediaAssetData(current, await getUsageCount(current)),
+        optimization: {
+          applied: false,
+          originalSize,
+          optimizedSize: data.byteLength,
+          savedBytes: 0,
+        },
+      };
+    }
+
+    await put(current.pathname, data, {
+      access: "public",
+      allowOverwrite: true,
+      contentType: OPTIMIZED_CONTENT_TYPE,
+    });
+
+    const asset = await prisma.mediaAsset.update({
+      where: { id },
+      data: {
+        mimeType: OPTIMIZED_CONTENT_TYPE,
+        size: data.byteLength,
+        width: info.width,
+        height: info.height,
+      },
+    });
+
+    revalidatePath("/media-assets");
+    return {
+      success: true,
+      asset: toMediaAssetData(asset, await getUsageCount(asset)),
+      optimization: {
+        applied: true,
+        originalSize,
+        optimizedSize: data.byteLength,
+        savedBytes: originalSize - data.byteLength,
+      },
     };
   } catch (error) {
     return {
