@@ -76,7 +76,6 @@ type EditableSlide = {
   mediaUrl: string;
   mediaAssetId: string;
   posterUrl: string;
-  posterAssetId: string;
   alt: string;
   altEn: string;
 };
@@ -101,7 +100,6 @@ const emptySlide = (): EditableSlide => ({
   mediaUrl: "",
   mediaAssetId: "",
   posterUrl: "",
-  posterAssetId: "",
   alt: "",
   altEn: "",
 });
@@ -339,19 +337,11 @@ const SortableSlide = ({
                 previewType={slide.mediaType}
               />
               {slide.mediaType === "VIDEO" && (
-                <MediaUrlField
-                  label="Poster video"
-                  value={slide.posterUrl}
-                  onChange={(value) => update({ posterUrl: value })}
-                  assetId={slide.posterAssetId}
-                  onAssetChange={(assetId) =>
-                    update({ posterAssetId: assetId ?? "" })
-                  }
-                  accept="image/jpeg,image/png,image/webp,image/avif"
-                  projectId={projectId}
-                  field={`slide-${index + 1}-poster`}
-                  helperText="Recommande pour eviter un ecran vide avant lecture."
-                />
+                <Alert severity="info">
+                  Le poster est administre depuis la video dans la galerie. Le
+                  poster actuel est conserve en compatibilite tant que la video
+                  n&apos;a pas de poster centralise.
+                </Alert>
               )}
               {(slide.alt || slide.altEn) && (
                 <Alert severity="info">
@@ -496,7 +486,6 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
       mediaUrl: slide.mediaUrl,
       mediaAssetId: slide.mediaAssetId ?? "",
       posterUrl: slide.posterUrl ?? "",
-      posterAssetId: slide.posterAssetId ?? "",
       alt: slide.alt ?? "",
       altEn: slide.altEn ?? "",
     })) ?? [],
@@ -612,7 +601,6 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
           mediaUrl: slide.mediaUrl,
           mediaAssetId: slide.mediaAssetId,
           posterUrl: slide.posterUrl,
-          posterAssetId: slide.posterAssetId,
           alt: slide.alt,
           altEn: slide.altEn,
         })),

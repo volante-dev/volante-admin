@@ -365,6 +365,7 @@ export const MediaUrlField = ({
                     <Box
                       component="video"
                       src={asset.url}
+                      poster={asset.posterUrl ?? undefined}
                       muted
                       playsInline
                       sx={{ width: "100%", height: "100%", objectFit: "cover" }}

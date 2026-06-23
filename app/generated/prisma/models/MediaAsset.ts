@@ -30,12 +30,14 @@ export type MediaAssetAvgAggregateOutputType = {
   size: number | null
   width: number | null
   height: number | null
+  posterSize: number | null
 }
 
 export type MediaAssetSumAggregateOutputType = {
   size: number | null
   width: number | null
   height: number | null
+  posterSize: number | null
 }
 
 export type MediaAssetMinAggregateOutputType = {
@@ -47,6 +49,10 @@ export type MediaAssetMinAggregateOutputType = {
   size: number | null
   width: number | null
   height: number | null
+  posterUrl: string | null
+  posterPathname: string | null
+  posterMimeType: string | null
+  posterSize: number | null
   name: string | null
   alt: string | null
   altEn: string | null
@@ -64,6 +70,10 @@ export type MediaAssetMaxAggregateOutputType = {
   size: number | null
   width: number | null
   height: number | null
+  posterUrl: string | null
+  posterPathname: string | null
+  posterMimeType: string | null
+  posterSize: number | null
   name: string | null
   alt: string | null
   altEn: string | null
@@ -81,6 +91,10 @@ export type MediaAssetCountAggregateOutputType = {
   size: number
   width: number
   height: number
+  posterUrl: number
+  posterPathname: number
+  posterMimeType: number
+  posterSize: number
   name: number
   alt: number
   altEn: number
@@ -96,12 +110,14 @@ export type MediaAssetAvgAggregateInputType = {
   size?: true
   width?: true
   height?: true
+  posterSize?: true
 }
 
 export type MediaAssetSumAggregateInputType = {
   size?: true
   width?: true
   height?: true
+  posterSize?: true
 }
 
 export type MediaAssetMinAggregateInputType = {
@@ -113,6 +129,10 @@ export type MediaAssetMinAggregateInputType = {
   size?: true
   width?: true
   height?: true
+  posterUrl?: true
+  posterPathname?: true
+  posterMimeType?: true
+  posterSize?: true
   name?: true
   alt?: true
   altEn?: true
@@ -130,6 +150,10 @@ export type MediaAssetMaxAggregateInputType = {
   size?: true
   width?: true
   height?: true
+  posterUrl?: true
+  posterPathname?: true
+  posterMimeType?: true
+  posterSize?: true
   name?: true
   alt?: true
   altEn?: true
@@ -147,6 +171,10 @@ export type MediaAssetCountAggregateInputType = {
   size?: true
   width?: true
   height?: true
+  posterUrl?: true
+  posterPathname?: true
+  posterMimeType?: true
+  posterSize?: true
   name?: true
   alt?: true
   altEn?: true
@@ -252,6 +280,10 @@ export type MediaAssetGroupByOutputType = {
   size: number | null
   width: number | null
   height: number | null
+  posterUrl: string | null
+  posterPathname: string | null
+  posterMimeType: string | null
+  posterSize: number | null
   name: string
   alt: string | null
   altEn: string | null
@@ -293,6 +325,10 @@ export type MediaAssetWhereInput = {
   size?: Prisma.IntNullableFilter<"MediaAsset"> | number | null
   width?: Prisma.IntNullableFilter<"MediaAsset"> | number | null
   height?: Prisma.IntNullableFilter<"MediaAsset"> | number | null
+  posterUrl?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
+  posterPathname?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
+  posterMimeType?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
+  posterSize?: Prisma.IntNullableFilter<"MediaAsset"> | number | null
   name?: Prisma.StringFilter<"MediaAsset"> | string
   alt?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
   altEn?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
@@ -302,7 +338,6 @@ export type MediaAssetWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"MediaAsset"> | Date | string
   projectImages?: Prisma.ProjectListRelationFilter
   projectSlideMedia?: Prisma.ProjectSlideListRelationFilter
-  projectSlidePosters?: Prisma.ProjectSlideListRelationFilter
   studioFounderOneImages?: Prisma.StudioPageContentListRelationFilter
   studioFounderTwoImages?: Prisma.StudioPageContentListRelationFilter
   testimonialAvatars?: Prisma.TestimonialListRelationFilter
@@ -317,6 +352,10 @@ export type MediaAssetOrderByWithRelationInput = {
   size?: Prisma.SortOrderInput | Prisma.SortOrder
   width?: Prisma.SortOrderInput | Prisma.SortOrder
   height?: Prisma.SortOrderInput | Prisma.SortOrder
+  posterUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  posterPathname?: Prisma.SortOrderInput | Prisma.SortOrder
+  posterMimeType?: Prisma.SortOrderInput | Prisma.SortOrder
+  posterSize?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   alt?: Prisma.SortOrderInput | Prisma.SortOrder
   altEn?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -326,7 +365,6 @@ export type MediaAssetOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   projectImages?: Prisma.ProjectOrderByRelationAggregateInput
   projectSlideMedia?: Prisma.ProjectSlideOrderByRelationAggregateInput
-  projectSlidePosters?: Prisma.ProjectSlideOrderByRelationAggregateInput
   studioFounderOneImages?: Prisma.StudioPageContentOrderByRelationAggregateInput
   studioFounderTwoImages?: Prisma.StudioPageContentOrderByRelationAggregateInput
   testimonialAvatars?: Prisma.TestimonialOrderByRelationAggregateInput
@@ -344,6 +382,10 @@ export type MediaAssetWhereUniqueInput = Prisma.AtLeast<{
   size?: Prisma.IntNullableFilter<"MediaAsset"> | number | null
   width?: Prisma.IntNullableFilter<"MediaAsset"> | number | null
   height?: Prisma.IntNullableFilter<"MediaAsset"> | number | null
+  posterUrl?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
+  posterPathname?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
+  posterMimeType?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
+  posterSize?: Prisma.IntNullableFilter<"MediaAsset"> | number | null
   name?: Prisma.StringFilter<"MediaAsset"> | string
   alt?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
   altEn?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
@@ -353,7 +395,6 @@ export type MediaAssetWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"MediaAsset"> | Date | string
   projectImages?: Prisma.ProjectListRelationFilter
   projectSlideMedia?: Prisma.ProjectSlideListRelationFilter
-  projectSlidePosters?: Prisma.ProjectSlideListRelationFilter
   studioFounderOneImages?: Prisma.StudioPageContentListRelationFilter
   studioFounderTwoImages?: Prisma.StudioPageContentListRelationFilter
   testimonialAvatars?: Prisma.TestimonialListRelationFilter
@@ -368,6 +409,10 @@ export type MediaAssetOrderByWithAggregationInput = {
   size?: Prisma.SortOrderInput | Prisma.SortOrder
   width?: Prisma.SortOrderInput | Prisma.SortOrder
   height?: Prisma.SortOrderInput | Prisma.SortOrder
+  posterUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  posterPathname?: Prisma.SortOrderInput | Prisma.SortOrder
+  posterMimeType?: Prisma.SortOrderInput | Prisma.SortOrder
+  posterSize?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   alt?: Prisma.SortOrderInput | Prisma.SortOrder
   altEn?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -394,6 +439,10 @@ export type MediaAssetScalarWhereWithAggregatesInput = {
   size?: Prisma.IntNullableWithAggregatesFilter<"MediaAsset"> | number | null
   width?: Prisma.IntNullableWithAggregatesFilter<"MediaAsset"> | number | null
   height?: Prisma.IntNullableWithAggregatesFilter<"MediaAsset"> | number | null
+  posterUrl?: Prisma.StringNullableWithAggregatesFilter<"MediaAsset"> | string | null
+  posterPathname?: Prisma.StringNullableWithAggregatesFilter<"MediaAsset"> | string | null
+  posterMimeType?: Prisma.StringNullableWithAggregatesFilter<"MediaAsset"> | string | null
+  posterSize?: Prisma.IntNullableWithAggregatesFilter<"MediaAsset"> | number | null
   name?: Prisma.StringWithAggregatesFilter<"MediaAsset"> | string
   alt?: Prisma.StringNullableWithAggregatesFilter<"MediaAsset"> | string | null
   altEn?: Prisma.StringNullableWithAggregatesFilter<"MediaAsset"> | string | null
@@ -412,6 +461,10 @@ export type MediaAssetCreateInput = {
   size?: number | null
   width?: number | null
   height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
   name: string
   alt?: string | null
   altEn?: string | null
@@ -421,7 +474,6 @@ export type MediaAssetCreateInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideCreateNestedManyWithoutMediaAssetInput
-  projectSlidePosters?: Prisma.ProjectSlideCreateNestedManyWithoutPosterAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialCreateNestedManyWithoutAvatarAssetInput
@@ -436,6 +488,10 @@ export type MediaAssetUncheckedCreateInput = {
   size?: number | null
   width?: number | null
   height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
   name: string
   alt?: string | null
   altEn?: string | null
@@ -445,7 +501,6 @@ export type MediaAssetUncheckedCreateInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectUncheckedCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput
-  projectSlidePosters?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutPosterAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput
@@ -460,6 +515,10 @@ export type MediaAssetUpdateInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -469,7 +528,6 @@ export type MediaAssetUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUpdateManyWithoutMediaAssetNestedInput
-  projectSlidePosters?: Prisma.ProjectSlideUpdateManyWithoutPosterAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUpdateManyWithoutAvatarAssetNestedInput
@@ -484,6 +542,10 @@ export type MediaAssetUncheckedUpdateInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -493,7 +555,6 @@ export type MediaAssetUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUncheckedUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput
-  projectSlidePosters?: Prisma.ProjectSlideUncheckedUpdateManyWithoutPosterAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput
@@ -508,6 +569,10 @@ export type MediaAssetCreateManyInput = {
   size?: number | null
   width?: number | null
   height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
   name: string
   alt?: string | null
   altEn?: string | null
@@ -526,6 +591,10 @@ export type MediaAssetUpdateManyMutationInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -544,6 +613,10 @@ export type MediaAssetUncheckedUpdateManyInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -567,6 +640,10 @@ export type MediaAssetCountOrderByAggregateInput = {
   size?: Prisma.SortOrder
   width?: Prisma.SortOrder
   height?: Prisma.SortOrder
+  posterUrl?: Prisma.SortOrder
+  posterPathname?: Prisma.SortOrder
+  posterMimeType?: Prisma.SortOrder
+  posterSize?: Prisma.SortOrder
   name?: Prisma.SortOrder
   alt?: Prisma.SortOrder
   altEn?: Prisma.SortOrder
@@ -580,6 +657,7 @@ export type MediaAssetAvgOrderByAggregateInput = {
   size?: Prisma.SortOrder
   width?: Prisma.SortOrder
   height?: Prisma.SortOrder
+  posterSize?: Prisma.SortOrder
 }
 
 export type MediaAssetMaxOrderByAggregateInput = {
@@ -591,6 +669,10 @@ export type MediaAssetMaxOrderByAggregateInput = {
   size?: Prisma.SortOrder
   width?: Prisma.SortOrder
   height?: Prisma.SortOrder
+  posterUrl?: Prisma.SortOrder
+  posterPathname?: Prisma.SortOrder
+  posterMimeType?: Prisma.SortOrder
+  posterSize?: Prisma.SortOrder
   name?: Prisma.SortOrder
   alt?: Prisma.SortOrder
   altEn?: Prisma.SortOrder
@@ -608,6 +690,10 @@ export type MediaAssetMinOrderByAggregateInput = {
   size?: Prisma.SortOrder
   width?: Prisma.SortOrder
   height?: Prisma.SortOrder
+  posterUrl?: Prisma.SortOrder
+  posterPathname?: Prisma.SortOrder
+  posterMimeType?: Prisma.SortOrder
+  posterSize?: Prisma.SortOrder
   name?: Prisma.SortOrder
   alt?: Prisma.SortOrder
   altEn?: Prisma.SortOrder
@@ -620,6 +706,7 @@ export type MediaAssetSumOrderByAggregateInput = {
   size?: Prisma.SortOrder
   width?: Prisma.SortOrder
   height?: Prisma.SortOrder
+  posterSize?: Prisma.SortOrder
 }
 
 export type MediaAssetCreateNestedOneWithoutProjectImagesInput = {
@@ -644,12 +731,6 @@ export type MediaAssetCreateNestedOneWithoutProjectSlideMediaInput = {
   connect?: Prisma.MediaAssetWhereUniqueInput
 }
 
-export type MediaAssetCreateNestedOneWithoutProjectSlidePostersInput = {
-  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutProjectSlidePostersInput, Prisma.MediaAssetUncheckedCreateWithoutProjectSlidePostersInput>
-  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutProjectSlidePostersInput
-  connect?: Prisma.MediaAssetWhereUniqueInput
-}
-
 export type MediaAssetUpdateOneWithoutProjectSlideMediaNestedInput = {
   create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutProjectSlideMediaInput, Prisma.MediaAssetUncheckedCreateWithoutProjectSlideMediaInput>
   connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutProjectSlideMediaInput
@@ -658,16 +739,6 @@ export type MediaAssetUpdateOneWithoutProjectSlideMediaNestedInput = {
   delete?: Prisma.MediaAssetWhereInput | boolean
   connect?: Prisma.MediaAssetWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.MediaAssetUpdateToOneWithWhereWithoutProjectSlideMediaInput, Prisma.MediaAssetUpdateWithoutProjectSlideMediaInput>, Prisma.MediaAssetUncheckedUpdateWithoutProjectSlideMediaInput>
-}
-
-export type MediaAssetUpdateOneWithoutProjectSlidePostersNestedInput = {
-  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutProjectSlidePostersInput, Prisma.MediaAssetUncheckedCreateWithoutProjectSlidePostersInput>
-  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutProjectSlidePostersInput
-  upsert?: Prisma.MediaAssetUpsertWithoutProjectSlidePostersInput
-  disconnect?: Prisma.MediaAssetWhereInput | boolean
-  delete?: Prisma.MediaAssetWhereInput | boolean
-  connect?: Prisma.MediaAssetWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.MediaAssetUpdateToOneWithWhereWithoutProjectSlidePostersInput, Prisma.MediaAssetUpdateWithoutProjectSlidePostersInput>, Prisma.MediaAssetUncheckedUpdateWithoutProjectSlidePostersInput>
 }
 
 export type MediaAssetCreateNestedOneWithoutStudioFounderOneImagesInput = {
@@ -740,6 +811,10 @@ export type MediaAssetCreateWithoutProjectImagesInput = {
   size?: number | null
   width?: number | null
   height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
   name: string
   alt?: string | null
   altEn?: string | null
@@ -748,7 +823,6 @@ export type MediaAssetCreateWithoutProjectImagesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   projectSlideMedia?: Prisma.ProjectSlideCreateNestedManyWithoutMediaAssetInput
-  projectSlidePosters?: Prisma.ProjectSlideCreateNestedManyWithoutPosterAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialCreateNestedManyWithoutAvatarAssetInput
@@ -763,6 +837,10 @@ export type MediaAssetUncheckedCreateWithoutProjectImagesInput = {
   size?: number | null
   width?: number | null
   height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
   name: string
   alt?: string | null
   altEn?: string | null
@@ -771,7 +849,6 @@ export type MediaAssetUncheckedCreateWithoutProjectImagesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   projectSlideMedia?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput
-  projectSlidePosters?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutPosterAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput
@@ -802,6 +879,10 @@ export type MediaAssetUpdateWithoutProjectImagesInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -810,7 +891,6 @@ export type MediaAssetUpdateWithoutProjectImagesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectSlideMedia?: Prisma.ProjectSlideUpdateManyWithoutMediaAssetNestedInput
-  projectSlidePosters?: Prisma.ProjectSlideUpdateManyWithoutPosterAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUpdateManyWithoutAvatarAssetNestedInput
@@ -825,6 +905,10 @@ export type MediaAssetUncheckedUpdateWithoutProjectImagesInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -833,7 +917,6 @@ export type MediaAssetUncheckedUpdateWithoutProjectImagesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectSlideMedia?: Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput
-  projectSlidePosters?: Prisma.ProjectSlideUncheckedUpdateManyWithoutPosterAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput
@@ -848,6 +931,10 @@ export type MediaAssetCreateWithoutProjectSlideMediaInput = {
   size?: number | null
   width?: number | null
   height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
   name: string
   alt?: string | null
   altEn?: string | null
@@ -856,7 +943,6 @@ export type MediaAssetCreateWithoutProjectSlideMediaInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectCreateNestedManyWithoutImageAssetInput
-  projectSlidePosters?: Prisma.ProjectSlideCreateNestedManyWithoutPosterAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialCreateNestedManyWithoutAvatarAssetInput
@@ -871,6 +957,10 @@ export type MediaAssetUncheckedCreateWithoutProjectSlideMediaInput = {
   size?: number | null
   width?: number | null
   height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
   name: string
   alt?: string | null
   altEn?: string | null
@@ -879,7 +969,6 @@ export type MediaAssetUncheckedCreateWithoutProjectSlideMediaInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectUncheckedCreateNestedManyWithoutImageAssetInput
-  projectSlidePosters?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutPosterAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput
@@ -888,57 +977,6 @@ export type MediaAssetUncheckedCreateWithoutProjectSlideMediaInput = {
 export type MediaAssetCreateOrConnectWithoutProjectSlideMediaInput = {
   where: Prisma.MediaAssetWhereUniqueInput
   create: Prisma.XOR<Prisma.MediaAssetCreateWithoutProjectSlideMediaInput, Prisma.MediaAssetUncheckedCreateWithoutProjectSlideMediaInput>
-}
-
-export type MediaAssetCreateWithoutProjectSlidePostersInput = {
-  id?: string
-  url: string
-  pathname: string
-  mediaType: $Enums.MediaAssetType
-  mimeType?: string | null
-  size?: number | null
-  width?: number | null
-  height?: number | null
-  name: string
-  alt?: string | null
-  altEn?: string | null
-  tags?: Prisma.MediaAssetCreatetagsInput | string[]
-  active?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  projectImages?: Prisma.ProjectCreateNestedManyWithoutImageAssetInput
-  projectSlideMedia?: Prisma.ProjectSlideCreateNestedManyWithoutMediaAssetInput
-  studioFounderOneImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput
-  studioFounderTwoImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput
-  testimonialAvatars?: Prisma.TestimonialCreateNestedManyWithoutAvatarAssetInput
-}
-
-export type MediaAssetUncheckedCreateWithoutProjectSlidePostersInput = {
-  id?: string
-  url: string
-  pathname: string
-  mediaType: $Enums.MediaAssetType
-  mimeType?: string | null
-  size?: number | null
-  width?: number | null
-  height?: number | null
-  name: string
-  alt?: string | null
-  altEn?: string | null
-  tags?: Prisma.MediaAssetCreatetagsInput | string[]
-  active?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  projectImages?: Prisma.ProjectUncheckedCreateNestedManyWithoutImageAssetInput
-  projectSlideMedia?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput
-  studioFounderOneImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput
-  studioFounderTwoImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput
-  testimonialAvatars?: Prisma.TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput
-}
-
-export type MediaAssetCreateOrConnectWithoutProjectSlidePostersInput = {
-  where: Prisma.MediaAssetWhereUniqueInput
-  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutProjectSlidePostersInput, Prisma.MediaAssetUncheckedCreateWithoutProjectSlidePostersInput>
 }
 
 export type MediaAssetUpsertWithoutProjectSlideMediaInput = {
@@ -961,6 +999,10 @@ export type MediaAssetUpdateWithoutProjectSlideMediaInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -969,7 +1011,6 @@ export type MediaAssetUpdateWithoutProjectSlideMediaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUpdateManyWithoutImageAssetNestedInput
-  projectSlidePosters?: Prisma.ProjectSlideUpdateManyWithoutPosterAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUpdateManyWithoutAvatarAssetNestedInput
@@ -984,6 +1025,10 @@ export type MediaAssetUncheckedUpdateWithoutProjectSlideMediaInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -992,64 +1037,6 @@ export type MediaAssetUncheckedUpdateWithoutProjectSlideMediaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUncheckedUpdateManyWithoutImageAssetNestedInput
-  projectSlidePosters?: Prisma.ProjectSlideUncheckedUpdateManyWithoutPosterAssetNestedInput
-  studioFounderOneImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput
-  studioFounderTwoImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput
-  testimonialAvatars?: Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput
-}
-
-export type MediaAssetUpsertWithoutProjectSlidePostersInput = {
-  update: Prisma.XOR<Prisma.MediaAssetUpdateWithoutProjectSlidePostersInput, Prisma.MediaAssetUncheckedUpdateWithoutProjectSlidePostersInput>
-  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutProjectSlidePostersInput, Prisma.MediaAssetUncheckedCreateWithoutProjectSlidePostersInput>
-  where?: Prisma.MediaAssetWhereInput
-}
-
-export type MediaAssetUpdateToOneWithWhereWithoutProjectSlidePostersInput = {
-  where?: Prisma.MediaAssetWhereInput
-  data: Prisma.XOR<Prisma.MediaAssetUpdateWithoutProjectSlidePostersInput, Prisma.MediaAssetUncheckedUpdateWithoutProjectSlidePostersInput>
-}
-
-export type MediaAssetUpdateWithoutProjectSlidePostersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  pathname?: Prisma.StringFieldUpdateOperationsInput | string
-  mediaType?: Prisma.EnumMediaAssetTypeFieldUpdateOperationsInput | $Enums.MediaAssetType
-  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tags?: Prisma.MediaAssetUpdatetagsInput | string[]
-  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  projectImages?: Prisma.ProjectUpdateManyWithoutImageAssetNestedInput
-  projectSlideMedia?: Prisma.ProjectSlideUpdateManyWithoutMediaAssetNestedInput
-  studioFounderOneImages?: Prisma.StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput
-  studioFounderTwoImages?: Prisma.StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput
-  testimonialAvatars?: Prisma.TestimonialUpdateManyWithoutAvatarAssetNestedInput
-}
-
-export type MediaAssetUncheckedUpdateWithoutProjectSlidePostersInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  pathname?: Prisma.StringFieldUpdateOperationsInput | string
-  mediaType?: Prisma.EnumMediaAssetTypeFieldUpdateOperationsInput | $Enums.MediaAssetType
-  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  tags?: Prisma.MediaAssetUpdatetagsInput | string[]
-  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  projectImages?: Prisma.ProjectUncheckedUpdateManyWithoutImageAssetNestedInput
-  projectSlideMedia?: Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput
@@ -1064,6 +1051,10 @@ export type MediaAssetCreateWithoutStudioFounderOneImagesInput = {
   size?: number | null
   width?: number | null
   height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
   name: string
   alt?: string | null
   altEn?: string | null
@@ -1073,7 +1064,6 @@ export type MediaAssetCreateWithoutStudioFounderOneImagesInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideCreateNestedManyWithoutMediaAssetInput
-  projectSlidePosters?: Prisma.ProjectSlideCreateNestedManyWithoutPosterAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialCreateNestedManyWithoutAvatarAssetInput
 }
@@ -1087,6 +1077,10 @@ export type MediaAssetUncheckedCreateWithoutStudioFounderOneImagesInput = {
   size?: number | null
   width?: number | null
   height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
   name: string
   alt?: string | null
   altEn?: string | null
@@ -1096,7 +1090,6 @@ export type MediaAssetUncheckedCreateWithoutStudioFounderOneImagesInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectUncheckedCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput
-  projectSlidePosters?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutPosterAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput
 }
@@ -1115,6 +1108,10 @@ export type MediaAssetCreateWithoutStudioFounderTwoImagesInput = {
   size?: number | null
   width?: number | null
   height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
   name: string
   alt?: string | null
   altEn?: string | null
@@ -1124,7 +1121,6 @@ export type MediaAssetCreateWithoutStudioFounderTwoImagesInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideCreateNestedManyWithoutMediaAssetInput
-  projectSlidePosters?: Prisma.ProjectSlideCreateNestedManyWithoutPosterAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput
   testimonialAvatars?: Prisma.TestimonialCreateNestedManyWithoutAvatarAssetInput
 }
@@ -1138,6 +1134,10 @@ export type MediaAssetUncheckedCreateWithoutStudioFounderTwoImagesInput = {
   size?: number | null
   width?: number | null
   height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
   name: string
   alt?: string | null
   altEn?: string | null
@@ -1147,7 +1147,6 @@ export type MediaAssetUncheckedCreateWithoutStudioFounderTwoImagesInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectUncheckedCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput
-  projectSlidePosters?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutPosterAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput
   testimonialAvatars?: Prisma.TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput
 }
@@ -1177,6 +1176,10 @@ export type MediaAssetUpdateWithoutStudioFounderOneImagesInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1186,7 +1189,6 @@ export type MediaAssetUpdateWithoutStudioFounderOneImagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUpdateManyWithoutMediaAssetNestedInput
-  projectSlidePosters?: Prisma.ProjectSlideUpdateManyWithoutPosterAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUpdateManyWithoutAvatarAssetNestedInput
 }
@@ -1200,6 +1202,10 @@ export type MediaAssetUncheckedUpdateWithoutStudioFounderOneImagesInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1209,7 +1215,6 @@ export type MediaAssetUncheckedUpdateWithoutStudioFounderOneImagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUncheckedUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput
-  projectSlidePosters?: Prisma.ProjectSlideUncheckedUpdateManyWithoutPosterAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput
 }
@@ -1234,6 +1239,10 @@ export type MediaAssetUpdateWithoutStudioFounderTwoImagesInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1243,7 +1252,6 @@ export type MediaAssetUpdateWithoutStudioFounderTwoImagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUpdateManyWithoutMediaAssetNestedInput
-  projectSlidePosters?: Prisma.ProjectSlideUpdateManyWithoutPosterAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUpdateManyWithoutAvatarAssetNestedInput
 }
@@ -1257,6 +1265,10 @@ export type MediaAssetUncheckedUpdateWithoutStudioFounderTwoImagesInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1266,7 +1278,6 @@ export type MediaAssetUncheckedUpdateWithoutStudioFounderTwoImagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUncheckedUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput
-  projectSlidePosters?: Prisma.ProjectSlideUncheckedUpdateManyWithoutPosterAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput
 }
@@ -1280,6 +1291,10 @@ export type MediaAssetCreateWithoutTestimonialAvatarsInput = {
   size?: number | null
   width?: number | null
   height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
   name: string
   alt?: string | null
   altEn?: string | null
@@ -1289,7 +1304,6 @@ export type MediaAssetCreateWithoutTestimonialAvatarsInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideCreateNestedManyWithoutMediaAssetInput
-  projectSlidePosters?: Prisma.ProjectSlideCreateNestedManyWithoutPosterAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput
 }
@@ -1303,6 +1317,10 @@ export type MediaAssetUncheckedCreateWithoutTestimonialAvatarsInput = {
   size?: number | null
   width?: number | null
   height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
   name: string
   alt?: string | null
   altEn?: string | null
@@ -1312,7 +1330,6 @@ export type MediaAssetUncheckedCreateWithoutTestimonialAvatarsInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectUncheckedCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput
-  projectSlidePosters?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutPosterAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput
 }
@@ -1342,6 +1359,10 @@ export type MediaAssetUpdateWithoutTestimonialAvatarsInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1351,7 +1372,6 @@ export type MediaAssetUpdateWithoutTestimonialAvatarsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUpdateManyWithoutMediaAssetNestedInput
-  projectSlidePosters?: Prisma.ProjectSlideUpdateManyWithoutPosterAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput
 }
@@ -1365,6 +1385,10 @@ export type MediaAssetUncheckedUpdateWithoutTestimonialAvatarsInput = {
   size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1374,7 +1398,6 @@ export type MediaAssetUncheckedUpdateWithoutTestimonialAvatarsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUncheckedUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput
-  projectSlidePosters?: Prisma.ProjectSlideUncheckedUpdateManyWithoutPosterAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput
 }
@@ -1387,7 +1410,6 @@ export type MediaAssetUncheckedUpdateWithoutTestimonialAvatarsInput = {
 export type MediaAssetCountOutputType = {
   projectImages: number
   projectSlideMedia: number
-  projectSlidePosters: number
   studioFounderOneImages: number
   studioFounderTwoImages: number
   testimonialAvatars: number
@@ -1396,7 +1418,6 @@ export type MediaAssetCountOutputType = {
 export type MediaAssetCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   projectImages?: boolean | MediaAssetCountOutputTypeCountProjectImagesArgs
   projectSlideMedia?: boolean | MediaAssetCountOutputTypeCountProjectSlideMediaArgs
-  projectSlidePosters?: boolean | MediaAssetCountOutputTypeCountProjectSlidePostersArgs
   studioFounderOneImages?: boolean | MediaAssetCountOutputTypeCountStudioFounderOneImagesArgs
   studioFounderTwoImages?: boolean | MediaAssetCountOutputTypeCountStudioFounderTwoImagesArgs
   testimonialAvatars?: boolean | MediaAssetCountOutputTypeCountTestimonialAvatarsArgs
@@ -1423,13 +1444,6 @@ export type MediaAssetCountOutputTypeCountProjectImagesArgs<ExtArgs extends runt
  * MediaAssetCountOutputType without action
  */
 export type MediaAssetCountOutputTypeCountProjectSlideMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ProjectSlideWhereInput
-}
-
-/**
- * MediaAssetCountOutputType without action
- */
-export type MediaAssetCountOutputTypeCountProjectSlidePostersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ProjectSlideWhereInput
 }
 
@@ -1464,6 +1478,10 @@ export type MediaAssetSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   size?: boolean
   width?: boolean
   height?: boolean
+  posterUrl?: boolean
+  posterPathname?: boolean
+  posterMimeType?: boolean
+  posterSize?: boolean
   name?: boolean
   alt?: boolean
   altEn?: boolean
@@ -1473,7 +1491,6 @@ export type MediaAssetSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   updatedAt?: boolean
   projectImages?: boolean | Prisma.MediaAsset$projectImagesArgs<ExtArgs>
   projectSlideMedia?: boolean | Prisma.MediaAsset$projectSlideMediaArgs<ExtArgs>
-  projectSlidePosters?: boolean | Prisma.MediaAsset$projectSlidePostersArgs<ExtArgs>
   studioFounderOneImages?: boolean | Prisma.MediaAsset$studioFounderOneImagesArgs<ExtArgs>
   studioFounderTwoImages?: boolean | Prisma.MediaAsset$studioFounderTwoImagesArgs<ExtArgs>
   testimonialAvatars?: boolean | Prisma.MediaAsset$testimonialAvatarsArgs<ExtArgs>
@@ -1489,6 +1506,10 @@ export type MediaAssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   size?: boolean
   width?: boolean
   height?: boolean
+  posterUrl?: boolean
+  posterPathname?: boolean
+  posterMimeType?: boolean
+  posterSize?: boolean
   name?: boolean
   alt?: boolean
   altEn?: boolean
@@ -1507,6 +1528,10 @@ export type MediaAssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   size?: boolean
   width?: boolean
   height?: boolean
+  posterUrl?: boolean
+  posterPathname?: boolean
+  posterMimeType?: boolean
+  posterSize?: boolean
   name?: boolean
   alt?: boolean
   altEn?: boolean
@@ -1525,6 +1550,10 @@ export type MediaAssetSelectScalar = {
   size?: boolean
   width?: boolean
   height?: boolean
+  posterUrl?: boolean
+  posterPathname?: boolean
+  posterMimeType?: boolean
+  posterSize?: boolean
   name?: boolean
   alt?: boolean
   altEn?: boolean
@@ -1534,11 +1563,10 @@ export type MediaAssetSelectScalar = {
   updatedAt?: boolean
 }
 
-export type MediaAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "url" | "pathname" | "mediaType" | "mimeType" | "size" | "width" | "height" | "name" | "alt" | "altEn" | "tags" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["mediaAsset"]>
+export type MediaAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "url" | "pathname" | "mediaType" | "mimeType" | "size" | "width" | "height" | "posterUrl" | "posterPathname" | "posterMimeType" | "posterSize" | "name" | "alt" | "altEn" | "tags" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["mediaAsset"]>
 export type MediaAssetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   projectImages?: boolean | Prisma.MediaAsset$projectImagesArgs<ExtArgs>
   projectSlideMedia?: boolean | Prisma.MediaAsset$projectSlideMediaArgs<ExtArgs>
-  projectSlidePosters?: boolean | Prisma.MediaAsset$projectSlidePostersArgs<ExtArgs>
   studioFounderOneImages?: boolean | Prisma.MediaAsset$studioFounderOneImagesArgs<ExtArgs>
   studioFounderTwoImages?: boolean | Prisma.MediaAsset$studioFounderTwoImagesArgs<ExtArgs>
   testimonialAvatars?: boolean | Prisma.MediaAsset$testimonialAvatarsArgs<ExtArgs>
@@ -1552,7 +1580,6 @@ export type $MediaAssetPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     projectImages: Prisma.$ProjectPayload<ExtArgs>[]
     projectSlideMedia: Prisma.$ProjectSlidePayload<ExtArgs>[]
-    projectSlidePosters: Prisma.$ProjectSlidePayload<ExtArgs>[]
     studioFounderOneImages: Prisma.$StudioPageContentPayload<ExtArgs>[]
     studioFounderTwoImages: Prisma.$StudioPageContentPayload<ExtArgs>[]
     testimonialAvatars: Prisma.$TestimonialPayload<ExtArgs>[]
@@ -1566,6 +1593,10 @@ export type $MediaAssetPayload<ExtArgs extends runtime.Types.Extensions.Internal
     size: number | null
     width: number | null
     height: number | null
+    posterUrl: string | null
+    posterPathname: string | null
+    posterMimeType: string | null
+    posterSize: number | null
     name: string
     alt: string | null
     altEn: string | null
@@ -1969,7 +2000,6 @@ export interface Prisma__MediaAssetClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   projectImages<T extends Prisma.MediaAsset$projectImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$projectImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   projectSlideMedia<T extends Prisma.MediaAsset$projectSlideMediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$projectSlideMediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectSlidePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  projectSlidePosters<T extends Prisma.MediaAsset$projectSlidePostersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$projectSlidePostersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectSlidePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   studioFounderOneImages<T extends Prisma.MediaAsset$studioFounderOneImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$studioFounderOneImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudioPageContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   studioFounderTwoImages<T extends Prisma.MediaAsset$studioFounderTwoImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$studioFounderTwoImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudioPageContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   testimonialAvatars<T extends Prisma.MediaAsset$testimonialAvatarsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$testimonialAvatarsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TestimonialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2010,6 +2040,10 @@ export interface MediaAssetFieldRefs {
   readonly size: Prisma.FieldRef<"MediaAsset", 'Int'>
   readonly width: Prisma.FieldRef<"MediaAsset", 'Int'>
   readonly height: Prisma.FieldRef<"MediaAsset", 'Int'>
+  readonly posterUrl: Prisma.FieldRef<"MediaAsset", 'String'>
+  readonly posterPathname: Prisma.FieldRef<"MediaAsset", 'String'>
+  readonly posterMimeType: Prisma.FieldRef<"MediaAsset", 'String'>
+  readonly posterSize: Prisma.FieldRef<"MediaAsset", 'Int'>
   readonly name: Prisma.FieldRef<"MediaAsset", 'String'>
   readonly alt: Prisma.FieldRef<"MediaAsset", 'String'>
   readonly altEn: Prisma.FieldRef<"MediaAsset", 'String'>
@@ -2437,30 +2471,6 @@ export type MediaAsset$projectImagesArgs<ExtArgs extends runtime.Types.Extension
  * MediaAsset.projectSlideMedia
  */
 export type MediaAsset$projectSlideMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the ProjectSlide
-   */
-  select?: Prisma.ProjectSlideSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the ProjectSlide
-   */
-  omit?: Prisma.ProjectSlideOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.ProjectSlideInclude<ExtArgs> | null
-  where?: Prisma.ProjectSlideWhereInput
-  orderBy?: Prisma.ProjectSlideOrderByWithRelationInput | Prisma.ProjectSlideOrderByWithRelationInput[]
-  cursor?: Prisma.ProjectSlideWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.ProjectSlideScalarFieldEnum | Prisma.ProjectSlideScalarFieldEnum[]
-}
-
-/**
- * MediaAsset.projectSlidePosters
- */
-export type MediaAsset$projectSlidePostersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the ProjectSlide
    */

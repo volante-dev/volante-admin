@@ -36,6 +36,7 @@ export const GET = async (request: Request) => {
         id: asset.id,
         url: asset.url,
         mediaType: asset.mediaType,
+        posterUrl: asset.posterUrl,
         name: asset.name,
         alt: asset.alt,
         altEn: asset.altEn,

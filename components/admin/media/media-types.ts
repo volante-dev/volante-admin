@@ -9,6 +9,10 @@ export type MediaAssetData = {
   size: number | null;
   width: number | null;
   height: number | null;
+  posterUrl: string | null;
+  posterPathname: string | null;
+  posterMimeType: string | null;
+  posterSize: number | null;
   name: string;
   alt: string | null;
   altEn: string | null;
@@ -22,6 +26,7 @@ export type MediaSelection = {
   id: string;
   url: string;
   mediaType: MediaAssetType;
+  posterUrl: string | null;
   name: string;
   alt: string | null;
   altEn: string | null;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
+import { uploadPresigned } from "@vercel/blob/client";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Chip from "@mui/material/Chip";
@@ -22,6 +23,7 @@ import Typography from "@mui/material/Typography";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import UploadIcon from "@mui/icons-material/Upload";
 import { toast } from "sonner";
 import {
   deleteMediaAsset,
@@ -34,6 +36,13 @@ import type { MediaAssetData } from "./media-types";
 
 const hasMissingAlt = (asset: MediaAssetData) => !asset.alt || !asset.altEn;
 const hasMissingTags = (asset: MediaAssetData) => asset.tags.length === 0;
+const posterAccept = "image/jpeg,image/png,image/webp,image/avif";
+
+const cleanFileName = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]+/g, "-")
+    .replace(/-+/g, "-");
 
 const isMediaMetadataOutput = (
   output: unknown,
@@ -53,6 +62,11 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
   const [draftAlt, setDraftAlt] = useState("");
   const [draftAltEn, setDraftAltEn] = useState("");
   const [draftTags, setDraftTags] = useState("");
+  const [draftPosterUrl, setDraftPosterUrl] = useState("");
+  const [draftPosterPathname, setDraftPosterPathname] = useState("");
+  const [draftPosterMimeType, setDraftPosterMimeType] = useState("");
+  const [draftPosterSize, setDraftPosterSize] = useState("");
+  const [posterUploading, setPosterUploading] = useState(false);
   const [pending, startTransition] = useTransition();
   const { execute, loading: generating } = useAiRequest();
 
@@ -78,6 +92,10 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
     setDraftAlt(asset.alt ?? "");
     setDraftAltEn(asset.altEn ?? "");
     setDraftTags(asset.tags.join(", "));
+    setDraftPosterUrl(asset.posterUrl ?? "");
+    setDraftPosterPathname(asset.posterPathname ?? "");
+    setDraftPosterMimeType(asset.posterMimeType ?? "");
+    setDraftPosterSize(asset.posterSize ? String(asset.posterSize) : "");
   };
 
   const handleSave = () => {
@@ -89,6 +107,12 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
     formData.set("altEn", draftAltEn);
     formData.set("tags", draftTags);
     formData.set("active", String(editing.active));
+    if (editing.mediaType === "VIDEO") {
+      formData.set("posterUrl", draftPosterUrl);
+      formData.set("posterPathname", draftPosterPathname);
+      formData.set("posterMimeType", draftPosterMimeType);
+      formData.set("posterSize", draftPosterSize);
+    }
 
     startTransition(async () => {
       const result = await updateMediaAsset(editing.id, formData);
@@ -104,6 +128,36 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
         toast.error(result.error ?? "Impossible de mettre a jour le media.");
       }
     });
+  };
+
+  const handlePosterUpload = async (file: File | null) => {
+    if (!editing || !file) return;
+
+    setPosterUploading(true);
+    try {
+      const pathname = `media-assets/${editing.id}/poster/${Date.now()}-${cleanFileName(file.name)}`;
+      const blob = await uploadPresigned(pathname, file, {
+        access: "public",
+        handleUploadUrl: "/api/media/upload",
+        clientPayload: JSON.stringify({
+          mediaAssetId: editing.id,
+          field: "video-poster",
+        }),
+      });
+      setDraftPosterUrl(blob.url);
+      setDraftPosterPathname(blob.pathname);
+      setDraftPosterMimeType(file.type);
+      setDraftPosterSize(String(file.size));
+      toast.success("Poster uploade.");
+    } catch (error) {
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Erreur lors de l'upload du poster.",
+      );
+    } finally {
+      setPosterUploading(false);
+    }
   };
 
   const handleGenerate = async () => {
@@ -189,13 +243,22 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
                     }}
                   >
                     {asset.mediaType === "VIDEO" ? (
-                      <Box
-                        component="video"
-                        src={asset.url}
-                        muted
-                        playsInline
-                        sx={{ width: "100%", height: "100%", objectFit: "cover" }}
-                      />
+                      asset.posterUrl ? (
+                        <Box
+                          component="img"
+                          src={asset.posterUrl}
+                          alt=""
+                          sx={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
+                      ) : (
+                        <Box
+                          component="video"
+                          src={asset.url}
+                          muted
+                          playsInline
+                          sx={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
+                      )
                     ) : (
                       <Box
                         component="img"
@@ -297,6 +360,7 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
                   controls
                   muted
                   playsInline
+                  poster={draftPosterUrl || undefined}
                   sx={{ width: "100%", maxHeight: 360, objectFit: "contain" }}
                 />
               ) : (
@@ -307,6 +371,68 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
                   sx={{ width: "100%", maxHeight: 360, objectFit: "contain" }}
                 />
               )}
+            </Box>
+          )}
+          {editing?.mediaType === "VIDEO" && (
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+              <Typography variant="body2" fontWeight={500}>
+                Poster video
+              </Typography>
+              {draftPosterUrl ? (
+                <Box
+                  component="img"
+                  src={draftPosterUrl}
+                  alt=""
+                  sx={{
+                    width: "100%",
+                    maxHeight: 220,
+                    objectFit: "contain",
+                    bgcolor: "grey.100",
+                    borderRadius: 1,
+                  }}
+                />
+              ) : (
+                <Typography variant="body2" color="text.secondary">
+                  Aucun poster renseigne.
+                </Typography>
+              )}
+              <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                <Button
+                  component="label"
+                  variant="outlined"
+                  startIcon={
+                    posterUploading ? <CircularProgress size={18} /> : <UploadIcon />
+                  }
+                  disabled={posterUploading || pending}
+                >
+                  {posterUploading ? "Upload..." : "Uploader un poster"}
+                  <input
+                    type="file"
+                    accept={posterAccept}
+                    hidden
+                    onChange={(event) => {
+                      const file = event.target.files?.[0] ?? null;
+                      event.target.value = "";
+                      void handlePosterUpload(file);
+                    }}
+                  />
+                </Button>
+                {draftPosterUrl && (
+                  <Button
+                    variant="text"
+                    color="error"
+                    onClick={() => {
+                      setDraftPosterUrl("");
+                      setDraftPosterPathname("");
+                      setDraftPosterMimeType("");
+                      setDraftPosterSize("");
+                    }}
+                    disabled={posterUploading || pending}
+                  >
+                    Retirer le poster
+                  </Button>
+                )}
+              </Box>
             </Box>
           )}
           <Button

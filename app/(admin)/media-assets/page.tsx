@@ -10,7 +10,7 @@ const getUsageCount = async (asset: { id: string; url: string }) => {
   const [
     projectImages,
     slideMedia,
-    slidePosters,
+    legacySlidePosters,
     studioFounderOneImages,
     studioFounderTwoImages,
     testimonialAvatars,
@@ -21,9 +21,7 @@ const getUsageCount = async (asset: { id: string; url: string }) => {
     prisma.projectSlide.count({
       where: { OR: [{ mediaAssetId: asset.id }, { mediaUrl: asset.url }] },
     }),
-    prisma.projectSlide.count({
-      where: { OR: [{ posterAssetId: asset.id }, { posterUrl: asset.url }] },
-    }),
+    prisma.projectSlide.count({ where: { posterUrl: asset.url } }),
     prisma.studioPageContent.count({
       where: {
         OR: [
@@ -48,7 +46,7 @@ const getUsageCount = async (asset: { id: string; url: string }) => {
   return (
     projectImages +
     slideMedia +
-    slidePosters +
+    legacySlidePosters +
     studioFounderOneImages +
     studioFounderTwoImages +
     testimonialAvatars
@@ -71,6 +69,10 @@ const MediaAssetsPage = async () => {
       size: asset.size,
       width: asset.width,
       height: asset.height,
+      posterUrl: asset.posterUrl,
+      posterPathname: asset.posterPathname,
+      posterMimeType: asset.posterMimeType,
+      posterSize: asset.posterSize,
       name: asset.name,
       alt: asset.alt,
       altEn: asset.altEn,

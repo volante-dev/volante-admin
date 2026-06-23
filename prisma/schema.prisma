@@ -93,8 +93,6 @@ model ProjectSlide {
   mediaAssetId  String?
   mediaAsset    MediaAsset?           @relation("ProjectSlideMediaAsset", fields: [mediaAssetId], references: [id], onDelete: SetNull)
   posterUrl     String?
-  posterAssetId String?
-  posterAsset   MediaAsset?           @relation("ProjectSlidePosterAsset", fields: [posterAssetId], references: [id], onDelete: SetNull)
   alt           String?
   altEn         String?
   createdAt     DateTime              @default(now())
@@ -180,6 +178,10 @@ model MediaAsset {
   size                   Int?
   width                  Int?
   height                 Int?
+  posterUrl              String?
+  posterPathname         String?
+  posterMimeType         String?
+  posterSize             Int?
   name                   String
   alt                    String?
   altEn                  String?
@@ -189,7 +191,6 @@ model MediaAsset {
   updatedAt              DateTime            @updatedAt
   projectImages          Project[]           @relation("ProjectImageAsset")
   projectSlideMedia      ProjectSlide[]      @relation("ProjectSlideMediaAsset")
-  projectSlidePosters    ProjectSlide[]      @relation("ProjectSlidePosterAsset")
   studioFounderOneImages StudioPageContent[] @relation("StudioFounderOneImageAsset")
   studioFounderTwoImages StudioPageContent[] @relation("StudioFounderTwoImageAsset")
   testimonialAvatars     Testimonial[]       @relation("TestimonialAvatarAsset")

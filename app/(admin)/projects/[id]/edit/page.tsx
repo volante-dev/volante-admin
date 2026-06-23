@@ -70,7 +70,6 @@ const EditProjectPage = async ({
       mediaUrl: slide.mediaUrl,
       mediaAssetId: slide.mediaAssetId,
       posterUrl: slide.posterUrl,
-      posterAssetId: slide.posterAssetId,
       alt: slide.alt,
       altEn: slide.altEn,
     })),

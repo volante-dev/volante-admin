@@ -31,7 +31,6 @@ export type AdminProjectSlide = {
   mediaUrl: string;
   mediaAssetId: string | null;
   posterUrl: string | null;
-  posterAssetId: string | null;
   alt: string | null;
   altEn: string | null;
 };

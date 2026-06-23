@@ -38,7 +38,6 @@ type SlidePayload = {
   mediaUrl: string;
   mediaAssetId?: string;
   posterUrl?: string;
-  posterAssetId?: string;
   alt?: string;
   altEn?: string;
 };
@@ -85,10 +84,6 @@ const parseSlides = (formData: FormData): SlidePayload[] => {
           : undefined,
       posterUrl:
         typeof value.posterUrl === "string" ? value.posterUrl.trim() : undefined,
-      posterAssetId:
-        typeof value.posterAssetId === "string" && value.posterAssetId
-          ? value.posterAssetId
-          : undefined,
       alt: typeof value.alt === "string" ? value.alt.trim() : undefined,
       altEn: typeof value.altEn === "string" ? value.altEn.trim() : undefined,
     };
@@ -161,12 +156,12 @@ const validateProjectPayload = async (
 
   const mediaAssetIds = [
     imageAssetId,
-    ...slides.flatMap((slide) => [slide.mediaAssetId, slide.posterAssetId]),
+    ...slides.map((slide) => slide.mediaAssetId),
   ].filter((id): id is string => Boolean(id));
   const mediaAssets = mediaAssetIds.length
     ? await prisma.mediaAsset.findMany({
         where: { id: { in: mediaAssetIds } },
-        select: { id: true, url: true, mediaType: true, active: true },
+        select: { id: true, url: true, mediaType: true, active: true, posterUrl: true },
       })
     : [];
   const mediaAssetById = new Map(mediaAssets.map((asset) => [asset.id, asset]));
@@ -265,21 +260,14 @@ const validateProjectPayload = async (
         throw new Error(`${label}: l'URL ne correspond pas au media selectionne.`);
       }
     }
-    if (slide.posterUrl && !isValidMediaUrl(slide.posterUrl)) {
+    const effectivePosterUrl =
+      slide.mediaType === "VIDEO" && mediaAsset?.posterUrl
+        ? mediaAsset.posterUrl
+        : slide.posterUrl;
+    if (effectivePosterUrl && !isValidMediaUrl(effectivePosterUrl)) {
       throw new Error(`${label}: l'URL poster est invalide.`);
     }
-    const posterAsset = slide.posterAssetId
-      ? mediaAssetById.get(slide.posterAssetId)
-      : null;
-    if (posterAsset) {
-      if (!posterAsset.active || posterAsset.mediaType !== "IMAGE") {
-        throw new Error(`${label}: le poster selectionne est invalide.`);
-      }
-      if (posterAsset.url !== slide.posterUrl) {
-        throw new Error(`${label}: l'URL poster ne correspond pas au media selectionne.`);
-      }
-    }
-    if (slide.mediaType === "VIDEO" && !slide.posterUrl) {
+    if (slide.mediaType === "VIDEO" && !effectivePosterUrl) {
       warnings.push(`${label}: poster conseille pour une video.`);
     }
     if (slide.mediaType === "IMAGE" && !slide.alt) {
@@ -305,8 +293,7 @@ const validateProjectPayload = async (
       mediaType: slide.mediaType,
       mediaUrl: slide.mediaUrl,
       mediaAssetId: slide.mediaAssetId || null,
-      posterUrl: slide.posterUrl || null,
-      posterAssetId: slide.posterAssetId || null,
+      posterUrl: effectivePosterUrl || null,
       alt: slide.alt || null,
       altEn: slide.altEn || null,
     };
@@ -382,7 +369,6 @@ const saveSlides = async (
       mediaUrl: slide.mediaUrl,
       mediaAssetId: slide.mediaAssetId,
       posterUrl: slide.posterUrl,
-      posterAssetId: slide.posterAssetId,
       alt: slide.alt,
       altEn: slide.altEn,
     };

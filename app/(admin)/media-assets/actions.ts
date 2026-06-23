@@ -44,6 +44,10 @@ const toMediaAssetData = (
     size: number | null;
     width: number | null;
     height: number | null;
+    posterUrl: string | null;
+    posterPathname: string | null;
+    posterMimeType: string | null;
+    posterSize: number | null;
     name: string;
     alt: string | null;
     altEn: string | null;
@@ -62,7 +66,7 @@ const getUsageCount = async (asset: { id: string; url: string }) => {
   const [
     projectImages,
     slideMedia,
-    slidePosters,
+    legacySlidePosters,
     studioFounderOneImages,
     studioFounderTwoImages,
     testimonialAvatars,
@@ -73,9 +77,7 @@ const getUsageCount = async (asset: { id: string; url: string }) => {
     prisma.projectSlide.count({
       where: { OR: [{ mediaAssetId: asset.id }, { mediaUrl: asset.url }] },
     }),
-    prisma.projectSlide.count({
-      where: { OR: [{ posterAssetId: asset.id }, { posterUrl: asset.url }] },
-    }),
+    prisma.projectSlide.count({ where: { posterUrl: asset.url } }),
     prisma.studioPageContent.count({
       where: {
         OR: [
@@ -100,7 +102,7 @@ const getUsageCount = async (asset: { id: string; url: string }) => {
   return (
     projectImages +
     slideMedia +
-    slidePosters +
+    legacySlidePosters +
     studioFounderOneImages +
     studioFounderTwoImages +
     testimonialAvatars
@@ -176,9 +178,38 @@ export const updateMediaAsset = async (
   try {
     await requireCrmAccess();
     const name = normalizeRequired(formData.get("name"));
+    const posterUrl = normalizeNullable(formData.get("posterUrl"));
     if (name.length < 2) {
       return { success: false, error: "Le nom doit contenir au moins 2 caracteres." };
     }
+    if (posterUrl && !isValidMediaUrl(posterUrl)) {
+      return { success: false, error: "L'URL du poster est invalide." };
+    }
+
+    const current = await prisma.mediaAsset.findUnique({ where: { id } });
+    if (!current) return { success: false, error: "Media introuvable." };
+    const posterSizeValue = normalizeNullable(formData.get("posterSize"));
+    const parsedPosterSize = posterSizeValue
+      ? Number.parseInt(posterSizeValue, 10)
+      : null;
+    if (
+      posterSizeValue &&
+      (parsedPosterSize === null ||
+        !Number.isFinite(parsedPosterSize) ||
+        parsedPosterSize < 0)
+    ) {
+      return { success: false, error: "La taille du poster est invalide." };
+    }
+    const posterSize = parsedPosterSize;
+    const posterData =
+      formData.has("posterUrl") && current.mediaType === "VIDEO"
+        ? {
+            posterUrl,
+            posterPathname: normalizeNullable(formData.get("posterPathname")),
+            posterMimeType: normalizeNullable(formData.get("posterMimeType")),
+            posterSize,
+          }
+        : {};
 
     const asset = await prisma.mediaAsset.update({
       where: { id },
@@ -188,6 +219,7 @@ export const updateMediaAsset = async (
         altEn: normalizeNullable(formData.get("altEn")),
         tags: parseTags(formData.get("tags")),
         active: formData.get("active") === "true",
+        ...posterData,
       },
     });
 
