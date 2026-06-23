@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, type MouseEvent } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import LinkExtension from "@tiptap/extension-link";
@@ -25,6 +25,18 @@ type RichTextEditorProps = {
   error?: boolean;
 };
 
+const normalizeHref = (value: string) => {
+  const trimmed = value.trim();
+  if (
+    trimmed.startsWith("/") ||
+    trimmed.startsWith("#") ||
+    /^[a-z][a-z0-9+.-]*:/i.test(trimmed)
+  ) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
+};
+
 export const RichTextEditor = ({
   label,
   value,
@@ -40,6 +52,10 @@ export const RichTextEditor = ({
         openOnClick: false,
         autolink: true,
         defaultProtocol: "https",
+        HTMLAttributes: {
+          target: "_blank",
+          rel: "noopener noreferrer",
+        },
       }),
     ],
     content: value || "<p></p>",
@@ -68,7 +84,31 @@ export const RichTextEditor = ({
       return;
     }
 
-    editor.chain().focus().extendMarkRange("link").setLink({ href }).run();
+    const normalizedHref = normalizeHref(href);
+
+    if (editor.state.selection.empty && !current) {
+      editor
+        .chain()
+        .focus()
+        .insertContent({
+          type: "text",
+          text: normalizedHref,
+          marks: [{ type: "link", attrs: { href: normalizedHref } }],
+        })
+        .run();
+      return;
+    }
+
+    editor
+      .chain()
+      .focus()
+      .extendMarkRange("link")
+      .setLink({ href: normalizedHref })
+      .run();
+  };
+
+  const keepEditorSelection = (event: MouseEvent) => {
+    event.preventDefault();
   };
 
   return (
@@ -94,6 +134,7 @@ export const RichTextEditor = ({
       >
         <Button
           size="small"
+          onMouseDown={keepEditorSelection}
           onClick={() => editor?.chain().focus().setParagraph().run()}
           variant={editor?.isActive("paragraph") ? "contained" : "text"}
         >
@@ -101,6 +142,7 @@ export const RichTextEditor = ({
         </Button>
         <Button
           size="small"
+          onMouseDown={keepEditorSelection}
           onClick={() => editor?.chain().focus().toggleHeading({ level: 3 }).run()}
           variant={editor?.isActive("heading", { level: 3 }) ? "contained" : "text"}
         >
@@ -108,6 +150,7 @@ export const RichTextEditor = ({
         </Button>
         <Button
           size="small"
+          onMouseDown={keepEditorSelection}
           onClick={() => editor?.chain().focus().toggleHeading({ level: 4 }).run()}
           variant={editor?.isActive("heading", { level: 4 }) ? "contained" : "text"}
         >
@@ -118,6 +161,7 @@ export const RichTextEditor = ({
           <IconButton
             size="small"
             color={editor?.isActive("bold") ? "primary" : "default"}
+            onMouseDown={keepEditorSelection}
             onClick={() => editor?.chain().focus().toggleBold().run()}
           >
             <FormatBoldIcon fontSize="small" />
@@ -127,6 +171,7 @@ export const RichTextEditor = ({
           <IconButton
             size="small"
             color={editor?.isActive("italic") ? "primary" : "default"}
+            onMouseDown={keepEditorSelection}
             onClick={() => editor?.chain().focus().toggleItalic().run()}
           >
             <FormatItalicIcon fontSize="small" />
@@ -136,6 +181,7 @@ export const RichTextEditor = ({
           <IconButton
             size="small"
             color={editor?.isActive("bulletList") ? "primary" : "default"}
+            onMouseDown={keepEditorSelection}
             onClick={() => editor?.chain().focus().toggleBulletList().run()}
           >
             <FormatListBulletedIcon fontSize="small" />
@@ -145,6 +191,7 @@ export const RichTextEditor = ({
           <IconButton
             size="small"
             color={editor?.isActive("orderedList") ? "primary" : "default"}
+            onMouseDown={keepEditorSelection}
             onClick={() => editor?.chain().focus().toggleOrderedList().run()}
           >
             <FormatListNumberedIcon fontSize="small" />
@@ -154,6 +201,7 @@ export const RichTextEditor = ({
           <IconButton
             size="small"
             color={editor?.isActive("link") ? "primary" : "default"}
+            onMouseDown={keepEditorSelection}
             onClick={setLink}
           >
             <LinkIcon fontSize="small" />
@@ -162,6 +210,7 @@ export const RichTextEditor = ({
         <Tooltip title="Retour ligne">
           <IconButton
             size="small"
+            onMouseDown={keepEditorSelection}
             onClick={() => editor?.chain().focus().setHardBreak().run()}
           >
             <SubdirectoryArrowLeftIcon fontSize="small" />
@@ -180,7 +229,9 @@ export const RichTextEditor = ({
           "& .tiptap p": { my: 1 },
           "& .tiptap h3": { typography: "h3", my: 1.5 },
           "& .tiptap h4": { typography: "h4", my: 1 },
-          "& .tiptap ul, & .tiptap ol": { pl: 3 },
+          "& .tiptap ul": { listStyleType: "disc", pl: 3, my: 1.5 },
+          "& .tiptap ol": { listStyleType: "decimal", pl: 3, my: 1.5 },
+          "& .tiptap li": { display: "list-item", my: 0.5 },
           "& .tiptap a": { color: "primary.main" },
         }}
       >

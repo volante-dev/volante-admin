@@ -13,7 +13,9 @@ import Typography from "@mui/material/Typography";
 import SaveIcon from "@mui/icons-material/Save";
 import { toast } from "sonner";
 import { updateStudioPageContent } from "@/app/(admin)/pages/studio/actions";
+import { isBlankRichText } from "@/lib/rich-text";
 import { MediaUrlField } from "./MediaUrlField";
+import { RichTextEditor } from "./RichTextEditor";
 import { TranslateButton } from "./TranslateButton";
 import type { StudioPageContentData } from "./studio-page-types";
 
@@ -49,6 +51,10 @@ const toEditableContent = (
   founderTwoImageUrl: content.founderTwoImageUrl,
   founderTwoImageAlt: content.founderTwoImageAlt ?? "",
   founderTwoImageAltEn: content.founderTwoImageAltEn ?? "",
+  historyTitle: content.historyTitle,
+  historyTitleEn: content.historyTitleEn ?? "",
+  historyContentHtml: content.historyContentHtml,
+  historyContentHtmlEn: content.historyContentHtmlEn ?? "",
 });
 
 const requiredFields = [
@@ -63,6 +69,7 @@ const requiredFields = [
   ["founderTwoRole", "Le role du fondateur 2 est obligatoire."],
   ["founderTwoDescription", "La description du fondateur 2 est obligatoire."],
   ["founderTwoImageUrl", "La photo du fondateur 2 est obligatoire."],
+  ["historyTitle", "Le titre Notre histoire est obligatoire."],
 ] as const satisfies readonly [keyof EditableStudioPageContent, string][];
 
 const imageAccept = "image/jpeg,image/png,image/webp,image/avif";
@@ -129,6 +136,9 @@ export const StudioPageForm = ({
   const validateClient = () => {
     for (const [field, message] of requiredFields) {
       if (fields[field].trim().length < 2) return message;
+    }
+    if (isBlankRichText(fields.historyContentHtml)) {
+      return "La description Notre histoire est obligatoire.";
     }
     return null;
   };
@@ -245,6 +255,22 @@ export const StudioPageForm = ({
                 multiline
                 rows={5}
               />
+
+              <Typography variant="h3" sx={{ mt: 2 }}>
+                Notre histoire
+              </Typography>
+              <TextFieldRow
+                label="Titre"
+                value={fields.historyTitle}
+                onChange={updateField("historyTitle")}
+                required
+              />
+              <RichTextEditor
+                label="Description"
+                value={fields.historyContentHtml}
+                onChange={updateField("historyContentHtml")}
+                error={isBlankRichText(fields.historyContentHtml)}
+              />
             </Box>
           )}
 
@@ -323,6 +349,30 @@ export const StudioPageForm = ({
                 rows={5}
                 translateFrom={fields.founderTwoDescription}
               />
+
+              <Typography variant="h3" sx={{ mt: 2 }}>
+                Our story
+              </Typography>
+              <TextFieldRow
+                label="Title (EN)"
+                value={fields.historyTitleEn}
+                onChange={updateField("historyTitleEn")}
+                translateFrom={fields.historyTitle}
+              />
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <Box sx={{ flex: 1 }}>
+                  <RichTextEditor
+                    label="Description (EN)"
+                    value={fields.historyContentHtmlEn || "<p></p>"}
+                    onChange={updateField("historyContentHtmlEn")}
+                  />
+                </Box>
+                <TranslateButton
+                  sourceText={fields.historyContentHtml}
+                  onTranslated={updateField("historyContentHtmlEn")}
+                  html
+                />
+              </Box>
             </Box>
           )}
 

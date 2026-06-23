@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { requireCrmAccess } from "@/lib/auth-guard";
 import { isValidMediaUrl, normalizeNullable, normalizeRequired } from "@/lib/validation";
+import { isBlankRichText, sanitizeRichTextHtml } from "@/lib/rich-text";
 
 type ActionResult = {
   success: boolean;
@@ -20,6 +21,7 @@ const requiredTextFields = [
   ["founderTwoName", "Le nom du fondateur 2 est obligatoire."],
   ["founderTwoRole", "Le role du fondateur 2 est obligatoire."],
   ["founderTwoDescription", "La description du fondateur 2 est obligatoire."],
+  ["historyTitle", "Le titre Notre histoire est obligatoire."],
 ] as const;
 
 const requiredImageFields = [
@@ -65,10 +67,26 @@ const parseStudioPageContent = (formData: FormData) => {
     founderTwoImageAltEn: normalizeNullable(
       formData.get("founderTwoImageAltEn"),
     ),
+    historyTitle: normalizeRequired(formData.get("historyTitle")),
+    historyTitleEn: normalizeNullable(formData.get("historyTitleEn")),
+    historyContentHtml:
+      typeof formData.get("historyContentHtml") === "string"
+        ? String(formData.get("historyContentHtml"))
+        : "",
+    historyContentHtmlEn:
+      typeof formData.get("historyContentHtmlEn") === "string"
+        ? String(formData.get("historyContentHtmlEn"))
+        : "",
   };
 
   for (const [field, message] of requiredTextFields) {
     if (values[field].length < 2) return { error: message } as const;
+  }
+
+  if (isBlankRichText(values.historyContentHtml)) {
+    return {
+      error: "La description Notre histoire est obligatoire.",
+    } as const;
   }
 
   for (const [field, message] of requiredImageFields) {
@@ -78,7 +96,15 @@ const parseStudioPageContent = (formData: FormData) => {
     }
   }
 
-  return { data: values } as const;
+  return {
+    data: {
+      ...values,
+      historyContentHtml: sanitizeRichTextHtml(values.historyContentHtml),
+      historyContentHtmlEn: isBlankRichText(values.historyContentHtmlEn)
+        ? null
+        : sanitizeRichTextHtml(values.historyContentHtmlEn),
+    },
+  } as const;
 };
 
 const actionError = (error: unknown): ActionResult => ({

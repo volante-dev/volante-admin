@@ -3,11 +3,69 @@
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { requireCrmAccess } from "@/lib/auth-guard";
+import {
+  isBlankRichText,
+  richTextToPlainText,
+  sanitizeRichTextHtml,
+} from "@/lib/rich-text";
 
 type ActionResult = {
   success: boolean;
   error?: string;
   id?: string;
+};
+
+const parseService = (formData: FormData) => {
+  const title = String(formData.get("title") ?? "").trim();
+  const titleEn = String(formData.get("titleEn") ?? "").trim() || null;
+  const descriptionHtml = String(formData.get("descriptionHtml") ?? "");
+  const descriptionHtmlEn = String(formData.get("descriptionHtmlEn") ?? "");
+  const icon = String(formData.get("icon") ?? "").trim() || null;
+  const order = parseInt(String(formData.get("order") ?? ""), 10);
+  const active = formData.get("active") === "true";
+
+  if (!title || title.length < 2) {
+    return {
+      error: "Le titre doit contenir au moins 2 caracteres.",
+    } as const;
+  }
+  if (isBlankRichText(descriptionHtml)) {
+    return {
+      error: "La description doit contenir au moins 10 caracteres.",
+    } as const;
+  }
+  if (isNaN(order) || order < 0) {
+    return { error: "L'ordre doit etre un nombre positif." } as const;
+  }
+
+  const sanitizedDescriptionHtml = sanitizeRichTextHtml(descriptionHtml);
+  const sanitizedDescriptionHtmlEn = isBlankRichText(descriptionHtmlEn)
+    ? null
+    : sanitizeRichTextHtml(descriptionHtmlEn);
+  const description = richTextToPlainText(sanitizedDescriptionHtml);
+  const descriptionEn = sanitizedDescriptionHtmlEn
+    ? richTextToPlainText(sanitizedDescriptionHtmlEn)
+    : null;
+
+  if (description.length < 10) {
+    return {
+      error: "La description doit contenir au moins 10 caracteres.",
+    } as const;
+  }
+
+  return {
+    data: {
+      title,
+      titleEn,
+      description,
+      descriptionEn,
+      descriptionHtml: sanitizedDescriptionHtml,
+      descriptionHtmlEn: sanitizedDescriptionHtmlEn,
+      icon,
+      order,
+      active,
+    },
+  } as const;
 };
 
 export const toggleServiceActive = async (
@@ -36,29 +94,11 @@ export const createService = async (
   try {
     await requireCrmAccess();
 
-    const title = formData.get("title") as string;
-    const titleEn = (formData.get("titleEn") as string) || null;
-    const description = formData.get("description") as string;
-    const descriptionEn = (formData.get("descriptionEn") as string) || null;
-    const icon = (formData.get("icon") as string) || null;
-    const order = parseInt(formData.get("order") as string, 10);
-    const active = formData.get("active") === "true";
-
-    if (!title || title.length < 2) {
-      return { success: false, error: "Le titre doit contenir au moins 2 caracteres." };
-    }
-    if (!description || description.length < 10) {
-      return {
-        success: false,
-        error: "La description doit contenir au moins 10 caracteres.",
-      };
-    }
-    if (isNaN(order) || order < 0) {
-      return { success: false, error: "L'ordre doit etre un nombre positif." };
-    }
+    const parsed = parseService(formData);
+    if ("error" in parsed) return { success: false, error: parsed.error };
 
     const service = await prisma.service.create({
-      data: { title, titleEn, description, descriptionEn, icon, order, active },
+      data: parsed.data,
     });
 
     revalidatePath("/services");
@@ -78,30 +118,12 @@ export const updateService = async (
   try {
     await requireCrmAccess();
 
-    const title = formData.get("title") as string;
-    const titleEn = (formData.get("titleEn") as string) || null;
-    const description = formData.get("description") as string;
-    const descriptionEn = (formData.get("descriptionEn") as string) || null;
-    const icon = (formData.get("icon") as string) || null;
-    const order = parseInt(formData.get("order") as string, 10);
-    const active = formData.get("active") === "true";
-
-    if (!title || title.length < 2) {
-      return { success: false, error: "Le titre doit contenir au moins 2 caracteres." };
-    }
-    if (!description || description.length < 10) {
-      return {
-        success: false,
-        error: "La description doit contenir au moins 10 caracteres.",
-      };
-    }
-    if (isNaN(order) || order < 0) {
-      return { success: false, error: "L'ordre doit etre un nombre positif." };
-    }
+    const parsed = parseService(formData);
+    if ("error" in parsed) return { success: false, error: parsed.error };
 
     await prisma.service.update({
       where: { id },
-      data: { title, titleEn, description, descriptionEn, icon, order, active },
+      data: parsed.data,
     });
 
     revalidatePath("/services");

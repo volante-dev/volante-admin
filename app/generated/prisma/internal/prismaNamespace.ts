@@ -1043,6 +1043,8 @@ export const ServiceScalarFieldEnum = {
   titleEn: 'titleEn',
   description: 'description',
   descriptionEn: 'descriptionEn',
+  descriptionHtml: 'descriptionHtml',
+  descriptionHtmlEn: 'descriptionHtmlEn',
   icon: 'icon',
   order: 'order',
   active: 'active'
@@ -1090,6 +1092,10 @@ export const StudioPageContentScalarFieldEnum = {
   founderTwoImageUrl: 'founderTwoImageUrl',
   founderTwoImageAlt: 'founderTwoImageAlt',
   founderTwoImageAltEn: 'founderTwoImageAltEn',
+  historyTitle: 'historyTitle',
+  historyTitleEn: 'historyTitleEn',
+  historyContentHtml: 'historyContentHtml',
+  historyContentHtmlEn: 'historyContentHtmlEn',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

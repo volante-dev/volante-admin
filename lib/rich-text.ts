@@ -14,6 +14,8 @@ const allowedTags = new Set([
 ]);
 const voidTags = new Set(["br"]);
 const allowedProtocols = ["http:", "https:", "mailto:", "tel:"];
+const allowedAttributes = new Set(["href", "title", "target", "rel"]);
+const allowedRelValues = new Set(["noopener", "noreferrer", "nofollow"]);
 
 const escapeHtml = (value: string) =>
   value
@@ -62,6 +64,36 @@ const renderAnchorAttributes = (attributes: string) => {
   return rendered.length ? ` ${rendered.join(" ")}` : "";
 };
 
+const isSupportedAnchorAttribute = (name: string, value: string) => {
+  if (!allowedAttributes.has(name)) return false;
+  if (name === "href") return isSafeHref(value);
+  if (name === "target") return value === "_blank";
+  if (name === "rel") {
+    return value
+      .split(/\s+/)
+      .filter(Boolean)
+      .every((entry) => allowedRelValues.has(entry));
+  }
+  return name === "title";
+};
+
+const hasUnsupportedAttributes = (tag: string, attributes: string) => {
+  const attrPattern =
+    /([a-zA-Z:-]+)(?:\s*=\s*("([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g;
+  let match: RegExpExecArray | null;
+
+  while ((match = attrPattern.exec(attributes))) {
+    const name = match[1].toLowerCase();
+    const value = match[3] ?? match[4] ?? match[5] ?? "";
+
+    if (tag !== "a" || !isSupportedAnchorAttribute(name, value)) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
 export const sanitizeRichTextHtml = (html: string) => {
   const withoutComments = html.replace(/<!--[\s\S]*?-->/g, "");
   const tagPattern = /<\/?\s*([a-zA-Z0-9]+)([^>]*)>/g;
@@ -96,8 +128,25 @@ export const sanitizeRichTextHtml = (html: string) => {
   return sanitized;
 };
 
-export const hasUnsupportedRichTextHtml = (html: string) =>
-  sanitizeRichTextHtml(html) !== html;
+export const hasUnsupportedRichTextHtml = (html: string) => {
+  const withoutComments = html.replace(/<!--[\s\S]*?-->/g, "");
+  const tagPattern = /<\/?\s*([a-zA-Z0-9]+)([^>]*)>/g;
+  let match: RegExpExecArray | null;
+
+  while ((match = tagPattern.exec(withoutComments))) {
+    const rawTag = match[0];
+    const tag = match[1].toLowerCase();
+    const attributes = match[2] ?? "";
+    const isClosing = /^<\s*\//.test(rawTag);
+
+    if (!allowedTags.has(tag)) return true;
+    if (!isClosing && !voidTags.has(tag) && hasUnsupportedAttributes(tag, attributes)) {
+      return true;
+    }
+  }
+
+  return false;
+};
 
 export const isBlankRichText = (html: string) =>
   sanitizeRichTextHtml(html)
@@ -105,3 +154,25 @@ export const isBlankRichText = (html: string) =>
     .replace(/<\/?(p|strong|em|b|i|ul|ol|li|a|h3|h4)(?:\s[^>]*)?>/g, "")
     .replace(/&nbsp;/g, " ")
     .trim().length === 0;
+
+const decodeBasicEntities = (value: string) =>
+  value
+    .replaceAll("&nbsp;", " ")
+    .replaceAll("&amp;", "&")
+    .replaceAll("&lt;", "<")
+    .replaceAll("&gt;", ">")
+    .replaceAll("&quot;", '"')
+    .replaceAll("&#39;", "'");
+
+export const richTextToPlainText = (html: string) =>
+  decodeBasicEntities(
+    sanitizeRichTextHtml(html)
+      .replace(/<br>/g, "\n")
+      .replace(/<li>/g, "- ")
+      .replace(/<\/(p|h3|h4|li)>/g, "\n")
+      .replace(/<\/?(p|strong|em|b|i|ul|ol|li|a|h3|h4)(?:\s[^>]*)?>/g, ""),
+  )
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .join("\n");

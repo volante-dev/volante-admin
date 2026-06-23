@@ -50,6 +50,10 @@ export type StudioPageContentMinAggregateOutputType = {
   founderTwoImageUrl: string | null
   founderTwoImageAlt: string | null
   founderTwoImageAltEn: string | null
+  historyTitle: string | null
+  historyTitleEn: string | null
+  historyContentHtml: string | null
+  historyContentHtmlEn: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -80,6 +84,10 @@ export type StudioPageContentMaxAggregateOutputType = {
   founderTwoImageUrl: string | null
   founderTwoImageAlt: string | null
   founderTwoImageAltEn: string | null
+  historyTitle: string | null
+  historyTitleEn: string | null
+  historyContentHtml: string | null
+  historyContentHtmlEn: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -110,6 +118,10 @@ export type StudioPageContentCountAggregateOutputType = {
   founderTwoImageUrl: number
   founderTwoImageAlt: number
   founderTwoImageAltEn: number
+  historyTitle: number
+  historyTitleEn: number
+  historyContentHtml: number
+  historyContentHtmlEn: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -142,6 +154,10 @@ export type StudioPageContentMinAggregateInputType = {
   founderTwoImageUrl?: true
   founderTwoImageAlt?: true
   founderTwoImageAltEn?: true
+  historyTitle?: true
+  historyTitleEn?: true
+  historyContentHtml?: true
+  historyContentHtmlEn?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -172,6 +188,10 @@ export type StudioPageContentMaxAggregateInputType = {
   founderTwoImageUrl?: true
   founderTwoImageAlt?: true
   founderTwoImageAltEn?: true
+  historyTitle?: true
+  historyTitleEn?: true
+  historyContentHtml?: true
+  historyContentHtmlEn?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -202,6 +222,10 @@ export type StudioPageContentCountAggregateInputType = {
   founderTwoImageUrl?: true
   founderTwoImageAlt?: true
   founderTwoImageAltEn?: true
+  historyTitle?: true
+  historyTitleEn?: true
+  historyContentHtml?: true
+  historyContentHtmlEn?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -305,6 +329,10 @@ export type StudioPageContentGroupByOutputType = {
   founderTwoImageUrl: string
   founderTwoImageAlt: string | null
   founderTwoImageAltEn: string | null
+  historyTitle: string
+  historyTitleEn: string | null
+  historyContentHtml: string
+  historyContentHtmlEn: string | null
   createdAt: Date
   updatedAt: Date
   _count: StudioPageContentCountAggregateOutputType | null
@@ -356,6 +384,10 @@ export type StudioPageContentWhereInput = {
   founderTwoImageUrl?: Prisma.StringFilter<"StudioPageContent"> | string
   founderTwoImageAlt?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderTwoImageAltEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  historyTitle?: Prisma.StringFilter<"StudioPageContent"> | string
+  historyTitleEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  historyContentHtml?: Prisma.StringFilter<"StudioPageContent"> | string
+  historyContentHtmlEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   createdAt?: Prisma.DateTimeFilter<"StudioPageContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StudioPageContent"> | Date | string
 }
@@ -386,6 +418,10 @@ export type StudioPageContentOrderByWithRelationInput = {
   founderTwoImageUrl?: Prisma.SortOrder
   founderTwoImageAlt?: Prisma.SortOrderInput | Prisma.SortOrder
   founderTwoImageAltEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  historyTitle?: Prisma.SortOrder
+  historyTitleEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  historyContentHtml?: Prisma.SortOrder
+  historyContentHtmlEn?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -419,6 +455,10 @@ export type StudioPageContentWhereUniqueInput = Prisma.AtLeast<{
   founderTwoImageUrl?: Prisma.StringFilter<"StudioPageContent"> | string
   founderTwoImageAlt?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   founderTwoImageAltEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  historyTitle?: Prisma.StringFilter<"StudioPageContent"> | string
+  historyTitleEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
+  historyContentHtml?: Prisma.StringFilter<"StudioPageContent"> | string
+  historyContentHtmlEn?: Prisma.StringNullableFilter<"StudioPageContent"> | string | null
   createdAt?: Prisma.DateTimeFilter<"StudioPageContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"StudioPageContent"> | Date | string
 }, "id">
@@ -449,6 +489,10 @@ export type StudioPageContentOrderByWithAggregationInput = {
   founderTwoImageUrl?: Prisma.SortOrder
   founderTwoImageAlt?: Prisma.SortOrderInput | Prisma.SortOrder
   founderTwoImageAltEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  historyTitle?: Prisma.SortOrder
+  historyTitleEn?: Prisma.SortOrderInput | Prisma.SortOrder
+  historyContentHtml?: Prisma.SortOrder
+  historyContentHtmlEn?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.StudioPageContentCountOrderByAggregateInput
@@ -485,6 +529,10 @@ export type StudioPageContentScalarWhereWithAggregatesInput = {
   founderTwoImageUrl?: Prisma.StringWithAggregatesFilter<"StudioPageContent"> | string
   founderTwoImageAlt?: Prisma.StringNullableWithAggregatesFilter<"StudioPageContent"> | string | null
   founderTwoImageAltEn?: Prisma.StringNullableWithAggregatesFilter<"StudioPageContent"> | string | null
+  historyTitle?: Prisma.StringWithAggregatesFilter<"StudioPageContent"> | string
+  historyTitleEn?: Prisma.StringNullableWithAggregatesFilter<"StudioPageContent"> | string | null
+  historyContentHtml?: Prisma.StringWithAggregatesFilter<"StudioPageContent"> | string
+  historyContentHtmlEn?: Prisma.StringNullableWithAggregatesFilter<"StudioPageContent"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"StudioPageContent"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"StudioPageContent"> | Date | string
 }
@@ -515,6 +563,10 @@ export type StudioPageContentCreateInput = {
   founderTwoImageUrl: string
   founderTwoImageAlt?: string | null
   founderTwoImageAltEn?: string | null
+  historyTitle: string
+  historyTitleEn?: string | null
+  historyContentHtml: string
+  historyContentHtmlEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -545,6 +597,10 @@ export type StudioPageContentUncheckedCreateInput = {
   founderTwoImageUrl: string
   founderTwoImageAlt?: string | null
   founderTwoImageAltEn?: string | null
+  historyTitle: string
+  historyTitleEn?: string | null
+  historyContentHtml: string
+  historyContentHtmlEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -575,6 +631,10 @@ export type StudioPageContentUpdateInput = {
   founderTwoImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   founderTwoImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderTwoImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  historyTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyContentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  historyContentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -605,6 +665,10 @@ export type StudioPageContentUncheckedUpdateInput = {
   founderTwoImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   founderTwoImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderTwoImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  historyTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyContentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  historyContentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -635,6 +699,10 @@ export type StudioPageContentCreateManyInput = {
   founderTwoImageUrl: string
   founderTwoImageAlt?: string | null
   founderTwoImageAltEn?: string | null
+  historyTitle: string
+  historyTitleEn?: string | null
+  historyContentHtml: string
+  historyContentHtmlEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -665,6 +733,10 @@ export type StudioPageContentUpdateManyMutationInput = {
   founderTwoImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   founderTwoImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderTwoImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  historyTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyContentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  historyContentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -695,6 +767,10 @@ export type StudioPageContentUncheckedUpdateManyInput = {
   founderTwoImageUrl?: Prisma.StringFieldUpdateOperationsInput | string
   founderTwoImageAlt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   founderTwoImageAltEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyTitle?: Prisma.StringFieldUpdateOperationsInput | string
+  historyTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  historyContentHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  historyContentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -725,6 +801,10 @@ export type StudioPageContentCountOrderByAggregateInput = {
   founderTwoImageUrl?: Prisma.SortOrder
   founderTwoImageAlt?: Prisma.SortOrder
   founderTwoImageAltEn?: Prisma.SortOrder
+  historyTitle?: Prisma.SortOrder
+  historyTitleEn?: Prisma.SortOrder
+  historyContentHtml?: Prisma.SortOrder
+  historyContentHtmlEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -755,6 +835,10 @@ export type StudioPageContentMaxOrderByAggregateInput = {
   founderTwoImageUrl?: Prisma.SortOrder
   founderTwoImageAlt?: Prisma.SortOrder
   founderTwoImageAltEn?: Prisma.SortOrder
+  historyTitle?: Prisma.SortOrder
+  historyTitleEn?: Prisma.SortOrder
+  historyContentHtml?: Prisma.SortOrder
+  historyContentHtmlEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -785,6 +869,10 @@ export type StudioPageContentMinOrderByAggregateInput = {
   founderTwoImageUrl?: Prisma.SortOrder
   founderTwoImageAlt?: Prisma.SortOrder
   founderTwoImageAltEn?: Prisma.SortOrder
+  historyTitle?: Prisma.SortOrder
+  historyTitleEn?: Prisma.SortOrder
+  historyContentHtml?: Prisma.SortOrder
+  historyContentHtmlEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -817,6 +905,10 @@ export type StudioPageContentSelect<ExtArgs extends runtime.Types.Extensions.Int
   founderTwoImageUrl?: boolean
   founderTwoImageAlt?: boolean
   founderTwoImageAltEn?: boolean
+  historyTitle?: boolean
+  historyTitleEn?: boolean
+  historyContentHtml?: boolean
+  historyContentHtmlEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["studioPageContent"]>
@@ -847,6 +939,10 @@ export type StudioPageContentSelectCreateManyAndReturn<ExtArgs extends runtime.T
   founderTwoImageUrl?: boolean
   founderTwoImageAlt?: boolean
   founderTwoImageAltEn?: boolean
+  historyTitle?: boolean
+  historyTitleEn?: boolean
+  historyContentHtml?: boolean
+  historyContentHtmlEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["studioPageContent"]>
@@ -877,6 +973,10 @@ export type StudioPageContentSelectUpdateManyAndReturn<ExtArgs extends runtime.T
   founderTwoImageUrl?: boolean
   founderTwoImageAlt?: boolean
   founderTwoImageAltEn?: boolean
+  historyTitle?: boolean
+  historyTitleEn?: boolean
+  historyContentHtml?: boolean
+  historyContentHtmlEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["studioPageContent"]>
@@ -907,11 +1007,15 @@ export type StudioPageContentSelectScalar = {
   founderTwoImageUrl?: boolean
   founderTwoImageAlt?: boolean
   founderTwoImageAltEn?: boolean
+  historyTitle?: boolean
+  historyTitleEn?: boolean
+  historyContentHtml?: boolean
+  historyContentHtmlEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type StudioPageContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eyebrow" | "eyebrowEn" | "title" | "titleEn" | "intro" | "introEn" | "founderOneName" | "founderOneNameEn" | "founderOneRole" | "founderOneRoleEn" | "founderOneDescription" | "founderOneDescriptionEn" | "founderOneImageUrl" | "founderOneImageAlt" | "founderOneImageAltEn" | "founderTwoName" | "founderTwoNameEn" | "founderTwoRole" | "founderTwoRoleEn" | "founderTwoDescription" | "founderTwoDescriptionEn" | "founderTwoImageUrl" | "founderTwoImageAlt" | "founderTwoImageAltEn" | "createdAt" | "updatedAt", ExtArgs["result"]["studioPageContent"]>
+export type StudioPageContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eyebrow" | "eyebrowEn" | "title" | "titleEn" | "intro" | "introEn" | "founderOneName" | "founderOneNameEn" | "founderOneRole" | "founderOneRoleEn" | "founderOneDescription" | "founderOneDescriptionEn" | "founderOneImageUrl" | "founderOneImageAlt" | "founderOneImageAltEn" | "founderTwoName" | "founderTwoNameEn" | "founderTwoRole" | "founderTwoRoleEn" | "founderTwoDescription" | "founderTwoDescriptionEn" | "founderTwoImageUrl" | "founderTwoImageAlt" | "founderTwoImageAltEn" | "historyTitle" | "historyTitleEn" | "historyContentHtml" | "historyContentHtmlEn" | "createdAt" | "updatedAt", ExtArgs["result"]["studioPageContent"]>
 
 export type $StudioPageContentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "StudioPageContent"
@@ -942,6 +1046,10 @@ export type $StudioPageContentPayload<ExtArgs extends runtime.Types.Extensions.I
     founderTwoImageUrl: string
     founderTwoImageAlt: string | null
     founderTwoImageAltEn: string | null
+    historyTitle: string
+    historyTitleEn: string | null
+    historyContentHtml: string
+    historyContentHtmlEn: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["studioPageContent"]>
@@ -1392,6 +1500,10 @@ export interface StudioPageContentFieldRefs {
   readonly founderTwoImageUrl: Prisma.FieldRef<"StudioPageContent", 'String'>
   readonly founderTwoImageAlt: Prisma.FieldRef<"StudioPageContent", 'String'>
   readonly founderTwoImageAltEn: Prisma.FieldRef<"StudioPageContent", 'String'>
+  readonly historyTitle: Prisma.FieldRef<"StudioPageContent", 'String'>
+  readonly historyTitleEn: Prisma.FieldRef<"StudioPageContent", 'String'>
+  readonly historyContentHtml: Prisma.FieldRef<"StudioPageContent", 'String'>
+  readonly historyContentHtmlEn: Prisma.FieldRef<"StudioPageContent", 'String'>
   readonly createdAt: Prisma.FieldRef<"StudioPageContent", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"StudioPageContent", 'DateTime'>
 }

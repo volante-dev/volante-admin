@@ -24,4 +24,8 @@ export type StudioPageContentData = {
   founderTwoImageUrl: string;
   founderTwoImageAlt: string | null;
   founderTwoImageAltEn: string | null;
+  historyTitle: string;
+  historyTitleEn: string | null;
+  historyContentHtml: string;
+  historyContentHtmlEn: string | null;
 };

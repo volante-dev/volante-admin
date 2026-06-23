@@ -14,6 +14,8 @@ export type ServiceData = {
   titleEn: string | null;
   description: string;
   descriptionEn: string | null;
+  descriptionHtml: string;
+  descriptionHtmlEn: string | null;
   icon: string | null;
   order: number;
   active: boolean;
@@ -30,6 +32,8 @@ const ServicesPage = async () => {
     titleEn: s.titleEn,
     description: s.description,
     descriptionEn: s.descriptionEn,
+    descriptionHtml: s.descriptionHtml,
+    descriptionHtmlEn: s.descriptionHtmlEn,
     icon: s.icon,
     order: s.order,
     active: s.active,

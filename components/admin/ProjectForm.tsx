@@ -423,7 +423,9 @@ const SortableSlide = ({
                     "& p": { typography: "body1" },
                     "& h3": { typography: "h3" },
                     "& h4": { typography: "h4" },
-                    "& ul, & ol": { pl: 3 },
+                    "& ul": { listStyleType: "disc", pl: 3 },
+                    "& ol": { listStyleType: "decimal", pl: 3 },
+                    "& li": { display: "list-item" },
                   }}
                   dangerouslySetInnerHTML={{ __html: slide.contentHtml }}
                 />

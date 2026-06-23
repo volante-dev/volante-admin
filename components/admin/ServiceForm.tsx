@@ -14,6 +14,8 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { toast } from "sonner";
 import { createService, updateService } from "@/app/(admin)/services/actions";
+import { isBlankRichText } from "@/lib/rich-text";
+import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { TranslateButton } from "@/components/admin/TranslateButton";
 import type { ServiceData } from "@/app/(admin)/services/page";
 
@@ -29,9 +31,11 @@ export const ServiceForm = ({ service }: ServiceFormProps) => {
 
   const [title, setTitle] = useState(service?.title ?? "");
   const [titleEn, setTitleEn] = useState(service?.titleEn ?? "");
-  const [description, setDescription] = useState(service?.description ?? "");
+  const [descriptionHtml, setDescriptionHtml] = useState(
+    service?.descriptionHtml ?? `<p>${service?.description ?? ""}</p>`,
+  );
   const [descriptionEn, setDescriptionEn] = useState(
-    service?.descriptionEn ?? "",
+    service?.descriptionHtmlEn ?? (service?.descriptionEn ? `<p>${service.descriptionEn}</p>` : ""),
   );
   const [icon, setIcon] = useState(service?.icon ?? "");
   const [order, setOrder] = useState(String(service?.order ?? 0));
@@ -46,7 +50,7 @@ export const ServiceForm = ({ service }: ServiceFormProps) => {
       setTab(0);
       return;
     }
-    if (!description || description.length < 10) {
+    if (isBlankRichText(descriptionHtml)) {
       setError("La description doit contenir au moins 10 caracteres.");
       setTab(0);
       return;
@@ -55,8 +59,8 @@ export const ServiceForm = ({ service }: ServiceFormProps) => {
     const formData = new FormData();
     formData.set("title", title);
     formData.set("titleEn", titleEn);
-    formData.set("description", description);
-    formData.set("descriptionEn", descriptionEn);
+    formData.set("descriptionHtml", descriptionHtml);
+    formData.set("descriptionHtmlEn", descriptionEn);
     formData.set("icon", icon);
     formData.set("order", order);
     formData.set("active", String(active));
@@ -111,16 +115,11 @@ export const ServiceForm = ({ service }: ServiceFormProps) => {
                 error={!!error && title.length < 2}
                 helperText="Titre du service en francais (min. 2 caracteres)"
               />
-              <TextField
+              <RichTextEditor
                 label="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-                fullWidth
-                multiline
-                rows={4}
-                error={!!error && description.length < 10}
-                helperText="Description du service en francais (min. 10 caracteres)"
+                value={descriptionHtml}
+                onChange={setDescriptionHtml}
+                error={!!error && isBlankRichText(descriptionHtml)}
               />
             </Box>
           )}
@@ -138,16 +137,18 @@ export const ServiceForm = ({ service }: ServiceFormProps) => {
                 <TranslateButton sourceText={title} onTranslated={setTitleEn} />
               </Box>
               <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <TextField
-                  label="Description (EN)"
-                  value={descriptionEn}
-                  onChange={(e) => setDescriptionEn(e.target.value)}
-                  fullWidth
-                  multiline
-                  rows={4}
-                  helperText="Traduction anglaise de la description (optionnel)"
+                <Box sx={{ flex: 1 }}>
+                  <RichTextEditor
+                    label="Description (EN)"
+                    value={descriptionEn || "<p></p>"}
+                    onChange={setDescriptionEn}
+                  />
+                </Box>
+                <TranslateButton
+                  sourceText={descriptionHtml}
+                  onTranslated={setDescriptionEn}
+                  html
                 />
-                <TranslateButton sourceText={description} onTranslated={setDescriptionEn} />
               </Box>
             </Box>
           )}

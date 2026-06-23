@@ -35,6 +35,12 @@ const defaultStudioPageContent: StudioPageContentData = {
   founderTwoImageUrl: "",
   founderTwoImageAlt: "Portrait de Yasmine De Wilde",
   founderTwoImageAltEn: null,
+  historyTitle: "Notre histoire",
+  historyTitleEn: "Our story",
+  historyContentHtml:
+    "<p>Studio Volante est né de la conviction que la communication doit être aussi bien pensée qu'elle est belle. Fondé par des créatifs passionnés, le studio accompagne des marques de toutes tailles dans la construction d'une identité forte et cohérente.</p><p>Notre approche est toujours stratégique avant d'être esthétique : comprendre le positionnement, les cibles, les ambitions — puis créer.</p>",
+  historyContentHtmlEn:
+    "<p>Studio Volante was born from the belief that communication should be as thoughtful as it is beautiful. Founded by passionate creatives, the studio helps brands of every size build strong, consistent identities.</p><p>Our approach is always strategic before it is aesthetic: understand the positioning, audiences and ambitions — then create.</p>",
 };
 
 const getStudioPageContent = async (): Promise<StudioPageContentData> => {
