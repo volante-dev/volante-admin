@@ -3,7 +3,7 @@ import { getAccountSummary } from "@/lib/account";
 import { executeAiTask } from "@/lib/ai";
 import type { AiTask } from "@/lib/ai";
 
-const KNOWN_TASKS = new Set(["translate"]);
+const KNOWN_TASKS = new Set(["translate", "generate-media-metadata"]);
 
 export async function POST(request: Request) {
   const session = await getSession();
@@ -30,6 +30,12 @@ export async function POST(request: Request) {
   if (body.task === "translate") {
     if (!body.text || typeof body.text !== "string" || !body.text.trim()) {
       return Response.json({ success: false, error: "Le texte a traduire est requis." }, { status: 400 });
+    }
+  }
+
+  if (body.task === "generate-media-metadata") {
+    if (!body.imageUrl || typeof body.imageUrl !== "string" || !body.imageUrl.trim()) {
+      return Response.json({ success: false, error: "L'image est requise." }, { status: 400 });
     }
   }
 

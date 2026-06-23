@@ -2,12 +2,14 @@
 
 import { useState, useCallback } from "react";
 import { toast } from "sonner";
-import type { AiTask } from "./ai";
+import type { AiTask, AiTaskResult } from "./ai";
+
+type AiOutput = Extract<AiTaskResult, { success: true }>["output"];
 
 export function useAiRequest() {
   const [loading, setLoading] = useState(false);
 
-  const execute = useCallback(async (task: AiTask): Promise<string | null> => {
+  const execute = useCallback(async (task: AiTask): Promise<AiOutput | null> => {
     setLoading(true);
     try {
       const response = await fetch("/api/ai", {
@@ -16,7 +18,7 @@ export function useAiRequest() {
         body: JSON.stringify(task),
       });
 
-      const data = await response.json();
+      const data = (await response.json()) as AiTaskResult;
 
       if (!data.success) {
         toast.error(data.error || "Erreur lors de la requete IA.");

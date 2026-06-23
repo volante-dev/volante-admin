@@ -32,7 +32,7 @@ export const TranslateButton = ({
       format: html ? "html" : "plain",
     });
 
-    if (result) {
+    if (typeof result === "string") {
       onTranslated(result);
     }
   };
