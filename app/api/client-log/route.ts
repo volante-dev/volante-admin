@@ -10,6 +10,8 @@ const maxBodyBytes = 20_000;
 
 const allowedTypes = new Set([
   "console-error",
+  "console-warn",
+  "hydration-debug",
   "report-error",
   "window-error",
   "unhandled-rejection",
@@ -25,6 +27,18 @@ const readString = (
 ) => {
   const value = source[key];
   return typeof value === "string" ? truncate(value, maxLength) : undefined;
+};
+
+const readStringRecord = (source: Record<string, unknown>, key: string) => {
+  const value = source[key];
+  if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
+
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>)
+      .filter((entry): entry is [string, string] => typeof entry[1] === "string")
+      .slice(0, 12)
+      .map(([name, entryValue]) => [truncate(name, 80), truncate(entryValue, 1_500)]),
+  );
 };
 
 export const POST = async (request: Request) => {
@@ -60,6 +74,7 @@ export const POST = async (request: Request) => {
       userAgent: readString(source, "userAgent", maxUserAgentLength),
       timestamp: readString(source, "timestamp", 80),
       receivedAt: new Date().toISOString(),
+      context: readStringRecord(source, "context"),
     };
 
     console.error("[client-log]", JSON.stringify(logPayload));

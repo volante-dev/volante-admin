@@ -1,5 +1,7 @@
 type ClientLogType =
   | "console-error"
+  | "console-warn"
+  | "hydration-debug"
   | "report-error"
   | "window-error"
   | "unhandled-rejection";
@@ -12,6 +14,7 @@ type ClientLogPayload = {
   pathname: string;
   userAgent: string;
   timestamp: string;
+  context?: Record<string, string>;
 };
 
 const clientLogEndpoint = "/api/client-log";
@@ -22,9 +25,11 @@ const sentAtByKey = new Map<string, number>();
 
 const hydrationPatterns = [
   /hydration failed/i,
+  /hydration/i,
   /hydrated but some attributes/i,
   /server rendered html/i,
   /didn't match/i,
+  /did not match/i,
   /react\.dev\/link\/hydration-mismatch/i,
 ];
 
@@ -54,8 +59,41 @@ const getStack = (value: unknown) =>
     ? truncate(value.stack, maxStackLength)
     : undefined;
 
-const shouldReportConsoleError = (message: string) =>
+const shouldReportHydrationRelatedMessage = (message: string) =>
   hydrationPatterns.some((pattern) => pattern.test(message));
+
+const getAttributesSnapshot = (element: Element) =>
+  element
+    .getAttributeNames()
+    .sort()
+    .map((name) => `${name}=${JSON.stringify(element.getAttribute(name))}`)
+    .join(" ");
+
+const getSuspiciousAttributes = (element: Element) =>
+  element
+    .getAttributeNames()
+    .filter(
+      (name) =>
+        name.startsWith("data-") ||
+        name.startsWith("cz-") ||
+        name.includes("extension") ||
+        name.includes("locator"),
+    )
+    .sort();
+
+const reportRootDomSnapshot = () => {
+  const htmlAttributes = getSuspiciousAttributes(document.documentElement);
+  const bodyAttributes = getSuspiciousAttributes(document.body);
+  if (htmlAttributes.length === 0 && bodyAttributes.length === 0) return;
+
+  reportClientLog(
+    buildPayload("hydration-debug", "Suspicious root DOM attributes before hydration", undefined, {
+      htmlAttributes: getAttributesSnapshot(document.documentElement),
+      bodyAttributes: getAttributesSnapshot(document.body),
+      readyState: document.readyState,
+    }),
+  );
+};
 
 const reportClientLog = (payload: ClientLogPayload) => {
   const now = Date.now();
@@ -81,6 +119,7 @@ const buildPayload = (
   type: ClientLogType,
   message: string,
   error?: unknown,
+  context?: Record<string, string>,
 ): ClientLogPayload => ({
   type,
   message: truncate(message, maxMessageLength),
@@ -89,6 +128,7 @@ const buildPayload = (
   pathname: window.location.pathname,
   userAgent: navigator.userAgent,
   timestamp: new Date().toISOString(),
+  context,
 });
 
 if (process.env.NODE_ENV === "production" && typeof window !== "undefined") {
@@ -105,8 +145,16 @@ if (process.env.NODE_ENV === "production" && typeof window !== "undefined") {
     originalConsoleError(...args);
 
     const message = args.map(describeUnknown).join(" ");
-    if (shouldReportConsoleError(message)) {
-      reportClientLog(buildPayload("console-error", message));
+    reportClientLog(buildPayload("console-error", message));
+  };
+
+  const originalConsoleWarn = console.warn.bind(console);
+  console.warn = (...args: unknown[]) => {
+    originalConsoleWarn(...args);
+
+    const message = args.map(describeUnknown).join(" ");
+    if (shouldReportHydrationRelatedMessage(message)) {
+      reportClientLog(buildPayload("console-warn", message));
     }
   };
 
@@ -139,4 +187,6 @@ if (process.env.NODE_ENV === "production" && typeof window !== "undefined") {
       ),
     );
   });
+
+  reportRootDomSnapshot();
 }
