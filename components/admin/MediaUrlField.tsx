@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { uploadPresigned } from "@vercel/blob/client";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -32,8 +33,10 @@ type MediaUrlFieldProps = {
   onChange: (value: string) => void;
   assetId?: string | null;
   onAssetChange?: (assetId: string | null) => void;
+  onAssetSelect?: (asset: MediaSelection | null) => void;
   required?: boolean;
   accept: string;
+  libraryType?: MediaAssetType | "ALL";
   projectId?: string;
   basePath?: string;
   field: string;
@@ -60,21 +63,34 @@ const defaultTags = (basePath: string | undefined, field: string) =>
 const inferTypeFilter = (accept: string): MediaAssetType | undefined =>
   accept.includes("video") ? "VIDEO" : accept.includes("image") ? "IMAGE" : undefined;
 
+const getLibraryTypeFilter = (
+  accept: string,
+  libraryType: MediaUrlFieldProps["libraryType"],
+) => {
+  if (libraryType === "ALL") return undefined;
+  return libraryType ?? inferTypeFilter(accept);
+};
+
 export const MediaUrlField = ({
   label,
   value,
   onChange,
   assetId,
   onAssetChange,
+  onAssetSelect,
   required = false,
   accept,
+  libraryType,
   projectId,
   basePath,
   field,
   helperText,
   previewType = "IMAGE",
 }: MediaUrlFieldProps) => {
-  const typeFilter = useMemo(() => inferTypeFilter(accept), [accept]);
+  const typeFilter = useMemo(
+    () => getLibraryTypeFilter(accept, libraryType),
+    [accept, libraryType],
+  );
   const [uploadOpen, setUploadOpen] = useState(false);
   const [libraryOpen, setLibraryOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -199,6 +215,7 @@ export const MediaUrlField = ({
 
       onChange(result.asset.url);
       onAssetChange?.(result.asset.id);
+      onAssetSelect?.(result.asset);
       toast.success("Media ajoute a la galerie.");
       setUploadOpen(false);
       resetUpload();
@@ -234,6 +251,7 @@ export const MediaUrlField = ({
   const selectAsset = (asset: MediaSelection) => {
     onChange(asset.url);
     onAssetChange?.(asset.id);
+    onAssetSelect?.(asset);
     setLibraryOpen(false);
   };
 
@@ -246,12 +264,13 @@ export const MediaUrlField = ({
           onChange={(event) => {
             onChange(event.target.value);
             onAssetChange?.(null);
+            onAssetSelect?.(null);
           }}
           required={required}
           fullWidth
           helperText={
             helperText ??
-            (assetId ? "Image liee a la galerie." : "URL libre ou media de la galerie.")
+            (assetId ? "Media lie a la galerie." : "URL libre ou media de la galerie.")
           }
         />
         <Button
@@ -461,6 +480,12 @@ export const MediaUrlField = ({
                 <Typography variant="body2" noWrap>
                   {asset.name}
                 </Typography>
+                <Chip
+                  size="small"
+                  label={asset.mediaType === "VIDEO" ? "Video" : "Image"}
+                  variant="outlined"
+                  sx={{ alignSelf: "flex-start" }}
+                />
               </Button>
             ))}
           </Box>

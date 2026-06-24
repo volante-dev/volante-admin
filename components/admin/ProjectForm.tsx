@@ -59,6 +59,7 @@ import { MediaUrlField } from "./MediaUrlField";
 import { RichTextEditor } from "./RichTextEditor";
 import { TranslateButton } from "./TranslateButton";
 import { TaxonomyCreateDialog } from "./TaxonomyCreateDialog";
+import type { MediaSelection } from "./media/media-types";
 import type { AdminProjectDetail } from "./project-types";
 import type {
   ProjectTaxonomyOption,
@@ -175,6 +176,18 @@ const SortableSlide = ({
 
   const update = (patch: Partial<EditableSlide>) =>
     onChange({ ...slide, ...patch });
+
+  const selectLibraryMedia = (asset: MediaSelection | null) => {
+    if (!asset) return;
+
+    update({
+      mediaType: asset.mediaType,
+      mediaUrl: asset.url,
+      mediaAssetId: asset.id,
+      posterUrl:
+        asset.mediaType === "VIDEO" ? asset.posterUrl ?? slide.posterUrl : "",
+    });
+  };
 
   const unsupportedHtml =
     hasUnsupportedRichTextHtml(slide.contentHtml) ||
@@ -334,7 +347,9 @@ const SortableSlide = ({
                 }
                 projectId={projectId}
                 field={`slide-${index + 1}-media`}
+                libraryType="ALL"
                 previewType={slide.mediaType}
+                onAssetSelect={selectLibraryMedia}
               />
               {slide.mediaType === "VIDEO" && (
                 <Alert severity="info">
