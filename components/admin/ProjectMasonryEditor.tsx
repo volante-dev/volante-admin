@@ -37,6 +37,8 @@ import {
 type SortableProjectTileProps = {
   project: AdminMasonryProject;
   placement: DesktopMasonryPlacement;
+  visualHero: boolean;
+  autoHero: boolean;
   onToggleSize: (id: string) => void;
 };
 
@@ -78,6 +80,8 @@ const ProjectCoverPreview = ({
 const SortableProjectTile = ({
   project,
   placement,
+  visualHero,
+  autoHero,
   onToggleSize,
 }: SortableProjectTileProps) => {
   const {
@@ -150,10 +154,14 @@ const SortableProjectTile = ({
           fontSize: "0.65rem",
         }}
       >
-        {project.portfolioSize === "HERO" ? "Hero" : "Normal"}
+        {autoHero
+          ? "Hero auto"
+          : project.portfolioSize === "HERO"
+            ? "Hero"
+            : "Normal"}
       </Button>
       <Typography
-        variant={project.portfolioSize === "HERO" ? "h5" : "caption"}
+        variant={visualHero ? "h5" : "caption"}
         sx={{
           position: "absolute",
           left: 1,
@@ -170,7 +178,44 @@ const SortableProjectTile = ({
   );
 };
 
-const MobilePreview = ({ projects }: { projects: AdminMasonryProject[] }) => (
+const HeaderPreviewTile = ({
+  eyebrow,
+  title,
+}: {
+  eyebrow: string;
+  title: string;
+}) => (
+  <Box
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "flex-end",
+      minHeight: 0,
+      p: 2,
+      gridColumn: "1 / span 2",
+      gridRow: "1 / span 2",
+      border: "1px solid",
+      borderColor: "divider",
+      borderRadius: 1,
+      backgroundColor: "grey.50",
+    }}
+  >
+    <Typography variant="caption" color="primary" sx={{ mb: 1 }}>
+      {eyebrow}
+    </Typography>
+    <Typography variant="h5" sx={{ lineHeight: 1 }}>
+      {title}
+    </Typography>
+  </Box>
+);
+
+const MobilePreview = ({
+  projects,
+  header,
+}: {
+  projects: AdminMasonryProject[];
+  header: ProjectMasonryEditorHeader;
+}) => (
   <Box
     sx={{
       display: "grid",
@@ -182,8 +227,26 @@ const MobilePreview = ({ projects }: { projects: AdminMasonryProject[] }) => (
       backgroundColor: "divider",
     }}
   >
-    {projects.map((project) => {
-      const hero = project.portfolioSize === "HERO";
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end",
+        gridColumn: "span 2",
+        gridRow: "span 2",
+        p: 1,
+        backgroundColor: "grey.50",
+      }}
+    >
+      <Typography sx={{ color: "primary.main", fontSize: "0.5rem" }}>
+        {header.eyebrow}
+      </Typography>
+      <Typography sx={{ fontSize: "0.75rem", fontWeight: 700, lineHeight: 1 }}>
+        {header.title}
+      </Typography>
+    </Box>
+    {projects.map((project, index) => {
+      const hero = index === 0 || project.portfolioSize === "HERO";
       return (
         <Box
           key={project.id}
@@ -219,10 +282,17 @@ const MobilePreview = ({ projects }: { projects: AdminMasonryProject[] }) => (
 const serializeLayout = (projects: AdminMasonryProject[]) =>
   projects.map(({ id, portfolioSize }) => `${id}:${portfolioSize}`).join("|");
 
+type ProjectMasonryEditorHeader = {
+  eyebrow: string;
+  title: string;
+};
+
 export const ProjectMasonryEditor = ({
   projects: initialProjects,
+  header,
 }: {
   projects: AdminMasonryProject[];
+  header: ProjectMasonryEditorHeader;
 }) => {
   const router = useRouter();
   const [projects, setProjects] = useState(initialProjects);
@@ -233,9 +303,15 @@ export const ProjectMasonryEditor = ({
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
+  const firstProject = projects[0];
+  const remainingProjects = useMemo(() => projects.slice(1), [projects]);
   const placements = useMemo(
-    () => getDesktopMasonryPlacements(projects),
-    [projects],
+    () =>
+      getDesktopMasonryPlacements(remainingProjects, {
+        rowStart: 3,
+        promoteNormalBands: true,
+      }),
+    [remainingProjects],
   );
   const dirty = serializeLayout(projects) !== serializeLayout(savedProjects);
 
@@ -340,14 +416,37 @@ export const ProjectMasonryEditor = ({
                   minWidth: 0,
                 }}
               >
-                {projects.map((project) => (
+                <HeaderPreviewTile {...header} />
+                {firstProject && (
+                  <SortableProjectTile
+                    key={firstProject.id}
+                    project={firstProject}
+                    placement={{
+                      columnStart: 3,
+                      rowStart: 1,
+                      columnSpan: 2,
+                      rowSpan: 2,
+                    }}
+                    visualHero
+                    autoHero={firstProject.portfolioSize === "NORMAL"}
+                    onToggleSize={toggleSize}
+                  />
+                )}
+                {remainingProjects.map((project) => {
+                  const placement = placements.get(project.id)!;
+                  const visualHero =
+                    placement.columnSpan === 2 && placement.rowSpan === 2;
+                  return (
                   <SortableProjectTile
                     key={project.id}
                     project={project}
-                    placement={placements.get(project.id)!}
+                    placement={placement}
+                    visualHero={visualHero}
+                    autoHero={visualHero && project.portfolioSize === "NORMAL"}
                     onToggleSize={toggleSize}
                   />
-                ))}
+                  );
+                })}
               </Box>
             </SortableContext>
           </DndContext>
@@ -356,7 +455,7 @@ export const ProjectMasonryEditor = ({
             <Typography variant="subtitle2" sx={{ mb: 1 }}>
               Preview mobile
             </Typography>
-            <MobilePreview projects={projects} />
+            <MobilePreview projects={projects} header={header} />
           </Box>
         </Box>
       )}

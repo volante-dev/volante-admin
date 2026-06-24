@@ -8,6 +8,7 @@ import { createProjectPreviewUrl } from "@/lib/preview-token";
 import { ProjectTable } from "@/components/admin/ProjectTable";
 import { ProjectMasonryEditor } from "@/components/admin/ProjectMasonryEditor";
 import { HeroColorBackfillButton } from "@/components/admin/HeroColorBackfillButton";
+import { pageHeaderDefaults } from "@/components/admin/page-header-types";
 import type {
   AdminMasonryProject,
   AdminProjectListItem,
@@ -16,17 +17,22 @@ import type {
 export const dynamic = "force-dynamic";
 
 const ProjectsPage = async () => {
-  const raw = await prisma.project.findMany({
-    orderBy: [
-      { featured: "desc" },
-      { order: "asc" },
-      { publishedAt: "desc" },
-    ],
-    include: {
-      imageAsset: { select: { mediaType: true, posterUrl: true } },
-      _count: { select: { slides: true } },
-    },
-  });
+  const [raw, portfolioHeader] = await Promise.all([
+    prisma.project.findMany({
+      orderBy: [
+        { featured: "desc" },
+        { order: "asc" },
+        { publishedAt: "desc" },
+      ],
+      include: {
+        imageAsset: { select: { mediaType: true, posterUrl: true } },
+        _count: { select: { slides: true } },
+      },
+    }),
+    prisma.pageHeaderContent
+      .findUnique({ where: { id: "portfolio" } })
+      .catch(() => null),
+  ]);
 
   const projects: AdminProjectListItem[] = raw.map((project) => ({
     id: project.id,
@@ -61,6 +67,10 @@ const ProjectsPage = async () => {
       portfolioSize: project.portfolioSize,
       portfolioOrder: project.portfolioOrder,
     }));
+  const masonryHeader = {
+    eyebrow: portfolioHeader?.eyebrow ?? pageHeaderDefaults.portfolio.eyebrow,
+    title: portfolioHeader?.title ?? pageHeaderDefaults.portfolio.title,
+  };
 
   return (
     <>
@@ -92,6 +102,7 @@ const ProjectsPage = async () => {
           )
           .join("|")}
         projects={masonryProjects}
+        header={masonryHeader}
       />
 
       {projects.length === 0 ? (

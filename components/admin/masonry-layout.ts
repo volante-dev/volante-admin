@@ -10,6 +10,12 @@ export type DesktopMasonryPlacement = {
   rowSpan: 1 | 2;
 };
 
+type DesktopMasonryPlacementOptions = {
+  rowStart?: number;
+  heroIndexStart?: number;
+  promoteNormalBands?: boolean;
+};
+
 const placeNormalRows = (
   items: MasonryLayoutItem[],
   rowStart: number,
@@ -28,16 +34,17 @@ const placeNormalRows = (
 
 export const getDesktopMasonryPlacements = (
   items: MasonryLayoutItem[],
+  options: DesktopMasonryPlacementOptions = {},
 ) => {
   const placements = new Map<string, DesktopMasonryPlacement>();
   let index = 0;
-  let row = 1;
-  let heroIndex = 0;
+  let row = options.rowStart ?? 1;
+  let heroIndex = options.heroIndexStart ?? 0;
 
   while (index < items.length) {
     const current = items[index];
 
-    if (current.portfolioSize === "NORMAL") {
+    if (current.portfolioSize === "NORMAL" && !options.promoteNormalBands) {
       const normals: MasonryLayoutItem[] = [];
       while (
         index < items.length &&
@@ -62,7 +69,8 @@ export const getDesktopMasonryPlacements = (
     const followingNormals: MasonryLayoutItem[] = [];
     while (
       index < items.length &&
-      items[index].portfolioSize === "NORMAL"
+      items[index].portfolioSize === "NORMAL" &&
+      (!options.promoteNormalBands || followingNormals.length < 4)
     ) {
       followingNormals.push(items[index]);
       index += 1;
@@ -79,7 +87,9 @@ export const getDesktopMasonryPlacements = (
     });
 
     row += 2;
-    row = placeNormalRows(followingNormals.slice(4), row, placements);
+    if (!options.promoteNormalBands) {
+      row = placeNormalRows(followingNormals.slice(4), row, placements);
+    }
     heroIndex += 1;
   }
 
