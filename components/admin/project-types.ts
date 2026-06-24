@@ -16,6 +16,8 @@ export type AdminMasonryProject = {
   title: string;
   slug: string;
   imageUrl: string;
+  imageAssetMediaType: "IMAGE" | "VIDEO" | null;
+  imageAssetPosterUrl: string | null;
   portfolioSize: "NORMAL" | "HERO";
   portfolioOrder: number;
 };
@@ -44,6 +46,8 @@ export type AdminProjectDetail = {
   descriptionEn: string | null;
   imageUrl: string;
   imageAssetId: string | null;
+  imageAssetMediaType: "IMAGE" | "VIDEO" | null;
+  imageAssetPosterUrl: string | null;
   heroPaletteComputed: string[];
   tags: string[];
   clientName: string | null;

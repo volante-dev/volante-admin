@@ -22,6 +22,7 @@ const EditProjectPage = async ({
   const raw = await prisma.project.findUnique({
     where: { id },
     include: {
+      imageAsset: { select: { mediaType: true, posterUrl: true } },
       slides: { orderBy: { order: "asc" } },
       deliveredServiceEntries: { select: { id: true } },
     },
@@ -37,6 +38,8 @@ const EditProjectPage = async ({
     descriptionEn: raw.descriptionEn,
     imageUrl: raw.imageUrl,
     imageAssetId: raw.imageAssetId,
+    imageAssetMediaType: raw.imageAsset?.mediaType ?? null,
+    imageAssetPosterUrl: raw.imageAsset?.posterUrl ?? null,
     heroPaletteComputed: raw.heroPaletteComputed,
     tags: raw.tags,
     clientName: raw.clientName,

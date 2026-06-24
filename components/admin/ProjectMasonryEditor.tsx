@@ -40,6 +40,41 @@ type SortableProjectTileProps = {
   onToggleSize: (id: string) => void;
 };
 
+const inferMediaTypeFromUrl = (value: string) =>
+  /\.(mp4|mov|webm)(?:[?#].*)?$/i.test(value) ? "VIDEO" : "IMAGE";
+
+const ProjectCoverPreview = ({
+  project,
+}: {
+  project: AdminMasonryProject;
+}) => {
+  const mediaType =
+    project.imageAssetMediaType ?? inferMediaTypeFromUrl(project.imageUrl);
+  const sx = {
+    position: "absolute",
+    inset: 0,
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  } as const;
+
+  return mediaType === "VIDEO" ? (
+    <Box
+      component="video"
+      src={project.imageUrl}
+      poster={project.imageAssetPosterUrl ?? undefined}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      sx={sx}
+    />
+  ) : (
+    <Box component="img" src={project.imageUrl} alt="" sx={sx} />
+  );
+};
+
 const SortableProjectTile = ({
   project,
   placement,
@@ -72,18 +107,7 @@ const SortableProjectTile = ({
         zIndex: isDragging ? 2 : 1,
       }}
     >
-      <Box
-        component="img"
-        src={project.imageUrl}
-        alt=""
-        sx={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-        }}
-      />
+      <ProjectCoverPreview project={project} />
       <Box
         sx={{
           position: "absolute",
@@ -171,12 +195,7 @@ const MobilePreview = ({ projects }: { projects: AdminMasonryProject[] }) => (
             backgroundColor: "grey.900",
           }}
         >
-          <Box
-            component="img"
-            src={project.imageUrl}
-            alt=""
-            sx={{ width: "100%", height: "100%", objectFit: "cover" }}
-          />
+          <ProjectCoverPreview project={project} />
           <Typography
             sx={{
               position: "absolute",

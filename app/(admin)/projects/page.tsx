@@ -22,7 +22,10 @@ const ProjectsPage = async () => {
       { order: "asc" },
       { publishedAt: "desc" },
     ],
-    include: { _count: { select: { slides: true } } },
+    include: {
+      imageAsset: { select: { mediaType: true, posterUrl: true } },
+      _count: { select: { slides: true } },
+    },
   });
 
   const projects: AdminProjectListItem[] = raw.map((project) => ({
@@ -53,6 +56,8 @@ const ProjectsPage = async () => {
       title: project.title,
       slug: project.slug,
       imageUrl: project.imageUrl,
+      imageAssetMediaType: project.imageAsset?.mediaType ?? null,
+      imageAssetPosterUrl: project.imageAsset?.posterUrl ?? null,
       portfolioSize: project.portfolioSize,
       portfolioOrder: project.portfolioOrder,
     }));

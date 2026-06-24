@@ -44,6 +44,9 @@ type SlidePayload = {
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+const inferMediaTypeFromUrl = (value: string) =>
+  /\.(mp4|mov|webm)(?:[?#].*)?$/i.test(value) ? "VIDEO" : "IMAGE";
+
 const parseIdArray = (value: FormDataEntryValue | null) => {
   if (typeof value !== "string") return [];
   try {
@@ -170,13 +173,14 @@ const validateProjectPayload = async (
   }
   const imageAsset = imageAssetId ? mediaAssetById.get(imageAssetId) : null;
   if (imageAsset) {
-    if (!imageAsset.active || imageAsset.mediaType !== "IMAGE") {
-      return { error: "L'image de couverture selectionnee est invalide." };
+    if (!imageAsset.active) {
+      return { error: "Le media de couverture selectionne est invalide." };
     }
     if (imageAsset.url !== imageUrl) {
-      return { error: "L'image de couverture ne correspond pas au media selectionne." };
+      return { error: "La couverture ne correspond pas au media selectionne." };
     }
   }
+  const coverMediaType = imageAsset?.mediaType ?? inferMediaTypeFromUrl(imageUrl);
 
   const [existingSlug, currentProject] = await Promise.all([
     prisma.project.findUnique({ where: { slug } }),
@@ -222,13 +226,16 @@ const validateProjectPayload = async (
 
   const warnings: string[] = [];
   let heroPaletteComputed = currentProject?.heroPaletteComputed ?? [];
+  const heroPaletteSource =
+    coverMediaType === "VIDEO" ? imageAsset?.posterUrl ?? null : imageUrl;
   if (
-    !currentProject ||
-    currentProject.imageUrl !== imageUrl ||
-    heroPaletteComputed.length !== 4
+    heroPaletteSource &&
+    (!currentProject ||
+      currentProject.imageUrl !== imageUrl ||
+      heroPaletteComputed.length !== 4)
   ) {
     try {
-      heroPaletteComputed = await extractProjectHeroPalette(imageUrl);
+      heroPaletteComputed = await extractProjectHeroPalette(heroPaletteSource);
     } catch (error) {
       warnings.push(
         `Palette automatique non calculee : ${
@@ -236,6 +243,10 @@ const validateProjectPayload = async (
         }`,
       );
     }
+  } else if (coverMediaType === "VIDEO" && !heroPaletteSource) {
+    warnings.push(
+      "Palette automatique non calculee : poster video manquant.",
+    );
   }
   const sanitizedSlides = slides.map((slide, index) => {
     const label = `Slide ${index + 1}`;
@@ -698,7 +709,13 @@ export const recomputeProjectHeroPalettes = async (): Promise<ActionResult> => {
   try {
     await requireCrmAccess();
     const projects = await prisma.project.findMany({
-      select: { id: true, title: true, imageUrl: true, heroPaletteComputed: true },
+      select: {
+        id: true,
+        title: true,
+        imageUrl: true,
+        heroPaletteComputed: true,
+        imageAsset: { select: { mediaType: true, posterUrl: true } },
+      },
       orderBy: { order: "asc" },
     });
 
@@ -707,8 +724,14 @@ export const recomputeProjectHeroPalettes = async (): Promise<ActionResult> => {
 
     for (const project of projects) {
       try {
+        const paletteSource =
+          (project.imageAsset?.mediaType ?? inferMediaTypeFromUrl(project.imageUrl)) ===
+          "VIDEO"
+            ? project.imageAsset?.posterUrl
+            : project.imageUrl;
+        if (!paletteSource) throw new Error("Poster video manquant.");
         const heroPaletteComputed = await extractProjectHeroPalette(
-          project.imageUrl,
+          paletteSource,
           project.heroPaletteComputed,
         );
         await prisma.project.update({
@@ -747,12 +770,27 @@ export const recomputeProjectHeroPalette = async (
     await requireCrmAccess();
     const project = await prisma.project.findUnique({
       where: { id },
-      select: { imageUrl: true, heroPaletteComputed: true },
+      select: {
+        imageUrl: true,
+        heroPaletteComputed: true,
+        imageAsset: { select: { mediaType: true, posterUrl: true } },
+      },
     });
     if (!project) return { success: false, error: "Réalisation introuvable." };
 
+    const paletteSource =
+      (project.imageAsset?.mediaType ?? inferMediaTypeFromUrl(project.imageUrl)) ===
+      "VIDEO"
+        ? project.imageAsset?.posterUrl
+        : project.imageUrl;
+    if (!paletteSource) {
+      return {
+        success: false,
+        error: "Ajoutez un poster à la vidéo pour recalculer la palette.",
+      };
+    }
     const palette = await extractProjectHeroPalette(
-      project.imageUrl,
+      paletteSource,
       project.heroPaletteComputed,
     );
     await prisma.project.update({

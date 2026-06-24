@@ -60,7 +60,7 @@ import { MediaUrlField } from "./MediaUrlField";
 import { RichTextEditor } from "./RichTextEditor";
 import { TranslateButton } from "./TranslateButton";
 import { TaxonomyCreateDialog } from "./TaxonomyCreateDialog";
-import type { MediaSelection } from "./media/media-types";
+import type { MediaAssetType, MediaSelection } from "./media/media-types";
 import type { AdminProjectDetail } from "./project-types";
 import type {
   ProjectTaxonomyOption,
@@ -108,6 +108,9 @@ const emptySlide = (): EditableSlide => ({
 
 const stripHtml = (value: string) =>
   value.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim();
+
+const inferMediaTypeFromUrl = (value: string): MediaAssetType =>
+  /\.(mp4|mov|webm)(?:[?#].*)?$/i.test(value) ? "VIDEO" : "IMAGE";
 
 const isIncompleteSlide = (slide: EditableSlide) =>
   !slide.title.trim() || !stripHtml(slide.contentHtml) || !slide.mediaUrl.trim();
@@ -446,6 +449,13 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
   );
   const [imageUrl, setImageUrl] = useState(project?.imageUrl ?? "");
   const [imageAssetId, setImageAssetId] = useState(project?.imageAssetId ?? "");
+  const [coverMediaType, setCoverMediaType] = useState<MediaAssetType>(
+    project?.imageAssetMediaType ??
+      inferMediaTypeFromUrl(project?.imageUrl ?? ""),
+  );
+  const [coverPosterUrl, setCoverPosterUrl] = useState(
+    project?.imageAssetPosterUrl ?? "",
+  );
   const [paletteOverride, setPaletteOverride] = useState<string[] | null>(null);
   const [tags, setTags] = useState(project?.tags.join(", ") ?? "");
   const [clientName, setClientName] = useState(project?.clientName ?? "");
@@ -512,6 +522,18 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
       ? option
       : `${option.label} — ${option.labelEn}${option.active ? "" : " (inactive)"}`;
   const displayedPalette = paletteOverride ?? project?.heroPaletteComputed ?? [];
+
+  const updateCoverUrl = (value: string) => {
+    setImageUrl(value);
+    setCoverMediaType(inferMediaTypeFromUrl(value));
+    setCoverPosterUrl("");
+  };
+
+  const selectCoverMedia = (asset: MediaSelection | null) => {
+    if (!asset) return;
+    setCoverMediaType(asset.mediaType);
+    setCoverPosterUrl(asset.posterUrl ?? "");
+  };
 
   const updateSlide = (key: string, next: EditableSlide) => {
     setSlides((current) =>
@@ -687,13 +709,16 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
                 onChange={(event) => setDescription(event.target.value)}
               />
               <MediaUrlField
-                label="Image de couverture"
+                label="Media de couverture"
                 value={imageUrl}
-                onChange={setImageUrl}
+                onChange={updateCoverUrl}
                 assetId={imageAssetId}
                 onAssetChange={(assetId) => setImageAssetId(assetId ?? "")}
+                onAssetSelect={selectCoverMedia}
                 required
-                accept="image/jpeg,image/png,image/webp,image/avif"
+                accept="image/jpeg,image/png,image/webp,image/avif,video/mp4,video/quicktime,.mov"
+                libraryType="ALL"
+                previewType={coverMediaType}
                 projectId={project?.id}
                 field="cover"
                 helperText="Utilisee dans la grille portfolio."
@@ -945,7 +970,8 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
                   disabled={
                     !project ||
                     palettePending ||
-                    imageUrl.trim() !== project.imageUrl
+                    imageUrl.trim() !== project.imageUrl ||
+                    (coverMediaType === "VIDEO" && !coverPosterUrl)
                   }
                   onClick={() => {
                     if (!project) return;
@@ -965,6 +991,11 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
                 {project && imageUrl.trim() !== project.imageUrl && (
                   <Typography variant="caption" color="text.secondary" sx={{ display: "block", mt: 1 }}>
                     Enregistrez d’abord la nouvelle couverture pour recalculer sa palette.
+                  </Typography>
+                )}
+                {coverMediaType === "VIDEO" && !coverPosterUrl && (
+                  <Typography variant="caption" color="text.secondary" sx={{ display: "block", mt: 1 }}>
+                    Ajoutez un poster à la vidéo dans la galerie pour recalculer sa palette.
                   </Typography>
                 )}
               </Box>
