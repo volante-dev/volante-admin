@@ -15,6 +15,11 @@ import CollectionsIcon from "@mui/icons-material/Collections";
 import UploadIcon from "@mui/icons-material/Upload";
 import { toast } from "sonner";
 import { createMediaAssetFromUpload } from "@/app/(admin)/media-assets/actions";
+import {
+  convertVideoToMp4,
+  isMovVideoFile,
+  type VideoConversionStatus,
+} from "@/lib/browser-video-converter";
 import type {
   MediaAssetType,
   MediaSelection,
@@ -73,6 +78,8 @@ export const MediaUrlField = ({
   const [libraryOpen, setLibraryOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [conversionStatus, setConversionStatus] =
+    useState<VideoConversionStatus | null>(null);
   const [assetName, setAssetName] = useState("");
   const [assetAlt, setAssetAlt] = useState("");
   const [assetAltEn, setAssetAltEn] = useState("");
@@ -106,6 +113,7 @@ export const MediaUrlField = ({
 
   const resetUpload = () => {
     setSelectedFile(null);
+    setConversionStatus(null);
     setAssetName("");
     setAssetAlt("");
     setAssetAltEn("");
@@ -124,20 +132,38 @@ export const MediaUrlField = ({
     }
 
     setUploading(true);
+    setConversionStatus(null);
     try {
+      const uploadFile = isMovVideoFile(selectedFile)
+        ? await convertVideoToMp4(
+            selectedFile,
+            selectedFile.name,
+            setConversionStatus,
+          )
+        : selectedFile;
+      setConversionStatus({
+        phase: "uploading",
+        progress: null,
+        label: "Upload du media",
+      });
       const prefix = basePath ?? `projects/${projectId ?? "draft"}`;
-      const pathname = `${prefix}/${field}/${Date.now()}-${cleanFileName(selectedFile.name)}`;
-      const blob = await uploadPresigned(pathname, selectedFile, {
+      const pathname = `${prefix}/${field}/${Date.now()}-${cleanFileName(uploadFile.name)}`;
+      const blob = await uploadPresigned(pathname, uploadFile, {
         access: "public",
         handleUploadUrl: "/api/media/upload",
         clientPayload: JSON.stringify({ projectId: projectId ?? null, field }),
+      });
+      setConversionStatus({
+        phase: "finalizing",
+        progress: null,
+        label: "Finalisation",
       });
       const result = await createMediaAssetFromUpload(
         {
           url: blob.url,
           pathname: blob.pathname,
-          contentType: selectedFile.type,
-          size: selectedFile.size,
+          contentType: uploadFile.type,
+          size: uploadFile.size,
         },
         {
           name,
@@ -145,10 +171,10 @@ export const MediaUrlField = ({
           altEn: assetAltEn,
           tags: assetTags
             .split(/[\n,]/)
-            .map((tag) => tag.trim())
-            .filter(Boolean),
-          mimeType: selectedFile.type,
-          size: selectedFile.size,
+              .map((tag) => tag.trim())
+              .filter(Boolean),
+          mimeType: uploadFile.type,
+          size: uploadFile.size,
         },
       );
       if (!result.success || !result.asset) {
@@ -168,6 +194,7 @@ export const MediaUrlField = ({
       );
     } finally {
       setUploading(false);
+      setConversionStatus(null);
     }
   };
 
@@ -281,6 +308,25 @@ export const MediaUrlField = ({
               }}
             />
           </Button>
+          {conversionStatus && (
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.75 }}>
+              <Typography variant="body2" color="text.secondary">
+                {conversionStatus.label}
+              </Typography>
+              <LinearProgress
+                variant={
+                  conversionStatus.progress === null
+                    ? "indeterminate"
+                    : "determinate"
+                }
+                value={
+                  conversionStatus.progress === null
+                    ? undefined
+                    : conversionStatus.progress * 100
+                }
+              />
+            </Box>
+          )}
           <TextField
             label="Nom"
             value={assetName}

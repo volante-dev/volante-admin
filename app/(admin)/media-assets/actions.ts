@@ -23,6 +23,10 @@ type ActionResult = {
     optimizedSize: number;
     savedBytes: number;
   };
+  conversion?: {
+    originalSize: number | null;
+    convertedSize: number;
+  };
 };
 
 type UploadedBlob = {
@@ -33,7 +37,7 @@ type UploadedBlob = {
 };
 
 const imageTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/avif"]);
-const videoTypes = new Set(["video/mp4"]);
+const videoTypes = new Set(["video/mp4", "video/quicktime"]);
 const optimizableImageTypes = new Set(["image/jpeg", "image/png"]);
 
 const inferMediaType = (mimeType: string | null | undefined): MediaAssetType =>
@@ -54,6 +58,7 @@ const inferMimeTypeFromPath = (value: string) => {
   if (normalized.includes(".webp")) return "image/webp";
   if (normalized.includes(".avif")) return "image/avif";
   if (normalized.includes(".mp4")) return "video/mp4";
+  if (normalized.includes(".mov")) return "video/quicktime";
   return null;
 };
 
@@ -358,6 +363,66 @@ export const optimizeMediaAsset = async (id: string): Promise<ActionResult> => {
       },
     };
   } catch (error) {
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Une erreur est survenue.",
+    };
+  }
+};
+
+export const replaceMediaAssetVideoWithMp4 = async (
+  id: string,
+  blob: UploadedBlob,
+): Promise<ActionResult> => {
+  try {
+    await requireCrmAccess();
+    const current = await prisma.mediaAsset.findUnique({ where: { id } });
+    if (!current) return { success: false, error: "Media introuvable." };
+    if (current.mediaType !== "VIDEO") {
+      return { success: false, error: "Seules les videos peuvent etre converties." };
+    }
+    if (!isValidMediaUrl(blob.url)) {
+      return { success: false, error: "L'URL du media converti est invalide." };
+    }
+    if (blob.contentType && blob.contentType !== "video/mp4") {
+      return { success: false, error: "La video convertie doit etre au format MP4." };
+    }
+
+    const oldUrl = current.url;
+    const asset = await prisma.$transaction(async (tx) => {
+      await tx.projectSlide.updateMany({
+        where: { OR: [{ mediaAssetId: id }, { mediaUrl: oldUrl }] },
+        data: { mediaUrl: blob.url },
+      });
+
+      return tx.mediaAsset.update({
+        where: { id },
+        data: {
+          url: blob.url,
+          pathname: blob.pathname,
+          mediaType: "VIDEO",
+          mimeType: "video/mp4",
+          size: blob.size ?? null,
+        },
+      });
+    });
+
+    if (oldUrl !== blob.url) {
+      await del(oldUrl).catch(() => undefined);
+    }
+
+    revalidatePath("/media-assets");
+    revalidatePath("/projects");
+    return {
+      success: true,
+      asset: toMediaAssetData(asset, await getUsageCount(asset)),
+      conversion: {
+        originalSize: current.size,
+        convertedSize: blob.size ?? 0,
+      },
+    };
+  } catch (error) {
+    await del(blob.url).catch(() => undefined);
     return {
       success: false,
       error: error instanceof Error ? error.message : "Une erreur est survenue.",

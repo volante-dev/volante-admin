@@ -329,7 +329,7 @@ const SortableSlide = ({
                 required
                 accept={
                   slide.mediaType === "VIDEO"
-                    ? "video/mp4"
+                    ? "video/mp4,video/quicktime,.mov"
                     : "image/jpeg,image/png,image/webp,image/avif"
                 }
                 projectId={projectId}
