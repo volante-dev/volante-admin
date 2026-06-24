@@ -10,6 +10,7 @@ const maxBodyBytes = 20_000;
 
 const allowedTypes = new Set([
   "console-error",
+  "report-error",
   "window-error",
   "unhandled-rejection",
 ]);

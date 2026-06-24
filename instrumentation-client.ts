@@ -1,4 +1,8 @@
-type ClientLogType = "console-error" | "window-error" | "unhandled-rejection";
+type ClientLogType =
+  | "console-error"
+  | "report-error"
+  | "window-error"
+  | "unhandled-rejection";
 
 type ClientLogPayload = {
   type: ClientLogType;
@@ -88,7 +92,14 @@ const buildPayload = (
 });
 
 if (process.env.NODE_ENV === "production" && typeof window !== "undefined") {
+  const browserWindow = window as Window & {
+    reportError?: (error: unknown) => void;
+  };
   const originalConsoleError = console.error.bind(console);
+  const originalReportError =
+    typeof browserWindow.reportError === "function"
+      ? browserWindow.reportError.bind(browserWindow)
+      : null;
 
   console.error = (...args: unknown[]) => {
     originalConsoleError(...args);
@@ -98,6 +109,15 @@ if (process.env.NODE_ENV === "production" && typeof window !== "undefined") {
       reportClientLog(buildPayload("console-error", message));
     }
   };
+
+  if (originalReportError) {
+    browserWindow.reportError = (error: unknown) => {
+      reportClientLog(
+        buildPayload("report-error", describeUnknown(error), error),
+      );
+      originalReportError(error);
+    };
+  }
 
   window.addEventListener("error", (event) => {
     reportClientLog(
