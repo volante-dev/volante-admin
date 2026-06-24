@@ -30,18 +30,11 @@ import {
   publishProject,
   unpublishProject,
 } from "@/app/(admin)/projects/actions";
+import { formatAdminDateTime } from "@/lib/admin-date";
 import type { AdminProjectListItem } from "./project-types";
 
 type StatusFilter = "all" | "published" | "draft";
 type FeaturedFilter = "all" | "featured";
-
-const formatDate = (value: string | null) =>
-  value
-    ? new Intl.DateTimeFormat("fr-FR", {
-        dateStyle: "medium",
-        timeStyle: "short",
-      }).format(new Date(value))
-    : "--";
 
 export const ProjectTable = ({
   projects,
@@ -196,7 +189,7 @@ export const ProjectTable = ({
                     </TableCell>
                     <TableCell>{project.featured ? "Oui" : "--"}</TableCell>
                     <TableCell>{project.order}</TableCell>
-                    <TableCell>{formatDate(project.publishedAt)}</TableCell>
+                    <TableCell>{formatAdminDateTime(project.publishedAt)}</TableCell>
                     <TableCell>{project.slidesCount}</TableCell>
                     <TableCell align="right">
                       <Tooltip title="Modifier">

@@ -53,6 +53,7 @@ import {
   recomputeProjectHeroPalette,
   updateProject,
 } from "@/app/(admin)/projects/actions";
+import { nowAdminDatetimeLocal, toAdminDatetimeLocal } from "@/lib/admin-date";
 import { hasUnsupportedRichTextHtml } from "@/lib/rich-text";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import { MediaUrlField } from "./MediaUrlField";
@@ -110,19 +111,6 @@ const stripHtml = (value: string) =>
 
 const isIncompleteSlide = (slide: EditableSlide) =>
   !slide.title.trim() || !stripHtml(slide.contentHtml) || !slide.mediaUrl.trim();
-
-const toDatetimeLocal = (value: string | null) => {
-  if (!value) return "";
-  const date = new Date(value);
-  const offset = date.getTimezoneOffset() * 60000;
-  return new Date(date.getTime() - offset).toISOString().slice(0, 16);
-};
-
-const nowDatetimeLocal = () => {
-  const date = new Date();
-  const offset = date.getTimezoneOffset() * 60000;
-  return new Date(date.getTime() - offset).toISOString().slice(0, 16);
-};
 
 const SlideSummary = ({
   slide,
@@ -487,7 +475,7 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
   const [featured, setFeatured] = useState(project?.featured ?? false);
   const [order, setOrder] = useState(String(project?.order ?? 0));
   const [publishedAt, setPublishedAt] = useState(
-    toDatetimeLocal(project?.publishedAt ?? null),
+    toAdminDatetimeLocal(project?.publishedAt ?? null),
   );
   const [slides, setSlides] = useState<EditableSlide[]>(
     project?.slides.map((slide) => ({
@@ -1138,7 +1126,7 @@ export const ProjectForm = ({ project, taxonomyOptions }: ProjectFormProps) => {
                 startIcon={<PublishIcon />}
                 disabled={pending}
                 onClick={() => {
-                  const next = publishedAt || nowDatetimeLocal();
+                  const next = publishedAt || nowAdminDatetimeLocal();
                   setPublishedAt(next);
                   submit(next);
                 }}
