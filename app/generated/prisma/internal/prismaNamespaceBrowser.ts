@@ -57,6 +57,7 @@ export const ModelName = {
   Service: 'Service',
   StudioValue: 'StudioValue',
   StudioPageContent: 'StudioPageContent',
+  PageHeaderContent: 'PageHeaderContent',
   MediaAsset: 'MediaAsset',
   Testimonial: 'Testimonial'
 } as const
@@ -215,6 +216,19 @@ export const StudioPageContentScalarFieldEnum = {
 } as const
 
 export type StudioPageContentScalarFieldEnum = (typeof StudioPageContentScalarFieldEnum)[keyof typeof StudioPageContentScalarFieldEnum]
+
+
+export const PageHeaderContentScalarFieldEnum = {
+  id: 'id',
+  eyebrow: 'eyebrow',
+  eyebrowEn: 'eyebrowEn',
+  title: 'title',
+  titleEn: 'titleEn',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PageHeaderContentScalarFieldEnum = (typeof PageHeaderContentScalarFieldEnum)[keyof typeof PageHeaderContentScalarFieldEnum]
 
 
 export const MediaAssetScalarFieldEnum = {

@@ -70,7 +70,33 @@ const navGroups: NavGroup[] = [
   },
   {
     title: "Pages",
-    items: [{ label: "Studio", href: "/pages/studio", icon: <ArticleIcon /> }],
+    items: [
+      {
+        label: "Header Studio",
+        href: "/pages/studio/header",
+        icon: <ArticleIcon />,
+      },
+      {
+        label: "Header Services",
+        href: "/pages/services/header",
+        icon: <ArticleIcon />,
+      },
+      {
+        label: "Header Portfolio",
+        href: "/pages/portfolio/header",
+        icon: <ArticleIcon />,
+      },
+      {
+        label: "Header Contact",
+        href: "/pages/contact/header",
+        icon: <ArticleIcon />,
+      },
+      {
+        label: "Studio - sections",
+        href: "/pages/studio",
+        icon: <ArticleIcon />,
+      },
+    ],
   },
 ];
 
@@ -88,8 +114,11 @@ export const AdminShell = ({
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    if (href === "/pages/studio") return pathname === href;
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
 
   const drawerContent = (
     <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
