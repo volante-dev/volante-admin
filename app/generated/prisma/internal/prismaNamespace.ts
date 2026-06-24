@@ -1255,119 +1255,119 @@ export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
  * Reference to a field of type 'String'
  */
 export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
-    
+
 
 
 /**
  * Reference to a field of type 'String[]'
  */
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
-    
+
 
 
 /**
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
+
 
 
 /**
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
+
 
 
 /**
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
+
 
 
 /**
  * Reference to a field of type 'ProjectPortfolioSize'
  */
 export type EnumProjectPortfolioSizeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectPortfolioSize'>
-    
+
 
 
 /**
  * Reference to a field of type 'ProjectPortfolioSize[]'
  */
 export type ListEnumProjectPortfolioSizeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectPortfolioSize[]'>
-    
+
 
 
 /**
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
+
 
 
 /**
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
+
 
 
 /**
  * Reference to a field of type 'ProjectTaxonomyType'
  */
 export type EnumProjectTaxonomyTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectTaxonomyType'>
-    
+
 
 
 /**
  * Reference to a field of type 'ProjectTaxonomyType[]'
  */
 export type ListEnumProjectTaxonomyTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectTaxonomyType[]'>
-    
+
 
 
 /**
  * Reference to a field of type 'ProjectSlideMediaType'
  */
 export type EnumProjectSlideMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectSlideMediaType'>
-    
+
 
 
 /**
  * Reference to a field of type 'ProjectSlideMediaType[]'
  */
 export type ListEnumProjectSlideMediaTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectSlideMediaType[]'>
-    
+
 
 
 /**
  * Reference to a field of type 'MediaAssetType'
  */
 export type EnumMediaAssetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MediaAssetType'>
-    
+
 
 
 /**
  * Reference to a field of type 'MediaAssetType[]'
  */
 export type ListEnumMediaAssetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MediaAssetType[]'>
-    
+
 
 
 /**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
+
 
 
 /**
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
+
 
 /**
  * Batch Payload for updateMany & deleteMany & createMany
@@ -1401,7 +1401,7 @@ export type PrismaClientOptions = ({
    * ```
    * // Shorthand for `emit: 'stdout'`
    * log: ['query', 'info', 'warn', 'error']
-   * 
+   *
    * // Emit as events only
    * log: [
    *   { emit: 'event', level: 'query' },
@@ -1409,14 +1409,14 @@ export type PrismaClientOptions = ({
    *   { emit: 'event', level: 'warn' }
    *   { emit: 'event', level: 'error' }
    * ]
-   * 
+   *
    * / Emit as events and log to stdout
    * og: [
    *  { emit: 'stdout', level: 'query' },
    *  { emit: 'stdout', level: 'info' },
    *  { emit: 'stdout', level: 'warn' }
    *  { emit: 'stdout', level: 'error' }
-   * 
+   *
    * ```
    * Read more in our [docs](https://pris.ly/d/logging).
    */
@@ -1433,7 +1433,7 @@ export type PrismaClientOptions = ({
   }
   /**
    * Global configuration for omitting model fields by default.
-   * 
+   *
    * @example
    * ```
    * const prisma = new PrismaClient({
@@ -1449,7 +1449,7 @@ export type PrismaClientOptions = ({
   /**
    * SQL commenter plugins that add metadata to SQL queries as comments.
    * Comments follow the sqlcommenter format: https://google.github.io/sqlcommenter/
-   * 
+   *
    * @example
    * ```
    * const prisma = new PrismaClient({
@@ -1467,7 +1467,7 @@ export type PrismaClientOptions = ({
    * A value of `0` can be used to disable the cache entirely. A higher cache size can improve
    * performance for applications that execute a large number of unique queries, while a smaller
    * cache size can reduce memory usage.
-   * 
+   *
    * @example
    * ```
    * const prisma = new PrismaClient({
