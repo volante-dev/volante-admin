@@ -18,6 +18,8 @@ export type VideoConversionStatus = {
 
 type ProgressCallback = (status: VideoConversionStatus) => void;
 
+// Keep this file on the @ffmpeg/core UMD build: the FFmpeg worker loads it
+// through importScripts before falling back to dynamic import.
 const coreURL = "/vendor/ffmpeg/ffmpeg-core.js";
 const wasmURL = "/vendor/ffmpeg/ffmpeg-core.wasm";
 const inputFileName = "input.mov";
