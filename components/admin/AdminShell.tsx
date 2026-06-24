@@ -72,28 +72,23 @@ const navGroups: NavGroup[] = [
     title: "Pages",
     items: [
       {
-        label: "Header Studio",
-        href: "/pages/studio/header",
-        icon: <ArticleIcon />,
-      },
-      {
-        label: "Header Services",
-        href: "/pages/services/header",
-        icon: <ArticleIcon />,
-      },
-      {
-        label: "Header Portfolio",
-        href: "/pages/portfolio/header",
-        icon: <ArticleIcon />,
-      },
-      {
-        label: "Header Contact",
-        href: "/pages/contact/header",
-        icon: <ArticleIcon />,
-      },
-      {
-        label: "Studio - sections",
+        label: "Studio",
         href: "/pages/studio",
+        icon: <ArticleIcon />,
+      },
+      {
+        label: "Services",
+        href: "/pages/services",
+        icon: <ArticleIcon />,
+      },
+      {
+        label: "Portfolio",
+        href: "/pages/portfolio",
+        icon: <ArticleIcon />,
+      },
+      {
+        label: "Contact",
+        href: "/pages/contact",
         icon: <ArticleIcon />,
       },
     ],
@@ -116,7 +111,6 @@ export const AdminShell = ({
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
-    if (href === "/pages/studio") return pathname === href;
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 

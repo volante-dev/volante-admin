@@ -53,7 +53,7 @@ export const updatePageHeaderContent = async (
       update: parsed.data,
     });
 
-    revalidatePath(`/pages/${pageId}/header`);
+    revalidatePath(`/pages/${pageId}`);
     return { success: true };
   } catch (error) {
     return actionError(error);

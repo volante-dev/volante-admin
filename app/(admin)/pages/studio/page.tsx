@@ -1,6 +1,8 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import prisma from "@/lib/prisma";
+import { getPageHeaderContent } from "@/lib/page-header-content";
+import { PageHeaderForm } from "@/components/admin/PageHeaderForm";
 import { StudioPageForm } from "@/components/admin/StudioPageForm";
 import type { StudioPageContentData } from "@/components/admin/studio-page-types";
 
@@ -54,7 +56,10 @@ const getStudioPageContent = async (): Promise<StudioPageContentData> => {
 };
 
 const StudioPageAdmin = async () => {
-  const content = await getStudioPageContent();
+  const [pageContent, sectionContent] = await Promise.all([
+    getPageHeaderContent("studio"),
+    getStudioPageContent(),
+  ]);
 
   return (
     <>
@@ -62,9 +67,20 @@ const StudioPageAdmin = async () => {
         <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
           Pages / Studio
         </Typography>
-        <Typography variant="h2">Bloc fondateurs</Typography>
+        <Typography variant="h2">Studio</Typography>
       </Box>
-      <StudioPageForm content={content} />
+
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h3" sx={{ mb: 2 }}>
+          Contenu de page
+        </Typography>
+        <PageHeaderForm content={pageContent} />
+      </Box>
+
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="h3">Sections Studio</Typography>
+      </Box>
+      <StudioPageForm content={sectionContent} />
     </>
   );
 };

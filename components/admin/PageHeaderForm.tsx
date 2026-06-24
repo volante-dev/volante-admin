@@ -103,7 +103,7 @@ export const PageHeaderForm = ({
     startTransition(async () => {
       const result = await updatePageHeaderContent(content.id, formData);
       if (result.success) {
-        toast.success("Header de page mis a jour.");
+        toast.success("Contenu de page mis a jour.");
       } else {
         setError(result.error ?? "Une erreur est survenue.");
       }
