@@ -17,10 +17,8 @@ const requiredTextFields = [
   ["intro", "Le texte introductif est obligatoire."],
   ["founderOneName", "Le nom du fondateur 1 est obligatoire."],
   ["founderOneRole", "Le role du fondateur 1 est obligatoire."],
-  ["founderOneDescription", "La description du fondateur 1 est obligatoire."],
   ["founderTwoName", "Le nom du fondateur 2 est obligatoire."],
   ["founderTwoRole", "Le role du fondateur 2 est obligatoire."],
-  ["founderTwoDescription", "La description du fondateur 2 est obligatoire."],
   ["historyTitle", "Le titre Notre histoire est obligatoire."],
 ] as const;
 
@@ -41,12 +39,14 @@ const parseStudioPageContent = async (formData: FormData) => {
     founderOneNameEn: normalizeNullable(formData.get("founderOneNameEn")),
     founderOneRole: normalizeRequired(formData.get("founderOneRole")),
     founderOneRoleEn: normalizeNullable(formData.get("founderOneRoleEn")),
-    founderOneDescription: normalizeRequired(
-      formData.get("founderOneDescription"),
-    ),
-    founderOneDescriptionEn: normalizeNullable(
-      formData.get("founderOneDescriptionEn"),
-    ),
+    founderOneDescription:
+      typeof formData.get("founderOneDescription") === "string"
+        ? String(formData.get("founderOneDescription"))
+        : "",
+    founderOneDescriptionEn:
+      typeof formData.get("founderOneDescriptionEn") === "string"
+        ? String(formData.get("founderOneDescriptionEn"))
+        : "",
     founderOneImageUrl: normalizeRequired(formData.get("founderOneImageUrl")),
     founderOneImageAssetId: normalizeNullable(
       formData.get("founderOneImageAssetId"),
@@ -59,12 +59,14 @@ const parseStudioPageContent = async (formData: FormData) => {
     founderTwoNameEn: normalizeNullable(formData.get("founderTwoNameEn")),
     founderTwoRole: normalizeRequired(formData.get("founderTwoRole")),
     founderTwoRoleEn: normalizeNullable(formData.get("founderTwoRoleEn")),
-    founderTwoDescription: normalizeRequired(
-      formData.get("founderTwoDescription"),
-    ),
-    founderTwoDescriptionEn: normalizeNullable(
-      formData.get("founderTwoDescriptionEn"),
-    ),
+    founderTwoDescription:
+      typeof formData.get("founderTwoDescription") === "string"
+        ? String(formData.get("founderTwoDescription"))
+        : "",
+    founderTwoDescriptionEn:
+      typeof formData.get("founderTwoDescriptionEn") === "string"
+        ? String(formData.get("founderTwoDescriptionEn"))
+        : "",
     founderTwoImageUrl: normalizeRequired(formData.get("founderTwoImageUrl")),
     founderTwoImageAssetId: normalizeNullable(
       formData.get("founderTwoImageAssetId"),
@@ -89,6 +91,16 @@ const parseStudioPageContent = async (formData: FormData) => {
     if (values[field].length < 2) return { error: message } as const;
   }
 
+  if (isBlankRichText(values.founderOneDescription)) {
+    return {
+      error: "La description du fondateur 1 est obligatoire.",
+    } as const;
+  }
+  if (isBlankRichText(values.founderTwoDescription)) {
+    return {
+      error: "La description du fondateur 2 est obligatoire.",
+    } as const;
+  }
   if (isBlankRichText(values.historyContentHtml)) {
     return {
       error: "La description Notre histoire est obligatoire.",
@@ -150,6 +162,14 @@ const parseStudioPageContent = async (formData: FormData) => {
   return {
     data: {
       ...values,
+      founderOneDescription: sanitizeRichTextHtml(values.founderOneDescription),
+      founderOneDescriptionEn: isBlankRichText(values.founderOneDescriptionEn)
+        ? null
+        : sanitizeRichTextHtml(values.founderOneDescriptionEn),
+      founderTwoDescription: sanitizeRichTextHtml(values.founderTwoDescription),
+      founderTwoDescriptionEn: isBlankRichText(values.founderTwoDescriptionEn)
+        ? null
+        : sanitizeRichTextHtml(values.founderTwoDescriptionEn),
       historyContentHtml: sanitizeRichTextHtml(values.historyContentHtml),
       historyContentHtmlEn: isBlankRichText(values.historyContentHtmlEn)
         ? null

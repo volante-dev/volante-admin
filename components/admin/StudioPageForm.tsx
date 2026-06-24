@@ -24,6 +24,29 @@ type EditableStudioPageContent = Record<
   string
 >;
 
+const hasHtmlTag = (value: string) => /<\/?[a-z][\s\S]*>/i.test(value);
+
+const escapeHtml = (value: string) =>
+  value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+
+const toRichTextValue = (value: string | null) => {
+  const content = value ?? "";
+  if (!content.trim()) return "";
+  if (hasHtmlTag(content)) return content;
+
+  return content
+    .split(/\n{2,}/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean)
+    .map((paragraph) => `<p>${escapeHtml(paragraph).replace(/\n/g, "<br>")}</p>`)
+    .join("");
+};
+
 const toEditableContent = (
   content: StudioPageContentData,
 ): EditableStudioPageContent => ({
@@ -37,8 +60,8 @@ const toEditableContent = (
   founderOneNameEn: content.founderOneNameEn ?? "",
   founderOneRole: content.founderOneRole,
   founderOneRoleEn: content.founderOneRoleEn ?? "",
-  founderOneDescription: content.founderOneDescription,
-  founderOneDescriptionEn: content.founderOneDescriptionEn ?? "",
+  founderOneDescription: toRichTextValue(content.founderOneDescription),
+  founderOneDescriptionEn: toRichTextValue(content.founderOneDescriptionEn),
   founderOneImageUrl: content.founderOneImageUrl,
   founderOneImageAssetId: content.founderOneImageAssetId ?? "",
   founderOneImageAlt: content.founderOneImageAlt ?? "",
@@ -47,8 +70,8 @@ const toEditableContent = (
   founderTwoNameEn: content.founderTwoNameEn ?? "",
   founderTwoRole: content.founderTwoRole,
   founderTwoRoleEn: content.founderTwoRoleEn ?? "",
-  founderTwoDescription: content.founderTwoDescription,
-  founderTwoDescriptionEn: content.founderTwoDescriptionEn ?? "",
+  founderTwoDescription: toRichTextValue(content.founderTwoDescription),
+  founderTwoDescriptionEn: toRichTextValue(content.founderTwoDescriptionEn),
   founderTwoImageUrl: content.founderTwoImageUrl,
   founderTwoImageAssetId: content.founderTwoImageAssetId ?? "",
   founderTwoImageAlt: content.founderTwoImageAlt ?? "",
@@ -65,11 +88,9 @@ const requiredFields = [
   ["intro", "Le texte introductif est obligatoire."],
   ["founderOneName", "Le nom du fondateur 1 est obligatoire."],
   ["founderOneRole", "Le role du fondateur 1 est obligatoire."],
-  ["founderOneDescription", "La description du fondateur 1 est obligatoire."],
   ["founderOneImageUrl", "La photo du fondateur 1 est obligatoire."],
   ["founderTwoName", "Le nom du fondateur 2 est obligatoire."],
   ["founderTwoRole", "Le role du fondateur 2 est obligatoire."],
-  ["founderTwoDescription", "La description du fondateur 2 est obligatoire."],
   ["founderTwoImageUrl", "La photo du fondateur 2 est obligatoire."],
   ["historyTitle", "Le titre Notre histoire est obligatoire."],
 ] as const satisfies readonly [keyof EditableStudioPageContent, string][];
@@ -138,6 +159,12 @@ export const StudioPageForm = ({
   const validateClient = () => {
     for (const [field, message] of requiredFields) {
       if (fields[field].trim().length < 2) return message;
+    }
+    if (isBlankRichText(fields.founderOneDescription)) {
+      return "La description du fondateur 1 est obligatoire.";
+    }
+    if (isBlankRichText(fields.founderTwoDescription)) {
+      return "La description du fondateur 2 est obligatoire.";
     }
     if (isBlankRichText(fields.historyContentHtml)) {
       return "La description Notre histoire est obligatoire.";
@@ -225,13 +252,11 @@ export const StudioPageForm = ({
                 onChange={updateField("founderOneRole")}
                 required
               />
-              <TextFieldRow
+              <RichTextEditor
                 label="Description"
                 value={fields.founderOneDescription}
                 onChange={updateField("founderOneDescription")}
-                required
-                multiline
-                rows={5}
+                error={isBlankRichText(fields.founderOneDescription)}
               />
 
               <Typography variant="h3" sx={{ mt: 2 }}>
@@ -249,13 +274,11 @@ export const StudioPageForm = ({
                 onChange={updateField("founderTwoRole")}
                 required
               />
-              <TextFieldRow
+              <RichTextEditor
                 label="Description"
                 value={fields.founderTwoDescription}
                 onChange={updateField("founderTwoDescription")}
-                required
-                multiline
-                rows={5}
+                error={isBlankRichText(fields.founderTwoDescription)}
               />
 
               <Typography variant="h3" sx={{ mt: 2 }}>
@@ -319,14 +342,20 @@ export const StudioPageForm = ({
                 onChange={updateField("founderOneRoleEn")}
                 translateFrom={fields.founderOneRole}
               />
-              <TextFieldRow
-                label="Description (EN)"
-                value={fields.founderOneDescriptionEn}
-                onChange={updateField("founderOneDescriptionEn")}
-                multiline
-                rows={5}
-                translateFrom={fields.founderOneDescription}
-              />
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <Box sx={{ flex: 1 }}>
+                  <RichTextEditor
+                    label="Description (EN)"
+                    value={fields.founderOneDescriptionEn || "<p></p>"}
+                    onChange={updateField("founderOneDescriptionEn")}
+                  />
+                </Box>
+                <TranslateButton
+                  sourceText={fields.founderOneDescription}
+                  onTranslated={updateField("founderOneDescriptionEn")}
+                  html
+                />
+              </Box>
 
               <Typography variant="h3" sx={{ mt: 2 }}>
                 Founder 2
@@ -343,14 +372,20 @@ export const StudioPageForm = ({
                 onChange={updateField("founderTwoRoleEn")}
                 translateFrom={fields.founderTwoRole}
               />
-              <TextFieldRow
-                label="Description (EN)"
-                value={fields.founderTwoDescriptionEn}
-                onChange={updateField("founderTwoDescriptionEn")}
-                multiline
-                rows={5}
-                translateFrom={fields.founderTwoDescription}
-              />
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <Box sx={{ flex: 1 }}>
+                  <RichTextEditor
+                    label="Description (EN)"
+                    value={fields.founderTwoDescriptionEn || "<p></p>"}
+                    onChange={updateField("founderTwoDescriptionEn")}
+                  />
+                </Box>
+                <TranslateButton
+                  sourceText={fields.founderTwoDescription}
+                  onTranslated={updateField("founderTwoDescriptionEn")}
+                  html
+                />
+              </Box>
 
               <Typography variant="h3" sx={{ mt: 2 }}>
                 Our story
