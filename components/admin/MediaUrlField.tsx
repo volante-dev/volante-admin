@@ -20,6 +20,7 @@ import {
   isMovVideoFile,
   type VideoConversionStatus,
 } from "@/lib/browser-video-converter";
+import { describeUnknownError } from "@/lib/error-utils";
 import type {
   MediaAssetType,
   MediaSelection,
@@ -105,6 +106,12 @@ export const MediaUrlField = ({
       .then((payload) => setLibraryAssets(payload.assets))
       .catch((error) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
+        console.error("[MediaUrlField] Chargement galerie impossible", {
+          typeFilter,
+          query,
+          error,
+          message: describeUnknownError(error),
+        });
         toast.error("Impossible de charger la galerie.");
       });
 
@@ -134,6 +141,15 @@ export const MediaUrlField = ({
     setUploading(true);
     setConversionStatus(null);
     try {
+      console.info("[MediaUrlField] Debut upload media", {
+        field,
+        basePath,
+        projectId,
+        fileName: selectedFile.name,
+        fileType: selectedFile.type,
+        fileSize: selectedFile.size,
+        requiresMovConversion: isMovVideoFile(selectedFile),
+      });
       const uploadFile = isMovVideoFile(selectedFile)
         ? await convertVideoToMp4(
             selectedFile,
@@ -171,8 +187,8 @@ export const MediaUrlField = ({
           altEn: assetAltEn,
           tags: assetTags
             .split(/[\n,]/)
-              .map((tag) => tag.trim())
-              .filter(Boolean),
+            .map((tag) => tag.trim())
+            .filter(Boolean),
           mimeType: uploadFile.type,
           size: uploadFile.size,
         },
@@ -187,10 +203,27 @@ export const MediaUrlField = ({
       setUploadOpen(false);
       resetUpload();
     } catch (error) {
+      const message = describeUnknownError(error);
+      console.error("[MediaUrlField] Echec upload media", {
+        field,
+        basePath,
+        projectId,
+        selectedFile: selectedFile
+          ? {
+              name: selectedFile.name,
+              type: selectedFile.type,
+              size: selectedFile.size,
+              requiresMovConversion: isMovVideoFile(selectedFile),
+            }
+          : null,
+        conversionStatus,
+        error,
+        message,
+      });
       toast.error(
-        error instanceof Error
-          ? error.message
-          : "Erreur lors de l'upload du media.",
+        message === "Erreur inconnue"
+          ? "Erreur lors de l'upload du media."
+          : message,
       );
     } finally {
       setUploading(false);

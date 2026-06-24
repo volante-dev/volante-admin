@@ -2,6 +2,7 @@
 
 import { FFmpeg } from "@ffmpeg/ffmpeg";
 import { fetchFile } from "@ffmpeg/util";
+import { describeUnknownError, toError } from "@/lib/error-utils";
 
 export type VideoConversionPhase =
   | "loading"
@@ -21,14 +22,37 @@ const coreURL = "/vendor/ffmpeg/ffmpeg-core.js";
 const wasmURL = "/vendor/ffmpeg/ffmpeg-core.wasm";
 const inputFileName = "input.mov";
 const outputFileName = "output.mp4";
+const maxStoredLogs = 40;
 
 let ffmpegPromise: Promise<FFmpeg> | null = null;
+let ffmpegLoggerAttached = false;
+let ffmpegLogs: string[] = [];
+const movMimeTypes = new Set(["video/quicktime", "video/mov", "video/x-quicktime"]);
 
 export const isMovVideoFile = (file: File) =>
-  file.type === "video/quicktime" || file.name.toLowerCase().endsWith(".mov");
+  movMimeTypes.has(file.type.toLowerCase()) ||
+  file.name.toLowerCase().endsWith(".mov");
 
 export const getMp4FileName = (name: string) =>
   name.replace(/\.[^.]+$/, "") + ".mp4";
+
+const rememberFFmpegLog = (message: string) => {
+  ffmpegLogs = [...ffmpegLogs.slice(-(maxStoredLogs - 1)), message];
+};
+
+const getRecentFFmpegLogs = () => ffmpegLogs.join("\n");
+
+const attachFFmpegLogger = (ffmpeg: FFmpeg) => {
+  if (ffmpegLoggerAttached) return;
+  ffmpegLoggerAttached = true;
+  ffmpeg.on("log", ({ type, message }: { type: string; message: string }) => {
+    const line = `[${type}] ${message}`;
+    rememberFFmpegLog(line);
+    if (type === "stderr") {
+      console.debug("[video-converter:ffmpeg]", message);
+    }
+  });
+};
 
 const getFFmpeg = async (onProgress?: ProgressCallback) => {
   if (!ffmpegPromise) {
@@ -39,8 +63,22 @@ const getFFmpeg = async (onProgress?: ProgressCallback) => {
         label: "Chargement du moteur video",
       });
       const ffmpeg = new FFmpeg();
-      await ffmpeg.load({ coreURL, wasmURL });
-      return ffmpeg;
+      attachFFmpegLogger(ffmpeg);
+      try {
+        await ffmpeg.load({ coreURL, wasmURL });
+        console.info("[video-converter] FFmpeg charge", { coreURL, wasmURL });
+        return ffmpeg;
+      } catch (error) {
+        ffmpegPromise = null;
+        ffmpegLoggerAttached = false;
+        console.error("[video-converter] Echec du chargement FFmpeg", {
+          coreURL,
+          wasmURL,
+          error,
+          message: describeUnknownError(error),
+        });
+        throw toError(error, "Le moteur de conversion video n'a pas pu etre charge.");
+      }
     })();
   } else {
     onProgress?.({
@@ -85,6 +123,7 @@ export const convertVideoToMp4 = async (
   onProgress?: ProgressCallback,
 ) => {
   const ffmpeg = await getFFmpeg(onProgress);
+  ffmpegLogs = [];
 
   onProgress?.({
     phase: "converting",
@@ -93,6 +132,11 @@ export const convertVideoToMp4 = async (
   });
 
   try {
+    console.info("[video-converter] Debut de conversion", {
+      outputName,
+      sourceType: source.type,
+      sourceSize: source.size,
+    });
     await ffmpeg.deleteFile(inputFileName).catch(() => undefined);
     await ffmpeg.deleteFile(outputFileName).catch(() => undefined);
     await ffmpeg.writeFile(inputFileName, await fetchFile(source));
@@ -116,6 +160,10 @@ export const convertVideoToMp4 = async (
     );
 
     if (remuxCode !== 0) {
+      console.warn("[video-converter] Remux impossible, transcodage tente", {
+        remuxCode,
+        ffmpegLogs: getRecentFFmpegLogs(),
+      });
       await ffmpeg.deleteFile(outputFileName).catch(() => undefined);
       const encodeCode = await runConversion(
         ffmpeg,
@@ -144,7 +192,9 @@ export const convertVideoToMp4 = async (
       );
 
       if (encodeCode !== 0) {
-        throw new Error("La conversion en MP4 a echoue.");
+        throw new Error(
+          `La conversion en MP4 a echoue (code ${encodeCode}). ${getRecentFFmpegLogs()}`,
+        );
       }
     }
 
@@ -160,6 +210,16 @@ export const convertVideoToMp4 = async (
     return new File([output.buffer], getMp4FileName(outputName), {
       type: "video/mp4",
     });
+  } catch (error) {
+    console.error("[video-converter] Echec de conversion", {
+      outputName,
+      sourceType: source.type,
+      sourceSize: source.size,
+      ffmpegLogs: getRecentFFmpegLogs(),
+      error,
+      message: describeUnknownError(error),
+    });
+    throw toError(error, "La conversion en MP4 a echoue.");
   } finally {
     await ffmpeg.deleteFile(inputFileName).catch(() => undefined);
     await ffmpeg.deleteFile(outputFileName).catch(() => undefined);

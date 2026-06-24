@@ -5,6 +5,7 @@ import sharp from "sharp";
 import { del, put } from "@vercel/blob";
 import prisma from "@/lib/prisma";
 import { requireCrmAccess } from "@/lib/auth-guard";
+import { describeUnknownError } from "@/lib/error-utils";
 import { isValidMediaUrl, normalizeNullable, normalizeRequired } from "@/lib/validation";
 import type { MediaAssetData, MediaAssetType } from "@/components/admin/media/media-types";
 
@@ -37,7 +38,7 @@ type UploadedBlob = {
 };
 
 const imageTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/avif"]);
-const videoTypes = new Set(["video/mp4", "video/quicktime"]);
+const videoTypes = new Set(["video/mp4", "video/quicktime", "video/mov", "video/x-quicktime"]);
 const optimizableImageTypes = new Set(["image/jpeg", "image/png"]);
 
 const inferMediaType = (mimeType: string | null | undefined): MediaAssetType =>
@@ -192,9 +193,18 @@ export const createMediaAssetFromUpload = async (
     revalidatePath("/media-assets");
     return { success: true, asset: toMediaAssetData(asset) };
   } catch (error) {
+    const message = describeUnknownError(error);
+    console.error("[media-assets] Echec creation media depuis upload", {
+      pathname: blob.pathname,
+      contentType: blob.contentType,
+      size: blob.size,
+      metadataMimeType: metadata.mimeType,
+      error,
+      message,
+    });
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Une erreur est survenue.",
+      error: message === "Erreur inconnue" ? "Une erreur est survenue." : message,
     };
   }
 };
@@ -422,10 +432,19 @@ export const replaceMediaAssetVideoWithMp4 = async (
       },
     };
   } catch (error) {
+    const message = describeUnknownError(error);
+    console.error("[media-assets] Echec remplacement video MP4", {
+      id,
+      pathname: blob.pathname,
+      contentType: blob.contentType,
+      size: blob.size,
+      error,
+      message,
+    });
     await del(blob.url).catch(() => undefined);
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Une erreur est survenue.",
+      error: message === "Erreur inconnue" ? "Une erreur est survenue." : message,
     };
   }
 };

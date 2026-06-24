@@ -5,6 +5,7 @@ import {
   type HandleUploadPresignedBody,
 } from "@vercel/blob/client";
 import { requireCrmAccess } from "@/lib/auth-guard";
+import { describeUnknownError } from "@/lib/error-utils";
 
 const allowedContentTypes = [
   "image/jpeg",
@@ -12,6 +13,9 @@ const allowedContentTypes = [
   "image/webp",
   "image/avif",
   "video/mp4",
+  "video/quicktime",
+  "video/mov",
+  "video/x-quicktime",
 ];
 
 export const POST = async (request: Request) => {
@@ -45,12 +49,14 @@ export const POST = async (request: Request) => {
 
     return NextResponse.json(jsonResponse);
   } catch (error) {
+    const message = describeUnknownError(error);
+    console.error("[media/upload] Echec generation token upload", {
+      error,
+      message,
+    });
     return NextResponse.json(
       {
-        error:
-          error instanceof Error
-            ? error.message
-            : "Erreur lors de l'upload du media.",
+        error: message === "Erreur inconnue" ? "Erreur lors de l'upload du media." : message,
       },
       { status: 400 },
     );

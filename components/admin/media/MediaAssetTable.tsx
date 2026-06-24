@@ -37,6 +37,7 @@ import {
   convertVideoToMp4,
   type VideoConversionStatus,
 } from "@/lib/browser-video-converter";
+import { describeUnknownError } from "@/lib/error-utils";
 import { useAiRequest } from "@/lib/use-ai-request";
 import type { MediaMetadataOutput } from "@/lib/ai";
 import type { MediaAssetData } from "./media-types";
@@ -225,10 +226,19 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
       setDraftPosterSize(String(file.size));
       toast.success("Poster uploade.");
     } catch (error) {
+      const message = describeUnknownError(error);
+      console.error("[MediaAssetTable] Echec upload poster", {
+        assetId: editing.id,
+        fileName: file.name,
+        fileType: file.type,
+        fileSize: file.size,
+        error,
+        message,
+      });
       toast.error(
-        error instanceof Error
-          ? error.message
-          : "Erreur lors de l'upload du poster.",
+        message === "Erreur inconnue"
+          ? "Erreur lors de l'upload du poster."
+          : message,
       );
     } finally {
       setPosterUploading(false);
@@ -294,6 +304,12 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
       label: "Telechargement de la video",
     });
     try {
+      console.info("[MediaAssetTable] Debut conversion video", {
+        assetId: editing.id,
+        pathname: editing.pathname,
+        mimeType: getAssetMimeType(editing),
+        size: editing.size,
+      });
       const response = await fetch(editing.url);
       if (!response.ok) {
         throw new Error(`Video inaccessible (${response.status}).`);
@@ -344,10 +360,20 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
       setEditing(result.asset);
       toast.success("Video convertie en MP4.");
     } catch (error) {
+      const message = describeUnknownError(error);
+      console.error("[MediaAssetTable] Echec conversion video", {
+        assetId: editing.id,
+        pathname: editing.pathname,
+        mimeType: getAssetMimeType(editing),
+        size: editing.size,
+        conversionStatus,
+        error,
+        message,
+      });
       toast.error(
-        error instanceof Error
-          ? error.message
-          : "Erreur lors de la conversion de la video.",
+        message === "Erreur inconnue"
+          ? "Erreur lors de la conversion de la video."
+          : message,
       );
     } finally {
       setConverting(false);
