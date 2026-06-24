@@ -63,6 +63,13 @@ const inferMimeTypeFromPath = (value: string) => {
   return null;
 };
 
+const toOptimizedJpegPathname = (pathname: string) =>
+  /\.[^/.]+$/.test(pathname)
+    ? pathname.replace(/\.[^/.]+$/, ".jpg")
+    : `${pathname}.jpg`;
+
+const isJpegPathname = (pathname: string) => /\.jpe?g$/i.test(pathname);
+
 const toMediaAssetData = (
   asset: {
     id: string;
@@ -332,7 +339,10 @@ export const optimizeMediaAsset = async (id: string): Promise<ActionResult> => {
       .jpeg({ quality: OPTIMIZED_QUALITY, mozjpeg: true })
       .toBuffer({ resolveWithObject: true });
 
-    if (data.byteLength >= originalSize) {
+    const needsJpegPathRepair =
+      current.mimeType === OPTIMIZED_CONTENT_TYPE &&
+      !isJpegPathname(current.pathname);
+    if (data.byteLength >= originalSize && !needsJpegPathRepair) {
       return {
         success: true,
         asset: toMediaAssetData(current, await getUsageCount(current)),
@@ -345,31 +355,81 @@ export const optimizeMediaAsset = async (id: string): Promise<ActionResult> => {
       };
     }
 
-    await put(current.pathname, data, {
+    const optimizedPathname = toOptimizedJpegPathname(current.pathname);
+    const replacement = needsJpegPathRepair ? source : data;
+    const optimizedBlob = await put(optimizedPathname, replacement, {
       access: "public",
       allowOverwrite: true,
+      addRandomSuffix: false,
       contentType: OPTIMIZED_CONTENT_TYPE,
     });
 
-    const asset = await prisma.mediaAsset.update({
-      where: { id },
-      data: {
-        mimeType: OPTIMIZED_CONTENT_TYPE,
-        size: data.byteLength,
-        width: info.width,
-        height: info.height,
-      },
+    const oldUrl = current.url;
+    const asset = await prisma.$transaction(async (tx) => {
+      await tx.project.updateMany({
+        where: { OR: [{ imageAssetId: id }, { imageUrl: oldUrl }] },
+        data: { imageUrl: optimizedBlob.url },
+      });
+      await tx.projectSlide.updateMany({
+        where: { OR: [{ mediaAssetId: id }, { mediaUrl: oldUrl }] },
+        data: { mediaUrl: optimizedBlob.url },
+      });
+      await tx.projectSlide.updateMany({
+        where: { posterUrl: oldUrl },
+        data: { posterUrl: optimizedBlob.url },
+      });
+      await tx.studioPageContent.updateMany({
+        where: {
+          OR: [
+            { founderOneImageAssetId: id },
+            { founderOneImageUrl: oldUrl },
+          ],
+        },
+        data: { founderOneImageUrl: optimizedBlob.url },
+      });
+      await tx.studioPageContent.updateMany({
+        where: {
+          OR: [
+            { founderTwoImageAssetId: id },
+            { founderTwoImageUrl: oldUrl },
+          ],
+        },
+        data: { founderTwoImageUrl: optimizedBlob.url },
+      });
+      await tx.testimonial.updateMany({
+        where: { OR: [{ avatarAssetId: id }, { avatarUrl: oldUrl }] },
+        data: { avatarUrl: optimizedBlob.url },
+      });
+
+      return tx.mediaAsset.update({
+        where: { id },
+        data: {
+          url: optimizedBlob.url,
+          pathname: optimizedBlob.pathname,
+          mimeType: OPTIMIZED_CONTENT_TYPE,
+          size: replacement.byteLength,
+          width: current.width ?? info.width,
+          height: current.height ?? info.height,
+        },
+      });
     });
 
+    if (oldUrl !== optimizedBlob.url) {
+      await del(oldUrl).catch(() => undefined);
+    }
+
     revalidatePath("/media-assets");
+    revalidatePath("/projects");
+    revalidatePath("/pages/studio");
+    revalidatePath("/studio-values");
     return {
       success: true,
       asset: toMediaAssetData(asset, await getUsageCount(asset)),
       optimization: {
         applied: true,
         originalSize,
-        optimizedSize: data.byteLength,
-        savedBytes: originalSize - data.byteLength,
+        optimizedSize: replacement.byteLength,
+        savedBytes: Math.max(0, originalSize - replacement.byteLength),
       },
     };
   } catch (error) {
