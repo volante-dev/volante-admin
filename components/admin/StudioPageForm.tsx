@@ -83,8 +83,6 @@ const toEditableContent = (
 });
 
 const requiredFields = [
-  ["eyebrow", "L'eyebrow est obligatoire."],
-  ["title", "Le titre est obligatoire."],
   ["intro", "Le texte introductif est obligatoire."],
   ["founderOneName", "Le nom du fondateur 1 est obligatoire."],
   ["founderOneRole", "Le role du fondateur 1 est obligatoire."],
@@ -220,13 +218,11 @@ export const StudioPageForm = ({
                 label="Eyebrow"
                 value={fields.eyebrow}
                 onChange={updateField("eyebrow")}
-                required
               />
               <TextFieldRow
                 label="Titre"
                 value={fields.title}
                 onChange={updateField("title")}
-                required
               />
               <TextFieldRow
                 label="Texte introductif"

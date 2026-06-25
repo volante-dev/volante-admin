@@ -12,8 +12,6 @@ type ActionResult = {
 };
 
 const requiredTextFields = [
-  ["eyebrow", "L'eyebrow est obligatoire."],
-  ["title", "Le titre est obligatoire."],
   ["intro", "Le texte introductif est obligatoire."],
   ["founderOneName", "Le nom du fondateur 1 est obligatoire."],
   ["founderOneRole", "Le role du fondateur 1 est obligatoire."],
