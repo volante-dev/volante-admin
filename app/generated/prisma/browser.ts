@@ -53,6 +53,11 @@ export type StudioPageContent = Prisma.StudioPageContentModel
  */
 export type PageHeaderContent = Prisma.PageHeaderContentModel
 /**
+ * Model HomePageContent
+ *
+ */
+export type HomePageContent = Prisma.HomePageContentModel
+/**
  * Model MediaAsset
  *
  */

@@ -72,6 +72,11 @@ const navGroups: NavGroup[] = [
     title: "Pages",
     items: [
       {
+        label: "Accueil",
+        href: "/pages/home",
+        icon: <ArticleIcon />,
+      },
+      {
         label: "Studio",
         href: "/pages/studio",
         icon: <ArticleIcon />,
