@@ -15,11 +15,9 @@ import {
 import { notifyProjectIndexing } from "@/lib/search-indexing";
 import { extractProjectHeroPalette } from "@/lib/project-hero-color";
 import {
-  legacyDefaultLocale,
-  legacyDefaultTextValue,
-  legacySecondaryLocale,
-  legacySecondaryTextValue,
-  mergeLegacyLocaleTextTranslations,
+  defaultSiteLocaleCode,
+  defaultLocaleTextValue,
+  mergeLocaleTextTranslations,
   parseLocaleTextTranslations,
   type LocaleTextTranslations,
 } from "@/lib/admin-translations";
@@ -40,15 +38,12 @@ type MasonryLayoutItem = {
 type SlidePayload = {
   id?: string;
   title: string;
-  titleEn?: string;
   contentHtml: string;
-  contentHtmlEn?: string;
   mediaType: "IMAGE" | "VIDEO";
   mediaUrl: string;
   mediaAssetId?: string;
   posterUrl?: string;
   alt?: string;
-  altEn?: string;
   translations?: LocaleTextTranslations<SlideTranslationField>;
 };
 
@@ -128,14 +123,8 @@ const parseSlides = (formData: FormData): SlidePayload[] => {
     return {
       id: typeof value.id === "string" && value.id ? value.id : undefined,
       title: typeof value.title === "string" ? value.title.trim() : "",
-      titleEn:
-        typeof value.titleEn === "string" ? value.titleEn.trim() : undefined,
       contentHtml:
         typeof value.contentHtml === "string" ? value.contentHtml : "",
-      contentHtmlEn:
-        typeof value.contentHtmlEn === "string"
-          ? value.contentHtmlEn
-          : undefined,
       mediaType: value.mediaType === "VIDEO" ? "VIDEO" : "IMAGE",
       mediaUrl: typeof value.mediaUrl === "string" ? value.mediaUrl.trim() : "",
       mediaAssetId:
@@ -145,7 +134,6 @@ const parseSlides = (formData: FormData): SlidePayload[] => {
       posterUrl:
         typeof value.posterUrl === "string" ? value.posterUrl.trim() : undefined,
       alt: typeof value.alt === "string" ? value.alt.trim() : undefined,
-      altEn: typeof value.altEn === "string" ? value.altEn.trim() : undefined,
       translations: parseObjectTranslations(
         (value as { translations?: unknown }).translations,
         slideTranslationFields,
@@ -163,20 +151,14 @@ const validateProjectPayload = async (
     projectTranslationFields,
   );
   const title =
-    legacyDefaultTextValue(translations, "title") ??
+    defaultLocaleTextValue(translations, "title") ??
     normalizeRequired(formData.get("title"));
-  const titleEn =
-    legacySecondaryTextValue(translations, "title") ??
-    normalizeNullable(formData.get("titleEn"));
   const slug =
-    legacyDefaultTextValue(translations, "slug") ??
+    defaultLocaleTextValue(translations, "slug") ??
     normalizeRequired(formData.get("slug"));
   const description =
-    legacyDefaultTextValue(translations, "description") ??
+    defaultLocaleTextValue(translations, "description") ??
     normalizeRequired(formData.get("description"));
-  const descriptionEn =
-    legacySecondaryTextValue(translations, "description") ??
-    normalizeNullable(formData.get("descriptionEn"));
   const imageUrl = normalizeRequired(formData.get("imageUrl"));
   const imageAssetId = normalizeNullable(formData.get("imageAssetId"));
   const tags = parseTags(formData.get("tags"));
@@ -189,30 +171,18 @@ const validateProjectPayload = async (
     formData.get("deliveredServiceEntryIds"),
   );
   const challenge =
-    legacyDefaultTextValue(translations, "challenge") ??
+    defaultLocaleTextValue(translations, "challenge") ??
     normalizeNullable(formData.get("challenge"));
-  const challengeEn =
-    legacySecondaryTextValue(translations, "challenge") ??
-    normalizeNullable(formData.get("challengeEn"));
   const approach =
-    legacyDefaultTextValue(translations, "approach") ??
+    defaultLocaleTextValue(translations, "approach") ??
     normalizeNullable(formData.get("approach"));
-  const approachEn =
-    legacySecondaryTextValue(translations, "approach") ??
-    normalizeNullable(formData.get("approachEn"));
   const results =
-    legacyDefaultTextValue(translations, "results") ??
+    defaultLocaleTextValue(translations, "results") ??
     normalizeNullable(formData.get("results"));
-  const resultsEn =
-    legacySecondaryTextValue(translations, "results") ??
-    normalizeNullable(formData.get("resultsEn"));
   const credits = normalizeNullable(formData.get("credits"));
   const awards =
-    legacyDefaultTextValue(translations, "awards") ??
+    defaultLocaleTextValue(translations, "awards") ??
     normalizeNullable(formData.get("awards"));
-  const awardsEn =
-    legacySecondaryTextValue(translations, "awards") ??
-    normalizeNullable(formData.get("awardsEn"));
   const externalUrl = normalizeNullable(formData.get("externalUrl"));
   const featured = formData.get("featured") === "true";
   const order = parseNonNegativeInteger(formData.get("order"));
@@ -377,11 +347,7 @@ const validateProjectPayload = async (
     }
 
     const contentHtml = sanitizeRichTextHtml(slide.contentHtml);
-    const contentHtmlEn = slide.contentHtmlEn
-      ? sanitizeRichTextHtml(slide.contentHtmlEn)
-      : null;
-
-    if (contentHtml !== slide.contentHtml || contentHtmlEn !== (slide.contentHtmlEn || null)) {
+    if (contentHtml !== slide.contentHtml) {
       warnings.push(`${label}: du HTML non supporte a ete nettoye.`);
     }
 
@@ -389,15 +355,12 @@ const validateProjectPayload = async (
       id: slide.id,
       order: index,
       title: slide.title,
-      titleEn: slide.titleEn || null,
       contentHtml,
-      contentHtmlEn,
       mediaType: slide.mediaType,
       mediaUrl: slide.mediaUrl,
       mediaAssetId: slide.mediaAssetId || null,
       posterUrl: effectivePosterUrl || null,
       alt: slide.alt || null,
-      altEn: slide.altEn || null,
       translations: slide.translations ?? {},
     };
   });
@@ -411,10 +374,8 @@ const validateProjectPayload = async (
   return {
     data: {
       title,
-      titleEn,
       slug,
       description,
-      descriptionEn,
       imageUrl,
       imageAssetId,
       heroPaletteComputed,
@@ -425,14 +386,10 @@ const validateProjectPayload = async (
       locationEntryId,
       deliveredServiceEntryIds,
       challenge,
-      challengeEn,
       approach,
-      approachEn,
       results,
-      resultsEn,
       credits,
       awards,
-      awardsEn,
       externalUrl,
       featured,
       order,
@@ -452,7 +409,7 @@ type ValidatedProjectData = ValidatedProjectResult["data"];
 
 const projectTranslations = (projectId: string, data: ValidatedProjectData) => {
   const translations = data.translations;
-  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
+  mergeLocaleTextTranslations(translations, defaultSiteLocaleCode, {
     title: data.title,
     slug: data.slug,
     description: data.description,
@@ -461,16 +418,6 @@ const projectTranslations = (projectId: string, data: ValidatedProjectData) => {
     results: data.results,
     awards: data.awards,
   });
-  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
-    title: data.titleEn,
-    slug: translations[legacySecondaryLocale]?.slug ?? null,
-    description: data.descriptionEn,
-    challenge: data.challengeEn,
-    approach: data.approachEn,
-    results: data.resultsEn,
-    awards: data.awardsEn,
-  });
-
   return Object.entries(translations).map(([locale, values]) => ({
     projectId,
     locale,
@@ -489,17 +436,11 @@ const slideTranslations = (
   slide: ValidatedProjectData["slides"][number],
 ) => {
   const translations = slide.translations;
-  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
+  mergeLocaleTextTranslations(translations, defaultSiteLocaleCode, {
     title: slide.title,
     contentHtml: slide.contentHtml,
     alt: slide.alt,
   });
-  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
-    title: slide.titleEn,
-    contentHtml: slide.contentHtmlEn,
-    alt: slide.altEn,
-  });
-
   return Object.entries(translations).map(([locale, values]) => ({
     slideId,
     locale,
@@ -565,15 +506,12 @@ const saveSlides = async (
     const data = {
       order: slide.order,
       title: slide.title,
-      titleEn: slide.titleEn,
       contentHtml: slide.contentHtml,
-      contentHtmlEn: slide.contentHtmlEn,
       mediaType: slide.mediaType,
       mediaUrl: slide.mediaUrl,
       mediaAssetId: slide.mediaAssetId,
       posterUrl: slide.posterUrl,
       alt: slide.alt,
-      altEn: slide.altEn,
     };
 
     if (slide.id) {
@@ -648,10 +586,8 @@ export const createProject = async (
       const created = await tx.project.create({
         data: {
           title: parsed.data.title,
-          titleEn: parsed.data.titleEn,
           slug: parsed.data.slug,
           description: parsed.data.description,
-          descriptionEn: parsed.data.descriptionEn,
           imageUrl: parsed.data.imageUrl,
           imageAssetId: parsed.data.imageAssetId,
           heroPaletteComputed: parsed.data.heroPaletteComputed,
@@ -664,14 +600,10 @@ export const createProject = async (
             connect: parsed.data.deliveredServiceEntryIds.map((id) => ({ id })),
           },
           challenge: parsed.data.challenge,
-          challengeEn: parsed.data.challengeEn,
           approach: parsed.data.approach,
-          approachEn: parsed.data.approachEn,
           results: parsed.data.results,
-          resultsEn: parsed.data.resultsEn,
           credits: parsed.data.credits,
           awards: parsed.data.awards,
-          awardsEn: parsed.data.awardsEn,
           externalUrl: parsed.data.externalUrl,
           featured: parsed.data.featured,
           order: parsed.data.order,
@@ -726,10 +658,8 @@ export const updateProject = async (
         where: { id },
         data: {
           title: parsed.data.title,
-          titleEn: parsed.data.titleEn,
           slug: parsed.data.slug,
           description: parsed.data.description,
-          descriptionEn: parsed.data.descriptionEn,
           imageUrl: parsed.data.imageUrl,
           imageAssetId: parsed.data.imageAssetId,
           heroPaletteComputed: parsed.data.heroPaletteComputed,
@@ -742,14 +672,10 @@ export const updateProject = async (
             set: parsed.data.deliveredServiceEntryIds.map((id) => ({ id })),
           },
           challenge: parsed.data.challenge,
-          challengeEn: parsed.data.challengeEn,
           approach: parsed.data.approach,
-          approachEn: parsed.data.approachEn,
           results: parsed.data.results,
-          resultsEn: parsed.data.resultsEn,
           credits: parsed.data.credits,
           awards: parsed.data.awards,
-          awardsEn: parsed.data.awardsEn,
           externalUrl: parsed.data.externalUrl,
           featured: parsed.data.featured,
           order: parsed.data.order,

@@ -3,15 +3,15 @@ export type LocaleTextTranslations<Field extends string> = Record<
   Partial<Record<Field, string | null>>
 >;
 
-export const legacyDefaultLocale = "fr";
-export const legacySecondaryLocale = "en";
-export const legacyLocaleCodes = [
-  legacyDefaultLocale,
-  legacySecondaryLocale,
+export const defaultSiteLocaleCode = "fr";
+export const initialTranslatedLocaleCode = "en";
+export const initialLocaleCodes = [
+  defaultSiteLocaleCode,
+  initialTranslatedLocaleCode,
 ] as const;
 
-export const isLegacyLocale = (locale: string) =>
-  legacyLocaleCodes.includes(locale.trim().toLowerCase() as (typeof legacyLocaleCodes)[number]);
+export const isInitialLocale = (locale: string) =>
+  initialLocaleCodes.includes(locale.trim().toLowerCase() as (typeof initialLocaleCodes)[number]);
 
 const normalizeLocaleCode = (value: string) => value.trim().toLowerCase();
 
@@ -63,17 +63,11 @@ export const localeTextValue = <Field extends string>(
   fallback: string | null = null,
 ): string | null => translations[normalizeLocaleCode(locale)]?.[field] ?? fallback;
 
-export const legacyDefaultTextValue = <Field extends string>(
+export const defaultLocaleTextValue = <Field extends string>(
   translations: LocaleTextTranslations<Field>,
   field: Field,
   fallback: string | null = null,
-): string | null => localeTextValue(translations, legacyDefaultLocale, field, fallback);
-
-export const legacySecondaryTextValue = <Field extends string>(
-  translations: LocaleTextTranslations<Field>,
-  field: Field,
-  fallback: string | null = null,
-): string | null => localeTextValue(translations, legacySecondaryLocale, field, fallback);
+): string | null => localeTextValue(translations, defaultSiteLocaleCode, field, fallback);
 
 export const setLocaleTextValue = <Field extends string>(
   translations: LocaleTextTranslations<Field>,
@@ -88,7 +82,7 @@ export const setLocaleTextValue = <Field extends string>(
   };
 };
 
-export const mergeLegacyLocaleTextTranslations = <Field extends string>(
+export const mergeLocaleTextTranslations = <Field extends string>(
   translations: LocaleTextTranslations<Field>,
   locale: string,
   values: Partial<Record<Field, string | null>>,

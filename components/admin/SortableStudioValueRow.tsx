@@ -5,7 +5,6 @@ import { CSS } from "@dnd-kit/utilities";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
 import type { StudioValueData } from "./studio-value-types";
 
 export const SortableStudioValueRow = ({
@@ -36,13 +35,6 @@ export const SortableStudioValueRow = ({
         <DragIndicatorIcon fontSize="small" color="action" />
       </TableCell>
       <TableCell>{studioValue.title}</TableCell>
-      <TableCell>
-        {studioValue.titleEn || (
-          <Typography variant="body2" color="text.secondary">
-            --
-          </Typography>
-        )}
-      </TableCell>
       <TableCell>{studioValue.active ? "Oui" : "Non"}</TableCell>
     </TableRow>
   );

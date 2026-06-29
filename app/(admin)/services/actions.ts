@@ -9,11 +9,9 @@ import {
   sanitizeRichTextHtml,
 } from "@/lib/rich-text";
 import {
-  legacyDefaultLocale,
-  legacyDefaultTextValue,
-  legacySecondaryLocale,
-  legacySecondaryTextValue,
-  mergeLegacyLocaleTextTranslations,
+  defaultSiteLocaleCode,
+  defaultLocaleTextValue,
+  mergeLocaleTextTranslations,
   parseLocaleTextTranslations,
   type LocaleTextTranslations,
 } from "@/lib/admin-translations";
@@ -26,11 +24,8 @@ type ActionResult = {
 
 type ParsedServiceData = {
   title: string;
-  titleEn: string | null;
   description: string;
-  descriptionEn: string | null;
   descriptionHtml: string;
-  descriptionHtmlEn: string | null;
   icon: string | null;
   order: number;
   active: boolean;
@@ -84,18 +79,11 @@ const parseService = (formData: FormData): ParseResult<ParsedServiceData> => {
     serviceTranslationFields,
   );
   const title =
-    legacyDefaultTextValue(translations, "title") ??
+    defaultLocaleTextValue(translations, "title") ??
     String(formData.get("title") ?? "").trim();
-  const titleEn =
-    (legacySecondaryTextValue(translations, "title") ??
-      String(formData.get("titleEn") ?? "").trim()) ||
-    null;
   const descriptionHtml =
-    legacyDefaultTextValue(translations, "descriptionHtml") ??
+    defaultLocaleTextValue(translations, "descriptionHtml") ??
     String(formData.get("descriptionHtml") ?? "");
-  const descriptionHtmlEn =
-    legacySecondaryTextValue(translations, "descriptionHtml") ??
-    String(formData.get("descriptionHtmlEn") ?? "");
   const icon = String(formData.get("icon") ?? "").trim() || null;
   const order = parseInt(String(formData.get("order") ?? ""), 10);
   const active = formData.get("active") === "true";
@@ -117,13 +105,7 @@ const parseService = (formData: FormData): ParseResult<ParsedServiceData> => {
   }
 
   const sanitizedDescriptionHtml = sanitizeRichTextHtml(descriptionHtml);
-  const sanitizedDescriptionHtmlEn = isBlankRichText(descriptionHtmlEn)
-    ? null
-    : sanitizeRichTextHtml(descriptionHtmlEn);
   const description = richTextToPlainText(sanitizedDescriptionHtml);
-  const descriptionEn = sanitizedDescriptionHtmlEn
-    ? richTextToPlainText(sanitizedDescriptionHtmlEn)
-    : null;
 
   if (description.length < 10) {
     return {
@@ -139,11 +121,8 @@ const parseService = (formData: FormData): ParseResult<ParsedServiceData> => {
     ok: true,
     data: {
       title,
-      titleEn,
       description,
-      descriptionEn,
       descriptionHtml: sanitizedDescriptionHtml,
-      descriptionHtmlEn: sanitizedDescriptionHtmlEn,
       icon,
       order,
       active,
@@ -177,11 +156,8 @@ const validatePublishedProjectIds = async (projectIds: string[]) => {
 const serviceData = (data: ParsedServiceData) => {
   return {
     title: data.title,
-    titleEn: data.titleEn,
     description: data.description,
-    descriptionEn: data.descriptionEn,
     descriptionHtml: data.descriptionHtml,
-    descriptionHtmlEn: data.descriptionHtmlEn,
     icon: data.icon,
     order: data.order,
     active: data.active,
@@ -193,15 +169,10 @@ const serviceTranslationRows = (
   data: ParsedServiceData,
 ) => {
   const translations = data.translations ?? {};
-  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
+  mergeLocaleTextTranslations(translations, defaultSiteLocaleCode, {
     title: data.title,
     descriptionHtml: data.descriptionHtml,
   });
-  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
-    title: data.titleEn,
-    descriptionHtml: data.descriptionHtmlEn,
-  });
-
   return Object.entries(translations).map(([locale, values]) => {
     const descriptionHtml =
       values.descriptionHtml && !isBlankRichText(values.descriptionHtml)

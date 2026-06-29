@@ -40,7 +40,6 @@ export type BlogPostBlockMinAggregateOutputType = {
   order: number | null
   type: $Enums.BlogPostBlockType | null
   contentHtml: string | null
-  contentHtmlEn: string | null
   mediaUrl: string | null
   mediaAssetId: string | null
   createdAt: Date | null
@@ -53,7 +52,6 @@ export type BlogPostBlockMaxAggregateOutputType = {
   order: number | null
   type: $Enums.BlogPostBlockType | null
   contentHtml: string | null
-  contentHtmlEn: string | null
   mediaUrl: string | null
   mediaAssetId: string | null
   createdAt: Date | null
@@ -66,7 +64,6 @@ export type BlogPostBlockCountAggregateOutputType = {
   order: number
   type: number
   contentHtml: number
-  contentHtmlEn: number
   mediaUrl: number
   mediaAssetId: number
   createdAt: number
@@ -89,7 +86,6 @@ export type BlogPostBlockMinAggregateInputType = {
   order?: true
   type?: true
   contentHtml?: true
-  contentHtmlEn?: true
   mediaUrl?: true
   mediaAssetId?: true
   createdAt?: true
@@ -102,7 +98,6 @@ export type BlogPostBlockMaxAggregateInputType = {
   order?: true
   type?: true
   contentHtml?: true
-  contentHtmlEn?: true
   mediaUrl?: true
   mediaAssetId?: true
   createdAt?: true
@@ -115,7 +110,6 @@ export type BlogPostBlockCountAggregateInputType = {
   order?: true
   type?: true
   contentHtml?: true
-  contentHtmlEn?: true
   mediaUrl?: true
   mediaAssetId?: true
   createdAt?: true
@@ -215,7 +209,6 @@ export type BlogPostBlockGroupByOutputType = {
   order: number
   type: $Enums.BlogPostBlockType
   contentHtml: string | null
-  contentHtmlEn: string | null
   mediaUrl: string | null
   mediaAssetId: string | null
   createdAt: Date
@@ -251,7 +244,6 @@ export type BlogPostBlockWhereInput = {
   order?: Prisma.IntFilter<"BlogPostBlock"> | number
   type?: Prisma.EnumBlogPostBlockTypeFilter<"BlogPostBlock"> | $Enums.BlogPostBlockType
   contentHtml?: Prisma.StringNullableFilter<"BlogPostBlock"> | string | null
-  contentHtmlEn?: Prisma.StringNullableFilter<"BlogPostBlock"> | string | null
   mediaUrl?: Prisma.StringNullableFilter<"BlogPostBlock"> | string | null
   mediaAssetId?: Prisma.StringNullableFilter<"BlogPostBlock"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BlogPostBlock"> | Date | string
@@ -267,7 +259,6 @@ export type BlogPostBlockOrderByWithRelationInput = {
   order?: Prisma.SortOrder
   type?: Prisma.SortOrder
   contentHtml?: Prisma.SortOrderInput | Prisma.SortOrder
-  contentHtmlEn?: Prisma.SortOrderInput | Prisma.SortOrder
   mediaUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   mediaAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -286,7 +277,6 @@ export type BlogPostBlockWhereUniqueInput = Prisma.AtLeast<{
   order?: Prisma.IntFilter<"BlogPostBlock"> | number
   type?: Prisma.EnumBlogPostBlockTypeFilter<"BlogPostBlock"> | $Enums.BlogPostBlockType
   contentHtml?: Prisma.StringNullableFilter<"BlogPostBlock"> | string | null
-  contentHtmlEn?: Prisma.StringNullableFilter<"BlogPostBlock"> | string | null
   mediaUrl?: Prisma.StringNullableFilter<"BlogPostBlock"> | string | null
   mediaAssetId?: Prisma.StringNullableFilter<"BlogPostBlock"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BlogPostBlock"> | Date | string
@@ -302,7 +292,6 @@ export type BlogPostBlockOrderByWithAggregationInput = {
   order?: Prisma.SortOrder
   type?: Prisma.SortOrder
   contentHtml?: Prisma.SortOrderInput | Prisma.SortOrder
-  contentHtmlEn?: Prisma.SortOrderInput | Prisma.SortOrder
   mediaUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   mediaAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -323,7 +312,6 @@ export type BlogPostBlockScalarWhereWithAggregatesInput = {
   order?: Prisma.IntWithAggregatesFilter<"BlogPostBlock"> | number
   type?: Prisma.EnumBlogPostBlockTypeWithAggregatesFilter<"BlogPostBlock"> | $Enums.BlogPostBlockType
   contentHtml?: Prisma.StringNullableWithAggregatesFilter<"BlogPostBlock"> | string | null
-  contentHtmlEn?: Prisma.StringNullableWithAggregatesFilter<"BlogPostBlock"> | string | null
   mediaUrl?: Prisma.StringNullableWithAggregatesFilter<"BlogPostBlock"> | string | null
   mediaAssetId?: Prisma.StringNullableWithAggregatesFilter<"BlogPostBlock"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"BlogPostBlock"> | Date | string
@@ -335,7 +323,6 @@ export type BlogPostBlockCreateInput = {
   order?: number
   type: $Enums.BlogPostBlockType
   contentHtml?: string | null
-  contentHtmlEn?: string | null
   mediaUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -350,7 +337,6 @@ export type BlogPostBlockUncheckedCreateInput = {
   order?: number
   type: $Enums.BlogPostBlockType
   contentHtml?: string | null
-  contentHtmlEn?: string | null
   mediaUrl?: string | null
   mediaAssetId?: string | null
   createdAt?: Date | string
@@ -363,7 +349,6 @@ export type BlogPostBlockUpdateInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumBlogPostBlockTypeFieldUpdateOperationsInput | $Enums.BlogPostBlockType
   contentHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -378,7 +363,6 @@ export type BlogPostBlockUncheckedUpdateInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumBlogPostBlockTypeFieldUpdateOperationsInput | $Enums.BlogPostBlockType
   contentHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -392,7 +376,6 @@ export type BlogPostBlockCreateManyInput = {
   order?: number
   type: $Enums.BlogPostBlockType
   contentHtml?: string | null
-  contentHtmlEn?: string | null
   mediaUrl?: string | null
   mediaAssetId?: string | null
   createdAt?: Date | string
@@ -404,7 +387,6 @@ export type BlogPostBlockUpdateManyMutationInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumBlogPostBlockTypeFieldUpdateOperationsInput | $Enums.BlogPostBlockType
   contentHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -416,7 +398,6 @@ export type BlogPostBlockUncheckedUpdateManyInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumBlogPostBlockTypeFieldUpdateOperationsInput | $Enums.BlogPostBlockType
   contentHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -439,7 +420,6 @@ export type BlogPostBlockCountOrderByAggregateInput = {
   order?: Prisma.SortOrder
   type?: Prisma.SortOrder
   contentHtml?: Prisma.SortOrder
-  contentHtmlEn?: Prisma.SortOrder
   mediaUrl?: Prisma.SortOrder
   mediaAssetId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -456,7 +436,6 @@ export type BlogPostBlockMaxOrderByAggregateInput = {
   order?: Prisma.SortOrder
   type?: Prisma.SortOrder
   contentHtml?: Prisma.SortOrder
-  contentHtmlEn?: Prisma.SortOrder
   mediaUrl?: Prisma.SortOrder
   mediaAssetId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -469,7 +448,6 @@ export type BlogPostBlockMinOrderByAggregateInput = {
   order?: Prisma.SortOrder
   type?: Prisma.SortOrder
   contentHtml?: Prisma.SortOrder
-  contentHtmlEn?: Prisma.SortOrder
   mediaUrl?: Prisma.SortOrder
   mediaAssetId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -592,7 +570,6 @@ export type BlogPostBlockCreateWithoutPostInput = {
   order?: number
   type: $Enums.BlogPostBlockType
   contentHtml?: string | null
-  contentHtmlEn?: string | null
   mediaUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -605,7 +582,6 @@ export type BlogPostBlockUncheckedCreateWithoutPostInput = {
   order?: number
   type: $Enums.BlogPostBlockType
   contentHtml?: string | null
-  contentHtmlEn?: string | null
   mediaUrl?: string | null
   mediaAssetId?: string | null
   createdAt?: Date | string
@@ -648,7 +624,6 @@ export type BlogPostBlockScalarWhereInput = {
   order?: Prisma.IntFilter<"BlogPostBlock"> | number
   type?: Prisma.EnumBlogPostBlockTypeFilter<"BlogPostBlock"> | $Enums.BlogPostBlockType
   contentHtml?: Prisma.StringNullableFilter<"BlogPostBlock"> | string | null
-  contentHtmlEn?: Prisma.StringNullableFilter<"BlogPostBlock"> | string | null
   mediaUrl?: Prisma.StringNullableFilter<"BlogPostBlock"> | string | null
   mediaAssetId?: Prisma.StringNullableFilter<"BlogPostBlock"> | string | null
   createdAt?: Prisma.DateTimeFilter<"BlogPostBlock"> | Date | string
@@ -660,7 +635,6 @@ export type BlogPostBlockCreateWithoutTranslationsInput = {
   order?: number
   type: $Enums.BlogPostBlockType
   contentHtml?: string | null
-  contentHtmlEn?: string | null
   mediaUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -674,7 +648,6 @@ export type BlogPostBlockUncheckedCreateWithoutTranslationsInput = {
   order?: number
   type: $Enums.BlogPostBlockType
   contentHtml?: string | null
-  contentHtmlEn?: string | null
   mediaUrl?: string | null
   mediaAssetId?: string | null
   createdAt?: Date | string
@@ -702,7 +675,6 @@ export type BlogPostBlockUpdateWithoutTranslationsInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumBlogPostBlockTypeFieldUpdateOperationsInput | $Enums.BlogPostBlockType
   contentHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -716,7 +688,6 @@ export type BlogPostBlockUncheckedUpdateWithoutTranslationsInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumBlogPostBlockTypeFieldUpdateOperationsInput | $Enums.BlogPostBlockType
   contentHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -728,7 +699,6 @@ export type BlogPostBlockCreateWithoutMediaAssetInput = {
   order?: number
   type: $Enums.BlogPostBlockType
   contentHtml?: string | null
-  contentHtmlEn?: string | null
   mediaUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -742,7 +712,6 @@ export type BlogPostBlockUncheckedCreateWithoutMediaAssetInput = {
   order?: number
   type: $Enums.BlogPostBlockType
   contentHtml?: string | null
-  contentHtmlEn?: string | null
   mediaUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -780,7 +749,6 @@ export type BlogPostBlockCreateManyPostInput = {
   order?: number
   type: $Enums.BlogPostBlockType
   contentHtml?: string | null
-  contentHtmlEn?: string | null
   mediaUrl?: string | null
   mediaAssetId?: string | null
   createdAt?: Date | string
@@ -792,7 +760,6 @@ export type BlogPostBlockUpdateWithoutPostInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumBlogPostBlockTypeFieldUpdateOperationsInput | $Enums.BlogPostBlockType
   contentHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -805,7 +772,6 @@ export type BlogPostBlockUncheckedUpdateWithoutPostInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumBlogPostBlockTypeFieldUpdateOperationsInput | $Enums.BlogPostBlockType
   contentHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -818,7 +784,6 @@ export type BlogPostBlockUncheckedUpdateManyWithoutPostInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumBlogPostBlockTypeFieldUpdateOperationsInput | $Enums.BlogPostBlockType
   contentHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -831,7 +796,6 @@ export type BlogPostBlockCreateManyMediaAssetInput = {
   order?: number
   type: $Enums.BlogPostBlockType
   contentHtml?: string | null
-  contentHtmlEn?: string | null
   mediaUrl?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -842,7 +806,6 @@ export type BlogPostBlockUpdateWithoutMediaAssetInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumBlogPostBlockTypeFieldUpdateOperationsInput | $Enums.BlogPostBlockType
   contentHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -856,7 +819,6 @@ export type BlogPostBlockUncheckedUpdateWithoutMediaAssetInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumBlogPostBlockTypeFieldUpdateOperationsInput | $Enums.BlogPostBlockType
   contentHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -869,7 +831,6 @@ export type BlogPostBlockUncheckedUpdateManyWithoutMediaAssetInput = {
   order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.EnumBlogPostBlockTypeFieldUpdateOperationsInput | $Enums.BlogPostBlockType
   contentHtml?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -912,7 +873,6 @@ export type BlogPostBlockSelect<ExtArgs extends runtime.Types.Extensions.Interna
   order?: boolean
   type?: boolean
   contentHtml?: boolean
-  contentHtmlEn?: boolean
   mediaUrl?: boolean
   mediaAssetId?: boolean
   createdAt?: boolean
@@ -929,7 +889,6 @@ export type BlogPostBlockSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   order?: boolean
   type?: boolean
   contentHtml?: boolean
-  contentHtmlEn?: boolean
   mediaUrl?: boolean
   mediaAssetId?: boolean
   createdAt?: boolean
@@ -944,7 +903,6 @@ export type BlogPostBlockSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   order?: boolean
   type?: boolean
   contentHtml?: boolean
-  contentHtmlEn?: boolean
   mediaUrl?: boolean
   mediaAssetId?: boolean
   createdAt?: boolean
@@ -959,14 +917,13 @@ export type BlogPostBlockSelectScalar = {
   order?: boolean
   type?: boolean
   contentHtml?: boolean
-  contentHtmlEn?: boolean
   mediaUrl?: boolean
   mediaAssetId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BlogPostBlockOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "postId" | "order" | "type" | "contentHtml" | "contentHtmlEn" | "mediaUrl" | "mediaAssetId" | "createdAt" | "updatedAt", ExtArgs["result"]["blogPostBlock"]>
+export type BlogPostBlockOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "postId" | "order" | "type" | "contentHtml" | "mediaUrl" | "mediaAssetId" | "createdAt" | "updatedAt", ExtArgs["result"]["blogPostBlock"]>
 export type BlogPostBlockInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   post?: boolean | Prisma.BlogPostDefaultArgs<ExtArgs>
   mediaAsset?: boolean | Prisma.BlogPostBlock$mediaAssetArgs<ExtArgs>
@@ -995,7 +952,6 @@ export type $BlogPostBlockPayload<ExtArgs extends runtime.Types.Extensions.Inter
     order: number
     type: $Enums.BlogPostBlockType
     contentHtml: string | null
-    contentHtmlEn: string | null
     mediaUrl: string | null
     mediaAssetId: string | null
     createdAt: Date
@@ -1431,7 +1387,6 @@ export interface BlogPostBlockFieldRefs {
   readonly order: Prisma.FieldRef<"BlogPostBlock", 'Int'>
   readonly type: Prisma.FieldRef<"BlogPostBlock", 'BlogPostBlockType'>
   readonly contentHtml: Prisma.FieldRef<"BlogPostBlock", 'String'>
-  readonly contentHtmlEn: Prisma.FieldRef<"BlogPostBlock", 'String'>
   readonly mediaUrl: Prisma.FieldRef<"BlogPostBlock", 'String'>
   readonly mediaAssetId: Prisma.FieldRef<"BlogPostBlock", 'String'>
   readonly createdAt: Prisma.FieldRef<"BlogPostBlock", 'DateTime'>

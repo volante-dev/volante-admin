@@ -3,13 +3,11 @@
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { requireCrmAccess } from "@/lib/auth-guard";
-import { normalizeNullable, normalizeRequired } from "@/lib/validation";
+import { normalizeRequired } from "@/lib/validation";
 import {
-  legacyDefaultLocale,
-  legacyDefaultTextValue,
-  legacySecondaryLocale,
-  legacySecondaryTextValue,
-  mergeLegacyLocaleTextTranslations,
+  defaultSiteLocaleCode,
+  defaultLocaleTextValue,
+  mergeLocaleTextTranslations,
   parseLocaleTextTranslations,
   type LocaleTextTranslations,
 } from "@/lib/admin-translations";
@@ -21,15 +19,10 @@ type ActionResult = {
 
 type HomePageContentValues = {
   eyebrow: string;
-  eyebrowEn: string | null;
   title: string;
-  titleEn: string | null;
   subheading: string;
-  subheadingEn: string | null;
   primaryCtaLabel: string;
-  primaryCtaLabelEn: string | null;
   secondaryCtaLabel: string;
-  secondaryCtaLabelEn: string | null;
 };
 
 type HomePageTranslationField =
@@ -65,21 +58,13 @@ const homePageTranslations = (
   data: HomePageContentValues,
   translations: LocaleTextTranslations<HomePageTranslationField>,
 ) => {
-  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
+  mergeLocaleTextTranslations(translations, defaultSiteLocaleCode, {
     eyebrow: data.eyebrow,
     title: data.title,
     subheading: data.subheading,
     primaryCtaLabel: data.primaryCtaLabel,
     secondaryCtaLabel: data.secondaryCtaLabel,
   });
-  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
-    eyebrow: data.eyebrowEn,
-    title: data.titleEn,
-    subheading: data.subheadingEn,
-    primaryCtaLabel: data.primaryCtaLabelEn,
-    secondaryCtaLabel: data.secondaryCtaLabelEn,
-  });
-
   return Object.entries(translations).map(([locale, values]) => ({
     contentId,
     locale,
@@ -98,35 +83,20 @@ const parseHomePageContent = (formData: FormData) => {
   );
   const values = {
     eyebrow:
-      legacyDefaultTextValue(translations, "eyebrow") ??
+      defaultLocaleTextValue(translations, "eyebrow") ??
       normalizeRequired(formData.get("eyebrow")),
-    eyebrowEn:
-      legacySecondaryTextValue(translations, "eyebrow") ??
-      normalizeNullable(formData.get("eyebrowEn")),
     title:
-      legacyDefaultTextValue(translations, "title") ??
+      defaultLocaleTextValue(translations, "title") ??
       normalizeRequired(formData.get("title")),
-    titleEn:
-      legacySecondaryTextValue(translations, "title") ??
-      normalizeNullable(formData.get("titleEn")),
     subheading:
-      legacyDefaultTextValue(translations, "subheading") ??
+      defaultLocaleTextValue(translations, "subheading") ??
       normalizeRequired(formData.get("subheading")),
-    subheadingEn:
-      legacySecondaryTextValue(translations, "subheading") ??
-      normalizeNullable(formData.get("subheadingEn")),
     primaryCtaLabel:
-      legacyDefaultTextValue(translations, "primaryCtaLabel") ??
+      defaultLocaleTextValue(translations, "primaryCtaLabel") ??
       normalizeRequired(formData.get("primaryCtaLabel")),
-    primaryCtaLabelEn:
-      legacySecondaryTextValue(translations, "primaryCtaLabel") ??
-      normalizeNullable(formData.get("primaryCtaLabelEn")),
     secondaryCtaLabel:
-      legacyDefaultTextValue(translations, "secondaryCtaLabel") ??
+      defaultLocaleTextValue(translations, "secondaryCtaLabel") ??
       normalizeRequired(formData.get("secondaryCtaLabel")),
-    secondaryCtaLabelEn:
-      legacySecondaryTextValue(translations, "secondaryCtaLabel") ??
-      normalizeNullable(formData.get("secondaryCtaLabelEn")),
   };
 
   for (const [field, message] of requiredTextFields) {

@@ -7,15 +7,11 @@ export type ProjectTaxonomyOption = {
   id: string;
   type: ProjectTaxonomyType;
   label: string;
-  labelEn: string;
   slug: string | null;
   icon: string | null;
   introEyebrow: string | null;
-  introEyebrowEn: string | null;
   introTitle: string | null;
-  introTitleEn: string | null;
   intro: string | null;
-  introEn: string | null;
   active: boolean;
   translations?: {
     locale: string;

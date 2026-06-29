@@ -68,11 +68,8 @@ const EditServicePage = async ({
   const service = {
     id: raw.id,
     title: raw.title,
-    titleEn: raw.titleEn,
     description: raw.description,
-    descriptionEn: raw.descriptionEn,
     descriptionHtml: raw.descriptionHtml,
-    descriptionHtmlEn: raw.descriptionHtmlEn,
     icon: raw.icon,
     order: raw.order,
     active: raw.active,

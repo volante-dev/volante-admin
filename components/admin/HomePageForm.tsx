@@ -16,7 +16,7 @@ import { updateHomePageContent } from "@/app/(admin)/pages/home/actions";
 import { TranslateButton } from "./TranslateButton";
 import type { HomePageContentData } from "./home-page-types";
 import type { SiteLocaleData } from "@/lib/site-locales";
-import { legacyDefaultLocale, legacySecondaryLocale } from "@/lib/admin-translations";
+import { defaultSiteLocaleCode } from "@/lib/admin-translations";
 
 type HomePageField =
   | "eyebrow"
@@ -36,47 +36,26 @@ const toEditableContent = (
   return Object.fromEntries(
     locales.map((locale) => {
       const translation = byLocale.get(locale.code);
-      const isLegacyDefault = locale.code === legacyDefaultLocale;
-      const isLegacySecondary = locale.code === legacySecondaryLocale;
+      const isLegacyDefault = locale.code === defaultSiteLocaleCode;
 
       return [
         locale.code,
         {
           eyebrow:
             translation?.eyebrow ??
-            (isLegacyDefault
-              ? content.eyebrow
-              : isLegacySecondary
-                ? content.eyebrowEn ?? ""
-                : ""),
+            (isLegacyDefault ? content.eyebrow : ""),
           title:
             translation?.title ??
-            (isLegacyDefault
-              ? content.title
-              : isLegacySecondary
-                ? content.titleEn ?? ""
-                : ""),
+            (isLegacyDefault ? content.title : ""),
           subheading:
             translation?.subheading ??
-            (isLegacyDefault
-              ? content.subheading
-              : isLegacySecondary
-                ? content.subheadingEn ?? ""
-                : ""),
+            (isLegacyDefault ? content.subheading : ""),
           primaryCtaLabel:
             translation?.primaryCtaLabel ??
-            (isLegacyDefault
-              ? content.primaryCtaLabel
-              : isLegacySecondary
-                ? content.primaryCtaLabelEn ?? ""
-                : ""),
+            (isLegacyDefault ? content.primaryCtaLabel : ""),
           secondaryCtaLabel:
             translation?.secondaryCtaLabel ??
-            (isLegacyDefault
-              ? content.secondaryCtaLabel
-              : isLegacySecondary
-                ? content.secondaryCtaLabelEn ?? ""
-                : ""),
+            (isLegacyDefault ? content.secondaryCtaLabel : ""),
         },
       ];
     }),
@@ -100,6 +79,7 @@ type TextFieldRowProps = {
   rows?: number;
   helperText?: string;
   translateFrom?: string;
+  targetLocale?: string;
 };
 
 const TextFieldRow = ({
@@ -111,6 +91,7 @@ const TextFieldRow = ({
   rows,
   helperText,
   translateFrom,
+  targetLocale,
 }: TextFieldRowProps) => {
   const field = (
     <TextField
@@ -130,7 +111,11 @@ const TextFieldRow = ({
   return (
     <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
       {field}
-      <TranslateButton sourceText={translateFrom} onTranslated={onChange} />
+      <TranslateButton
+        sourceText={translateFrom}
+        targetLocale={targetLocale}
+        onTranslated={onChange}
+      />
     </Box>
   );
 };
@@ -147,7 +132,7 @@ export const HomePageForm = ({
   const [error, setError] = useState<string | null>(null);
   const activeLocales = locales.length
     ? locales
-    : [{ code: legacyDefaultLocale, label: "Français" } as SiteLocaleData];
+    : [{ code: defaultSiteLocaleCode, label: "Français" } as SiteLocaleData];
   const defaultLocale = activeLocales.find((locale) => locale.isDefault)?.code ?? activeLocales[0].code;
   const [fields, setFields] = useState(() => toEditableContent(content, activeLocales));
 
@@ -178,24 +163,12 @@ export const HomePageForm = ({
 
     const formData = new FormData();
     formData.set("translations", JSON.stringify(fields));
-    const legacyDefaultFields = fields[legacyDefaultLocale] ?? fields[defaultLocale];
-    const legacySecondaryFields = fields[legacySecondaryLocale] ?? {
-      eyebrow: "",
-      title: "",
-      subheading: "",
-      primaryCtaLabel: "",
-      secondaryCtaLabel: "",
-    };
-    formData.set("eyebrow", legacyDefaultFields.eyebrow);
-    formData.set("title", legacyDefaultFields.title);
-    formData.set("subheading", legacyDefaultFields.subheading);
-    formData.set("primaryCtaLabel", legacyDefaultFields.primaryCtaLabel);
-    formData.set("secondaryCtaLabel", legacyDefaultFields.secondaryCtaLabel);
-    formData.set("eyebrowEn", legacySecondaryFields.eyebrow);
-    formData.set("titleEn", legacySecondaryFields.title);
-    formData.set("subheadingEn", legacySecondaryFields.subheading);
-    formData.set("primaryCtaLabelEn", legacySecondaryFields.primaryCtaLabel);
-    formData.set("secondaryCtaLabelEn", legacySecondaryFields.secondaryCtaLabel);
+    const defaultLocaleFields = fields[defaultSiteLocaleCode] ?? fields[defaultLocale];
+    formData.set("eyebrow", defaultLocaleFields.eyebrow);
+    formData.set("title", defaultLocaleFields.title);
+    formData.set("subheading", defaultLocaleFields.subheading);
+    formData.set("primaryCtaLabel", defaultLocaleFields.primaryCtaLabel);
+    formData.set("secondaryCtaLabel", defaultLocaleFields.secondaryCtaLabel);
 
     startTransition(async () => {
       const result = await updateHomePageContent(formData);
@@ -249,6 +222,7 @@ export const HomePageForm = ({
                   onChange={updateField(locale.code, "eyebrow")}
                   required={isDefaultLocale}
                   translateFrom={isDefaultLocale ? undefined : sourceFields.eyebrow}
+                  targetLocale={locale.code}
                 />
                 <TextFieldRow
                   label="Titre"
@@ -256,6 +230,7 @@ export const HomePageForm = ({
                   onChange={updateField(locale.code, "title")}
                   required={isDefaultLocale}
                   translateFrom={isDefaultLocale ? undefined : sourceFields.title}
+                  targetLocale={locale.code}
                 />
                 <TextFieldRow
                   label="Sous-titre"
@@ -265,6 +240,7 @@ export const HomePageForm = ({
                   multiline
                   rows={4}
                   translateFrom={isDefaultLocale ? undefined : sourceFields.subheading}
+                  targetLocale={locale.code}
                 />
                 <TextFieldRow
                   label="CTA portfolio"
@@ -273,6 +249,7 @@ export const HomePageForm = ({
                   required={isDefaultLocale}
                   helperText="Le lien reste dirige vers la page portfolio."
                   translateFrom={isDefaultLocale ? undefined : sourceFields.primaryCtaLabel}
+                  targetLocale={locale.code}
                 />
                 <TextFieldRow
                   label="CTA contact"
@@ -281,6 +258,7 @@ export const HomePageForm = ({
                   required={isDefaultLocale}
                   helperText="Le lien reste dirige vers la page contact."
                   translateFrom={isDefaultLocale ? undefined : sourceFields.secondaryCtaLabel}
+                  targetLocale={locale.code}
                 />
               </Box>
             ) : null;

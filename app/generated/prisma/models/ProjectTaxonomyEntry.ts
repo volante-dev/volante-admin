@@ -28,16 +28,12 @@ export type ProjectTaxonomyEntryMinAggregateOutputType = {
   id: string | null
   type: $Enums.ProjectTaxonomyType | null
   label: string | null
-  labelEn: string | null
   normalizedKey: string | null
   slug: string | null
   icon: string | null
   introEyebrow: string | null
-  introEyebrowEn: string | null
   introTitle: string | null
-  introTitleEn: string | null
   intro: string | null
-  introEn: string | null
   active: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -47,16 +43,12 @@ export type ProjectTaxonomyEntryMaxAggregateOutputType = {
   id: string | null
   type: $Enums.ProjectTaxonomyType | null
   label: string | null
-  labelEn: string | null
   normalizedKey: string | null
   slug: string | null
   icon: string | null
   introEyebrow: string | null
-  introEyebrowEn: string | null
   introTitle: string | null
-  introTitleEn: string | null
   intro: string | null
-  introEn: string | null
   active: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -66,16 +58,12 @@ export type ProjectTaxonomyEntryCountAggregateOutputType = {
   id: number
   type: number
   label: number
-  labelEn: number
   normalizedKey: number
   slug: number
   icon: number
   introEyebrow: number
-  introEyebrowEn: number
   introTitle: number
-  introTitleEn: number
   intro: number
-  introEn: number
   active: number
   createdAt: number
   updatedAt: number
@@ -87,16 +75,12 @@ export type ProjectTaxonomyEntryMinAggregateInputType = {
   id?: true
   type?: true
   label?: true
-  labelEn?: true
   normalizedKey?: true
   slug?: true
   icon?: true
   introEyebrow?: true
-  introEyebrowEn?: true
   introTitle?: true
-  introTitleEn?: true
   intro?: true
-  introEn?: true
   active?: true
   createdAt?: true
   updatedAt?: true
@@ -106,16 +90,12 @@ export type ProjectTaxonomyEntryMaxAggregateInputType = {
   id?: true
   type?: true
   label?: true
-  labelEn?: true
   normalizedKey?: true
   slug?: true
   icon?: true
   introEyebrow?: true
-  introEyebrowEn?: true
   introTitle?: true
-  introTitleEn?: true
   intro?: true
-  introEn?: true
   active?: true
   createdAt?: true
   updatedAt?: true
@@ -125,16 +105,12 @@ export type ProjectTaxonomyEntryCountAggregateInputType = {
   id?: true
   type?: true
   label?: true
-  labelEn?: true
   normalizedKey?: true
   slug?: true
   icon?: true
   introEyebrow?: true
-  introEyebrowEn?: true
   introTitle?: true
-  introTitleEn?: true
   intro?: true
-  introEn?: true
   active?: true
   createdAt?: true
   updatedAt?: true
@@ -217,16 +193,12 @@ export type ProjectTaxonomyEntryGroupByOutputType = {
   id: string
   type: $Enums.ProjectTaxonomyType
   label: string
-  labelEn: string
   normalizedKey: string
   slug: string | null
   icon: string | null
   introEyebrow: string | null
-  introEyebrowEn: string | null
   introTitle: string | null
-  introTitleEn: string | null
   intro: string | null
-  introEn: string | null
   active: boolean
   createdAt: Date
   updatedAt: Date
@@ -257,16 +229,12 @@ export type ProjectTaxonomyEntryWhereInput = {
   id?: Prisma.StringFilter<"ProjectTaxonomyEntry"> | string
   type?: Prisma.EnumProjectTaxonomyTypeFilter<"ProjectTaxonomyEntry"> | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFilter<"ProjectTaxonomyEntry"> | string
-  labelEn?: Prisma.StringFilter<"ProjectTaxonomyEntry"> | string
   normalizedKey?: Prisma.StringFilter<"ProjectTaxonomyEntry"> | string
   slug?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   icon?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   introEyebrow?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
-  introEyebrowEn?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   introTitle?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
-  introTitleEn?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   intro?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
-  introEn?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   active?: Prisma.BoolFilter<"ProjectTaxonomyEntry"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ProjectTaxonomyEntry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProjectTaxonomyEntry"> | Date | string
@@ -280,16 +248,12 @@ export type ProjectTaxonomyEntryOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  labelEn?: Prisma.SortOrder
   normalizedKey?: Prisma.SortOrder
   slug?: Prisma.SortOrderInput | Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   introEyebrow?: Prisma.SortOrderInput | Prisma.SortOrder
-  introEyebrowEn?: Prisma.SortOrderInput | Prisma.SortOrder
   introTitle?: Prisma.SortOrderInput | Prisma.SortOrder
-  introTitleEn?: Prisma.SortOrderInput | Prisma.SortOrder
   intro?: Prisma.SortOrderInput | Prisma.SortOrder
-  introEn?: Prisma.SortOrderInput | Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -308,16 +272,12 @@ export type ProjectTaxonomyEntryWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ProjectTaxonomyEntryWhereInput | Prisma.ProjectTaxonomyEntryWhereInput[]
   type?: Prisma.EnumProjectTaxonomyTypeFilter<"ProjectTaxonomyEntry"> | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFilter<"ProjectTaxonomyEntry"> | string
-  labelEn?: Prisma.StringFilter<"ProjectTaxonomyEntry"> | string
   normalizedKey?: Prisma.StringFilter<"ProjectTaxonomyEntry"> | string
   slug?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   icon?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   introEyebrow?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
-  introEyebrowEn?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   introTitle?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
-  introTitleEn?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   intro?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
-  introEn?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   active?: Prisma.BoolFilter<"ProjectTaxonomyEntry"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ProjectTaxonomyEntry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProjectTaxonomyEntry"> | Date | string
@@ -331,16 +291,12 @@ export type ProjectTaxonomyEntryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  labelEn?: Prisma.SortOrder
   normalizedKey?: Prisma.SortOrder
   slug?: Prisma.SortOrderInput | Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   introEyebrow?: Prisma.SortOrderInput | Prisma.SortOrder
-  introEyebrowEn?: Prisma.SortOrderInput | Prisma.SortOrder
   introTitle?: Prisma.SortOrderInput | Prisma.SortOrder
-  introTitleEn?: Prisma.SortOrderInput | Prisma.SortOrder
   intro?: Prisma.SortOrderInput | Prisma.SortOrder
-  introEn?: Prisma.SortOrderInput | Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -356,16 +312,12 @@ export type ProjectTaxonomyEntryScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"ProjectTaxonomyEntry"> | string
   type?: Prisma.EnumProjectTaxonomyTypeWithAggregatesFilter<"ProjectTaxonomyEntry"> | $Enums.ProjectTaxonomyType
   label?: Prisma.StringWithAggregatesFilter<"ProjectTaxonomyEntry"> | string
-  labelEn?: Prisma.StringWithAggregatesFilter<"ProjectTaxonomyEntry"> | string
   normalizedKey?: Prisma.StringWithAggregatesFilter<"ProjectTaxonomyEntry"> | string
   slug?: Prisma.StringNullableWithAggregatesFilter<"ProjectTaxonomyEntry"> | string | null
   icon?: Prisma.StringNullableWithAggregatesFilter<"ProjectTaxonomyEntry"> | string | null
   introEyebrow?: Prisma.StringNullableWithAggregatesFilter<"ProjectTaxonomyEntry"> | string | null
-  introEyebrowEn?: Prisma.StringNullableWithAggregatesFilter<"ProjectTaxonomyEntry"> | string | null
   introTitle?: Prisma.StringNullableWithAggregatesFilter<"ProjectTaxonomyEntry"> | string | null
-  introTitleEn?: Prisma.StringNullableWithAggregatesFilter<"ProjectTaxonomyEntry"> | string | null
   intro?: Prisma.StringNullableWithAggregatesFilter<"ProjectTaxonomyEntry"> | string | null
-  introEn?: Prisma.StringNullableWithAggregatesFilter<"ProjectTaxonomyEntry"> | string | null
   active?: Prisma.BoolWithAggregatesFilter<"ProjectTaxonomyEntry"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ProjectTaxonomyEntry"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ProjectTaxonomyEntry"> | Date | string
@@ -375,16 +327,12 @@ export type ProjectTaxonomyEntryCreateInput = {
   id?: string
   type: $Enums.ProjectTaxonomyType
   label: string
-  labelEn: string
   normalizedKey: string
   slug?: string | null
   icon?: string | null
   introEyebrow?: string | null
-  introEyebrowEn?: string | null
   introTitle?: string | null
-  introTitleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -398,16 +346,12 @@ export type ProjectTaxonomyEntryUncheckedCreateInput = {
   id?: string
   type: $Enums.ProjectTaxonomyType
   label: string
-  labelEn: string
   normalizedKey: string
   slug?: string | null
   icon?: string | null
   introEyebrow?: string | null
-  introEyebrowEn?: string | null
   introTitle?: string | null
-  introTitleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -421,16 +365,12 @@ export type ProjectTaxonomyEntryUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumProjectTaxonomyTypeFieldUpdateOperationsInput | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedKey?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introEyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -444,16 +384,12 @@ export type ProjectTaxonomyEntryUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumProjectTaxonomyTypeFieldUpdateOperationsInput | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedKey?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introEyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -467,16 +403,12 @@ export type ProjectTaxonomyEntryCreateManyInput = {
   id?: string
   type: $Enums.ProjectTaxonomyType
   label: string
-  labelEn: string
   normalizedKey: string
   slug?: string | null
   icon?: string | null
   introEyebrow?: string | null
-  introEyebrowEn?: string | null
   introTitle?: string | null
-  introTitleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -486,16 +418,12 @@ export type ProjectTaxonomyEntryUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumProjectTaxonomyTypeFieldUpdateOperationsInput | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedKey?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introEyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -505,16 +433,12 @@ export type ProjectTaxonomyEntryUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumProjectTaxonomyTypeFieldUpdateOperationsInput | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedKey?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introEyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -549,16 +473,12 @@ export type ProjectTaxonomyEntryCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  labelEn?: Prisma.SortOrder
   normalizedKey?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   introEyebrow?: Prisma.SortOrder
-  introEyebrowEn?: Prisma.SortOrder
   introTitle?: Prisma.SortOrder
-  introTitleEn?: Prisma.SortOrder
   intro?: Prisma.SortOrder
-  introEn?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -568,16 +488,12 @@ export type ProjectTaxonomyEntryMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  labelEn?: Prisma.SortOrder
   normalizedKey?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   introEyebrow?: Prisma.SortOrder
-  introEyebrowEn?: Prisma.SortOrder
   introTitle?: Prisma.SortOrder
-  introTitleEn?: Prisma.SortOrder
   intro?: Prisma.SortOrder
-  introEn?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -587,16 +503,12 @@ export type ProjectTaxonomyEntryMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  labelEn?: Prisma.SortOrder
   normalizedKey?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   introEyebrow?: Prisma.SortOrder
-  introEyebrowEn?: Prisma.SortOrder
   introTitle?: Prisma.SortOrder
-  introTitleEn?: Prisma.SortOrder
   intro?: Prisma.SortOrder
-  introEn?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -699,16 +611,12 @@ export type ProjectTaxonomyEntryCreateWithoutSectorProjectsInput = {
   id?: string
   type: $Enums.ProjectTaxonomyType
   label: string
-  labelEn: string
   normalizedKey: string
   slug?: string | null
   icon?: string | null
   introEyebrow?: string | null
-  introEyebrowEn?: string | null
   introTitle?: string | null
-  introTitleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -721,16 +629,12 @@ export type ProjectTaxonomyEntryUncheckedCreateWithoutSectorProjectsInput = {
   id?: string
   type: $Enums.ProjectTaxonomyType
   label: string
-  labelEn: string
   normalizedKey: string
   slug?: string | null
   icon?: string | null
   introEyebrow?: string | null
-  introEyebrowEn?: string | null
   introTitle?: string | null
-  introTitleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -748,16 +652,12 @@ export type ProjectTaxonomyEntryCreateWithoutLocationProjectsInput = {
   id?: string
   type: $Enums.ProjectTaxonomyType
   label: string
-  labelEn: string
   normalizedKey: string
   slug?: string | null
   icon?: string | null
   introEyebrow?: string | null
-  introEyebrowEn?: string | null
   introTitle?: string | null
-  introTitleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -770,16 +670,12 @@ export type ProjectTaxonomyEntryUncheckedCreateWithoutLocationProjectsInput = {
   id?: string
   type: $Enums.ProjectTaxonomyType
   label: string
-  labelEn: string
   normalizedKey: string
   slug?: string | null
   icon?: string | null
   introEyebrow?: string | null
-  introEyebrowEn?: string | null
   introTitle?: string | null
-  introTitleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -797,16 +693,12 @@ export type ProjectTaxonomyEntryCreateWithoutDeliveredServiceProjectsInput = {
   id?: string
   type: $Enums.ProjectTaxonomyType
   label: string
-  labelEn: string
   normalizedKey: string
   slug?: string | null
   icon?: string | null
   introEyebrow?: string | null
-  introEyebrowEn?: string | null
   introTitle?: string | null
-  introTitleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -819,16 +711,12 @@ export type ProjectTaxonomyEntryUncheckedCreateWithoutDeliveredServiceProjectsIn
   id?: string
   type: $Enums.ProjectTaxonomyType
   label: string
-  labelEn: string
   normalizedKey: string
   slug?: string | null
   icon?: string | null
   introEyebrow?: string | null
-  introEyebrowEn?: string | null
   introTitle?: string | null
-  introTitleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -857,16 +745,12 @@ export type ProjectTaxonomyEntryUpdateWithoutSectorProjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumProjectTaxonomyTypeFieldUpdateOperationsInput | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedKey?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introEyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -879,16 +763,12 @@ export type ProjectTaxonomyEntryUncheckedUpdateWithoutSectorProjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumProjectTaxonomyTypeFieldUpdateOperationsInput | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedKey?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introEyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -912,16 +792,12 @@ export type ProjectTaxonomyEntryUpdateWithoutLocationProjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumProjectTaxonomyTypeFieldUpdateOperationsInput | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedKey?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introEyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -934,16 +810,12 @@ export type ProjectTaxonomyEntryUncheckedUpdateWithoutLocationProjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumProjectTaxonomyTypeFieldUpdateOperationsInput | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedKey?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introEyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -975,16 +847,12 @@ export type ProjectTaxonomyEntryScalarWhereInput = {
   id?: Prisma.StringFilter<"ProjectTaxonomyEntry"> | string
   type?: Prisma.EnumProjectTaxonomyTypeFilter<"ProjectTaxonomyEntry"> | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFilter<"ProjectTaxonomyEntry"> | string
-  labelEn?: Prisma.StringFilter<"ProjectTaxonomyEntry"> | string
   normalizedKey?: Prisma.StringFilter<"ProjectTaxonomyEntry"> | string
   slug?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   icon?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   introEyebrow?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
-  introEyebrowEn?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   introTitle?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
-  introTitleEn?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   intro?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
-  introEn?: Prisma.StringNullableFilter<"ProjectTaxonomyEntry"> | string | null
   active?: Prisma.BoolFilter<"ProjectTaxonomyEntry"> | boolean
   createdAt?: Prisma.DateTimeFilter<"ProjectTaxonomyEntry"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProjectTaxonomyEntry"> | Date | string
@@ -994,16 +862,12 @@ export type ProjectTaxonomyEntryCreateWithoutTranslationsInput = {
   id?: string
   type: $Enums.ProjectTaxonomyType
   label: string
-  labelEn: string
   normalizedKey: string
   slug?: string | null
   icon?: string | null
   introEyebrow?: string | null
-  introEyebrowEn?: string | null
   introTitle?: string | null
-  introTitleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1016,16 +880,12 @@ export type ProjectTaxonomyEntryUncheckedCreateWithoutTranslationsInput = {
   id?: string
   type: $Enums.ProjectTaxonomyType
   label: string
-  labelEn: string
   normalizedKey: string
   slug?: string | null
   icon?: string | null
   introEyebrow?: string | null
-  introEyebrowEn?: string | null
   introTitle?: string | null
-  introTitleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   active?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -1054,16 +914,12 @@ export type ProjectTaxonomyEntryUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumProjectTaxonomyTypeFieldUpdateOperationsInput | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedKey?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introEyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1076,16 +932,12 @@ export type ProjectTaxonomyEntryUncheckedUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumProjectTaxonomyTypeFieldUpdateOperationsInput | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedKey?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introEyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1098,16 +950,12 @@ export type ProjectTaxonomyEntryUpdateWithoutDeliveredServiceProjectsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumProjectTaxonomyTypeFieldUpdateOperationsInput | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedKey?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introEyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1120,16 +968,12 @@ export type ProjectTaxonomyEntryUncheckedUpdateWithoutDeliveredServiceProjectsIn
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumProjectTaxonomyTypeFieldUpdateOperationsInput | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedKey?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introEyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1142,16 +986,12 @@ export type ProjectTaxonomyEntryUncheckedUpdateManyWithoutDeliveredServiceProjec
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumProjectTaxonomyTypeFieldUpdateOperationsInput | $Enums.ProjectTaxonomyType
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   normalizedKey?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introEyebrow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   introTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introTitleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1219,16 +1059,12 @@ export type ProjectTaxonomyEntrySelect<ExtArgs extends runtime.Types.Extensions.
   id?: boolean
   type?: boolean
   label?: boolean
-  labelEn?: boolean
   normalizedKey?: boolean
   slug?: boolean
   icon?: boolean
   introEyebrow?: boolean
-  introEyebrowEn?: boolean
   introTitle?: boolean
-  introTitleEn?: boolean
   intro?: boolean
-  introEn?: boolean
   active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1243,16 +1079,12 @@ export type ProjectTaxonomyEntrySelectCreateManyAndReturn<ExtArgs extends runtim
   id?: boolean
   type?: boolean
   label?: boolean
-  labelEn?: boolean
   normalizedKey?: boolean
   slug?: boolean
   icon?: boolean
   introEyebrow?: boolean
-  introEyebrowEn?: boolean
   introTitle?: boolean
-  introTitleEn?: boolean
   intro?: boolean
-  introEn?: boolean
   active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1262,16 +1094,12 @@ export type ProjectTaxonomyEntrySelectUpdateManyAndReturn<ExtArgs extends runtim
   id?: boolean
   type?: boolean
   label?: boolean
-  labelEn?: boolean
   normalizedKey?: boolean
   slug?: boolean
   icon?: boolean
   introEyebrow?: boolean
-  introEyebrowEn?: boolean
   introTitle?: boolean
-  introTitleEn?: boolean
   intro?: boolean
-  introEn?: boolean
   active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -1281,22 +1109,18 @@ export type ProjectTaxonomyEntrySelectScalar = {
   id?: boolean
   type?: boolean
   label?: boolean
-  labelEn?: boolean
   normalizedKey?: boolean
   slug?: boolean
   icon?: boolean
   introEyebrow?: boolean
-  introEyebrowEn?: boolean
   introTitle?: boolean
-  introTitleEn?: boolean
   intro?: boolean
-  introEn?: boolean
   active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ProjectTaxonomyEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "label" | "labelEn" | "normalizedKey" | "slug" | "icon" | "introEyebrow" | "introEyebrowEn" | "introTitle" | "introTitleEn" | "intro" | "introEn" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["projectTaxonomyEntry"]>
+export type ProjectTaxonomyEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "label" | "normalizedKey" | "slug" | "icon" | "introEyebrow" | "introTitle" | "intro" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["projectTaxonomyEntry"]>
 export type ProjectTaxonomyEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sectorProjects?: boolean | Prisma.ProjectTaxonomyEntry$sectorProjectsArgs<ExtArgs>
   locationProjects?: boolean | Prisma.ProjectTaxonomyEntry$locationProjectsArgs<ExtArgs>
@@ -1319,16 +1143,12 @@ export type $ProjectTaxonomyEntryPayload<ExtArgs extends runtime.Types.Extension
     id: string
     type: $Enums.ProjectTaxonomyType
     label: string
-    labelEn: string
     normalizedKey: string
     slug: string | null
     icon: string | null
     introEyebrow: string | null
-    introEyebrowEn: string | null
     introTitle: string | null
-    introTitleEn: string | null
     intro: string | null
-    introEn: string | null
     active: boolean
     createdAt: Date
     updatedAt: Date
@@ -1762,16 +1582,12 @@ export interface ProjectTaxonomyEntryFieldRefs {
   readonly id: Prisma.FieldRef<"ProjectTaxonomyEntry", 'String'>
   readonly type: Prisma.FieldRef<"ProjectTaxonomyEntry", 'ProjectTaxonomyType'>
   readonly label: Prisma.FieldRef<"ProjectTaxonomyEntry", 'String'>
-  readonly labelEn: Prisma.FieldRef<"ProjectTaxonomyEntry", 'String'>
   readonly normalizedKey: Prisma.FieldRef<"ProjectTaxonomyEntry", 'String'>
   readonly slug: Prisma.FieldRef<"ProjectTaxonomyEntry", 'String'>
   readonly icon: Prisma.FieldRef<"ProjectTaxonomyEntry", 'String'>
   readonly introEyebrow: Prisma.FieldRef<"ProjectTaxonomyEntry", 'String'>
-  readonly introEyebrowEn: Prisma.FieldRef<"ProjectTaxonomyEntry", 'String'>
   readonly introTitle: Prisma.FieldRef<"ProjectTaxonomyEntry", 'String'>
-  readonly introTitleEn: Prisma.FieldRef<"ProjectTaxonomyEntry", 'String'>
   readonly intro: Prisma.FieldRef<"ProjectTaxonomyEntry", 'String'>
-  readonly introEn: Prisma.FieldRef<"ProjectTaxonomyEntry", 'String'>
   readonly active: Prisma.FieldRef<"ProjectTaxonomyEntry", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"ProjectTaxonomyEntry", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ProjectTaxonomyEntry", 'DateTime'>

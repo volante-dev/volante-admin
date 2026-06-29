@@ -24,32 +24,28 @@ const ProjectTaxonomiesPage = async () => {
   ]);
 
   const rows: ProjectTaxonomyRow[] = entries.map((entry) => ({
-    id: entry.id,
-    type: entry.type,
-    label: entry.label,
-    labelEn: entry.labelEn,
-    slug: entry.slug,
-    icon: entry.icon,
-    introEyebrow: entry.introEyebrow,
-    introEyebrowEn: entry.introEyebrowEn,
-    introTitle: entry.introTitle,
-    introTitleEn: entry.introTitleEn,
-    intro: entry.intro,
-    introEn: entry.introEn,
-    active: entry.active,
-    translations: entry.translations.map((translation) => ({
-      locale: translation.locale,
-      label: translation.label,
-      slug: translation.slug,
-      introEyebrow: translation.introEyebrow,
-      introTitle: translation.introTitle,
-      intro: translation.intro,
-    })),
-    usageCount:
-      entry._count.sectorProjects +
-      entry._count.locationProjects +
-      entry._count.deliveredServiceProjects,
-  }));
+      id: entry.id,
+      type: entry.type,
+      label: entry.label,
+      slug: entry.slug,
+      icon: entry.icon,
+      introEyebrow: entry.introEyebrow,
+      introTitle: entry.introTitle,
+      intro: entry.intro,
+      active: entry.active,
+      translations: entry.translations.map((translation) => ({
+        locale: translation.locale,
+        label: translation.label,
+        slug: translation.slug,
+        introEyebrow: translation.introEyebrow,
+        introTitle: translation.introTitle,
+        intro: translation.intro,
+      })),
+      usageCount:
+        entry._count.sectorProjects +
+        entry._count.locationProjects +
+        entry._count.deliveredServiceProjects,
+    }));
 
   return (
     <ProjectTaxonomyManager

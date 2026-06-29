@@ -32,10 +32,7 @@ import {
   toggleProjectTaxonomyEntry,
   updateProjectTaxonomyEntry,
 } from "@/app/(admin)/project-taxonomies/actions";
-import {
-  legacyDefaultLocale,
-  legacySecondaryLocale,
-} from "@/lib/admin-translations";
+import { defaultSiteLocaleCode } from "@/lib/admin-translations";
 import type { SiteLocaleData } from "@/lib/site-locales";
 import {
   projectTaxonomyIconOptions,
@@ -72,20 +69,12 @@ export const ProjectTaxonomyManager = ({
   const [editing, setEditing] = useState<ProjectTaxonomyRow | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [label, setLabel] = useState("");
-  const [labelEn, setLabelEn] = useState("");
   const [slug, setSlug] = useState("");
   const [icon, setIcon] = useState("category");
   const [introEyebrow, setIntroEyebrow] = useState("");
-  const [introEyebrowEn, setIntroEyebrowEn] = useState("");
   const [introTitle, setIntroTitle] = useState("");
-  const [introTitleEn, setIntroTitleEn] = useState("");
   const [intro, setIntro] = useState("");
-  const [introEn, setIntroEn] = useState("");
-  const extraLocales = locales.filter(
-    (locale) =>
-      locale.code !== legacyDefaultLocale &&
-      locale.code !== legacySecondaryLocale,
-  );
+  const extraLocales = locales.filter((locale) => locale.code !== defaultSiteLocaleCode);
   const [localizedFields, setLocalizedFields] = useState<
     Record<
       string,
@@ -107,15 +96,11 @@ export const ProjectTaxonomyManager = ({
   const openCreate = () => {
     setEditing(null);
     setLabel("");
-    setLabelEn("");
     setSlug("");
     setIcon("category");
     setIntroEyebrow("");
-    setIntroEyebrowEn("");
     setIntroTitle("");
-    setIntroTitleEn("");
     setIntro("");
-    setIntroEn("");
     setLocalizedFields(
       Object.fromEntries(
         extraLocales.map((locale) => [
@@ -131,15 +116,11 @@ export const ProjectTaxonomyManager = ({
   const openEdit = (entry: ProjectTaxonomyRow) => {
     setEditing(entry);
     setLabel(entry.label);
-    setLabelEn(entry.labelEn);
     setSlug(entry.slug ?? "");
     setIcon(entry.icon ?? "category");
     setIntroEyebrow(entry.introEyebrow ?? "");
-    setIntroEyebrowEn(entry.introEyebrowEn ?? "");
     setIntroTitle(entry.introTitle ?? "");
-    setIntroTitleEn(entry.introTitleEn ?? "");
     setIntro(entry.intro ?? "");
-    setIntroEn(entry.introEn ?? "");
     const byLocale = new Map(entry.translations?.map((item) => [item.locale, item]) ?? []);
     setLocalizedFields(
       Object.fromEntries(
@@ -175,29 +156,21 @@ export const ProjectTaxonomyManager = ({
         ? await updateProjectTaxonomyEntry(
             editing.id,
             label,
-            labelEn,
             slug,
             icon,
             introEyebrow,
-            introEyebrowEn,
             introTitle,
-            introTitleEn,
             intro,
-            introEn,
             localizedFields,
           )
         : await createProjectTaxonomyEntry(
             type,
             label,
-            labelEn,
             slug,
             icon,
             introEyebrow,
-            introEyebrowEn,
             introTitle,
-            introTitleEn,
             intro,
-            introEn,
             localizedFields,
           );
       if (!result.success) {
@@ -216,7 +189,7 @@ export const ProjectTaxonomyManager = ({
         <Box>
           <Typography variant="h2">Taxonomies des réalisations</Typography>
           <Typography color="text.secondary" sx={{ mt: 0.5 }}>
-            Libellés bilingues partagés par toutes les réalisations.
+            Libellés traduits partagés par toutes les réalisations.
           </Typography>
         </Box>
         <Button variant="contained" startIcon={<AddIcon />} onClick={openCreate}>
@@ -235,7 +208,7 @@ export const ProjectTaxonomyManager = ({
           <TableHead>
             <TableRow>
               <TableCell>Français</TableCell>
-              <TableCell>English</TableCell>
+              <TableCell>Traductions</TableCell>
               <TableCell>Slug</TableCell>
               <TableCell>Icone</TableCell>
               <TableCell align="center">Utilisations</TableCell>
@@ -247,7 +220,13 @@ export const ProjectTaxonomyManager = ({
             {rows.map((entry) => (
               <TableRow key={entry.id} hover>
                 <TableCell>{entry.label}</TableCell>
-                <TableCell>{entry.labelEn}</TableCell>
+                <TableCell>
+                  {entry.translations?.filter(
+                    (translation) =>
+                      translation.locale !== defaultSiteLocaleCode &&
+                      !!translation.label,
+                  ).length ?? 0}
+                </TableCell>
                 <TableCell>{entry.type === "SECTOR" ? entry.slug : "—"}</TableCell>
                 <TableCell>{entry.type === "SECTOR" ? entry.icon ?? "category" : "—"}</TableCell>
                 <TableCell align="center">{entry.usageCount}</TableCell>
@@ -308,16 +287,6 @@ export const ProjectTaxonomyManager = ({
         <DialogTitle>{editing ? "Modifier l’entrée" : `Nouveau ${currentCategory.singular}`}</DialogTitle>
         <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, pt: "12px !important" }}>
           <TextField label="Libellé français" value={label} required onChange={(event) => updateLabel(event.target.value)} />
-          <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-            <TextField
-              label="English label"
-              value={labelEn}
-              required
-              fullWidth
-              onChange={(event) => setLabelEn(event.target.value)}
-            />
-            <TranslateButton sourceText={label} onTranslated={setLabelEn} />
-          </Box>
           {!currentIsSector &&
             extraLocales.map((locale) => {
               const fields = localizedFields[locale.code] ?? {
@@ -345,6 +314,7 @@ export const ProjectTaxonomyManager = ({
                   />
                   <TranslateButton
                     sourceText={label}
+                    targetLocale={locale.code}
                     onTranslated={(translated) =>
                       setLocalizedFields((current) => ({
                         ...current,
@@ -392,29 +362,11 @@ export const ProjectTaxonomyManager = ({
                 onChange={(event) => setIntroEyebrow(event.target.value)}
                 helperText="La surcharge s'active si l'eyebrow et le titre sont renseignés."
               />
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <TextField
-                  label="Eyebrow surcharge anglais"
-                  value={introEyebrowEn}
-                  fullWidth
-                  onChange={(event) => setIntroEyebrowEn(event.target.value)}
-                />
-                <TranslateButton sourceText={introEyebrow} onTranslated={setIntroEyebrowEn} />
-              </Box>
               <TextField
                 label="Titre surcharge"
                 value={introTitle}
                 onChange={(event) => setIntroTitle(event.target.value)}
               />
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <TextField
-                  label="Titre surcharge anglais"
-                  value={introTitleEn}
-                  fullWidth
-                  onChange={(event) => setIntroTitleEn(event.target.value)}
-                />
-                <TranslateButton sourceText={introTitle} onTranslated={setIntroTitleEn} />
-              </Box>
               <TextField
                 label="Paragraphe surcharge"
                 value={intro}
@@ -423,17 +375,6 @@ export const ProjectTaxonomyManager = ({
                 rows={4}
                 helperText="Optionnel. Peut rester vide même si l'eyebrow et le titre sont renseignés."
               />
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <TextField
-                  label="Paragraphe surcharge anglais"
-                  value={introEn}
-                  fullWidth
-                  onChange={(event) => setIntroEn(event.target.value)}
-                  multiline
-                  rows={4}
-                />
-                <TranslateButton sourceText={intro} onTranslated={setIntroEn} />
-              </Box>
               {extraLocales.map((locale) => {
                 const fields = localizedFields[locale.code] ?? {
                   label: "",
@@ -478,6 +419,7 @@ export const ProjectTaxonomyManager = ({
                       />
                       <TranslateButton
                         sourceText={label}
+                        targetLocale={locale.code}
                         onTranslated={updateLocalizedField("label")}
                       />
                     </Box>
@@ -499,6 +441,7 @@ export const ProjectTaxonomyManager = ({
                       />
                       <TranslateButton
                         sourceText={introEyebrow}
+                        targetLocale={locale.code}
                         onTranslated={updateLocalizedField("introEyebrow")}
                       />
                     </Box>
@@ -513,6 +456,7 @@ export const ProjectTaxonomyManager = ({
                       />
                       <TranslateButton
                         sourceText={introTitle}
+                        targetLocale={locale.code}
                         onTranslated={updateLocalizedField("introTitle")}
                       />
                     </Box>
@@ -529,6 +473,7 @@ export const ProjectTaxonomyManager = ({
                       />
                       <TranslateButton
                         sourceText={intro}
+                        targetLocale={locale.code}
                         onTranslated={updateLocalizedField("intro")}
                       />
                     </Box>
@@ -546,7 +491,6 @@ export const ProjectTaxonomyManager = ({
             disabled={
               pending ||
               label.trim().length < 2 ||
-              labelEn.trim().length < 2 ||
               (currentIsSector && slug.trim().length < 2)
             }
           >

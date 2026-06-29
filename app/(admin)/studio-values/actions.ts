@@ -4,11 +4,9 @@ import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { requireCrmAccess } from "@/lib/auth-guard";
 import {
-  legacyDefaultLocale,
-  legacyDefaultTextValue,
-  legacySecondaryLocale,
-  legacySecondaryTextValue,
-  mergeLegacyLocaleTextTranslations,
+  defaultSiteLocaleCode,
+  defaultLocaleTextValue,
+  mergeLocaleTextTranslations,
   parseLocaleTextTranslations,
   type LocaleTextTranslations,
 } from "@/lib/admin-translations";
@@ -32,19 +30,11 @@ const parseStudioValue = (formData: FormData) => {
     studioValueTranslationFields,
   );
   const title =
-    legacyDefaultTextValue(translations, "title") ??
+    defaultLocaleTextValue(translations, "title") ??
     String(formData.get("title") ?? "").trim();
-  const titleEn =
-    (legacySecondaryTextValue(translations, "title") ??
-      String(formData.get("titleEn") ?? "").trim()) ||
-    null;
   const description =
-    legacyDefaultTextValue(translations, "description") ??
+    defaultLocaleTextValue(translations, "description") ??
     String(formData.get("description") ?? "").trim();
-  const descriptionEn =
-    (legacySecondaryTextValue(translations, "description") ??
-      String(formData.get("descriptionEn") ?? "").trim()) ||
-    null;
   const order = Number.parseInt(String(formData.get("order") ?? ""), 10);
   const active = formData.get("active") === "true";
 
@@ -61,7 +51,7 @@ const parseStudioValue = (formData: FormData) => {
   }
 
   return {
-    data: { title, titleEn, description, descriptionEn, order, active, translations },
+    data: { title, description, order, active, translations },
   } as const;
 };
 
@@ -72,9 +62,7 @@ const actionError = (error: unknown): ActionResult => ({
 
 type StudioValueData = {
   title: string;
-  titleEn: string | null;
   description: string;
-  descriptionEn: string | null;
   order: number;
   active: boolean;
   translations: LocaleTextTranslations<StudioValueTranslationField>;
@@ -82,15 +70,10 @@ type StudioValueData = {
 
 const studioValueTranslations = (studioValueId: string, data: StudioValueData) => {
   const translations = data.translations;
-  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
+  mergeLocaleTextTranslations(translations, defaultSiteLocaleCode, {
     title: data.title,
     description: data.description,
   });
-  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
-    title: data.titleEn,
-    description: data.descriptionEn,
-  });
-
   return Object.entries(translations).map(([locale, values]) => ({
     studioValueId,
     locale,
@@ -101,9 +84,7 @@ const studioValueTranslations = (studioValueId: string, data: StudioValueData) =
 
 const studioValueData = (data: StudioValueData) => ({
   title: data.title,
-  titleEn: data.titleEn,
   description: data.description,
-  descriptionEn: data.descriptionEn,
   order: data.order,
   active: data.active,
 });

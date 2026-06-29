@@ -20,11 +20,8 @@ export const getPageHeaderContent = async (
   return {
     id: pageId,
     eyebrow: content.eyebrow,
-    eyebrowEn: content.eyebrowEn,
     title: content.title,
-    titleEn: content.titleEn,
     intro: content.intro,
-    introEn: content.introEn,
     translations: content.translations.map((translation) => ({
       locale: translation.locale,
       eyebrow: translation.eyebrow,

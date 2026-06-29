@@ -10,10 +10,8 @@ datasource db {
 model Project {
   id                      String                 @id @default(cuid())
   title                   String
-  titleEn                 String?
   slug                    String                 @unique
   description             String
-  descriptionEn           String?
   imageUrl                String
   imageAssetId            String?
   imageAsset              MediaAsset?            @relation("ProjectImageAsset", fields: [imageAssetId], references: [id], onDelete: SetNull)
@@ -27,14 +25,10 @@ model Project {
   locationEntry           ProjectTaxonomyEntry?  @relation("ProjectLocation", fields: [locationEntryId], references: [id], onDelete: SetNull)
   deliveredServiceEntries ProjectTaxonomyEntry[] @relation("ProjectDeliveredServices")
   challenge               String?
-  challengeEn             String?
   approach                String?
-  approachEn              String?
   results                 String?
-  resultsEn               String?
   credits                 String?
   awards                  String?
-  awardsEn                String?
   externalUrl             String?
   featured                Boolean                @default(false)
   order                   Int                    @default(0)
@@ -51,18 +45,13 @@ model Project {
 model BlogPost {
   id                  String          @id @default(cuid())
   title               String
-  titleEn             String
   eyebrow             String
-  eyebrowEn           String?
   slug                String          @unique
-  slugEn              String          @unique
   seoDescription      String?
-  seoDescriptionEn    String?
   coverMediaUrl       String
   coverMediaAssetId   String?
   coverMediaAsset     MediaAsset?     @relation("BlogPostCoverMediaAsset", fields: [coverMediaAssetId], references: [id], onDelete: SetNull)
   tags                String[]        @default([])
-  tagsEn              String[]        @default([])
   publishedAt         DateTime?
   createdAt           DateTime        @default(now())
   updatedAt           DateTime        @updatedAt
@@ -75,9 +64,7 @@ model BlogPost {
 model SiteRoute {
   id                String   @id
   label             String
-  labelEn           String
   slug              String
-  slugEn            String
   order             Int      @default(0)
   showInHeader      Boolean  @default(true)
   showInFooter      Boolean  @default(true)
@@ -189,7 +176,6 @@ model BlogPostBlock {
   order        Int               @default(0)
   type         BlogPostBlockType
   contentHtml   String?
-  contentHtmlEn String?
   mediaUrl      String?
   mediaAssetId  String?
   mediaAsset    MediaAsset?       @relation("BlogPostBlockMediaAsset", fields: [mediaAssetId], references: [id], onDelete: SetNull)
@@ -225,16 +211,12 @@ model ProjectTaxonomyEntry {
   id                       String              @id @default(cuid())
   type                     ProjectTaxonomyType
   label                    String
-  labelEn                  String
   normalizedKey            String
   slug                     String?
   icon                     String?
   introEyebrow             String?
-  introEyebrowEn           String?
   introTitle               String?
-  introTitleEn             String?
   intro                    String?
-  introEn                  String?
   active                   Boolean             @default(true)
   createdAt                DateTime            @default(now())
   updatedAt                DateTime            @updatedAt
@@ -283,16 +265,13 @@ model ProjectSlide {
   projectId     String
   order         Int                   @default(0)
   title         String
-  titleEn       String?
   contentHtml   String
-  contentHtmlEn String?
   mediaType     ProjectSlideMediaType @default(IMAGE)
   mediaUrl      String
   mediaAssetId  String?
   mediaAsset    MediaAsset?           @relation("ProjectSlideMediaAsset", fields: [mediaAssetId], references: [id], onDelete: SetNull)
   posterUrl     String?
   alt           String?
-  altEn         String?
   createdAt     DateTime              @default(now())
   updatedAt     DateTime              @updatedAt
   translations  ProjectSlideTranslation[]
@@ -320,11 +299,8 @@ model ProjectSlideTranslation {
 model Service {
   id                String                    @id @default(cuid())
   title             String
-  titleEn           String?
   description       String
-  descriptionEn     String?
   descriptionHtml   String
-  descriptionHtmlEn String?
   icon              String?
   order             Int                       @default(0)
   active            Boolean                   @default(true)
@@ -366,9 +342,7 @@ model ServicePortfolioExample {
 model StudioValue {
   id            String  @id @default(cuid())
   title         String
-  titleEn       String?
   description   String
-  descriptionEn String?
   order         Int     @default(0)
   active        Boolean @default(true)
   translations  StudioValueTranslation[]
@@ -395,37 +369,24 @@ model StudioValueTranslation {
 model StudioPageContent {
   id                      String      @id
   eyebrow                 String
-  eyebrowEn               String?
   title                   String
-  titleEn                 String?
   intro                   String
-  introEn                 String?
   founderOneName          String
-  founderOneNameEn        String?
   founderOneRole          String
-  founderOneRoleEn        String?
   founderOneDescription   String
-  founderOneDescriptionEn String?
   founderOneImageUrl      String
   founderOneImageAssetId  String?
   founderOneImageAsset    MediaAsset? @relation("StudioFounderOneImageAsset", fields: [founderOneImageAssetId], references: [id], onDelete: SetNull)
   founderOneImageAlt      String?
-  founderOneImageAltEn    String?
   founderTwoName          String
-  founderTwoNameEn        String?
   founderTwoRole          String
-  founderTwoRoleEn        String?
   founderTwoDescription   String
-  founderTwoDescriptionEn String?
   founderTwoImageUrl      String
   founderTwoImageAssetId  String?
   founderTwoImageAsset    MediaAsset? @relation("StudioFounderTwoImageAsset", fields: [founderTwoImageAssetId], references: [id], onDelete: SetNull)
   founderTwoImageAlt      String?
-  founderTwoImageAltEn    String?
   historyTitle            String
-  historyTitleEn          String?
   historyContentHtml      String
-  historyContentHtmlEn    String?
   createdAt               DateTime    @default(now())
   updatedAt               DateTime    @updatedAt
   translations            StudioPageContentTranslation[]
@@ -461,11 +422,8 @@ model StudioPageContentTranslation {
 model PageHeaderContent {
   id        String   @id
   eyebrow   String
-  eyebrowEn String?
   title     String
-  titleEn   String?
   intro     String?
-  introEn   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   translations PageHeaderContentTranslation[]
@@ -491,15 +449,10 @@ model PageHeaderContentTranslation {
 model HomePageContent {
   id                  String   @id
   eyebrow             String
-  eyebrowEn           String?
   title               String
-  titleEn             String?
   subheading          String
-  subheadingEn        String?
   primaryCtaLabel     String
-  primaryCtaLabelEn   String?
   secondaryCtaLabel   String
-  secondaryCtaLabelEn String?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
   translations        HomePageContentTranslation[]
@@ -544,7 +497,6 @@ model MediaAsset {
   posterSize             Int?
   name                   String
   alt                    String?
-  altEn                  String?
   tags                   String[]
   active                 Boolean             @default(true)
   createdAt              DateTime            @default(now())

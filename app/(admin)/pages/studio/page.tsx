@@ -12,40 +12,26 @@ export const dynamic = "force-dynamic";
 const defaultStudioPageContent: StudioPageContentData = {
   id: "studio",
   eyebrow: "Les fondateurs",
-  eyebrowEn: null,
   title: "Deux regards, une même vision créative.",
-  titleEn: null,
   intro:
     "Studio Volante est né de la rencontre de deux parcours complémentaires, unis par l'exigence du beau et la conviction que chaque marque a une histoire unique à raconter.",
-  introEn: null,
   founderOneName: "William Romano",
-  founderOneNameEn: null,
   founderOneRole: "Co-fondateur",
-  founderOneRoleEn: null,
   founderOneDescription:
     "Stratège de marque et directeur artistique, William conçoit des univers visuels justes, durables et porteurs de sens. Il accompagne les marques dans la définition de leur identité et de leur direction créative.",
-  founderOneDescriptionEn: null,
   founderOneImageUrl: "",
   founderOneImageAssetId: null,
   founderOneImageAlt: "Portrait de William Romano",
-  founderOneImageAltEn: null,
   founderTwoName: "Yasmine De Wilde",
-  founderTwoNameEn: null,
   founderTwoRole: "Co-fondatrice",
-  founderTwoRoleEn: null,
   founderTwoDescription:
     "Experte en stratégie de contenu et communication, Yasmine donne voix aux marques avec clarté et émotion. Elle structure les messages pour créer des récits authentiques et impactants.",
-  founderTwoDescriptionEn: null,
   founderTwoImageUrl: "",
   founderTwoImageAssetId: null,
   founderTwoImageAlt: "Portrait de Yasmine De Wilde",
-  founderTwoImageAltEn: null,
   historyTitle: "Notre histoire",
-  historyTitleEn: "Our story",
   historyContentHtml:
     "<p>Studio Volante est né de la conviction que la communication doit être aussi bien pensée qu'elle est belle. Fondé par des créatifs passionnés, le studio accompagne des marques de toutes tailles dans la construction d'une identité forte et cohérente.</p><p>Notre approche est toujours stratégique avant d'être esthétique : comprendre le positionnement, les cibles, les ambitions — puis créer.</p>",
-  historyContentHtmlEn:
-    "<p>Studio Volante was born from the belief that communication should be as thoughtful as it is beautiful. Founded by passionate creatives, the studio helps brands of every size build strong, consistent identities.</p><p>Our approach is always strategic before it is aesthetic: understand the positioning, audiences and ambitions — then create.</p>",
   translations: [],
 };
 
@@ -57,7 +43,44 @@ const getStudioPageContent = async (): Promise<StudioPageContentData> => {
     })
     .catch(() => null);
 
-  return content ?? defaultStudioPageContent;
+  if (!content) return defaultStudioPageContent;
+
+  return {
+    id: content.id,
+    eyebrow: content.eyebrow,
+    title: content.title,
+    intro: content.intro,
+    founderOneName: content.founderOneName,
+    founderOneRole: content.founderOneRole,
+    founderOneDescription: content.founderOneDescription,
+    founderOneImageUrl: content.founderOneImageUrl,
+    founderOneImageAssetId: content.founderOneImageAssetId,
+    founderOneImageAlt: content.founderOneImageAlt,
+    founderTwoName: content.founderTwoName,
+    founderTwoRole: content.founderTwoRole,
+    founderTwoDescription: content.founderTwoDescription,
+    founderTwoImageUrl: content.founderTwoImageUrl,
+    founderTwoImageAssetId: content.founderTwoImageAssetId,
+    founderTwoImageAlt: content.founderTwoImageAlt,
+    historyTitle: content.historyTitle,
+    historyContentHtml: content.historyContentHtml,
+    translations: content.translations.map((translation) => ({
+      locale: translation.locale,
+      eyebrow: translation.eyebrow,
+      title: translation.title,
+      intro: translation.intro,
+      founderOneName: translation.founderOneName,
+      founderOneRole: translation.founderOneRole,
+      founderOneDescription: translation.founderOneDescription,
+      founderOneImageAlt: translation.founderOneImageAlt,
+      founderTwoName: translation.founderTwoName,
+      founderTwoRole: translation.founderTwoRole,
+      founderTwoDescription: translation.founderTwoDescription,
+      founderTwoImageAlt: translation.founderTwoImageAlt,
+      historyTitle: translation.historyTitle,
+      historyContentHtml: translation.historyContentHtml,
+    })),
+  };
 };
 
 const StudioPageAdmin = async () => {

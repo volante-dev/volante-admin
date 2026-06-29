@@ -55,7 +55,6 @@ export type MediaAssetMinAggregateOutputType = {
   posterSize: number | null
   name: string | null
   alt: string | null
-  altEn: string | null
   active: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -76,7 +75,6 @@ export type MediaAssetMaxAggregateOutputType = {
   posterSize: number | null
   name: string | null
   alt: string | null
-  altEn: string | null
   active: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -97,7 +95,6 @@ export type MediaAssetCountAggregateOutputType = {
   posterSize: number
   name: number
   alt: number
-  altEn: number
   tags: number
   active: number
   createdAt: number
@@ -135,7 +132,6 @@ export type MediaAssetMinAggregateInputType = {
   posterSize?: true
   name?: true
   alt?: true
-  altEn?: true
   active?: true
   createdAt?: true
   updatedAt?: true
@@ -156,7 +152,6 @@ export type MediaAssetMaxAggregateInputType = {
   posterSize?: true
   name?: true
   alt?: true
-  altEn?: true
   active?: true
   createdAt?: true
   updatedAt?: true
@@ -177,7 +172,6 @@ export type MediaAssetCountAggregateInputType = {
   posterSize?: true
   name?: true
   alt?: true
-  altEn?: true
   tags?: true
   active?: true
   createdAt?: true
@@ -286,7 +280,6 @@ export type MediaAssetGroupByOutputType = {
   posterSize: number | null
   name: string
   alt: string | null
-  altEn: string | null
   tags: string[]
   active: boolean
   createdAt: Date
@@ -331,7 +324,6 @@ export type MediaAssetWhereInput = {
   posterSize?: Prisma.IntNullableFilter<"MediaAsset"> | number | null
   name?: Prisma.StringFilter<"MediaAsset"> | string
   alt?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
-  altEn?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
   tags?: Prisma.StringNullableListFilter<"MediaAsset">
   active?: Prisma.BoolFilter<"MediaAsset"> | boolean
   createdAt?: Prisma.DateTimeFilter<"MediaAsset"> | Date | string
@@ -361,7 +353,6 @@ export type MediaAssetOrderByWithRelationInput = {
   posterSize?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   alt?: Prisma.SortOrderInput | Prisma.SortOrder
-  altEn?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -394,7 +385,6 @@ export type MediaAssetWhereUniqueInput = Prisma.AtLeast<{
   posterSize?: Prisma.IntNullableFilter<"MediaAsset"> | number | null
   name?: Prisma.StringFilter<"MediaAsset"> | string
   alt?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
-  altEn?: Prisma.StringNullableFilter<"MediaAsset"> | string | null
   tags?: Prisma.StringNullableListFilter<"MediaAsset">
   active?: Prisma.BoolFilter<"MediaAsset"> | boolean
   createdAt?: Prisma.DateTimeFilter<"MediaAsset"> | Date | string
@@ -424,7 +414,6 @@ export type MediaAssetOrderByWithAggregationInput = {
   posterSize?: Prisma.SortOrderInput | Prisma.SortOrder
   name?: Prisma.SortOrder
   alt?: Prisma.SortOrderInput | Prisma.SortOrder
-  altEn?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -454,7 +443,6 @@ export type MediaAssetScalarWhereWithAggregatesInput = {
   posterSize?: Prisma.IntNullableWithAggregatesFilter<"MediaAsset"> | number | null
   name?: Prisma.StringWithAggregatesFilter<"MediaAsset"> | string
   alt?: Prisma.StringNullableWithAggregatesFilter<"MediaAsset"> | string | null
-  altEn?: Prisma.StringNullableWithAggregatesFilter<"MediaAsset"> | string | null
   tags?: Prisma.StringNullableListFilter<"MediaAsset">
   active?: Prisma.BoolWithAggregatesFilter<"MediaAsset"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MediaAsset"> | Date | string
@@ -476,7 +464,6 @@ export type MediaAssetCreateInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -506,7 +493,6 @@ export type MediaAssetUncheckedCreateInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -536,7 +522,6 @@ export type MediaAssetUpdateInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -566,7 +551,6 @@ export type MediaAssetUncheckedUpdateInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -596,7 +580,6 @@ export type MediaAssetCreateManyInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -618,7 +601,6 @@ export type MediaAssetUpdateManyMutationInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -640,7 +622,6 @@ export type MediaAssetUncheckedUpdateManyInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -667,7 +648,6 @@ export type MediaAssetCountOrderByAggregateInput = {
   posterSize?: Prisma.SortOrder
   name?: Prisma.SortOrder
   alt?: Prisma.SortOrder
-  altEn?: Prisma.SortOrder
   tags?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -696,7 +676,6 @@ export type MediaAssetMaxOrderByAggregateInput = {
   posterSize?: Prisma.SortOrder
   name?: Prisma.SortOrder
   alt?: Prisma.SortOrder
-  altEn?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -717,7 +696,6 @@ export type MediaAssetMinOrderByAggregateInput = {
   posterSize?: Prisma.SortOrder
   name?: Prisma.SortOrder
   alt?: Prisma.SortOrder
-  altEn?: Prisma.SortOrder
   active?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -889,7 +867,6 @@ export type MediaAssetCreateWithoutProjectImagesInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -918,7 +895,6 @@ export type MediaAssetUncheckedCreateWithoutProjectImagesInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -963,7 +939,6 @@ export type MediaAssetUpdateWithoutProjectImagesInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -992,7 +967,6 @@ export type MediaAssetUncheckedUpdateWithoutProjectImagesInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1021,7 +995,6 @@ export type MediaAssetCreateWithoutBlogPostCoversInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1050,7 +1023,6 @@ export type MediaAssetUncheckedCreateWithoutBlogPostCoversInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1095,7 +1067,6 @@ export type MediaAssetUpdateWithoutBlogPostCoversInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1124,7 +1095,6 @@ export type MediaAssetUncheckedUpdateWithoutBlogPostCoversInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1153,7 +1123,6 @@ export type MediaAssetCreateWithoutBlogPostBlockMediaInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1182,7 +1151,6 @@ export type MediaAssetUncheckedCreateWithoutBlogPostBlockMediaInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1227,7 +1195,6 @@ export type MediaAssetUpdateWithoutBlogPostBlockMediaInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1256,7 +1223,6 @@ export type MediaAssetUncheckedUpdateWithoutBlogPostBlockMediaInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1285,7 +1251,6 @@ export type MediaAssetCreateWithoutProjectSlideMediaInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1314,7 +1279,6 @@ export type MediaAssetUncheckedCreateWithoutProjectSlideMediaInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1359,7 +1323,6 @@ export type MediaAssetUpdateWithoutProjectSlideMediaInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1388,7 +1351,6 @@ export type MediaAssetUncheckedUpdateWithoutProjectSlideMediaInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1417,7 +1379,6 @@ export type MediaAssetCreateWithoutStudioFounderOneImagesInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1446,7 +1407,6 @@ export type MediaAssetUncheckedCreateWithoutStudioFounderOneImagesInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1480,7 +1440,6 @@ export type MediaAssetCreateWithoutStudioFounderTwoImagesInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1509,7 +1468,6 @@ export type MediaAssetUncheckedCreateWithoutStudioFounderTwoImagesInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1554,7 +1512,6 @@ export type MediaAssetUpdateWithoutStudioFounderOneImagesInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1583,7 +1540,6 @@ export type MediaAssetUncheckedUpdateWithoutStudioFounderOneImagesInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1623,7 +1579,6 @@ export type MediaAssetUpdateWithoutStudioFounderTwoImagesInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1652,7 +1607,6 @@ export type MediaAssetUncheckedUpdateWithoutStudioFounderTwoImagesInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1681,7 +1635,6 @@ export type MediaAssetCreateWithoutTranslationsInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1710,7 +1663,6 @@ export type MediaAssetUncheckedCreateWithoutTranslationsInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1755,7 +1707,6 @@ export type MediaAssetUpdateWithoutTranslationsInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1784,7 +1735,6 @@ export type MediaAssetUncheckedUpdateWithoutTranslationsInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1813,7 +1763,6 @@ export type MediaAssetCreateWithoutTestimonialAvatarsInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1842,7 +1791,6 @@ export type MediaAssetUncheckedCreateWithoutTestimonialAvatarsInput = {
   posterSize?: number | null
   name: string
   alt?: string | null
-  altEn?: string | null
   tags?: Prisma.MediaAssetCreatetagsInput | string[]
   active?: boolean
   createdAt?: Date | string
@@ -1887,7 +1835,6 @@ export type MediaAssetUpdateWithoutTestimonialAvatarsInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1916,7 +1863,6 @@ export type MediaAssetUncheckedUpdateWithoutTestimonialAvatarsInput = {
   posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   name?: Prisma.StringFieldUpdateOperationsInput | string
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.MediaAssetUpdatetagsInput | string[]
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2039,7 +1985,6 @@ export type MediaAssetSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   posterSize?: boolean
   name?: boolean
   alt?: boolean
-  altEn?: boolean
   tags?: boolean
   active?: boolean
   createdAt?: boolean
@@ -2070,7 +2015,6 @@ export type MediaAssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   posterSize?: boolean
   name?: boolean
   alt?: boolean
-  altEn?: boolean
   tags?: boolean
   active?: boolean
   createdAt?: boolean
@@ -2092,7 +2036,6 @@ export type MediaAssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   posterSize?: boolean
   name?: boolean
   alt?: boolean
-  altEn?: boolean
   tags?: boolean
   active?: boolean
   createdAt?: boolean
@@ -2114,14 +2057,13 @@ export type MediaAssetSelectScalar = {
   posterSize?: boolean
   name?: boolean
   alt?: boolean
-  altEn?: boolean
   tags?: boolean
   active?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type MediaAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "url" | "pathname" | "mediaType" | "mimeType" | "size" | "width" | "height" | "posterUrl" | "posterPathname" | "posterMimeType" | "posterSize" | "name" | "alt" | "altEn" | "tags" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["mediaAsset"]>
+export type MediaAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "url" | "pathname" | "mediaType" | "mimeType" | "size" | "width" | "height" | "posterUrl" | "posterPathname" | "posterMimeType" | "posterSize" | "name" | "alt" | "tags" | "active" | "createdAt" | "updatedAt", ExtArgs["result"]["mediaAsset"]>
 export type MediaAssetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   projectImages?: boolean | Prisma.MediaAsset$projectImagesArgs<ExtArgs>
   projectSlideMedia?: boolean | Prisma.MediaAsset$projectSlideMediaArgs<ExtArgs>
@@ -2163,7 +2105,6 @@ export type $MediaAssetPayload<ExtArgs extends runtime.Types.Extensions.Internal
     posterSize: number | null
     name: string
     alt: string | null
-    altEn: string | null
     tags: string[]
     active: boolean
     createdAt: Date
@@ -2613,7 +2554,6 @@ export interface MediaAssetFieldRefs {
   readonly posterSize: Prisma.FieldRef<"MediaAsset", 'Int'>
   readonly name: Prisma.FieldRef<"MediaAsset", 'String'>
   readonly alt: Prisma.FieldRef<"MediaAsset", 'String'>
-  readonly altEn: Prisma.FieldRef<"MediaAsset", 'String'>
   readonly tags: Prisma.FieldRef<"MediaAsset", 'String[]'>
   readonly active: Prisma.FieldRef<"MediaAsset", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"MediaAsset", 'DateTime'>

@@ -20,7 +20,6 @@ const TrailblazePage = async () => {
     id: post.id,
     title: post.title,
     slug: post.slug,
-    slugEn: post.slugEn,
     publishedAt: post.publishedAt?.toISOString() ?? null,
     blocksCount: post._count.blocks,
     previewUrl: createBlogPostPreviewUrl(post.slug, post.publishedAt !== null),

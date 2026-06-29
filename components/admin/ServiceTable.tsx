@@ -40,10 +40,10 @@ import {
   deleteService,
   reorderServices,
 } from "@/app/(admin)/services/actions";
-import { legacyDefaultLocale } from "@/lib/admin-translations";
+import { defaultSiteLocaleCode } from "@/lib/admin-translations";
 import type { ServiceData } from "@/app/(admin)/services/page";
 
-type SortKey = "order" | "title" | "titleEn" | "active";
+type SortKey = "order" | "title" | "active";
 type SortDir = "asc" | "desc";
 type Filter = "all" | "active" | "inactive";
 
@@ -83,8 +83,8 @@ export const ServiceTable = ({ services }: { services: ServiceData[] }) => {
       if (bVal == null) return -1;
       if (typeof aVal === "string" && typeof bVal === "string") {
         return sortDir === "asc"
-          ? aVal.localeCompare(bVal, legacyDefaultLocale)
-          : bVal.localeCompare(aVal, legacyDefaultLocale);
+          ? aVal.localeCompare(bVal, defaultSiteLocaleCode)
+          : bVal.localeCompare(aVal, defaultSiteLocaleCode);
       }
       if (typeof aVal === "boolean" && typeof bVal === "boolean") {
         return sortDir === "asc"
@@ -276,15 +276,6 @@ export const ServiceTable = ({ services }: { services: ServiceData[] }) => {
                   Titre
                 </TableSortLabel>
               </TableCell>
-              <TableCell>
-                <TableSortLabel
-                  active={sortKey === "titleEn"}
-                  direction={sortKey === "titleEn" ? sortDir : "asc"}
-                  onClick={() => handleSort("titleEn")}
-                >
-                  Title EN
-                </TableSortLabel>
-              </TableCell>
               <TableCell sx={{ width: 80 }}>Icone</TableCell>
               <TableCell sx={{ width: 80 }}>
                 <TableSortLabel
@@ -303,7 +294,7 @@ export const ServiceTable = ({ services }: { services: ServiceData[] }) => {
           <TableBody>
             {filtered.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
+                <TableCell colSpan={5} align="center" sx={{ py: 4 }}>
                   <Typography variant="body2" color="text.secondary">
                     Aucun service trouve.
                   </Typography>
@@ -314,13 +305,6 @@ export const ServiceTable = ({ services }: { services: ServiceData[] }) => {
                 <TableRow key={service.id} hover>
                   <TableCell>{service.order}</TableCell>
                   <TableCell>{service.title}</TableCell>
-                  <TableCell>
-                    {service.titleEn || (
-                      <Typography variant="body2" color="text.secondary">
-                        --
-                      </Typography>
-                    )}
-                  </TableCell>
                   <TableCell>
                     {service.icon || (
                       <Typography variant="body2" color="text.secondary">

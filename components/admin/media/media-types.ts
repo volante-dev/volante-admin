@@ -15,7 +15,6 @@ export type MediaAssetData = {
   posterSize: number | null;
   name: string;
   alt: string | null;
-  altEn: string | null;
   tags: string[];
   active: boolean;
   createdAt: string;
@@ -34,5 +33,4 @@ export type MediaSelection = {
   posterUrl: string | null;
   name: string;
   alt: string | null;
-  altEn: string | null;
 };

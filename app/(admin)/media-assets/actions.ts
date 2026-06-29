@@ -8,11 +8,9 @@ import { requireCrmAccess } from "@/lib/auth-guard";
 import { describeUnknownError } from "@/lib/error-utils";
 import { isValidMediaUrl, normalizeNullable, normalizeRequired } from "@/lib/validation";
 import {
-  legacyDefaultLocale,
-  legacyDefaultTextValue,
-  legacySecondaryLocale,
-  legacySecondaryTextValue,
-  mergeLegacyLocaleTextTranslations,
+  defaultSiteLocaleCode,
+  defaultLocaleTextValue,
+  mergeLocaleTextTranslations,
   parseLocaleTextTranslations,
 } from "@/lib/admin-translations";
 import type { MediaAssetData, MediaAssetType } from "@/components/admin/media/media-types";
@@ -101,7 +99,6 @@ const toMediaAssetData = (
     posterSize: number | null;
     name: string;
     alt: string | null;
-    altEn: string | null;
     tags: string[];
     active: boolean;
     createdAt: Date;
@@ -113,17 +110,17 @@ const toMediaAssetData = (
   },
   usageCount = 0,
 ): MediaAssetData => ({
-  ...asset,
-  createdAt: asset.createdAt.toISOString(),
-  usageCount,
-  translations: asset.translations ?? [],
-});
+    ...asset,
+    createdAt: asset.createdAt.toISOString(),
+    usageCount,
+    translations: asset.translations ?? [],
+  });
 
 const getUsageCount = async (asset: { id: string; url: string }) => {
   const [
     projectImages,
     slideMedia,
-    legacySlidePosters,
+    slidePosters,
     studioFounderOneImages,
     studioFounderTwoImages,
     testimonialAvatars,
@@ -159,7 +156,7 @@ const getUsageCount = async (asset: { id: string; url: string }) => {
   return (
     projectImages +
     slideMedia +
-    legacySlidePosters +
+    slidePosters +
     studioFounderOneImages +
     studioFounderTwoImages +
     testimonialAvatars
@@ -171,7 +168,6 @@ export const createMediaAssetFromUpload = async (
   metadata: {
     name: string;
     alt?: string;
-    altEn?: string;
     tags?: string[];
     mimeType?: string;
     size?: number;
@@ -193,7 +189,6 @@ export const createMediaAssetFromUpload = async (
     }
 
     const alt = metadata.alt?.trim() || null;
-    const altEn = metadata.altEn?.trim() || null;
     const tags = metadata.tags ?? [];
     const asset = await prisma.$transaction(async (tx) => {
       const saved = await tx.mediaAsset.upsert({
@@ -206,7 +201,6 @@ export const createMediaAssetFromUpload = async (
           size: metadata.size ?? blob.size ?? null,
           name,
           alt,
-          altEn,
           tags,
         },
         update: {
@@ -216,23 +210,15 @@ export const createMediaAssetFromUpload = async (
           size: metadata.size ?? blob.size ?? null,
           name,
           alt,
-          altEn,
           tags,
           active: true,
         },
       });
-      await Promise.all([
-        tx.mediaAssetTranslation.upsert({
-          where: { assetId_locale: { assetId: saved.id, locale: legacyDefaultLocale } },
-          create: { assetId: saved.id, locale: legacyDefaultLocale, alt, tags },
+      await tx.mediaAssetTranslation.upsert({
+          where: { assetId_locale: { assetId: saved.id, locale: defaultSiteLocaleCode } },
+          create: { assetId: saved.id, locale: defaultSiteLocaleCode, alt, tags },
           update: { alt, tags },
-        }),
-        tx.mediaAssetTranslation.upsert({
-          where: { assetId_locale: { assetId: saved.id, locale: legacySecondaryLocale } },
-          create: { assetId: saved.id, locale: legacySecondaryLocale, alt: altEn, tags: [] },
-          update: { alt: altEn, tags: [] },
-        }),
-      ]);
+        });
       return saved;
     });
 
@@ -300,22 +286,15 @@ export const updateMediaAsset = async (
       mediaAssetTranslationFields,
     );
     const alt =
-      legacyDefaultTextValue(translations, "alt") ??
+      defaultLocaleTextValue(translations, "alt") ??
       normalizeNullable(formData.get("alt"));
-    const altEn =
-      legacySecondaryTextValue(translations, "alt") ??
-      normalizeNullable(formData.get("altEn"));
-    const normalizedTags = legacyDefaultTextValue(translations, "tags");
+    const normalizedTags = defaultLocaleTextValue(translations, "tags");
     const tags = normalizedTags
       ? parseTags(normalizedTags)
       : parseTags(formData.get("tags"));
-    mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
+    mergeLocaleTextTranslations(translations, defaultSiteLocaleCode, {
       alt,
       tags: tags.join(", "),
-    });
-    mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
-      alt: altEn,
-      tags: legacySecondaryTextValue(translations, "tags") ?? "",
     });
     const asset = await prisma.$transaction(async (tx) => {
       const saved = await tx.mediaAsset.update({
@@ -323,7 +302,6 @@ export const updateMediaAsset = async (
         data: {
           name,
           alt,
-          altEn,
           tags,
           active: formData.get("active") === "true",
           ...posterData,

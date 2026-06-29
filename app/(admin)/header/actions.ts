@@ -11,9 +11,7 @@ import {
   type SiteRouteData,
 } from "@/lib/site-route-config";
 import {
-  isLegacyLocale,
-  legacyDefaultLocale,
-  legacySecondaryLocale,
+  defaultSiteLocaleCode,
 } from "@/lib/admin-translations";
 
 type ActionResult = {
@@ -59,16 +57,11 @@ const parseTranslations = (value: SiteRoutePayload, isHome: boolean) => {
 
   return [
     {
-      locale: legacyDefaultLocale,
+      locale: defaultSiteLocaleCode,
       label: normalize(value.label),
       slug: isHome ? "" : normalize(value.slug),
     },
-    {
-      locale: legacySecondaryLocale,
-      label: normalize(value.labelEn),
-      slug: isHome ? "" : normalize(value.slugEn),
-    },
-    ...customTranslations.filter((translation) => !isLegacyLocale(translation.locale)),
+    ...customTranslations.filter((translation) => translation.locale !== defaultSiteLocaleCode),
   ];
 };
 
@@ -101,9 +94,7 @@ const parseSiteRoutes = (formData: FormData) => {
     return {
       id: normalize(value.id),
       label: normalize(value.label),
-      labelEn: normalize(value.labelEn),
       slug: isHome ? "" : normalize(value.slug),
-      slugEn: isHome ? "" : normalize(value.slugEn),
       translations: Object.fromEntries(
         normalizedTranslations.map((translation) => [
           translation.locale,
@@ -191,9 +182,7 @@ export const updateSiteRoutes = async (
           create: {
             id: item.id,
             label: item.label,
-            labelEn: item.labelEn,
             slug: item.slug,
-            slugEn: item.slugEn,
             order: item.order,
             showInHeader: item.showInHeader,
             showInFooter: item.showInFooter,
@@ -203,9 +192,7 @@ export const updateSiteRoutes = async (
           },
           update: {
             label: item.label,
-            labelEn: item.labelEn,
             slug: item.slug,
-            slugEn: item.slugEn,
             order: item.order,
             showInHeader: item.showInHeader,
             showInFooter: item.showInFooter,

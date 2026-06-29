@@ -1,16 +1,12 @@
 import OpenAI from "openai";
 import { AI_PROMPTS, getTranslateSystemPrompt } from "./ai-prompts";
-import {
-  legacyDefaultLocale,
-  legacySecondaryLocale,
-} from "./admin-translations";
 import { getAppUrl, getOpenAiApiKey } from "./config";
 
 export type TranslateTask = {
   task: "translate";
   text: string;
-  from: typeof legacyDefaultLocale;
-  to: typeof legacySecondaryLocale;
+  from: string;
+  to: string;
   format: "plain" | "html";
 };
 
@@ -23,41 +19,30 @@ export type GenerateMediaMetadataTask = {
 export type GenerateBlogTagsTask = {
   task: "generate-blog-tags";
   title: string;
-  titleEn?: string;
   eyebrow: string;
-  eyebrowEn?: string;
   slug: string;
-  slugEn?: string;
   content: string;
-  contentEn?: string;
 };
 
 export type GenerateBlogSeoDescriptionTask = {
   task: "generate-blog-seo-description";
   title: string;
-  titleEn?: string;
   eyebrow: string;
-  eyebrowEn?: string;
   slug: string;
-  slugEn?: string;
   content: string;
-  contentEn?: string;
 };
 
 export type MediaMetadataOutput = {
   alt: string;
-  altEn: string;
   tags: string[];
 };
 
 export type BlogTagsOutput = {
   tags: string[];
-  tagsEn: string[];
 };
 
 export type BlogSeoDescriptionOutput = {
   seoDescription: string;
-  seoDescriptionEn: string;
 };
 
 export type AiTask =
@@ -97,7 +82,6 @@ const parseMediaMetadata = (value: string): MediaMetadataOutput | null => {
   try {
     const parsed = JSON.parse(value) as Partial<MediaMetadataOutput>;
     const alt = typeof parsed.alt === "string" ? parsed.alt.trim() : "";
-    const altEn = typeof parsed.altEn === "string" ? parsed.altEn.trim() : "";
     const tags = Array.isArray(parsed.tags)
       ? parsed.tags
           .filter((tag): tag is string => typeof tag === "string")
@@ -105,8 +89,8 @@ const parseMediaMetadata = (value: string): MediaMetadataOutput | null => {
           .filter(Boolean)
       : [];
 
-    if (!alt || !altEn || tags.length !== 5) return null;
-    return { alt, altEn, tags };
+    if (!alt || tags.length !== 5) return null;
+    return { alt, tags };
   } catch {
     return null;
   }
@@ -133,10 +117,9 @@ const parseBlogTags = (value: string): BlogTagsOutput | null => {
   try {
     const parsed = JSON.parse(value) as Partial<BlogTagsOutput>;
     const tags = normalizeTags(parsed.tags);
-    const tagsEn = normalizeTags(parsed.tagsEn);
 
-    if (tags.length < 6 || tagsEn.length < 6) return null;
-    return { tags, tagsEn };
+    if (tags.length < 6) return null;
+    return { tags };
   } catch {
     return null;
   }
@@ -151,18 +134,15 @@ const parseBlogSeoDescription = (
   try {
     const parsed = JSON.parse(value) as Partial<BlogSeoDescriptionOutput>;
     const seoDescription = normalizeSeoDescription(parsed.seoDescription);
-    const seoDescriptionEn = normalizeSeoDescription(parsed.seoDescriptionEn);
 
     if (
       seoDescription.length < 60 ||
-      seoDescription.length > 240 ||
-      seoDescriptionEn.length < 60 ||
-      seoDescriptionEn.length > 240
+      seoDescription.length > 240
     ) {
       return null;
     }
 
-    return { seoDescription, seoDescriptionEn };
+    return { seoDescription };
   } catch {
     return null;
   }
@@ -174,7 +154,10 @@ async function handleTranslate(task: TranslateTask): Promise<AiTaskResult> {
     temperature: 0.3,
     max_tokens: 4096,
     messages: [
-      { role: "system", content: getTranslateSystemPrompt(task.format) },
+      {
+        role: "system",
+        content: getTranslateSystemPrompt(task.format, task.from, task.to),
+      },
       { role: "user", content: task.text },
     ],
   });
@@ -223,7 +206,7 @@ async function handleGenerateMediaMetadata(
   if (!metadata) {
     return {
       success: false,
-      error: "La reponse IA ne contient pas 5 tags et deux textes alternatifs valides.",
+      error: "La reponse IA ne contient pas 5 tags et un texte alternatif valide.",
     };
   }
 
@@ -256,7 +239,7 @@ async function handleGenerateBlogTags(
   if (!tags) {
     return {
       success: false,
-      error: "La reponse IA ne contient pas des tags FR/EN valides.",
+      error: "La reponse IA ne contient pas des tags valides.",
     };
   }
 
@@ -289,7 +272,7 @@ async function handleGenerateBlogSeoDescription(
   if (!descriptions) {
     return {
       success: false,
-      error: "La reponse IA ne contient pas deux descriptions SEO valides.",
+      error: "La reponse IA ne contient pas une description SEO valide.",
     };
   }
 

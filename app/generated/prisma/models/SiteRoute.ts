@@ -39,9 +39,7 @@ export type SiteRouteSumAggregateOutputType = {
 export type SiteRouteMinAggregateOutputType = {
   id: string | null
   label: string | null
-  labelEn: string | null
   slug: string | null
-  slugEn: string | null
   order: number | null
   showInHeader: boolean | null
   showInFooter: boolean | null
@@ -55,9 +53,7 @@ export type SiteRouteMinAggregateOutputType = {
 export type SiteRouteMaxAggregateOutputType = {
   id: string | null
   label: string | null
-  labelEn: string | null
   slug: string | null
-  slugEn: string | null
   order: number | null
   showInHeader: boolean | null
   showInFooter: boolean | null
@@ -71,9 +67,7 @@ export type SiteRouteMaxAggregateOutputType = {
 export type SiteRouteCountAggregateOutputType = {
   id: number
   label: number
-  labelEn: number
   slug: number
-  slugEn: number
   order: number
   showInHeader: number
   showInFooter: number
@@ -99,9 +93,7 @@ export type SiteRouteSumAggregateInputType = {
 export type SiteRouteMinAggregateInputType = {
   id?: true
   label?: true
-  labelEn?: true
   slug?: true
-  slugEn?: true
   order?: true
   showInHeader?: true
   showInFooter?: true
@@ -115,9 +107,7 @@ export type SiteRouteMinAggregateInputType = {
 export type SiteRouteMaxAggregateInputType = {
   id?: true
   label?: true
-  labelEn?: true
   slug?: true
-  slugEn?: true
   order?: true
   showInHeader?: true
   showInFooter?: true
@@ -131,9 +121,7 @@ export type SiteRouteMaxAggregateInputType = {
 export type SiteRouteCountAggregateInputType = {
   id?: true
   label?: true
-  labelEn?: true
   slug?: true
-  slugEn?: true
   order?: true
   showInHeader?: true
   showInFooter?: true
@@ -234,9 +222,7 @@ export type SiteRouteGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type SiteRouteGroupByOutputType = {
   id: string
   label: string
-  labelEn: string
   slug: string
-  slugEn: string
   order: number
   showInHeader: boolean
   showInFooter: boolean
@@ -273,9 +259,7 @@ export type SiteRouteWhereInput = {
   NOT?: Prisma.SiteRouteWhereInput | Prisma.SiteRouteWhereInput[]
   id?: Prisma.StringFilter<"SiteRoute"> | string
   label?: Prisma.StringFilter<"SiteRoute"> | string
-  labelEn?: Prisma.StringFilter<"SiteRoute"> | string
   slug?: Prisma.StringFilter<"SiteRoute"> | string
-  slugEn?: Prisma.StringFilter<"SiteRoute"> | string
   order?: Prisma.IntFilter<"SiteRoute"> | number
   showInHeader?: Prisma.BoolFilter<"SiteRoute"> | boolean
   showInFooter?: Prisma.BoolFilter<"SiteRoute"> | boolean
@@ -290,9 +274,7 @@ export type SiteRouteWhereInput = {
 export type SiteRouteOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  labelEn?: Prisma.SortOrder
   slug?: Prisma.SortOrder
-  slugEn?: Prisma.SortOrder
   order?: Prisma.SortOrder
   showInHeader?: Prisma.SortOrder
   showInFooter?: Prisma.SortOrder
@@ -310,9 +292,7 @@ export type SiteRouteWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.SiteRouteWhereInput[]
   NOT?: Prisma.SiteRouteWhereInput | Prisma.SiteRouteWhereInput[]
   label?: Prisma.StringFilter<"SiteRoute"> | string
-  labelEn?: Prisma.StringFilter<"SiteRoute"> | string
   slug?: Prisma.StringFilter<"SiteRoute"> | string
-  slugEn?: Prisma.StringFilter<"SiteRoute"> | string
   order?: Prisma.IntFilter<"SiteRoute"> | number
   showInHeader?: Prisma.BoolFilter<"SiteRoute"> | boolean
   showInFooter?: Prisma.BoolFilter<"SiteRoute"> | boolean
@@ -327,9 +307,7 @@ export type SiteRouteWhereUniqueInput = Prisma.AtLeast<{
 export type SiteRouteOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  labelEn?: Prisma.SortOrder
   slug?: Prisma.SortOrder
-  slugEn?: Prisma.SortOrder
   order?: Prisma.SortOrder
   showInHeader?: Prisma.SortOrder
   showInFooter?: Prisma.SortOrder
@@ -351,9 +329,7 @@ export type SiteRouteScalarWhereWithAggregatesInput = {
   NOT?: Prisma.SiteRouteScalarWhereWithAggregatesInput | Prisma.SiteRouteScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"SiteRoute"> | string
   label?: Prisma.StringWithAggregatesFilter<"SiteRoute"> | string
-  labelEn?: Prisma.StringWithAggregatesFilter<"SiteRoute"> | string
   slug?: Prisma.StringWithAggregatesFilter<"SiteRoute"> | string
-  slugEn?: Prisma.StringWithAggregatesFilter<"SiteRoute"> | string
   order?: Prisma.IntWithAggregatesFilter<"SiteRoute"> | number
   showInHeader?: Prisma.BoolWithAggregatesFilter<"SiteRoute"> | boolean
   showInFooter?: Prisma.BoolWithAggregatesFilter<"SiteRoute"> | boolean
@@ -367,9 +343,7 @@ export type SiteRouteScalarWhereWithAggregatesInput = {
 export type SiteRouteCreateInput = {
   id: string
   label: string
-  labelEn: string
   slug: string
-  slugEn: string
   order?: number
   showInHeader?: boolean
   showInFooter?: boolean
@@ -384,9 +358,7 @@ export type SiteRouteCreateInput = {
 export type SiteRouteUncheckedCreateInput = {
   id: string
   label: string
-  labelEn: string
   slug: string
-  slugEn: string
   order?: number
   showInHeader?: boolean
   showInFooter?: boolean
@@ -401,9 +373,7 @@ export type SiteRouteUncheckedCreateInput = {
 export type SiteRouteUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  slugEn?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   showInHeader?: Prisma.BoolFieldUpdateOperationsInput | boolean
   showInFooter?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -418,9 +388,7 @@ export type SiteRouteUpdateInput = {
 export type SiteRouteUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  slugEn?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   showInHeader?: Prisma.BoolFieldUpdateOperationsInput | boolean
   showInFooter?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -435,9 +403,7 @@ export type SiteRouteUncheckedUpdateInput = {
 export type SiteRouteCreateManyInput = {
   id: string
   label: string
-  labelEn: string
   slug: string
-  slugEn: string
   order?: number
   showInHeader?: boolean
   showInFooter?: boolean
@@ -451,9 +417,7 @@ export type SiteRouteCreateManyInput = {
 export type SiteRouteUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  slugEn?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   showInHeader?: Prisma.BoolFieldUpdateOperationsInput | boolean
   showInFooter?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -467,9 +431,7 @@ export type SiteRouteUpdateManyMutationInput = {
 export type SiteRouteUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  slugEn?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   showInHeader?: Prisma.BoolFieldUpdateOperationsInput | boolean
   showInFooter?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -483,9 +445,7 @@ export type SiteRouteUncheckedUpdateManyInput = {
 export type SiteRouteCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  labelEn?: Prisma.SortOrder
   slug?: Prisma.SortOrder
-  slugEn?: Prisma.SortOrder
   order?: Prisma.SortOrder
   showInHeader?: Prisma.SortOrder
   showInFooter?: Prisma.SortOrder
@@ -504,9 +464,7 @@ export type SiteRouteAvgOrderByAggregateInput = {
 export type SiteRouteMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  labelEn?: Prisma.SortOrder
   slug?: Prisma.SortOrder
-  slugEn?: Prisma.SortOrder
   order?: Prisma.SortOrder
   showInHeader?: Prisma.SortOrder
   showInFooter?: Prisma.SortOrder
@@ -520,9 +478,7 @@ export type SiteRouteMaxOrderByAggregateInput = {
 export type SiteRouteMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   label?: Prisma.SortOrder
-  labelEn?: Prisma.SortOrder
   slug?: Prisma.SortOrder
-  slugEn?: Prisma.SortOrder
   order?: Prisma.SortOrder
   showInHeader?: Prisma.SortOrder
   showInFooter?: Prisma.SortOrder
@@ -568,9 +524,7 @@ export type SiteRouteUpdateOneRequiredWithoutTranslationsNestedInput = {
 export type SiteRouteCreateWithoutTranslationsInput = {
   id: string
   label: string
-  labelEn: string
   slug: string
-  slugEn: string
   order?: number
   showInHeader?: boolean
   showInFooter?: boolean
@@ -584,9 +538,7 @@ export type SiteRouteCreateWithoutTranslationsInput = {
 export type SiteRouteUncheckedCreateWithoutTranslationsInput = {
   id: string
   label: string
-  labelEn: string
   slug: string
-  slugEn: string
   order?: number
   showInHeader?: boolean
   showInFooter?: boolean
@@ -616,9 +568,7 @@ export type SiteRouteUpdateToOneWithWhereWithoutTranslationsInput = {
 export type SiteRouteUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  slugEn?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   showInHeader?: Prisma.BoolFieldUpdateOperationsInput | boolean
   showInFooter?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -632,9 +582,7 @@ export type SiteRouteUpdateWithoutTranslationsInput = {
 export type SiteRouteUncheckedUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   label?: Prisma.StringFieldUpdateOperationsInput | string
-  labelEn?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
-  slugEn?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   showInHeader?: Prisma.BoolFieldUpdateOperationsInput | boolean
   showInFooter?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -679,9 +627,7 @@ export type SiteRouteCountOutputTypeCountTranslationsArgs<ExtArgs extends runtim
 export type SiteRouteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   label?: boolean
-  labelEn?: boolean
   slug?: boolean
-  slugEn?: boolean
   order?: boolean
   showInHeader?: boolean
   showInFooter?: boolean
@@ -697,9 +643,7 @@ export type SiteRouteSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type SiteRouteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   label?: boolean
-  labelEn?: boolean
   slug?: boolean
-  slugEn?: boolean
   order?: boolean
   showInHeader?: boolean
   showInFooter?: boolean
@@ -713,9 +657,7 @@ export type SiteRouteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type SiteRouteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   label?: boolean
-  labelEn?: boolean
   slug?: boolean
-  slugEn?: boolean
   order?: boolean
   showInHeader?: boolean
   showInFooter?: boolean
@@ -729,9 +671,7 @@ export type SiteRouteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type SiteRouteSelectScalar = {
   id?: boolean
   label?: boolean
-  labelEn?: boolean
   slug?: boolean
-  slugEn?: boolean
   order?: boolean
   showInHeader?: boolean
   showInFooter?: boolean
@@ -742,7 +682,7 @@ export type SiteRouteSelectScalar = {
   updatedAt?: boolean
 }
 
-export type SiteRouteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "label" | "labelEn" | "slug" | "slugEn" | "order" | "showInHeader" | "showInFooter" | "includeInSitemap" | "sitemapPriority" | "sitemapFrequency" | "createdAt" | "updatedAt", ExtArgs["result"]["siteRoute"]>
+export type SiteRouteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "label" | "slug" | "order" | "showInHeader" | "showInFooter" | "includeInSitemap" | "sitemapPriority" | "sitemapFrequency" | "createdAt" | "updatedAt", ExtArgs["result"]["siteRoute"]>
 export type SiteRouteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | Prisma.SiteRoute$translationsArgs<ExtArgs>
   _count?: boolean | Prisma.SiteRouteCountOutputTypeDefaultArgs<ExtArgs>
@@ -758,9 +698,7 @@ export type $SiteRoutePayload<ExtArgs extends runtime.Types.Extensions.InternalA
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     label: string
-    labelEn: string
     slug: string
-    slugEn: string
     order: number
     showInHeader: boolean
     showInFooter: boolean
@@ -1195,9 +1133,7 @@ export interface Prisma__SiteRouteClient<T, Null = never, ExtArgs extends runtim
 export interface SiteRouteFieldRefs {
   readonly id: Prisma.FieldRef<"SiteRoute", 'String'>
   readonly label: Prisma.FieldRef<"SiteRoute", 'String'>
-  readonly labelEn: Prisma.FieldRef<"SiteRoute", 'String'>
   readonly slug: Prisma.FieldRef<"SiteRoute", 'String'>
-  readonly slugEn: Prisma.FieldRef<"SiteRoute", 'String'>
   readonly order: Prisma.FieldRef<"SiteRoute", 'Int'>
   readonly showInHeader: Prisma.FieldRef<"SiteRoute", 'Boolean'>
   readonly showInFooter: Prisma.FieldRef<"SiteRoute", 'Boolean'>

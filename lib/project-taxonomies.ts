@@ -3,25 +3,32 @@ import type { ProjectTaxonomyOption } from "@/components/admin/project-taxonomy-
 
 export const getProjectTaxonomyOptions = async (
   selectedIds: string[] = [],
-): Promise<ProjectTaxonomyOption[]> =>
-  prisma.projectTaxonomyEntry.findMany({
+): Promise<ProjectTaxonomyOption[]> => {
+  const entries = await prisma.projectTaxonomyEntry.findMany({
     where: {
       OR: [{ active: true }, ...(selectedIds.length ? [{ id: { in: selectedIds } }] : [])],
     },
-    select: {
-      id: true,
-      type: true,
-      label: true,
-      labelEn: true,
-      slug: true,
-      icon: true,
-      introEyebrow: true,
-      introEyebrowEn: true,
-      introTitle: true,
-      introTitleEn: true,
-      intro: true,
-      introEn: true,
-      active: true,
-    },
+    include: { translations: true },
     orderBy: [{ type: "asc" }, { label: "asc" }],
   });
+
+  return entries.map((entry) => ({
+      id: entry.id,
+      type: entry.type,
+      label: entry.label,
+      slug: entry.slug,
+      icon: entry.icon,
+      introEyebrow: entry.introEyebrow,
+      introTitle: entry.introTitle,
+      intro: entry.intro,
+      active: entry.active,
+      translations: entry.translations.map((translation) => ({
+        locale: translation.locale,
+        label: translation.label,
+        slug: translation.slug,
+        introEyebrow: translation.introEyebrow,
+        introTitle: translation.introTitle,
+        intro: translation.intro,
+      })),
+    }));
+};

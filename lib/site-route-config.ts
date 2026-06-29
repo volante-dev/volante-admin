@@ -21,9 +21,7 @@ export type SitemapFrequency =
 export type SiteRouteData = {
   id: SiteRouteId;
   label: string;
-  labelEn: string;
   slug: string;
-  slugEn: string;
   translations?: Record<string, { label?: string | null; slug?: string | null }>;
   order: number;
   showInHeader: boolean;
@@ -37,9 +35,8 @@ export const defaultSiteRoutes: SiteRouteData[] = [
   {
     id: "home",
     label: "Accueil",
-    labelEn: "Home",
     slug: "",
-    slugEn: "",
+    translations: { en: { label: "Home", slug: "" } },
     order: 0,
     showInHeader: false,
     showInFooter: false,
@@ -50,9 +47,8 @@ export const defaultSiteRoutes: SiteRouteData[] = [
   {
     id: "services",
     label: "Services",
-    labelEn: "Services",
     slug: "services",
-    slugEn: "services",
+    translations: { en: { label: "Services", slug: "services" } },
     order: 1,
     showInHeader: true,
     showInFooter: true,
@@ -63,9 +59,8 @@ export const defaultSiteRoutes: SiteRouteData[] = [
   {
     id: "portfolio",
     label: "Portfolio",
-    labelEn: "Portfolio",
     slug: "portfolio",
-    slugEn: "portfolio",
+    translations: { en: { label: "Portfolio", slug: "portfolio" } },
     order: 2,
     showInHeader: true,
     showInFooter: true,
@@ -76,9 +71,8 @@ export const defaultSiteRoutes: SiteRouteData[] = [
   {
     id: "trailblaze",
     label: "Trailblaze",
-    labelEn: "Trailblaze",
     slug: "trailblaze",
-    slugEn: "trailblaze",
+    translations: { en: { label: "Trailblaze", slug: "trailblaze" } },
     order: 3,
     showInHeader: true,
     showInFooter: true,
@@ -89,9 +83,8 @@ export const defaultSiteRoutes: SiteRouteData[] = [
   {
     id: "studio",
     label: "Studio",
-    labelEn: "Studio",
     slug: "studio",
-    slugEn: "studio",
+    translations: { en: { label: "Studio", slug: "studio" } },
     order: 4,
     showInHeader: true,
     showInFooter: true,
@@ -102,9 +95,8 @@ export const defaultSiteRoutes: SiteRouteData[] = [
   {
     id: "contact",
     label: "Contact",
-    labelEn: "Contact",
     slug: "contact",
-    slugEn: "contact",
+    translations: { en: { label: "Contact", slug: "contact" } },
     order: 5,
     showInHeader: true,
     showInFooter: true,

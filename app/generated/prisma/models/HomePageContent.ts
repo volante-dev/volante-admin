@@ -27,15 +27,10 @@ export type AggregateHomePageContent = {
 export type HomePageContentMinAggregateOutputType = {
   id: string | null
   eyebrow: string | null
-  eyebrowEn: string | null
   title: string | null
-  titleEn: string | null
   subheading: string | null
-  subheadingEn: string | null
   primaryCtaLabel: string | null
-  primaryCtaLabelEn: string | null
   secondaryCtaLabel: string | null
-  secondaryCtaLabelEn: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -43,15 +38,10 @@ export type HomePageContentMinAggregateOutputType = {
 export type HomePageContentMaxAggregateOutputType = {
   id: string | null
   eyebrow: string | null
-  eyebrowEn: string | null
   title: string | null
-  titleEn: string | null
   subheading: string | null
-  subheadingEn: string | null
   primaryCtaLabel: string | null
-  primaryCtaLabelEn: string | null
   secondaryCtaLabel: string | null
-  secondaryCtaLabelEn: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -59,15 +49,10 @@ export type HomePageContentMaxAggregateOutputType = {
 export type HomePageContentCountAggregateOutputType = {
   id: number
   eyebrow: number
-  eyebrowEn: number
   title: number
-  titleEn: number
   subheading: number
-  subheadingEn: number
   primaryCtaLabel: number
-  primaryCtaLabelEn: number
   secondaryCtaLabel: number
-  secondaryCtaLabelEn: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -77,15 +62,10 @@ export type HomePageContentCountAggregateOutputType = {
 export type HomePageContentMinAggregateInputType = {
   id?: true
   eyebrow?: true
-  eyebrowEn?: true
   title?: true
-  titleEn?: true
   subheading?: true
-  subheadingEn?: true
   primaryCtaLabel?: true
-  primaryCtaLabelEn?: true
   secondaryCtaLabel?: true
-  secondaryCtaLabelEn?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -93,15 +73,10 @@ export type HomePageContentMinAggregateInputType = {
 export type HomePageContentMaxAggregateInputType = {
   id?: true
   eyebrow?: true
-  eyebrowEn?: true
   title?: true
-  titleEn?: true
   subheading?: true
-  subheadingEn?: true
   primaryCtaLabel?: true
-  primaryCtaLabelEn?: true
   secondaryCtaLabel?: true
-  secondaryCtaLabelEn?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -109,15 +84,10 @@ export type HomePageContentMaxAggregateInputType = {
 export type HomePageContentCountAggregateInputType = {
   id?: true
   eyebrow?: true
-  eyebrowEn?: true
   title?: true
-  titleEn?: true
   subheading?: true
-  subheadingEn?: true
   primaryCtaLabel?: true
-  primaryCtaLabelEn?: true
   secondaryCtaLabel?: true
-  secondaryCtaLabelEn?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -198,15 +168,10 @@ export type HomePageContentGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 export type HomePageContentGroupByOutputType = {
   id: string
   eyebrow: string
-  eyebrowEn: string | null
   title: string
-  titleEn: string | null
   subheading: string
-  subheadingEn: string | null
   primaryCtaLabel: string
-  primaryCtaLabelEn: string | null
   secondaryCtaLabel: string
-  secondaryCtaLabelEn: string | null
   createdAt: Date
   updatedAt: Date
   _count: HomePageContentCountAggregateOutputType | null
@@ -235,15 +200,10 @@ export type HomePageContentWhereInput = {
   NOT?: Prisma.HomePageContentWhereInput | Prisma.HomePageContentWhereInput[]
   id?: Prisma.StringFilter<"HomePageContent"> | string
   eyebrow?: Prisma.StringFilter<"HomePageContent"> | string
-  eyebrowEn?: Prisma.StringNullableFilter<"HomePageContent"> | string | null
   title?: Prisma.StringFilter<"HomePageContent"> | string
-  titleEn?: Prisma.StringNullableFilter<"HomePageContent"> | string | null
   subheading?: Prisma.StringFilter<"HomePageContent"> | string
-  subheadingEn?: Prisma.StringNullableFilter<"HomePageContent"> | string | null
   primaryCtaLabel?: Prisma.StringFilter<"HomePageContent"> | string
-  primaryCtaLabelEn?: Prisma.StringNullableFilter<"HomePageContent"> | string | null
   secondaryCtaLabel?: Prisma.StringFilter<"HomePageContent"> | string
-  secondaryCtaLabelEn?: Prisma.StringNullableFilter<"HomePageContent"> | string | null
   createdAt?: Prisma.DateTimeFilter<"HomePageContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HomePageContent"> | Date | string
   translations?: Prisma.HomePageContentTranslationListRelationFilter
@@ -252,15 +212,10 @@ export type HomePageContentWhereInput = {
 export type HomePageContentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   eyebrow?: Prisma.SortOrder
-  eyebrowEn?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrderInput | Prisma.SortOrder
   subheading?: Prisma.SortOrder
-  subheadingEn?: Prisma.SortOrderInput | Prisma.SortOrder
   primaryCtaLabel?: Prisma.SortOrder
-  primaryCtaLabelEn?: Prisma.SortOrderInput | Prisma.SortOrder
   secondaryCtaLabel?: Prisma.SortOrder
-  secondaryCtaLabelEn?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   translations?: Prisma.HomePageContentTranslationOrderByRelationAggregateInput
@@ -272,15 +227,10 @@ export type HomePageContentWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.HomePageContentWhereInput[]
   NOT?: Prisma.HomePageContentWhereInput | Prisma.HomePageContentWhereInput[]
   eyebrow?: Prisma.StringFilter<"HomePageContent"> | string
-  eyebrowEn?: Prisma.StringNullableFilter<"HomePageContent"> | string | null
   title?: Prisma.StringFilter<"HomePageContent"> | string
-  titleEn?: Prisma.StringNullableFilter<"HomePageContent"> | string | null
   subheading?: Prisma.StringFilter<"HomePageContent"> | string
-  subheadingEn?: Prisma.StringNullableFilter<"HomePageContent"> | string | null
   primaryCtaLabel?: Prisma.StringFilter<"HomePageContent"> | string
-  primaryCtaLabelEn?: Prisma.StringNullableFilter<"HomePageContent"> | string | null
   secondaryCtaLabel?: Prisma.StringFilter<"HomePageContent"> | string
-  secondaryCtaLabelEn?: Prisma.StringNullableFilter<"HomePageContent"> | string | null
   createdAt?: Prisma.DateTimeFilter<"HomePageContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"HomePageContent"> | Date | string
   translations?: Prisma.HomePageContentTranslationListRelationFilter
@@ -289,15 +239,10 @@ export type HomePageContentWhereUniqueInput = Prisma.AtLeast<{
 export type HomePageContentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   eyebrow?: Prisma.SortOrder
-  eyebrowEn?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrderInput | Prisma.SortOrder
   subheading?: Prisma.SortOrder
-  subheadingEn?: Prisma.SortOrderInput | Prisma.SortOrder
   primaryCtaLabel?: Prisma.SortOrder
-  primaryCtaLabelEn?: Prisma.SortOrderInput | Prisma.SortOrder
   secondaryCtaLabel?: Prisma.SortOrder
-  secondaryCtaLabelEn?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.HomePageContentCountOrderByAggregateInput
@@ -311,15 +256,10 @@ export type HomePageContentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.HomePageContentScalarWhereWithAggregatesInput | Prisma.HomePageContentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"HomePageContent"> | string
   eyebrow?: Prisma.StringWithAggregatesFilter<"HomePageContent"> | string
-  eyebrowEn?: Prisma.StringNullableWithAggregatesFilter<"HomePageContent"> | string | null
   title?: Prisma.StringWithAggregatesFilter<"HomePageContent"> | string
-  titleEn?: Prisma.StringNullableWithAggregatesFilter<"HomePageContent"> | string | null
   subheading?: Prisma.StringWithAggregatesFilter<"HomePageContent"> | string
-  subheadingEn?: Prisma.StringNullableWithAggregatesFilter<"HomePageContent"> | string | null
   primaryCtaLabel?: Prisma.StringWithAggregatesFilter<"HomePageContent"> | string
-  primaryCtaLabelEn?: Prisma.StringNullableWithAggregatesFilter<"HomePageContent"> | string | null
   secondaryCtaLabel?: Prisma.StringWithAggregatesFilter<"HomePageContent"> | string
-  secondaryCtaLabelEn?: Prisma.StringNullableWithAggregatesFilter<"HomePageContent"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"HomePageContent"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"HomePageContent"> | Date | string
 }
@@ -327,15 +267,10 @@ export type HomePageContentScalarWhereWithAggregatesInput = {
 export type HomePageContentCreateInput = {
   id: string
   eyebrow: string
-  eyebrowEn?: string | null
   title: string
-  titleEn?: string | null
   subheading: string
-  subheadingEn?: string | null
   primaryCtaLabel: string
-  primaryCtaLabelEn?: string | null
   secondaryCtaLabel: string
-  secondaryCtaLabelEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.HomePageContentTranslationCreateNestedManyWithoutContentInput
@@ -344,15 +279,10 @@ export type HomePageContentCreateInput = {
 export type HomePageContentUncheckedCreateInput = {
   id: string
   eyebrow: string
-  eyebrowEn?: string | null
   title: string
-  titleEn?: string | null
   subheading: string
-  subheadingEn?: string | null
   primaryCtaLabel: string
-  primaryCtaLabelEn?: string | null
   secondaryCtaLabel: string
-  secondaryCtaLabelEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.HomePageContentTranslationUncheckedCreateNestedManyWithoutContentInput
@@ -361,15 +291,10 @@ export type HomePageContentUncheckedCreateInput = {
 export type HomePageContentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
-  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subheading?: Prisma.StringFieldUpdateOperationsInput | string
-  subheadingEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryCtaLabel?: Prisma.StringFieldUpdateOperationsInput | string
-  primaryCtaLabelEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryCtaLabel?: Prisma.StringFieldUpdateOperationsInput | string
-  secondaryCtaLabelEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.HomePageContentTranslationUpdateManyWithoutContentNestedInput
@@ -378,15 +303,10 @@ export type HomePageContentUpdateInput = {
 export type HomePageContentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
-  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subheading?: Prisma.StringFieldUpdateOperationsInput | string
-  subheadingEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryCtaLabel?: Prisma.StringFieldUpdateOperationsInput | string
-  primaryCtaLabelEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryCtaLabel?: Prisma.StringFieldUpdateOperationsInput | string
-  secondaryCtaLabelEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.HomePageContentTranslationUncheckedUpdateManyWithoutContentNestedInput
@@ -395,15 +315,10 @@ export type HomePageContentUncheckedUpdateInput = {
 export type HomePageContentCreateManyInput = {
   id: string
   eyebrow: string
-  eyebrowEn?: string | null
   title: string
-  titleEn?: string | null
   subheading: string
-  subheadingEn?: string | null
   primaryCtaLabel: string
-  primaryCtaLabelEn?: string | null
   secondaryCtaLabel: string
-  secondaryCtaLabelEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -411,15 +326,10 @@ export type HomePageContentCreateManyInput = {
 export type HomePageContentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
-  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subheading?: Prisma.StringFieldUpdateOperationsInput | string
-  subheadingEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryCtaLabel?: Prisma.StringFieldUpdateOperationsInput | string
-  primaryCtaLabelEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryCtaLabel?: Prisma.StringFieldUpdateOperationsInput | string
-  secondaryCtaLabelEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -427,15 +337,10 @@ export type HomePageContentUpdateManyMutationInput = {
 export type HomePageContentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
-  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subheading?: Prisma.StringFieldUpdateOperationsInput | string
-  subheadingEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryCtaLabel?: Prisma.StringFieldUpdateOperationsInput | string
-  primaryCtaLabelEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryCtaLabel?: Prisma.StringFieldUpdateOperationsInput | string
-  secondaryCtaLabelEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -443,15 +348,10 @@ export type HomePageContentUncheckedUpdateManyInput = {
 export type HomePageContentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   eyebrow?: Prisma.SortOrder
-  eyebrowEn?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   subheading?: Prisma.SortOrder
-  subheadingEn?: Prisma.SortOrder
   primaryCtaLabel?: Prisma.SortOrder
-  primaryCtaLabelEn?: Prisma.SortOrder
   secondaryCtaLabel?: Prisma.SortOrder
-  secondaryCtaLabelEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -459,15 +359,10 @@ export type HomePageContentCountOrderByAggregateInput = {
 export type HomePageContentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   eyebrow?: Prisma.SortOrder
-  eyebrowEn?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   subheading?: Prisma.SortOrder
-  subheadingEn?: Prisma.SortOrder
   primaryCtaLabel?: Prisma.SortOrder
-  primaryCtaLabelEn?: Prisma.SortOrder
   secondaryCtaLabel?: Prisma.SortOrder
-  secondaryCtaLabelEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -475,15 +370,10 @@ export type HomePageContentMaxOrderByAggregateInput = {
 export type HomePageContentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   eyebrow?: Prisma.SortOrder
-  eyebrowEn?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   subheading?: Prisma.SortOrder
-  subheadingEn?: Prisma.SortOrder
   primaryCtaLabel?: Prisma.SortOrder
-  primaryCtaLabelEn?: Prisma.SortOrder
   secondaryCtaLabel?: Prisma.SortOrder
-  secondaryCtaLabelEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -510,15 +400,10 @@ export type HomePageContentUpdateOneRequiredWithoutTranslationsNestedInput = {
 export type HomePageContentCreateWithoutTranslationsInput = {
   id: string
   eyebrow: string
-  eyebrowEn?: string | null
   title: string
-  titleEn?: string | null
   subheading: string
-  subheadingEn?: string | null
   primaryCtaLabel: string
-  primaryCtaLabelEn?: string | null
   secondaryCtaLabel: string
-  secondaryCtaLabelEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -526,15 +411,10 @@ export type HomePageContentCreateWithoutTranslationsInput = {
 export type HomePageContentUncheckedCreateWithoutTranslationsInput = {
   id: string
   eyebrow: string
-  eyebrowEn?: string | null
   title: string
-  titleEn?: string | null
   subheading: string
-  subheadingEn?: string | null
   primaryCtaLabel: string
-  primaryCtaLabelEn?: string | null
   secondaryCtaLabel: string
-  secondaryCtaLabelEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -558,15 +438,10 @@ export type HomePageContentUpdateToOneWithWhereWithoutTranslationsInput = {
 export type HomePageContentUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
-  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subheading?: Prisma.StringFieldUpdateOperationsInput | string
-  subheadingEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryCtaLabel?: Prisma.StringFieldUpdateOperationsInput | string
-  primaryCtaLabelEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryCtaLabel?: Prisma.StringFieldUpdateOperationsInput | string
-  secondaryCtaLabelEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -574,15 +449,10 @@ export type HomePageContentUpdateWithoutTranslationsInput = {
 export type HomePageContentUncheckedUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
-  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   subheading?: Prisma.StringFieldUpdateOperationsInput | string
-  subheadingEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   primaryCtaLabel?: Prisma.StringFieldUpdateOperationsInput | string
-  primaryCtaLabelEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   secondaryCtaLabel?: Prisma.StringFieldUpdateOperationsInput | string
-  secondaryCtaLabelEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -621,15 +491,10 @@ export type HomePageContentCountOutputTypeCountTranslationsArgs<ExtArgs extends 
 export type HomePageContentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   eyebrow?: boolean
-  eyebrowEn?: boolean
   title?: boolean
-  titleEn?: boolean
   subheading?: boolean
-  subheadingEn?: boolean
   primaryCtaLabel?: boolean
-  primaryCtaLabelEn?: boolean
   secondaryCtaLabel?: boolean
-  secondaryCtaLabelEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   translations?: boolean | Prisma.HomePageContent$translationsArgs<ExtArgs>
@@ -639,15 +504,10 @@ export type HomePageContentSelect<ExtArgs extends runtime.Types.Extensions.Inter
 export type HomePageContentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   eyebrow?: boolean
-  eyebrowEn?: boolean
   title?: boolean
-  titleEn?: boolean
   subheading?: boolean
-  subheadingEn?: boolean
   primaryCtaLabel?: boolean
-  primaryCtaLabelEn?: boolean
   secondaryCtaLabel?: boolean
-  secondaryCtaLabelEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["homePageContent"]>
@@ -655,15 +515,10 @@ export type HomePageContentSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
 export type HomePageContentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   eyebrow?: boolean
-  eyebrowEn?: boolean
   title?: boolean
-  titleEn?: boolean
   subheading?: boolean
-  subheadingEn?: boolean
   primaryCtaLabel?: boolean
-  primaryCtaLabelEn?: boolean
   secondaryCtaLabel?: boolean
-  secondaryCtaLabelEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["homePageContent"]>
@@ -671,20 +526,15 @@ export type HomePageContentSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
 export type HomePageContentSelectScalar = {
   id?: boolean
   eyebrow?: boolean
-  eyebrowEn?: boolean
   title?: boolean
-  titleEn?: boolean
   subheading?: boolean
-  subheadingEn?: boolean
   primaryCtaLabel?: boolean
-  primaryCtaLabelEn?: boolean
   secondaryCtaLabel?: boolean
-  secondaryCtaLabelEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type HomePageContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eyebrow" | "eyebrowEn" | "title" | "titleEn" | "subheading" | "subheadingEn" | "primaryCtaLabel" | "primaryCtaLabelEn" | "secondaryCtaLabel" | "secondaryCtaLabelEn" | "createdAt" | "updatedAt", ExtArgs["result"]["homePageContent"]>
+export type HomePageContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eyebrow" | "title" | "subheading" | "primaryCtaLabel" | "secondaryCtaLabel" | "createdAt" | "updatedAt", ExtArgs["result"]["homePageContent"]>
 export type HomePageContentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | Prisma.HomePageContent$translationsArgs<ExtArgs>
   _count?: boolean | Prisma.HomePageContentCountOutputTypeDefaultArgs<ExtArgs>
@@ -700,15 +550,10 @@ export type $HomePageContentPayload<ExtArgs extends runtime.Types.Extensions.Int
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     eyebrow: string
-    eyebrowEn: string | null
     title: string
-    titleEn: string | null
     subheading: string
-    subheadingEn: string | null
     primaryCtaLabel: string
-    primaryCtaLabelEn: string | null
     secondaryCtaLabel: string
-    secondaryCtaLabelEn: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["homePageContent"]>
@@ -1137,15 +982,10 @@ export interface Prisma__HomePageContentClient<T, Null = never, ExtArgs extends 
 export interface HomePageContentFieldRefs {
   readonly id: Prisma.FieldRef<"HomePageContent", 'String'>
   readonly eyebrow: Prisma.FieldRef<"HomePageContent", 'String'>
-  readonly eyebrowEn: Prisma.FieldRef<"HomePageContent", 'String'>
   readonly title: Prisma.FieldRef<"HomePageContent", 'String'>
-  readonly titleEn: Prisma.FieldRef<"HomePageContent", 'String'>
   readonly subheading: Prisma.FieldRef<"HomePageContent", 'String'>
-  readonly subheadingEn: Prisma.FieldRef<"HomePageContent", 'String'>
   readonly primaryCtaLabel: Prisma.FieldRef<"HomePageContent", 'String'>
-  readonly primaryCtaLabelEn: Prisma.FieldRef<"HomePageContent", 'String'>
   readonly secondaryCtaLabel: Prisma.FieldRef<"HomePageContent", 'String'>
-  readonly secondaryCtaLabelEn: Prisma.FieldRef<"HomePageContent", 'String'>
   readonly createdAt: Prisma.FieldRef<"HomePageContent", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"HomePageContent", 'DateTime'>
 }

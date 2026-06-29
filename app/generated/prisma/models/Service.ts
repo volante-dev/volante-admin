@@ -37,11 +37,8 @@ export type ServiceSumAggregateOutputType = {
 export type ServiceMinAggregateOutputType = {
   id: string | null
   title: string | null
-  titleEn: string | null
   description: string | null
-  descriptionEn: string | null
   descriptionHtml: string | null
-  descriptionHtmlEn: string | null
   icon: string | null
   order: number | null
   active: boolean | null
@@ -50,11 +47,8 @@ export type ServiceMinAggregateOutputType = {
 export type ServiceMaxAggregateOutputType = {
   id: string | null
   title: string | null
-  titleEn: string | null
   description: string | null
-  descriptionEn: string | null
   descriptionHtml: string | null
-  descriptionHtmlEn: string | null
   icon: string | null
   order: number | null
   active: boolean | null
@@ -63,11 +57,8 @@ export type ServiceMaxAggregateOutputType = {
 export type ServiceCountAggregateOutputType = {
   id: number
   title: number
-  titleEn: number
   description: number
-  descriptionEn: number
   descriptionHtml: number
-  descriptionHtmlEn: number
   icon: number
   order: number
   active: number
@@ -86,11 +77,8 @@ export type ServiceSumAggregateInputType = {
 export type ServiceMinAggregateInputType = {
   id?: true
   title?: true
-  titleEn?: true
   description?: true
-  descriptionEn?: true
   descriptionHtml?: true
-  descriptionHtmlEn?: true
   icon?: true
   order?: true
   active?: true
@@ -99,11 +87,8 @@ export type ServiceMinAggregateInputType = {
 export type ServiceMaxAggregateInputType = {
   id?: true
   title?: true
-  titleEn?: true
   description?: true
-  descriptionEn?: true
   descriptionHtml?: true
-  descriptionHtmlEn?: true
   icon?: true
   order?: true
   active?: true
@@ -112,11 +97,8 @@ export type ServiceMaxAggregateInputType = {
 export type ServiceCountAggregateInputType = {
   id?: true
   title?: true
-  titleEn?: true
   description?: true
-  descriptionEn?: true
   descriptionHtml?: true
-  descriptionHtmlEn?: true
   icon?: true
   order?: true
   active?: true
@@ -212,11 +194,8 @@ export type ServiceGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type ServiceGroupByOutputType = {
   id: string
   title: string
-  titleEn: string | null
   description: string
-  descriptionEn: string | null
   descriptionHtml: string
-  descriptionHtmlEn: string | null
   icon: string | null
   order: number
   active: boolean
@@ -248,11 +227,8 @@ export type ServiceWhereInput = {
   NOT?: Prisma.ServiceWhereInput | Prisma.ServiceWhereInput[]
   id?: Prisma.StringFilter<"Service"> | string
   title?: Prisma.StringFilter<"Service"> | string
-  titleEn?: Prisma.StringNullableFilter<"Service"> | string | null
   description?: Prisma.StringFilter<"Service"> | string
-  descriptionEn?: Prisma.StringNullableFilter<"Service"> | string | null
   descriptionHtml?: Prisma.StringFilter<"Service"> | string
-  descriptionHtmlEn?: Prisma.StringNullableFilter<"Service"> | string | null
   icon?: Prisma.StringNullableFilter<"Service"> | string | null
   order?: Prisma.IntFilter<"Service"> | number
   active?: Prisma.BoolFilter<"Service"> | boolean
@@ -263,11 +239,8 @@ export type ServiceWhereInput = {
 export type ServiceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
-  descriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   descriptionHtml?: Prisma.SortOrder
-  descriptionHtmlEn?: Prisma.SortOrderInput | Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
@@ -281,11 +254,8 @@ export type ServiceWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ServiceWhereInput[]
   NOT?: Prisma.ServiceWhereInput | Prisma.ServiceWhereInput[]
   title?: Prisma.StringFilter<"Service"> | string
-  titleEn?: Prisma.StringNullableFilter<"Service"> | string | null
   description?: Prisma.StringFilter<"Service"> | string
-  descriptionEn?: Prisma.StringNullableFilter<"Service"> | string | null
   descriptionHtml?: Prisma.StringFilter<"Service"> | string
-  descriptionHtmlEn?: Prisma.StringNullableFilter<"Service"> | string | null
   icon?: Prisma.StringNullableFilter<"Service"> | string | null
   order?: Prisma.IntFilter<"Service"> | number
   active?: Prisma.BoolFilter<"Service"> | boolean
@@ -296,11 +266,8 @@ export type ServiceWhereUniqueInput = Prisma.AtLeast<{
 export type ServiceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
-  descriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   descriptionHtml?: Prisma.SortOrder
-  descriptionHtmlEn?: Prisma.SortOrderInput | Prisma.SortOrder
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
@@ -317,11 +284,8 @@ export type ServiceScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ServiceScalarWhereWithAggregatesInput | Prisma.ServiceScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Service"> | string
   title?: Prisma.StringWithAggregatesFilter<"Service"> | string
-  titleEn?: Prisma.StringNullableWithAggregatesFilter<"Service"> | string | null
   description?: Prisma.StringWithAggregatesFilter<"Service"> | string
-  descriptionEn?: Prisma.StringNullableWithAggregatesFilter<"Service"> | string | null
   descriptionHtml?: Prisma.StringWithAggregatesFilter<"Service"> | string
-  descriptionHtmlEn?: Prisma.StringNullableWithAggregatesFilter<"Service"> | string | null
   icon?: Prisma.StringNullableWithAggregatesFilter<"Service"> | string | null
   order?: Prisma.IntWithAggregatesFilter<"Service"> | number
   active?: Prisma.BoolWithAggregatesFilter<"Service"> | boolean
@@ -330,11 +294,8 @@ export type ServiceScalarWhereWithAggregatesInput = {
 export type ServiceCreateInput = {
   id?: string
   title: string
-  titleEn?: string | null
   description: string
-  descriptionEn?: string | null
   descriptionHtml: string
-  descriptionHtmlEn?: string | null
   icon?: string | null
   order?: number
   active?: boolean
@@ -345,11 +306,8 @@ export type ServiceCreateInput = {
 export type ServiceUncheckedCreateInput = {
   id?: string
   title: string
-  titleEn?: string | null
   description: string
-  descriptionEn?: string | null
   descriptionHtml: string
-  descriptionHtmlEn?: string | null
   icon?: string | null
   order?: number
   active?: boolean
@@ -360,11 +318,8 @@ export type ServiceUncheckedCreateInput = {
 export type ServiceUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -375,11 +330,8 @@ export type ServiceUpdateInput = {
 export type ServiceUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -390,11 +342,8 @@ export type ServiceUncheckedUpdateInput = {
 export type ServiceCreateManyInput = {
   id?: string
   title: string
-  titleEn?: string | null
   description: string
-  descriptionEn?: string | null
   descriptionHtml: string
-  descriptionHtmlEn?: string | null
   icon?: string | null
   order?: number
   active?: boolean
@@ -403,11 +352,8 @@ export type ServiceCreateManyInput = {
 export type ServiceUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -416,11 +362,8 @@ export type ServiceUpdateManyMutationInput = {
 export type ServiceUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -429,11 +372,8 @@ export type ServiceUncheckedUpdateManyInput = {
 export type ServiceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  descriptionEn?: Prisma.SortOrder
   descriptionHtml?: Prisma.SortOrder
-  descriptionHtmlEn?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
@@ -446,11 +386,8 @@ export type ServiceAvgOrderByAggregateInput = {
 export type ServiceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  descriptionEn?: Prisma.SortOrder
   descriptionHtml?: Prisma.SortOrder
-  descriptionHtmlEn?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
@@ -459,11 +396,8 @@ export type ServiceMaxOrderByAggregateInput = {
 export type ServiceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  descriptionEn?: Prisma.SortOrder
   descriptionHtml?: Prisma.SortOrder
-  descriptionHtmlEn?: Prisma.SortOrder
   icon?: Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
@@ -509,11 +443,8 @@ export type ServiceUpdateOneRequiredWithoutPortfolioExamplesNestedInput = {
 export type ServiceCreateWithoutTranslationsInput = {
   id?: string
   title: string
-  titleEn?: string | null
   description: string
-  descriptionEn?: string | null
   descriptionHtml: string
-  descriptionHtmlEn?: string | null
   icon?: string | null
   order?: number
   active?: boolean
@@ -523,11 +454,8 @@ export type ServiceCreateWithoutTranslationsInput = {
 export type ServiceUncheckedCreateWithoutTranslationsInput = {
   id?: string
   title: string
-  titleEn?: string | null
   description: string
-  descriptionEn?: string | null
   descriptionHtml: string
-  descriptionHtmlEn?: string | null
   icon?: string | null
   order?: number
   active?: boolean
@@ -553,11 +481,8 @@ export type ServiceUpdateToOneWithWhereWithoutTranslationsInput = {
 export type ServiceUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -567,11 +492,8 @@ export type ServiceUpdateWithoutTranslationsInput = {
 export type ServiceUncheckedUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -581,11 +503,8 @@ export type ServiceUncheckedUpdateWithoutTranslationsInput = {
 export type ServiceCreateWithoutPortfolioExamplesInput = {
   id?: string
   title: string
-  titleEn?: string | null
   description: string
-  descriptionEn?: string | null
   descriptionHtml: string
-  descriptionHtmlEn?: string | null
   icon?: string | null
   order?: number
   active?: boolean
@@ -595,11 +514,8 @@ export type ServiceCreateWithoutPortfolioExamplesInput = {
 export type ServiceUncheckedCreateWithoutPortfolioExamplesInput = {
   id?: string
   title: string
-  titleEn?: string | null
   description: string
-  descriptionEn?: string | null
   descriptionHtml: string
-  descriptionHtmlEn?: string | null
   icon?: string | null
   order?: number
   active?: boolean
@@ -625,11 +541,8 @@ export type ServiceUpdateToOneWithWhereWithoutPortfolioExamplesInput = {
 export type ServiceUpdateWithoutPortfolioExamplesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -639,11 +552,8 @@ export type ServiceUpdateWithoutPortfolioExamplesInput = {
 export type ServiceUncheckedUpdateWithoutPortfolioExamplesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   descriptionHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -693,11 +603,8 @@ export type ServiceCountOutputTypeCountTranslationsArgs<ExtArgs extends runtime.
 export type ServiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  titleEn?: boolean
   description?: boolean
-  descriptionEn?: boolean
   descriptionHtml?: boolean
-  descriptionHtmlEn?: boolean
   icon?: boolean
   order?: boolean
   active?: boolean
@@ -709,11 +616,8 @@ export type ServiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type ServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  titleEn?: boolean
   description?: boolean
-  descriptionEn?: boolean
   descriptionHtml?: boolean
-  descriptionHtmlEn?: boolean
   icon?: boolean
   order?: boolean
   active?: boolean
@@ -722,11 +626,8 @@ export type ServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ServiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  titleEn?: boolean
   description?: boolean
-  descriptionEn?: boolean
   descriptionHtml?: boolean
-  descriptionHtmlEn?: boolean
   icon?: boolean
   order?: boolean
   active?: boolean
@@ -735,17 +636,14 @@ export type ServiceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type ServiceSelectScalar = {
   id?: boolean
   title?: boolean
-  titleEn?: boolean
   description?: boolean
-  descriptionEn?: boolean
   descriptionHtml?: boolean
-  descriptionHtmlEn?: boolean
   icon?: boolean
   order?: boolean
   active?: boolean
 }
 
-export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "titleEn" | "description" | "descriptionEn" | "descriptionHtml" | "descriptionHtmlEn" | "icon" | "order" | "active", ExtArgs["result"]["service"]>
+export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "descriptionHtml" | "icon" | "order" | "active", ExtArgs["result"]["service"]>
 export type ServiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   portfolioExamples?: boolean | Prisma.Service$portfolioExamplesArgs<ExtArgs>
   translations?: boolean | Prisma.Service$translationsArgs<ExtArgs>
@@ -763,11 +661,8 @@ export type $ServicePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
-    titleEn: string | null
     description: string
-    descriptionEn: string | null
     descriptionHtml: string
-    descriptionHtmlEn: string | null
     icon: string | null
     order: number
     active: boolean
@@ -1198,11 +1093,8 @@ export interface Prisma__ServiceClient<T, Null = never, ExtArgs extends runtime.
 export interface ServiceFieldRefs {
   readonly id: Prisma.FieldRef<"Service", 'String'>
   readonly title: Prisma.FieldRef<"Service", 'String'>
-  readonly titleEn: Prisma.FieldRef<"Service", 'String'>
   readonly description: Prisma.FieldRef<"Service", 'String'>
-  readonly descriptionEn: Prisma.FieldRef<"Service", 'String'>
   readonly descriptionHtml: Prisma.FieldRef<"Service", 'String'>
-  readonly descriptionHtmlEn: Prisma.FieldRef<"Service", 'String'>
   readonly icon: Prisma.FieldRef<"Service", 'String'>
   readonly order: Prisma.FieldRef<"Service", 'Int'>
   readonly active: Prisma.FieldRef<"Service", 'Boolean'>

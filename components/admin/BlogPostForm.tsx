@@ -51,8 +51,7 @@ import {
 } from "@/app/(admin)/trailblaze/actions";
 import { nowAdminDatetimeLocal, toAdminDatetimeLocal } from "@/lib/admin-date";
 import {
-  legacyDefaultLocale,
-  legacySecondaryLocale,
+  defaultSiteLocaleCode,
 } from "@/lib/admin-translations";
 import { hasUnsupportedRichTextHtml, isBlankRichText } from "@/lib/rich-text";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
@@ -73,7 +72,6 @@ type EditableBlock = {
   id?: string;
   type: BlogPostBlockType;
   contentHtml: string;
-  contentHtmlEn: string;
   translations: Record<string, { contentHtml: string }>;
   mediaUrl: string;
   mediaAssetId: string;
@@ -105,7 +103,6 @@ const emptyBlock = (type: BlogPostBlockType): EditableBlock => ({
   key: newKey(),
   type,
   contentHtml: "<p></p>",
-  contentHtmlEn: "",
   translations: {},
   mediaUrl: "",
   mediaAssetId: "",
@@ -136,11 +133,7 @@ const inferMediaTypeFromUrl = (value: string): MediaAssetType =>
   /\.(mp4|mov|webm)(?:[?#].*)?$/i.test(value) ? "VIDEO" : "IMAGE";
 
 const extraAdminLocales = (locales: SiteLocaleData[]) =>
-  locales.filter(
-    (locale) =>
-      locale.code !== legacyDefaultLocale &&
-      locale.code !== legacySecondaryLocale,
-  );
+  locales.filter((locale) => locale.code !== defaultSiteLocaleCode);
 
 const emptyLocalizedBlogPostFields = () => ({
   eyebrow: "",
@@ -276,8 +269,7 @@ const SortableBlogBlock = ({
 
   const unsupportedHtml =
     block.type === "RICHTEXT" &&
-    (hasUnsupportedRichTextHtml(block.contentHtml) ||
-      (!!block.contentHtmlEn && hasUnsupportedRichTextHtml(block.contentHtmlEn)));
+    hasUnsupportedRichTextHtml(block.contentHtml);
 
   return (
     <Accordion
@@ -356,7 +348,6 @@ const SortableBlogBlock = ({
               update({
                 type: value,
                 contentHtml: value === "RICHTEXT" ? block.contentHtml : "<p></p>",
-                contentHtmlEn: value === "RICHTEXT" ? block.contentHtmlEn : "",
                 mediaUrl: value === "RICHTEXT" ? "" : block.mediaUrl,
                 mediaAssetId: value === "RICHTEXT" ? "" : block.mediaAssetId,
                 mediaAssetPosterUrl:
@@ -378,7 +369,6 @@ const SortableBlogBlock = ({
                 sx={{ borderBottom: 1, borderColor: "divider" }}
               >
                 <Tab label="Francais" />
-                <Tab label="English" />
                 {extraLocales.map((locale) => (
                   <Tab key={locale.code} label={locale.nativeLabel || locale.label} />
                 ))}
@@ -392,24 +382,8 @@ const SortableBlogBlock = ({
                   error={isBlankRichText(block.contentHtml)}
                 />
               )}
-              {tab === 1 && (
-                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                  <Box sx={{ flex: 1 }}>
-                    <RichTextEditor
-                      label="Content"
-                      value={block.contentHtmlEn || "<p></p>"}
-                      onChange={(value) => update({ contentHtmlEn: value })}
-                    />
-                  </Box>
-                  <TranslateButton
-                    sourceText={block.contentHtml}
-                    onTranslated={(text) => update({ contentHtmlEn: text })}
-                    html
-                  />
-                </Box>
-              )}
               {extraLocales.map((locale, localeIndex) => {
-                const tabIndex = 2 + localeIndex;
+                const tabIndex = 1 + localeIndex;
                 const translation = block.translations[locale.code] ?? {
                   contentHtml: "",
                 };
@@ -425,13 +399,14 @@ const SortableBlogBlock = ({
                     </Box>
                     <TranslateButton
                       sourceText={block.contentHtml}
+                      targetLocale={locale.code}
                       onTranslated={(text) => updateTranslation(locale.code, text)}
                       html
                     />
                   </Box>
                 ) : null;
               })}
-              {tab === 2 + extraLocales.length && (
+              {tab === 1 + extraLocales.length && (
                 <Box
                   sx={{
                     "& p": { typography: "body1" },
@@ -484,16 +459,10 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
   const [deleteTarget, setDeleteTarget] = useState<EditableBlock | null>(null);
 
   const [title, setTitle] = useState(post?.title ?? "");
-  const [titleEn, setTitleEn] = useState(post?.titleEn ?? "");
   const [eyebrow, setEyebrow] = useState(post?.eyebrow ?? "");
-  const [eyebrowEn, setEyebrowEn] = useState(post?.eyebrowEn ?? "");
   const [slug, setSlug] = useState(post?.slug ?? "");
-  const [slugEn, setSlugEn] = useState(post?.slugEn ?? "");
   const [seoDescription, setSeoDescription] = useState(
     post?.seoDescription ?? "",
-  );
-  const [seoDescriptionEn, setSeoDescriptionEn] = useState(
-    post?.seoDescriptionEn ?? "",
   );
   const extraLocales = extraAdminLocales(locales);
   const [localizedPostFields, setLocalizedPostFields] = useState(() =>
@@ -511,14 +480,12 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
     toAdminDatetimeLocal(post?.publishedAt ?? null),
   );
   const [tags, setTags] = useState(tagsToText(post?.tags ?? []));
-  const [tagsEn, setTagsEn] = useState(tagsToText(post?.tagsEn ?? []));
   const [blocks, setBlocks] = useState<EditableBlock[]>(
     post?.blocks.map((block) => ({
       key: block.id,
       id: block.id,
       type: block.type,
       contentHtml: block.contentHtml ?? "<p></p>",
-      contentHtmlEn: block.contentHtmlEn ?? "",
       translations: toBlockTranslations(block, locales),
       mediaUrl: block.mediaUrl ?? "",
       mediaAssetId: block.mediaAssetId ?? "",
@@ -591,23 +558,15 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
     });
   };
 
-  const collectRichTextContent = (
-    language: typeof legacyDefaultLocale | typeof legacySecondaryLocale,
-  ) =>
+  const collectRichTextContent = () =>
     blocks
       .filter((block) => block.type === "RICHTEXT")
-      .map((block) =>
-        stripHtml(
-          language === legacyDefaultLocale
-            ? block.contentHtml
-            : block.contentHtmlEn,
-        ),
-      )
+      .map((block) => stripHtml(block.contentHtml))
       .filter(Boolean)
       .join("\n\n");
 
   const generateTags = async () => {
-    const content = collectRichTextContent(legacyDefaultLocale);
+    const content = collectRichTextContent();
     if (!title.trim() || !eyebrow.trim() || !content.trim()) {
       setError("Renseignez au moins le titre, l'eyebrow et un bloc rich text francais.");
       return;
@@ -616,25 +575,20 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
     const result = await executeTagsAi({
       task: "generate-blog-tags",
       title,
-      titleEn,
       eyebrow,
-      eyebrowEn,
       slug,
-      slugEn,
       content,
-      contentEn: collectRichTextContent(legacySecondaryLocale),
     });
 
-    if (result && typeof result === "object" && "tags" in result && "tagsEn" in result) {
+    if (result && typeof result === "object" && "tags" in result) {
       const output = result as BlogTagsOutput;
       setTags(tagsToText(output.tags));
-      setTagsEn(tagsToText(output.tagsEn));
       toast.success("Tags SEO generes.");
     }
   };
 
   const generateSeoDescription = async () => {
-    const content = collectRichTextContent(legacyDefaultLocale);
+    const content = collectRichTextContent();
     if (!title.trim() || !eyebrow.trim() || !content.trim()) {
       setError("Renseignez au moins le titre, l'eyebrow et un bloc rich text francais.");
       return;
@@ -643,39 +597,28 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
     const result = await executeSeoDescriptionAi({
       task: "generate-blog-seo-description",
       title,
-      titleEn,
       eyebrow,
-      eyebrowEn,
       slug,
-      slugEn,
       content,
-      contentEn: collectRichTextContent(legacySecondaryLocale),
     });
 
     if (
       result &&
       typeof result === "object" &&
-      "seoDescription" in result &&
-      "seoDescriptionEn" in result
+      "seoDescription" in result
     ) {
       const output = result as BlogSeoDescriptionOutput;
       setSeoDescription(output.seoDescription);
-      setSeoDescriptionEn(output.seoDescriptionEn);
       toast.success("Descriptions SEO generees.");
     }
   };
 
   const validateClient = () => {
     if (!title.trim()) return "Le titre est obligatoire.";
-    if (!titleEn.trim()) return "Le titre anglais est obligatoire.";
     if (!eyebrow.trim()) return "L'eyebrow est obligatoire.";
     if (!slug.trim()) return "Le slug francais est obligatoire.";
-    if (!slugEn.trim()) return "Le slug anglais est obligatoire.";
     if (seoDescription.trim().length > seoDescriptionMaxLength) {
       return `La description SEO francaise doit faire ${seoDescriptionMaxLength} caracteres maximum.`;
-    }
-    if (seoDescriptionEn.trim().length > seoDescriptionMaxLength) {
-      return `La description SEO anglaise doit faire ${seoDescriptionMaxLength} caracteres maximum.`;
     }
     if (!coverMediaUrl.trim()) return "Le media de couverture est obligatoire.";
     if (blocks.some(isIncompleteBlock)) {
@@ -694,29 +637,18 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
 
     const formData = new FormData();
     formData.set("title", title);
-    formData.set("titleEn", titleEn);
     formData.set("eyebrow", eyebrow);
-    formData.set("eyebrowEn", eyebrowEn);
     formData.set("slug", slug);
-    formData.set("slugEn", slugEn);
     formData.set("seoDescription", seoDescription);
-    formData.set("seoDescriptionEn", seoDescriptionEn);
     formData.set(
       "translations",
       JSON.stringify({
-        [legacyDefaultLocale]: {
+        [defaultSiteLocaleCode]: {
           title,
           eyebrow,
           slug,
           seoDescription,
           tags,
-        },
-        [legacySecondaryLocale]: {
-          title: titleEn,
-          eyebrow: eyebrowEn,
-          slug: slugEn,
-          seoDescription: seoDescriptionEn,
-          tags: tagsEn,
         },
         ...localizedPostFields,
       }),
@@ -724,7 +656,6 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
     formData.set("coverMediaUrl", coverMediaUrl);
     formData.set("coverMediaAssetId", coverMediaAssetId);
     formData.set("tags", JSON.stringify(parseTagText(tags)));
-    formData.set("tagsEn", JSON.stringify(parseTagText(tagsEn)));
     formData.set("publishedAt", nextPublishedAt);
     formData.set(
       "blocks",
@@ -733,12 +664,8 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
           id: block.id,
           type: block.type,
           contentHtml: block.contentHtml,
-          contentHtmlEn: stripHtml(block.contentHtmlEn)
-            ? block.contentHtmlEn
-            : "",
           translations: {
-            [legacyDefaultLocale]: { contentHtml: block.contentHtml },
-            [legacySecondaryLocale]: { contentHtml: block.contentHtmlEn },
+            [defaultSiteLocaleCode]: { contentHtml: block.contentHtml },
             ...block.translations,
           },
           mediaUrl: block.mediaUrl,
@@ -789,7 +716,6 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
             sx={{ mb: 3, borderBottom: 1, borderColor: "divider" }}
           >
             <Tab label="Francais" />
-            <Tab label="English" />
             {extraLocales.map((locale) => (
               <Tab key={locale.code} label={locale.nativeLabel || locale.label} />
             ))}
@@ -848,56 +774,8 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
             </Box>
           )}
 
-          {tab === 1 && (
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <TextField
-                  label="Eyebrow anglais"
-                  value={eyebrowEn}
-                  fullWidth
-                  onChange={(event) => setEyebrowEn(event.target.value)}
-                />
-                <TranslateButton sourceText={eyebrow} onTranslated={setEyebrowEn} />
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <TextField
-                  label="Titre anglais"
-                  value={titleEn}
-                  required
-                  fullWidth
-                  onChange={(event) => setTitleEn(event.target.value)}
-                />
-                <TranslateButton sourceText={title} onTranslated={setTitleEn} />
-              </Box>
-              <TextField
-                label="Slug anglais"
-                value={slugEn}
-                required
-                fullWidth
-                helperText="Minuscules, chiffres et tirets uniquement."
-                onChange={(event) => setSlugEn(event.target.value)}
-              />
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <TextField
-                  label="SEO description"
-                  value={seoDescriptionEn}
-                  fullWidth
-                  multiline
-                  minRows={3}
-                  helperText={`${seoDescriptionEn.trim().length}/${seoDescriptionMaxLength} characters. Used for Google, social sharing and structured data.`}
-                  error={seoDescriptionEn.trim().length > seoDescriptionMaxLength}
-                  onChange={(event) => setSeoDescriptionEn(event.target.value)}
-                />
-                <TranslateButton
-                  sourceText={seoDescription}
-                  onTranslated={setSeoDescriptionEn}
-                />
-              </Box>
-            </Box>
-          )}
-
           {extraLocales.map((locale, localeIndex) => {
-            const tabIndex = 2 + localeIndex;
+            const tabIndex = 1 + localeIndex;
             const fields =
               localizedPostFields[locale.code] ?? emptyLocalizedBlogPostFields();
 
@@ -916,6 +794,7 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
                   />
                   <TranslateButton
                     sourceText={eyebrow}
+                    targetLocale={locale.code}
                     onTranslated={updateLocalizedPostField(locale.code, "eyebrow")}
                   />
                 </Box>
@@ -932,6 +811,7 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
                   />
                   <TranslateButton
                     sourceText={title}
+                    targetLocale={locale.code}
                     onTranslated={updateLocalizedPostField(locale.code, "title")}
                   />
                 </Box>
@@ -963,6 +843,7 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
                   />
                   <TranslateButton
                     sourceText={seoDescription}
+                    targetLocale={locale.code}
                     onTranslated={updateLocalizedPostField(
                       locale.code,
                       "seoDescription",
@@ -986,7 +867,7 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
             ) : null;
           })}
 
-          {tab === 2 + extraLocales.length && (
+          {tab === 1 + extraLocales.length && (
             <MediaUrlField
               label="Media de couverture"
               value={coverMediaUrl}
@@ -1004,7 +885,7 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
             />
           )}
 
-          {tab === 3 + extraLocales.length && (
+          {tab === 2 + extraLocales.length && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
               <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
                 <Button startIcon={<AddIcon />} onClick={() => addBlock("RICHTEXT")}>
@@ -1066,7 +947,7 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
             </Box>
           )}
 
-          {tab === 4 + extraLocales.length && (
+          {tab === 3 + extraLocales.length && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
               <Box>
                 <Box
@@ -1090,7 +971,7 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
                 <Box
                   sx={{
                     display: "grid",
-                    gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+                    gridTemplateColumns: "1fr",
                     gap: 2.5,
                   }}
                 >
@@ -1102,15 +983,6 @@ export const BlogPostForm = ({ post, locales }: BlogPostFormProps) => {
                     multiline
                     minRows={3}
                     helperText="Separez les tags par des virgules ou des retours a la ligne."
-                  />
-                  <TextField
-                    label="Tags anglais"
-                    value={tagsEn}
-                    onChange={(event) => setTagsEn(event.target.value)}
-                    fullWidth
-                    multiline
-                    minRows={3}
-                    helperText="Affiches sur la version anglaise."
                   />
                 </Box>
               </Box>

@@ -162,7 +162,6 @@ export const StudioValueTable = ({
             <TableRow>
               <TableCell sx={{ width: 60 }}>#</TableCell>
               <TableCell>Titre</TableCell>
-              <TableCell>Title EN</TableCell>
               <TableCell sx={{ width: 80 }}>Actif</TableCell>
               <TableCell sx={{ width: 110 }} align="right">Actions</TableCell>
             </TableRow>
@@ -172,7 +171,6 @@ export const StudioValueTable = ({
               <TableRow key={studioValue.id} hover>
                 <TableCell>{studioValue.order}</TableCell>
                 <TableCell>{studioValue.title}</TableCell>
-                <TableCell>{studioValue.titleEn || "--"}</TableCell>
                 <TableCell>
                   <StudioValueActiveToggle
                     id={studioValue.id}

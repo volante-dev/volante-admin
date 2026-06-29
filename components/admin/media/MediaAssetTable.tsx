@@ -39,15 +39,18 @@ import {
 } from "@/lib/browser-video-converter";
 import { describeUnknownError } from "@/lib/error-utils";
 import { useAiRequest } from "@/lib/use-ai-request";
-import {
-  legacyDefaultLocale,
-  legacySecondaryLocale,
-} from "@/lib/admin-translations";
+import { defaultSiteLocaleCode } from "@/lib/admin-translations";
 import type { SiteLocaleData } from "@/lib/site-locales";
 import type { MediaMetadataOutput } from "@/lib/ai";
 import type { MediaAssetData } from "./media-types";
 
-const hasMissingAlt = (asset: MediaAssetData) => !asset.alt || !asset.altEn;
+const hasMissingAlt = (asset: MediaAssetData, locales: SiteLocaleData[]) => {
+  if (!asset.alt) return true;
+  const translations = new Map(asset.translations.map((translation) => [translation.locale, translation]));
+  return locales
+    .filter((locale) => locale.code !== defaultSiteLocaleCode)
+    .some((locale) => !translations.get(locale.code)?.alt);
+};
 const hasMissingTags = (asset: MediaAssetData) => asset.tags.length === 0;
 const posterAccept = "image/jpeg,image/png,image/webp,image/avif";
 const optimizableMimeTypes = new Set(["image/png", "image/jpeg"]);
@@ -65,7 +68,6 @@ const isMediaMetadataOutput = (
   typeof output === "object" &&
   output !== null &&
   "alt" in output &&
-  "altEn" in output &&
   "tags" in output &&
   Array.isArray((output as MediaMetadataOutput).tags);
 
@@ -143,13 +145,8 @@ export const MediaAssetTable = ({
   const [editing, setEditing] = useState<MediaAssetData | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<MediaAssetData | null>(null);
   const [draftAlt, setDraftAlt] = useState("");
-  const [draftAltEn, setDraftAltEn] = useState("");
   const [draftTags, setDraftTags] = useState("");
-  const extraLocales = locales.filter(
-    (locale) =>
-      locale.code !== legacyDefaultLocale &&
-      locale.code !== legacySecondaryLocale,
-  );
+  const extraLocales = locales.filter((locale) => locale.code !== defaultSiteLocaleCode);
   const [draftTranslations, setDraftTranslations] = useState<
     Record<string, { alt: string; tags: string }>
   >({});
@@ -172,7 +169,6 @@ export const MediaAssetTable = ({
       [
         asset.name,
         asset.alt ?? "",
-        asset.altEn ?? "",
         asset.tags.join(" "),
         asset.pathname,
       ]
@@ -185,7 +181,6 @@ export const MediaAssetTable = ({
   const openEditor = (asset: MediaAssetData) => {
     setEditing(asset);
     setDraftAlt(asset.alt ?? "");
-    setDraftAltEn(asset.altEn ?? "");
     setDraftTags(asset.tags.join(", "));
     const byLocale = new Map(asset.translations.map((item) => [item.locale, item]));
     setDraftTranslations(
@@ -214,13 +209,11 @@ export const MediaAssetTable = ({
     const formData = new FormData();
     formData.set("name", editing.name);
     formData.set("alt", draftAlt);
-    formData.set("altEn", draftAltEn);
     formData.set("tags", draftTags);
     formData.set(
       "translations",
       JSON.stringify({
-        [legacyDefaultLocale]: { alt: draftAlt, tags: draftTags },
-        [legacySecondaryLocale]: { alt: draftAltEn, tags: "" },
+        [defaultSiteLocaleCode]: { alt: draftAlt, tags: draftTags },
         ...draftTranslations,
       }),
     );
@@ -301,7 +294,6 @@ export const MediaAssetTable = ({
     }
 
     setDraftAlt(result.alt);
-    setDraftAltEn(result.altEn);
     setDraftTags(result.tags.join(", "));
     toast.success("Alt et tags generes.");
   };
@@ -521,7 +513,7 @@ export const MediaAssetTable = ({
                     {asset.pathname}
                   </Typography>
                   <Box sx={{ mt: 0.75, display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                    {hasMissingAlt(asset) && (
+                    {hasMissingAlt(asset, locales) && (
                       <Chip
                         size="small"
                         color="warning"
@@ -753,14 +745,6 @@ export const MediaAssetTable = ({
             label="Alt FR"
             value={draftAlt}
             onChange={(event) => setDraftAlt(event.target.value)}
-            fullWidth
-            multiline
-            minRows={2}
-          />
-          <TextField
-            label="Alt EN"
-            value={draftAltEn}
-            onChange={(event) => setDraftAltEn(event.target.value)}
             fullWidth
             multiline
             minRows={2}

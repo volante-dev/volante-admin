@@ -17,15 +17,10 @@ export const getHomePageContent = async (): Promise<HomePageContentData> => {
   return {
     id: "home",
     eyebrow: content.eyebrow,
-    eyebrowEn: content.eyebrowEn,
     title: content.title,
-    titleEn: content.titleEn,
     subheading: content.subheading,
-    subheadingEn: content.subheadingEn,
     primaryCtaLabel: content.primaryCtaLabel,
-    primaryCtaLabelEn: content.primaryCtaLabelEn,
     secondaryCtaLabel: content.secondaryCtaLabel,
-    secondaryCtaLabelEn: content.secondaryCtaLabelEn,
     translations: content.translations.map((translation) => ({
       locale: translation.locale,
       eyebrow: translation.eyebrow,

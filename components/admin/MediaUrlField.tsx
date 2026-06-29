@@ -99,7 +99,6 @@ export const MediaUrlField = ({
     useState<VideoConversionStatus | null>(null);
   const [assetName, setAssetName] = useState("");
   const [assetAlt, setAssetAlt] = useState("");
-  const [assetAltEn, setAssetAltEn] = useState("");
   const [assetTags, setAssetTags] = useState(defaultTags(basePath, field));
   const [query, setQuery] = useState("");
   const [libraryAssets, setLibraryAssets] = useState<MediaSelection[]>([]);
@@ -139,7 +138,6 @@ export const MediaUrlField = ({
     setConversionStatus(null);
     setAssetName("");
     setAssetAlt("");
-    setAssetAltEn("");
     setAssetTags(defaultTags(basePath, field));
   };
 
@@ -200,7 +198,6 @@ export const MediaUrlField = ({
         {
           name,
           alt: assetAlt,
-          altEn: assetAltEn,
           tags: assetTags
             .split(/[\n,]/)
             .map((tag) => tag.trim())
@@ -389,11 +386,6 @@ export const MediaUrlField = ({
             label="Alt FR"
             value={assetAlt}
             onChange={(event) => setAssetAlt(event.target.value)}
-          />
-          <TextField
-            label="Alt EN"
-            value={assetAltEn}
-            onChange={(event) => setAssetAltEn(event.target.value)}
           />
           <TextField
             label="Tags"

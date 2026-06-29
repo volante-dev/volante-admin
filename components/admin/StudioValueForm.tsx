@@ -20,7 +20,7 @@ import {
 import { TranslateButton } from "@/components/admin/TranslateButton";
 import type { StudioValueData } from "./studio-value-types";
 import type { SiteLocaleData } from "@/lib/site-locales";
-import { legacyDefaultLocale, legacySecondaryLocale } from "@/lib/admin-translations";
+import { defaultSiteLocaleCode } from "@/lib/admin-translations";
 
 type LocalizedStudioValueFields = Record<
   string,
@@ -39,26 +39,17 @@ const toLocalizedStudioValueFields = (
   return Object.fromEntries(
     locales.map((locale) => {
       const translation = byLocale.get(locale.code);
-      const isLegacyDefault = locale.code === legacyDefaultLocale;
-      const isLegacySecondary = locale.code === legacySecondaryLocale;
+      const isLegacyDefault = locale.code === defaultSiteLocaleCode;
 
       return [
         locale.code,
         {
           title:
             translation?.title ??
-            (isLegacyDefault
-              ? studioValue?.title ?? ""
-              : isLegacySecondary
-                ? studioValue?.titleEn ?? ""
-                : ""),
+            (isLegacyDefault ? studioValue?.title ?? "" : ""),
           description:
             translation?.description ??
-            (isLegacyDefault
-              ? studioValue?.description ?? ""
-              : isLegacySecondary
-                ? studioValue?.descriptionEn ?? ""
-                : ""),
+            (isLegacyDefault ? studioValue?.description ?? "" : ""),
         },
       ];
     }),
@@ -78,7 +69,7 @@ export const StudioValueForm = ({
   const [error, setError] = useState<string | null>(null);
   const activeLocales = locales.length
     ? locales
-    : [{ code: legacyDefaultLocale, label: "Français" } as SiteLocaleData];
+    : [{ code: defaultSiteLocaleCode, label: "Français" } as SiteLocaleData];
   const defaultLocale = activeLocales.find((locale) => locale.isDefault)?.code ?? activeLocales[0].code;
   const [localizedFields, setLocalizedFields] = useState(() =>
     toLocalizedStudioValueFields(studioValue, activeLocales),
@@ -116,13 +107,9 @@ export const StudioValueForm = ({
 
     const formData = new FormData();
     formData.set("translations", JSON.stringify(localizedFields));
-    const legacyDefaultFields = localizedFields[legacyDefaultLocale] ?? defaultFields;
-    const legacySecondaryFields =
-      localizedFields[legacySecondaryLocale] ?? { title: "", description: "" };
-    formData.set("title", legacyDefaultFields.title);
-    formData.set("titleEn", legacySecondaryFields.title);
-    formData.set("description", legacyDefaultFields.description);
-    formData.set("descriptionEn", legacySecondaryFields.description);
+    const defaultLocaleFields = localizedFields[defaultSiteLocaleCode] ?? defaultFields;
+    formData.set("title", defaultLocaleFields.title);
+    formData.set("description", defaultLocaleFields.description);
     formData.set("order", order);
     formData.set("active", String(active));
 
@@ -187,6 +174,7 @@ export const StudioValueForm = ({
                   {!isDefaultLocale && (
                     <TranslateButton
                       sourceText={sourceFields.title}
+                      targetLocale={locale.code}
                       onTranslated={updateLocalizedField(locale.code, "title")}
                     />
                   )}
@@ -211,6 +199,7 @@ export const StudioValueForm = ({
                   {!isDefaultLocale && (
                     <TranslateButton
                       sourceText={sourceFields.description}
+                      targetLocale={locale.code}
                       onTranslated={updateLocalizedField(locale.code, "description")}
                     />
                   )}

@@ -37,9 +37,7 @@ export type StudioValueSumAggregateOutputType = {
 export type StudioValueMinAggregateOutputType = {
   id: string | null
   title: string | null
-  titleEn: string | null
   description: string | null
-  descriptionEn: string | null
   order: number | null
   active: boolean | null
 }
@@ -47,9 +45,7 @@ export type StudioValueMinAggregateOutputType = {
 export type StudioValueMaxAggregateOutputType = {
   id: string | null
   title: string | null
-  titleEn: string | null
   description: string | null
-  descriptionEn: string | null
   order: number | null
   active: boolean | null
 }
@@ -57,9 +53,7 @@ export type StudioValueMaxAggregateOutputType = {
 export type StudioValueCountAggregateOutputType = {
   id: number
   title: number
-  titleEn: number
   description: number
-  descriptionEn: number
   order: number
   active: number
   _all: number
@@ -77,9 +71,7 @@ export type StudioValueSumAggregateInputType = {
 export type StudioValueMinAggregateInputType = {
   id?: true
   title?: true
-  titleEn?: true
   description?: true
-  descriptionEn?: true
   order?: true
   active?: true
 }
@@ -87,9 +79,7 @@ export type StudioValueMinAggregateInputType = {
 export type StudioValueMaxAggregateInputType = {
   id?: true
   title?: true
-  titleEn?: true
   description?: true
-  descriptionEn?: true
   order?: true
   active?: true
 }
@@ -97,9 +87,7 @@ export type StudioValueMaxAggregateInputType = {
 export type StudioValueCountAggregateInputType = {
   id?: true
   title?: true
-  titleEn?: true
   description?: true
-  descriptionEn?: true
   order?: true
   active?: true
   _all?: true
@@ -194,9 +182,7 @@ export type StudioValueGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
 export type StudioValueGroupByOutputType = {
   id: string
   title: string
-  titleEn: string | null
   description: string
-  descriptionEn: string | null
   order: number
   active: boolean
   _count: StudioValueCountAggregateOutputType | null
@@ -227,9 +213,7 @@ export type StudioValueWhereInput = {
   NOT?: Prisma.StudioValueWhereInput | Prisma.StudioValueWhereInput[]
   id?: Prisma.StringFilter<"StudioValue"> | string
   title?: Prisma.StringFilter<"StudioValue"> | string
-  titleEn?: Prisma.StringNullableFilter<"StudioValue"> | string | null
   description?: Prisma.StringFilter<"StudioValue"> | string
-  descriptionEn?: Prisma.StringNullableFilter<"StudioValue"> | string | null
   order?: Prisma.IntFilter<"StudioValue"> | number
   active?: Prisma.BoolFilter<"StudioValue"> | boolean
   translations?: Prisma.StudioValueTranslationListRelationFilter
@@ -238,9 +222,7 @@ export type StudioValueWhereInput = {
 export type StudioValueOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
-  descriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
   translations?: Prisma.StudioValueTranslationOrderByRelationAggregateInput
@@ -252,9 +234,7 @@ export type StudioValueWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.StudioValueWhereInput[]
   NOT?: Prisma.StudioValueWhereInput | Prisma.StudioValueWhereInput[]
   title?: Prisma.StringFilter<"StudioValue"> | string
-  titleEn?: Prisma.StringNullableFilter<"StudioValue"> | string | null
   description?: Prisma.StringFilter<"StudioValue"> | string
-  descriptionEn?: Prisma.StringNullableFilter<"StudioValue"> | string | null
   order?: Prisma.IntFilter<"StudioValue"> | number
   active?: Prisma.BoolFilter<"StudioValue"> | boolean
   translations?: Prisma.StudioValueTranslationListRelationFilter
@@ -263,9 +243,7 @@ export type StudioValueWhereUniqueInput = Prisma.AtLeast<{
 export type StudioValueOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrder
-  descriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
   _count?: Prisma.StudioValueCountOrderByAggregateInput
@@ -281,9 +259,7 @@ export type StudioValueScalarWhereWithAggregatesInput = {
   NOT?: Prisma.StudioValueScalarWhereWithAggregatesInput | Prisma.StudioValueScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"StudioValue"> | string
   title?: Prisma.StringWithAggregatesFilter<"StudioValue"> | string
-  titleEn?: Prisma.StringNullableWithAggregatesFilter<"StudioValue"> | string | null
   description?: Prisma.StringWithAggregatesFilter<"StudioValue"> | string
-  descriptionEn?: Prisma.StringNullableWithAggregatesFilter<"StudioValue"> | string | null
   order?: Prisma.IntWithAggregatesFilter<"StudioValue"> | number
   active?: Prisma.BoolWithAggregatesFilter<"StudioValue"> | boolean
 }
@@ -291,9 +267,7 @@ export type StudioValueScalarWhereWithAggregatesInput = {
 export type StudioValueCreateInput = {
   id?: string
   title: string
-  titleEn?: string | null
   description: string
-  descriptionEn?: string | null
   order?: number
   active?: boolean
   translations?: Prisma.StudioValueTranslationCreateNestedManyWithoutStudioValueInput
@@ -302,9 +276,7 @@ export type StudioValueCreateInput = {
 export type StudioValueUncheckedCreateInput = {
   id?: string
   title: string
-  titleEn?: string | null
   description: string
-  descriptionEn?: string | null
   order?: number
   active?: boolean
   translations?: Prisma.StudioValueTranslationUncheckedCreateNestedManyWithoutStudioValueInput
@@ -313,9 +285,7 @@ export type StudioValueUncheckedCreateInput = {
 export type StudioValueUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   translations?: Prisma.StudioValueTranslationUpdateManyWithoutStudioValueNestedInput
@@ -324,9 +294,7 @@ export type StudioValueUpdateInput = {
 export type StudioValueUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
   translations?: Prisma.StudioValueTranslationUncheckedUpdateManyWithoutStudioValueNestedInput
@@ -335,9 +303,7 @@ export type StudioValueUncheckedUpdateInput = {
 export type StudioValueCreateManyInput = {
   id?: string
   title: string
-  titleEn?: string | null
   description: string
-  descriptionEn?: string | null
   order?: number
   active?: boolean
 }
@@ -345,9 +311,7 @@ export type StudioValueCreateManyInput = {
 export type StudioValueUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -355,9 +319,7 @@ export type StudioValueUpdateManyMutationInput = {
 export type StudioValueUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -365,9 +327,7 @@ export type StudioValueUncheckedUpdateManyInput = {
 export type StudioValueCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  descriptionEn?: Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
 }
@@ -379,9 +339,7 @@ export type StudioValueAvgOrderByAggregateInput = {
 export type StudioValueMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  descriptionEn?: Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
 }
@@ -389,9 +347,7 @@ export type StudioValueMaxOrderByAggregateInput = {
 export type StudioValueMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   description?: Prisma.SortOrder
-  descriptionEn?: Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
 }
@@ -422,9 +378,7 @@ export type StudioValueUpdateOneRequiredWithoutTranslationsNestedInput = {
 export type StudioValueCreateWithoutTranslationsInput = {
   id?: string
   title: string
-  titleEn?: string | null
   description: string
-  descriptionEn?: string | null
   order?: number
   active?: boolean
 }
@@ -432,9 +386,7 @@ export type StudioValueCreateWithoutTranslationsInput = {
 export type StudioValueUncheckedCreateWithoutTranslationsInput = {
   id?: string
   title: string
-  titleEn?: string | null
   description: string
-  descriptionEn?: string | null
   order?: number
   active?: boolean
 }
@@ -458,9 +410,7 @@ export type StudioValueUpdateToOneWithWhereWithoutTranslationsInput = {
 export type StudioValueUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -468,9 +418,7 @@ export type StudioValueUpdateWithoutTranslationsInput = {
 export type StudioValueUncheckedUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
@@ -509,9 +457,7 @@ export type StudioValueCountOutputTypeCountTranslationsArgs<ExtArgs extends runt
 export type StudioValueSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  titleEn?: boolean
   description?: boolean
-  descriptionEn?: boolean
   order?: boolean
   active?: boolean
   translations?: boolean | Prisma.StudioValue$translationsArgs<ExtArgs>
@@ -521,9 +467,7 @@ export type StudioValueSelect<ExtArgs extends runtime.Types.Extensions.InternalA
 export type StudioValueSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  titleEn?: boolean
   description?: boolean
-  descriptionEn?: boolean
   order?: boolean
   active?: boolean
 }, ExtArgs["result"]["studioValue"]>
@@ -531,9 +475,7 @@ export type StudioValueSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
 export type StudioValueSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
-  titleEn?: boolean
   description?: boolean
-  descriptionEn?: boolean
   order?: boolean
   active?: boolean
 }, ExtArgs["result"]["studioValue"]>
@@ -541,14 +483,12 @@ export type StudioValueSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
 export type StudioValueSelectScalar = {
   id?: boolean
   title?: boolean
-  titleEn?: boolean
   description?: boolean
-  descriptionEn?: boolean
   order?: boolean
   active?: boolean
 }
 
-export type StudioValueOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "titleEn" | "description" | "descriptionEn" | "order" | "active", ExtArgs["result"]["studioValue"]>
+export type StudioValueOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "order" | "active", ExtArgs["result"]["studioValue"]>
 export type StudioValueInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | Prisma.StudioValue$translationsArgs<ExtArgs>
   _count?: boolean | Prisma.StudioValueCountOutputTypeDefaultArgs<ExtArgs>
@@ -564,9 +504,7 @@ export type $StudioValuePayload<ExtArgs extends runtime.Types.Extensions.Interna
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
-    titleEn: string | null
     description: string
-    descriptionEn: string | null
     order: number
     active: boolean
   }, ExtArgs["result"]["studioValue"]>
@@ -995,9 +933,7 @@ export interface Prisma__StudioValueClient<T, Null = never, ExtArgs extends runt
 export interface StudioValueFieldRefs {
   readonly id: Prisma.FieldRef<"StudioValue", 'String'>
   readonly title: Prisma.FieldRef<"StudioValue", 'String'>
-  readonly titleEn: Prisma.FieldRef<"StudioValue", 'String'>
   readonly description: Prisma.FieldRef<"StudioValue", 'String'>
-  readonly descriptionEn: Prisma.FieldRef<"StudioValue", 'String'>
   readonly order: Prisma.FieldRef<"StudioValue", 'Int'>
   readonly active: Prisma.FieldRef<"StudioValue", 'Boolean'>
 }

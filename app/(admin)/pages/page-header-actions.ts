@@ -6,11 +6,9 @@ import { requireCrmAccess } from "@/lib/auth-guard";
 import { normalizeNullable, normalizeRequired } from "@/lib/validation";
 import { isPageHeaderId, type PageHeaderId } from "@/components/admin/page-header-types";
 import {
-  legacyDefaultLocale,
-  legacyDefaultTextValue,
-  legacySecondaryLocale,
-  legacySecondaryTextValue,
-  mergeLegacyLocaleTextTranslations,
+  defaultSiteLocaleCode,
+  defaultLocaleTextValue,
+  mergeLocaleTextTranslations,
   parseLocaleTextTranslations,
   type LocaleTextTranslations,
 } from "@/lib/admin-translations";
@@ -22,11 +20,8 @@ type ActionResult = {
 
 type PageHeaderContentValues = {
   eyebrow: string;
-  eyebrowEn: string | null;
   title: string;
-  titleEn: string | null;
   intro: string | null;
-  introEn: string | null;
 };
 
 type PageHeaderTranslationField = "eyebrow" | "title" | "intro";
@@ -49,23 +44,14 @@ const parsePageHeaderContent = (formData: FormData) => {
   );
   const values = {
     eyebrow:
-      legacyDefaultTextValue(translations, "eyebrow") ??
+      defaultLocaleTextValue(translations, "eyebrow") ??
       normalizeRequired(formData.get("eyebrow")),
-    eyebrowEn:
-      legacySecondaryTextValue(translations, "eyebrow") ??
-      normalizeNullable(formData.get("eyebrowEn")),
     title:
-      legacyDefaultTextValue(translations, "title") ??
+      defaultLocaleTextValue(translations, "title") ??
       normalizeRequired(formData.get("title")),
-    titleEn:
-      legacySecondaryTextValue(translations, "title") ??
-      normalizeNullable(formData.get("titleEn")),
     intro:
-      legacyDefaultTextValue(translations, "intro") ??
+      defaultLocaleTextValue(translations, "intro") ??
       normalizeNullable(formData.get("intro")),
-    introEn:
-      legacySecondaryTextValue(translations, "intro") ??
-      normalizeNullable(formData.get("introEn")),
   };
 
   if (values.eyebrow.length < 2) {
@@ -83,17 +69,11 @@ const pageHeaderTranslations = (
   data: PageHeaderContentValues,
   translations: LocaleTextTranslations<PageHeaderTranslationField>,
 ) => {
-  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
+  mergeLocaleTextTranslations(translations, defaultSiteLocaleCode, {
     eyebrow: data.eyebrow,
     title: data.title,
     intro: data.intro,
   });
-  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
-    eyebrow: data.eyebrowEn,
-    title: data.titleEn,
-    intro: data.introEn,
-  });
-
   return Object.entries(translations).map(([locale, values]) => ({
     contentId,
     locale,

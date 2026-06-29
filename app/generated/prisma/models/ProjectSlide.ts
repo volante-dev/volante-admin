@@ -39,15 +39,12 @@ export type ProjectSlideMinAggregateOutputType = {
   projectId: string | null
   order: number | null
   title: string | null
-  titleEn: string | null
   contentHtml: string | null
-  contentHtmlEn: string | null
   mediaType: $Enums.ProjectSlideMediaType | null
   mediaUrl: string | null
   mediaAssetId: string | null
   posterUrl: string | null
   alt: string | null
-  altEn: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -57,15 +54,12 @@ export type ProjectSlideMaxAggregateOutputType = {
   projectId: string | null
   order: number | null
   title: string | null
-  titleEn: string | null
   contentHtml: string | null
-  contentHtmlEn: string | null
   mediaType: $Enums.ProjectSlideMediaType | null
   mediaUrl: string | null
   mediaAssetId: string | null
   posterUrl: string | null
   alt: string | null
-  altEn: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -75,15 +69,12 @@ export type ProjectSlideCountAggregateOutputType = {
   projectId: number
   order: number
   title: number
-  titleEn: number
   contentHtml: number
-  contentHtmlEn: number
   mediaType: number
   mediaUrl: number
   mediaAssetId: number
   posterUrl: number
   alt: number
-  altEn: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -103,15 +94,12 @@ export type ProjectSlideMinAggregateInputType = {
   projectId?: true
   order?: true
   title?: true
-  titleEn?: true
   contentHtml?: true
-  contentHtmlEn?: true
   mediaType?: true
   mediaUrl?: true
   mediaAssetId?: true
   posterUrl?: true
   alt?: true
-  altEn?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -121,15 +109,12 @@ export type ProjectSlideMaxAggregateInputType = {
   projectId?: true
   order?: true
   title?: true
-  titleEn?: true
   contentHtml?: true
-  contentHtmlEn?: true
   mediaType?: true
   mediaUrl?: true
   mediaAssetId?: true
   posterUrl?: true
   alt?: true
-  altEn?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -139,15 +124,12 @@ export type ProjectSlideCountAggregateInputType = {
   projectId?: true
   order?: true
   title?: true
-  titleEn?: true
   contentHtml?: true
-  contentHtmlEn?: true
   mediaType?: true
   mediaUrl?: true
   mediaAssetId?: true
   posterUrl?: true
   alt?: true
-  altEn?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -244,15 +226,12 @@ export type ProjectSlideGroupByOutputType = {
   projectId: string
   order: number
   title: string
-  titleEn: string | null
   contentHtml: string
-  contentHtmlEn: string | null
   mediaType: $Enums.ProjectSlideMediaType
   mediaUrl: string
   mediaAssetId: string | null
   posterUrl: string | null
   alt: string | null
-  altEn: string | null
   createdAt: Date
   updatedAt: Date
   _count: ProjectSlideCountAggregateOutputType | null
@@ -285,15 +264,12 @@ export type ProjectSlideWhereInput = {
   projectId?: Prisma.StringFilter<"ProjectSlide"> | string
   order?: Prisma.IntFilter<"ProjectSlide"> | number
   title?: Prisma.StringFilter<"ProjectSlide"> | string
-  titleEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   contentHtml?: Prisma.StringFilter<"ProjectSlide"> | string
-  contentHtmlEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFilter<"ProjectSlide"> | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFilter<"ProjectSlide"> | string
   mediaAssetId?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   posterUrl?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   alt?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
-  altEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ProjectSlide"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProjectSlide"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
@@ -306,15 +282,12 @@ export type ProjectSlideOrderByWithRelationInput = {
   projectId?: Prisma.SortOrder
   order?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrderInput | Prisma.SortOrder
   contentHtml?: Prisma.SortOrder
-  contentHtmlEn?: Prisma.SortOrderInput | Prisma.SortOrder
   mediaType?: Prisma.SortOrder
   mediaUrl?: Prisma.SortOrder
   mediaAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   posterUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   alt?: Prisma.SortOrderInput | Prisma.SortOrder
-  altEn?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   project?: Prisma.ProjectOrderByWithRelationInput
@@ -330,15 +303,12 @@ export type ProjectSlideWhereUniqueInput = Prisma.AtLeast<{
   projectId?: Prisma.StringFilter<"ProjectSlide"> | string
   order?: Prisma.IntFilter<"ProjectSlide"> | number
   title?: Prisma.StringFilter<"ProjectSlide"> | string
-  titleEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   contentHtml?: Prisma.StringFilter<"ProjectSlide"> | string
-  contentHtmlEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFilter<"ProjectSlide"> | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFilter<"ProjectSlide"> | string
   mediaAssetId?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   posterUrl?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   alt?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
-  altEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ProjectSlide"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProjectSlide"> | Date | string
   project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
@@ -351,15 +321,12 @@ export type ProjectSlideOrderByWithAggregationInput = {
   projectId?: Prisma.SortOrder
   order?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrderInput | Prisma.SortOrder
   contentHtml?: Prisma.SortOrder
-  contentHtmlEn?: Prisma.SortOrderInput | Prisma.SortOrder
   mediaType?: Prisma.SortOrder
   mediaUrl?: Prisma.SortOrder
   mediaAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   posterUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   alt?: Prisma.SortOrderInput | Prisma.SortOrder
-  altEn?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ProjectSlideCountOrderByAggregateInput
@@ -377,15 +344,12 @@ export type ProjectSlideScalarWhereWithAggregatesInput = {
   projectId?: Prisma.StringWithAggregatesFilter<"ProjectSlide"> | string
   order?: Prisma.IntWithAggregatesFilter<"ProjectSlide"> | number
   title?: Prisma.StringWithAggregatesFilter<"ProjectSlide"> | string
-  titleEn?: Prisma.StringNullableWithAggregatesFilter<"ProjectSlide"> | string | null
   contentHtml?: Prisma.StringWithAggregatesFilter<"ProjectSlide"> | string
-  contentHtmlEn?: Prisma.StringNullableWithAggregatesFilter<"ProjectSlide"> | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeWithAggregatesFilter<"ProjectSlide"> | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringWithAggregatesFilter<"ProjectSlide"> | string
   mediaAssetId?: Prisma.StringNullableWithAggregatesFilter<"ProjectSlide"> | string | null
   posterUrl?: Prisma.StringNullableWithAggregatesFilter<"ProjectSlide"> | string | null
   alt?: Prisma.StringNullableWithAggregatesFilter<"ProjectSlide"> | string | null
-  altEn?: Prisma.StringNullableWithAggregatesFilter<"ProjectSlide"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ProjectSlide"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"ProjectSlide"> | Date | string
 }
@@ -394,14 +358,11 @@ export type ProjectSlideCreateInput = {
   id?: string
   order?: number
   title: string
-  titleEn?: string | null
   contentHtml: string
-  contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
   posterUrl?: string | null
   alt?: string | null
-  altEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutSlidesInput
@@ -414,15 +375,12 @@ export type ProjectSlideUncheckedCreateInput = {
   projectId: string
   order?: number
   title: string
-  titleEn?: string | null
   contentHtml: string
-  contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
   mediaAssetId?: string | null
   posterUrl?: string | null
   alt?: string | null
-  altEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.ProjectSlideTranslationUncheckedCreateNestedManyWithoutSlideInput
@@ -432,14 +390,11 @@ export type ProjectSlideUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutSlidesNestedInput
@@ -452,15 +407,12 @@ export type ProjectSlideUncheckedUpdateInput = {
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.ProjectSlideTranslationUncheckedUpdateManyWithoutSlideNestedInput
@@ -471,15 +423,12 @@ export type ProjectSlideCreateManyInput = {
   projectId: string
   order?: number
   title: string
-  titleEn?: string | null
   contentHtml: string
-  contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
   mediaAssetId?: string | null
   posterUrl?: string | null
   alt?: string | null
-  altEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -488,14 +437,11 @@ export type ProjectSlideUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -505,15 +451,12 @@ export type ProjectSlideUncheckedUpdateManyInput = {
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -533,15 +476,12 @@ export type ProjectSlideCountOrderByAggregateInput = {
   projectId?: Prisma.SortOrder
   order?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   contentHtml?: Prisma.SortOrder
-  contentHtmlEn?: Prisma.SortOrder
   mediaType?: Prisma.SortOrder
   mediaUrl?: Prisma.SortOrder
   mediaAssetId?: Prisma.SortOrder
   posterUrl?: Prisma.SortOrder
   alt?: Prisma.SortOrder
-  altEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -555,15 +495,12 @@ export type ProjectSlideMaxOrderByAggregateInput = {
   projectId?: Prisma.SortOrder
   order?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   contentHtml?: Prisma.SortOrder
-  contentHtmlEn?: Prisma.SortOrder
   mediaType?: Prisma.SortOrder
   mediaUrl?: Prisma.SortOrder
   mediaAssetId?: Prisma.SortOrder
   posterUrl?: Prisma.SortOrder
   alt?: Prisma.SortOrder
-  altEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -573,15 +510,12 @@ export type ProjectSlideMinOrderByAggregateInput = {
   projectId?: Prisma.SortOrder
   order?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   contentHtml?: Prisma.SortOrder
-  contentHtmlEn?: Prisma.SortOrder
   mediaType?: Prisma.SortOrder
   mediaUrl?: Prisma.SortOrder
   mediaAssetId?: Prisma.SortOrder
   posterUrl?: Prisma.SortOrder
   alt?: Prisma.SortOrder
-  altEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -701,14 +635,11 @@ export type ProjectSlideCreateWithoutProjectInput = {
   id?: string
   order?: number
   title: string
-  titleEn?: string | null
   contentHtml: string
-  contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
   posterUrl?: string | null
   alt?: string | null
-  altEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   mediaAsset?: Prisma.MediaAssetCreateNestedOneWithoutProjectSlideMediaInput
@@ -719,15 +650,12 @@ export type ProjectSlideUncheckedCreateWithoutProjectInput = {
   id?: string
   order?: number
   title: string
-  titleEn?: string | null
   contentHtml: string
-  contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
   mediaAssetId?: string | null
   posterUrl?: string | null
   alt?: string | null
-  altEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.ProjectSlideTranslationUncheckedCreateNestedManyWithoutSlideInput
@@ -767,15 +695,12 @@ export type ProjectSlideScalarWhereInput = {
   projectId?: Prisma.StringFilter<"ProjectSlide"> | string
   order?: Prisma.IntFilter<"ProjectSlide"> | number
   title?: Prisma.StringFilter<"ProjectSlide"> | string
-  titleEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   contentHtml?: Prisma.StringFilter<"ProjectSlide"> | string
-  contentHtmlEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFilter<"ProjectSlide"> | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFilter<"ProjectSlide"> | string
   mediaAssetId?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   posterUrl?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   alt?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
-  altEn?: Prisma.StringNullableFilter<"ProjectSlide"> | string | null
   createdAt?: Prisma.DateTimeFilter<"ProjectSlide"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"ProjectSlide"> | Date | string
 }
@@ -784,14 +709,11 @@ export type ProjectSlideCreateWithoutTranslationsInput = {
   id?: string
   order?: number
   title: string
-  titleEn?: string | null
   contentHtml: string
-  contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
   posterUrl?: string | null
   alt?: string | null
-  altEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutSlidesInput
@@ -803,15 +725,12 @@ export type ProjectSlideUncheckedCreateWithoutTranslationsInput = {
   projectId: string
   order?: number
   title: string
-  titleEn?: string | null
   contentHtml: string
-  contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
   mediaAssetId?: string | null
   posterUrl?: string | null
   alt?: string | null
-  altEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -836,14 +755,11 @@ export type ProjectSlideUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutSlidesNestedInput
@@ -855,15 +771,12 @@ export type ProjectSlideUncheckedUpdateWithoutTranslationsInput = {
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -872,14 +785,11 @@ export type ProjectSlideCreateWithoutMediaAssetInput = {
   id?: string
   order?: number
   title: string
-  titleEn?: string | null
   contentHtml: string
-  contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
   posterUrl?: string | null
   alt?: string | null
-  altEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   project: Prisma.ProjectCreateNestedOneWithoutSlidesInput
@@ -891,14 +801,11 @@ export type ProjectSlideUncheckedCreateWithoutMediaAssetInput = {
   projectId: string
   order?: number
   title: string
-  titleEn?: string | null
   contentHtml: string
-  contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
   posterUrl?: string | null
   alt?: string | null
-  altEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.ProjectSlideTranslationUncheckedCreateNestedManyWithoutSlideInput
@@ -934,15 +841,12 @@ export type ProjectSlideCreateManyProjectInput = {
   id?: string
   order?: number
   title: string
-  titleEn?: string | null
   contentHtml: string
-  contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
   mediaAssetId?: string | null
   posterUrl?: string | null
   alt?: string | null
-  altEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -951,14 +855,11 @@ export type ProjectSlideUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   mediaAsset?: Prisma.MediaAssetUpdateOneWithoutProjectSlideMediaNestedInput
@@ -969,15 +870,12 @@ export type ProjectSlideUncheckedUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.ProjectSlideTranslationUncheckedUpdateManyWithoutSlideNestedInput
@@ -987,15 +885,12 @@ export type ProjectSlideUncheckedUpdateManyWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   mediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1005,14 +900,11 @@ export type ProjectSlideCreateManyMediaAssetInput = {
   projectId: string
   order?: number
   title: string
-  titleEn?: string | null
   contentHtml: string
-  contentHtmlEn?: string | null
   mediaType?: $Enums.ProjectSlideMediaType
   mediaUrl: string
   posterUrl?: string | null
   alt?: string | null
-  altEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1021,14 +913,11 @@ export type ProjectSlideUpdateWithoutMediaAssetInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   project?: Prisma.ProjectUpdateOneRequiredWithoutSlidesNestedInput
@@ -1040,14 +929,11 @@ export type ProjectSlideUncheckedUpdateWithoutMediaAssetInput = {
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.ProjectSlideTranslationUncheckedUpdateManyWithoutSlideNestedInput
@@ -1058,14 +944,11 @@ export type ProjectSlideUncheckedUpdateManyWithoutMediaAssetInput = {
   projectId?: Prisma.StringFieldUpdateOperationsInput | string
   order?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contentHtml?: Prisma.StringFieldUpdateOperationsInput | string
-  contentHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mediaType?: Prisma.EnumProjectSlideMediaTypeFieldUpdateOperationsInput | $Enums.ProjectSlideMediaType
   mediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1106,15 +989,12 @@ export type ProjectSlideSelect<ExtArgs extends runtime.Types.Extensions.Internal
   projectId?: boolean
   order?: boolean
   title?: boolean
-  titleEn?: boolean
   contentHtml?: boolean
-  contentHtmlEn?: boolean
   mediaType?: boolean
   mediaUrl?: boolean
   mediaAssetId?: boolean
   posterUrl?: boolean
   alt?: boolean
-  altEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -1128,15 +1008,12 @@ export type ProjectSlideSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   projectId?: boolean
   order?: boolean
   title?: boolean
-  titleEn?: boolean
   contentHtml?: boolean
-  contentHtmlEn?: boolean
   mediaType?: boolean
   mediaUrl?: boolean
   mediaAssetId?: boolean
   posterUrl?: boolean
   alt?: boolean
-  altEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -1148,15 +1025,12 @@ export type ProjectSlideSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   projectId?: boolean
   order?: boolean
   title?: boolean
-  titleEn?: boolean
   contentHtml?: boolean
-  contentHtmlEn?: boolean
   mediaType?: boolean
   mediaUrl?: boolean
   mediaAssetId?: boolean
   posterUrl?: boolean
   alt?: boolean
-  altEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
@@ -1168,20 +1042,17 @@ export type ProjectSlideSelectScalar = {
   projectId?: boolean
   order?: boolean
   title?: boolean
-  titleEn?: boolean
   contentHtml?: boolean
-  contentHtmlEn?: boolean
   mediaType?: boolean
   mediaUrl?: boolean
   mediaAssetId?: boolean
   posterUrl?: boolean
   alt?: boolean
-  altEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ProjectSlideOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "order" | "title" | "titleEn" | "contentHtml" | "contentHtmlEn" | "mediaType" | "mediaUrl" | "mediaAssetId" | "posterUrl" | "alt" | "altEn" | "createdAt" | "updatedAt", ExtArgs["result"]["projectSlide"]>
+export type ProjectSlideOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "projectId" | "order" | "title" | "contentHtml" | "mediaType" | "mediaUrl" | "mediaAssetId" | "posterUrl" | "alt" | "createdAt" | "updatedAt", ExtArgs["result"]["projectSlide"]>
 export type ProjectSlideInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
   mediaAsset?: boolean | Prisma.ProjectSlide$mediaAssetArgs<ExtArgs>
@@ -1209,15 +1080,12 @@ export type $ProjectSlidePayload<ExtArgs extends runtime.Types.Extensions.Intern
     projectId: string
     order: number
     title: string
-    titleEn: string | null
     contentHtml: string
-    contentHtmlEn: string | null
     mediaType: $Enums.ProjectSlideMediaType
     mediaUrl: string
     mediaAssetId: string | null
     posterUrl: string | null
     alt: string | null
-    altEn: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["projectSlide"]>
@@ -1650,15 +1518,12 @@ export interface ProjectSlideFieldRefs {
   readonly projectId: Prisma.FieldRef<"ProjectSlide", 'String'>
   readonly order: Prisma.FieldRef<"ProjectSlide", 'Int'>
   readonly title: Prisma.FieldRef<"ProjectSlide", 'String'>
-  readonly titleEn: Prisma.FieldRef<"ProjectSlide", 'String'>
   readonly contentHtml: Prisma.FieldRef<"ProjectSlide", 'String'>
-  readonly contentHtmlEn: Prisma.FieldRef<"ProjectSlide", 'String'>
   readonly mediaType: Prisma.FieldRef<"ProjectSlide", 'ProjectSlideMediaType'>
   readonly mediaUrl: Prisma.FieldRef<"ProjectSlide", 'String'>
   readonly mediaAssetId: Prisma.FieldRef<"ProjectSlide", 'String'>
   readonly posterUrl: Prisma.FieldRef<"ProjectSlide", 'String'>
   readonly alt: Prisma.FieldRef<"ProjectSlide", 'String'>
-  readonly altEn: Prisma.FieldRef<"ProjectSlide", 'String'>
   readonly createdAt: Prisma.FieldRef<"ProjectSlide", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"ProjectSlide", 'DateTime'>
 }

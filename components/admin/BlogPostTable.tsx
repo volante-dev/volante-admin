@@ -58,8 +58,7 @@ export const BlogPostTable = ({
 
       return (
         post.title.toLowerCase().includes(normalizedQuery) ||
-        post.slug.toLowerCase().includes(normalizedQuery) ||
-        post.slugEn.toLowerCase().includes(normalizedQuery)
+        post.slug.toLowerCase().includes(normalizedQuery)
       );
     });
   }, [posts, query, statusFilter]);
@@ -138,8 +137,7 @@ export const BlogPostTable = ({
           <TableHead>
             <TableRow>
               <TableCell>Titre</TableCell>
-              <TableCell>Slug FR</TableCell>
-              <TableCell>Slug EN</TableCell>
+              <TableCell>Slug</TableCell>
               <TableCell>Statut</TableCell>
               <TableCell>Publication</TableCell>
               <TableCell>Blocs</TableCell>
@@ -149,7 +147,7 @@ export const BlogPostTable = ({
           <TableBody>
             {filtered.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} align="center" sx={{ py: 4 }}>
+                <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
                   <Typography variant="body2" color="text.secondary">
                     Aucun article trouve.
                   </Typography>
@@ -164,7 +162,6 @@ export const BlogPostTable = ({
                   <TableRow key={post.id} hover>
                     <TableCell>{post.title}</TableCell>
                     <TableCell>{post.slug}</TableCell>
-                    <TableCell>{post.slugEn}</TableCell>
                     <TableCell>
                       <Chip
                         size="small"

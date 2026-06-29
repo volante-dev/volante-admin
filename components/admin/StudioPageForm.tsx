@@ -13,10 +13,7 @@ import Typography from "@mui/material/Typography";
 import SaveIcon from "@mui/icons-material/Save";
 import { toast } from "sonner";
 import { updateStudioPageContent } from "@/app/(admin)/pages/studio/actions";
-import {
-  legacyDefaultLocale,
-  legacySecondaryLocale,
-} from "@/lib/admin-translations";
+import { defaultSiteLocaleCode } from "@/lib/admin-translations";
 import { isBlankRichText } from "@/lib/rich-text";
 import type { SiteLocaleData } from "@/lib/site-locales";
 import { MediaUrlField } from "./MediaUrlField";
@@ -46,11 +43,9 @@ type StudioPageMediaFields = {
   founderOneImageUrl: string;
   founderOneImageAssetId: string;
   founderOneImageAlt: string;
-  founderOneImageAltEn: string;
   founderTwoImageUrl: string;
   founderTwoImageAssetId: string;
   founderTwoImageAlt: string;
-  founderTwoImageAltEn: string;
 };
 
 const imageAccept = "image/jpeg,image/png,image/webp,image/avif";
@@ -87,55 +82,36 @@ const toLocalizedFields = (
   return Object.fromEntries(
     locales.map((locale) => {
       const translation = byLocale.get(locale.code);
-      const isLegacyDefault = locale.code === legacyDefaultLocale;
-      const isLegacySecondary = locale.code === legacySecondaryLocale;
-
-      const legacyValue = (defaultValue: string, secondaryValue: string | null) =>
-        isLegacyDefault ? defaultValue : isLegacySecondary ? secondaryValue ?? "" : "";
+      const isDefault = locale.code === defaultSiteLocaleCode;
+      const localeValue = (field: StudioPageTextField, defaultValue: string) =>
+        translation?.[field] ?? (isDefault ? defaultValue : "");
+      const richLocaleValue = (field: StudioPageTextField, defaultValue: string) =>
+        toRichTextValue(translation?.[field] ?? null) ||
+        (isDefault ? toRichTextValue(defaultValue) : "");
 
       return [
         locale.code,
         {
-          eyebrow:
-            translation?.eyebrow ?? legacyValue(content.eyebrow, content.eyebrowEn),
-          title: translation?.title ?? legacyValue(content.title, content.titleEn),
-          intro: translation?.intro ?? legacyValue(content.intro, content.introEn),
-          founderOneName:
-            translation?.founderOneName ??
-            legacyValue(content.founderOneName, content.founderOneNameEn),
-          founderOneRole:
-            translation?.founderOneRole ??
-            legacyValue(content.founderOneRole, content.founderOneRoleEn),
-          founderOneDescription:
-            toRichTextValue(translation?.founderOneDescription ?? null) ||
-            toRichTextValue(
-              legacyValue(
-                content.founderOneDescription,
-                content.founderOneDescriptionEn,
-              ),
-            ),
-          founderTwoName:
-            translation?.founderTwoName ??
-            legacyValue(content.founderTwoName, content.founderTwoNameEn),
-          founderTwoRole:
-            translation?.founderTwoRole ??
-            legacyValue(content.founderTwoRole, content.founderTwoRoleEn),
-          founderTwoDescription:
-            toRichTextValue(translation?.founderTwoDescription ?? null) ||
-            toRichTextValue(
-              legacyValue(
-                content.founderTwoDescription,
-                content.founderTwoDescriptionEn,
-              ),
-            ),
-          historyTitle:
-            translation?.historyTitle ??
-            legacyValue(content.historyTitle, content.historyTitleEn),
-          historyContentHtml:
-            toRichTextValue(translation?.historyContentHtml ?? null) ||
-            toRichTextValue(
-              legacyValue(content.historyContentHtml, content.historyContentHtmlEn),
-            ),
+          eyebrow: localeValue("eyebrow", content.eyebrow),
+          title: localeValue("title", content.title),
+          intro: localeValue("intro", content.intro),
+          founderOneName: localeValue("founderOneName", content.founderOneName),
+          founderOneRole: localeValue("founderOneRole", content.founderOneRole),
+          founderOneDescription: richLocaleValue(
+            "founderOneDescription",
+            content.founderOneDescription,
+          ),
+          founderTwoName: localeValue("founderTwoName", content.founderTwoName),
+          founderTwoRole: localeValue("founderTwoRole", content.founderTwoRole),
+          founderTwoDescription: richLocaleValue(
+            "founderTwoDescription",
+            content.founderTwoDescription,
+          ),
+          historyTitle: localeValue("historyTitle", content.historyTitle),
+          historyContentHtml: richLocaleValue(
+            "historyContentHtml",
+            content.historyContentHtml,
+          ),
         },
       ];
     }),
@@ -146,11 +122,9 @@ const toMediaFields = (content: StudioPageContentData): StudioPageMediaFields =>
   founderOneImageUrl: content.founderOneImageUrl,
   founderOneImageAssetId: content.founderOneImageAssetId ?? "",
   founderOneImageAlt: content.founderOneImageAlt ?? "",
-  founderOneImageAltEn: content.founderOneImageAltEn ?? "",
   founderTwoImageUrl: content.founderTwoImageUrl,
   founderTwoImageAssetId: content.founderTwoImageAssetId ?? "",
   founderTwoImageAlt: content.founderTwoImageAlt ?? "",
-  founderTwoImageAltEn: content.founderTwoImageAltEn ?? "",
 });
 
 type TextFieldRowProps = {
@@ -161,6 +135,7 @@ type TextFieldRowProps = {
   multiline?: boolean;
   rows?: number;
   translateFrom?: string;
+  targetLocale?: string;
 };
 
 const TextFieldRow = ({
@@ -171,6 +146,7 @@ const TextFieldRow = ({
   multiline = false,
   rows,
   translateFrom,
+  targetLocale,
 }: TextFieldRowProps) => {
   const field = (
     <TextField
@@ -189,7 +165,11 @@ const TextFieldRow = ({
   return (
     <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
       {field}
-      <TranslateButton sourceText={translateFrom} onTranslated={onChange} />
+      <TranslateButton
+        sourceText={translateFrom}
+        targetLocale={targetLocale}
+        onTranslated={onChange}
+      />
     </Box>
   );
 };
@@ -214,7 +194,7 @@ export const StudioPageForm = ({
   const [tab, setTab] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const activeLocales =
-    locales.length ? locales : [{ code: legacyDefaultLocale, label: "Français" } as SiteLocaleData];
+    locales.length ? locales : [{ code: defaultSiteLocaleCode, label: "Français" } as SiteLocaleData];
   const defaultLocale =
     activeLocales.find((locale) => locale.isDefault)?.code ?? activeLocales[0].code;
   const [localizedFields, setLocalizedFields] = useState(() =>
@@ -270,29 +250,11 @@ export const StudioPageForm = ({
     const formData = new FormData();
     formData.set("translations", JSON.stringify(localizedFields));
 
-    const legacyDefaultFields = localizedFields[legacyDefaultLocale] ?? defaultFields;
-    const legacySecondaryFields = localizedFields[legacySecondaryLocale] ?? ({} as Record<StudioPageTextField, string>);
+    const defaultLocaleFields = localizedFields[defaultSiteLocaleCode] ?? defaultFields;
 
-    Object.entries(legacyDefaultFields).forEach(([key, value]) => {
+    Object.entries(defaultLocaleFields).forEach(([key, value]) => {
       formData.set(key, value);
     });
-    formData.set("eyebrowEn", legacySecondaryFields.eyebrow ?? "");
-    formData.set("titleEn", legacySecondaryFields.title ?? "");
-    formData.set("introEn", legacySecondaryFields.intro ?? "");
-    formData.set("founderOneNameEn", legacySecondaryFields.founderOneName ?? "");
-    formData.set("founderOneRoleEn", legacySecondaryFields.founderOneRole ?? "");
-    formData.set(
-      "founderOneDescriptionEn",
-      legacySecondaryFields.founderOneDescription ?? "",
-    );
-    formData.set("founderTwoNameEn", legacySecondaryFields.founderTwoName ?? "");
-    formData.set("founderTwoRoleEn", legacySecondaryFields.founderTwoRole ?? "");
-    formData.set(
-      "founderTwoDescriptionEn",
-      legacySecondaryFields.founderTwoDescription ?? "",
-    );
-    formData.set("historyTitleEn", legacySecondaryFields.historyTitle ?? "");
-    formData.set("historyContentHtmlEn", legacySecondaryFields.historyContentHtml ?? "");
 
     Object.entries(mediaFields).forEach(([key, value]) => {
       formData.set(key, value);
@@ -342,12 +304,14 @@ export const StudioPageForm = ({
                   value={fields.eyebrow}
                   onChange={updateLocalizedField(locale.code, "eyebrow")}
                   translateFrom={isDefaultLocale ? undefined : sourceFields.eyebrow}
+                  targetLocale={locale.code}
                 />
                 <TextFieldRow
                   label="Titre"
                   value={fields.title}
                   onChange={updateLocalizedField(locale.code, "title")}
                   translateFrom={isDefaultLocale ? undefined : sourceFields.title}
+                  targetLocale={locale.code}
                 />
                 <TextFieldRow
                   label="Texte introductif"
@@ -357,6 +321,7 @@ export const StudioPageForm = ({
                   multiline
                   rows={4}
                   translateFrom={isDefaultLocale ? undefined : sourceFields.intro}
+                  targetLocale={locale.code}
                 />
 
                 <Typography variant="h3" sx={{ mt: 2 }}>
@@ -368,6 +333,7 @@ export const StudioPageForm = ({
                   onChange={updateLocalizedField(locale.code, "founderOneName")}
                   required={isDefaultLocale}
                   translateFrom={isDefaultLocale ? undefined : sourceFields.founderOneName}
+                  targetLocale={locale.code}
                 />
                 <TextFieldRow
                   label="Role"
@@ -375,6 +341,7 @@ export const StudioPageForm = ({
                   onChange={updateLocalizedField(locale.code, "founderOneRole")}
                   required={isDefaultLocale}
                   translateFrom={isDefaultLocale ? undefined : sourceFields.founderOneRole}
+                  targetLocale={locale.code}
                 />
                 <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
                   <Box sx={{ flex: 1 }}>
@@ -393,6 +360,7 @@ export const StudioPageForm = ({
                   {!isDefaultLocale && (
                     <TranslateButton
                       sourceText={sourceFields.founderOneDescription}
+                      targetLocale={locale.code}
                       onTranslated={updateLocalizedField(
                         locale.code,
                         "founderOneDescription",
@@ -411,6 +379,7 @@ export const StudioPageForm = ({
                   onChange={updateLocalizedField(locale.code, "founderTwoName")}
                   required={isDefaultLocale}
                   translateFrom={isDefaultLocale ? undefined : sourceFields.founderTwoName}
+                  targetLocale={locale.code}
                 />
                 <TextFieldRow
                   label="Role"
@@ -418,6 +387,7 @@ export const StudioPageForm = ({
                   onChange={updateLocalizedField(locale.code, "founderTwoRole")}
                   required={isDefaultLocale}
                   translateFrom={isDefaultLocale ? undefined : sourceFields.founderTwoRole}
+                  targetLocale={locale.code}
                 />
                 <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
                   <Box sx={{ flex: 1 }}>
@@ -436,6 +406,7 @@ export const StudioPageForm = ({
                   {!isDefaultLocale && (
                     <TranslateButton
                       sourceText={sourceFields.founderTwoDescription}
+                      targetLocale={locale.code}
                       onTranslated={updateLocalizedField(
                         locale.code,
                         "founderTwoDescription",
@@ -454,6 +425,7 @@ export const StudioPageForm = ({
                   onChange={updateLocalizedField(locale.code, "historyTitle")}
                   required={isDefaultLocale}
                   translateFrom={isDefaultLocale ? undefined : sourceFields.historyTitle}
+                  targetLocale={locale.code}
                 />
                 <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
                   <Box sx={{ flex: 1 }}>
@@ -469,6 +441,7 @@ export const StudioPageForm = ({
                   {!isDefaultLocale && (
                     <TranslateButton
                       sourceText={sourceFields.historyContentHtml}
+                      targetLocale={locale.code}
                       onTranslated={updateLocalizedField(
                         locale.code,
                         "historyContentHtml",
@@ -498,14 +471,11 @@ export const StudioPageForm = ({
                 field="founder-one-photo"
                 helperText="Image portrait recommandee."
               />
-              {(mediaFields.founderOneImageAlt || mediaFields.founderOneImageAltEn) && (
+              {mediaFields.founderOneImageAlt && (
                 <Alert severity="info">
                   Ancien alt conserve en lecture seule :{" "}
-                  {mediaFields.founderOneImageAlt || "N/A"}
-                  {mediaFields.founderOneImageAltEn
-                    ? ` / ${mediaFields.founderOneImageAltEn}`
-                    : ""}
-                  . Les nouveaux alts se gerent depuis la galerie.
+                  {mediaFields.founderOneImageAlt}. Les nouveaux alts se
+                  gerent depuis la galerie.
                 </Alert>
               )}
 
@@ -526,14 +496,11 @@ export const StudioPageForm = ({
                 field="founder-two-photo"
                 helperText="Image portrait recommandee."
               />
-              {(mediaFields.founderTwoImageAlt || mediaFields.founderTwoImageAltEn) && (
+              {mediaFields.founderTwoImageAlt && (
                 <Alert severity="info">
                   Ancien alt conserve en lecture seule :{" "}
-                  {mediaFields.founderTwoImageAlt || "N/A"}
-                  {mediaFields.founderTwoImageAltEn
-                    ? ` / ${mediaFields.founderTwoImageAltEn}`
-                    : ""}
-                  . Les nouveaux alts se gerent depuis la galerie.
+                  {mediaFields.founderTwoImageAlt}. Les nouveaux alts se
+                  gerent depuis la galerie.
                 </Alert>
               )}
             </Box>

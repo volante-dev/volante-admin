@@ -21,12 +21,14 @@ export const GET = async (request: Request) => {
               OR: [
                 { name: { contains: q, mode: "insensitive" } },
                 { alt: { contains: q, mode: "insensitive" } },
-                { altEn: { contains: q, mode: "insensitive" } },
                 { tags: { has: q } },
+                { translations: { some: { alt: { contains: q, mode: "insensitive" } } } },
+                { translations: { some: { tags: { has: q } } } },
               ],
             }
           : {}),
       },
+      include: { translations: true },
       orderBy: [{ createdAt: "desc" }, { name: "asc" }],
       take: 80,
     });
@@ -39,7 +41,6 @@ export const GET = async (request: Request) => {
         posterUrl: asset.posterUrl,
         name: asset.name,
         alt: asset.alt,
-        altEn: asset.altEn,
         tags: asset.tags,
       })),
     });

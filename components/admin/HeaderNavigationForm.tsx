@@ -39,9 +39,7 @@ import {
 } from "@/lib/site-route-config";
 import type { SiteLocaleData } from "@/lib/site-locales";
 import {
-  isLegacyLocale,
-  legacyDefaultLocale,
-  legacySecondaryLocale,
+  defaultSiteLocaleCode,
 } from "@/lib/admin-translations";
 import { TranslateButton } from "./TranslateButton";
 
@@ -50,14 +48,12 @@ type EditableSiteRoute = SiteRouteData;
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const getRouteLabel = (item: EditableSiteRoute, locale: string) => {
-  if (locale === legacyDefaultLocale) return item.label;
-  if (locale === legacySecondaryLocale) return item.labelEn;
+  if (locale === defaultSiteLocaleCode) return item.label;
   return item.translations?.[locale]?.label ?? "";
 };
 
 const getRouteSlug = (item: EditableSiteRoute, locale: string) => {
-  if (locale === legacyDefaultLocale) return item.slug;
-  if (locale === legacySecondaryLocale) return item.slugEn;
+  if (locale === defaultSiteLocaleCode) return item.slug;
   return item.translations?.[locale]?.slug ?? "";
 };
 
@@ -117,7 +113,15 @@ const SortableSiteRoute = ({
   const updateTranslation = (
     locale: string,
     patch: { label?: string; slug?: string },
-  ) =>
+  ) => {
+    if (locale === defaultSiteLocaleCode) {
+      update({
+        ...(patch.label !== undefined ? { label: patch.label } : {}),
+        ...(patch.slug !== undefined ? { slug: patch.slug } : {}),
+      });
+      return;
+    }
+
     update({
       translations: {
         ...item.translations,
@@ -127,8 +131,8 @@ const SortableSiteRoute = ({
         },
       },
     });
+  };
   const isHome = item.id === "home";
-  const extraLocales = locales.filter((locale) => !isLegacyLocale(locale.code));
 
   return (
     <Card
@@ -154,9 +158,13 @@ const SortableSiteRoute = ({
                 {item.id}
               </Typography>
             </Box>
-            {extraLocales.length > 0 && (
-              <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                {extraLocales.map((locale) => (
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              {locales.map((locale) => {
+                const label = getRouteLabel(item, locale.code);
+                const slug = getRouteSlug(item, locale.code);
+                const isDefaultLocale = locale.code === defaultSiteLocaleCode;
+
+                return (
                   <Box
                     key={locale.code}
                     sx={{
@@ -165,92 +173,45 @@ const SortableSiteRoute = ({
                       gap: 2,
                     }}
                   >
-                    <TextField
-                      label={`Intitule ${locale.label}`}
-                      value={item.translations?.[locale.code]?.label ?? ""}
-                      required
-                      fullWidth
-                      onChange={(event) =>
-                        updateTranslation(locale.code, { label: event.target.value })
-                      }
-                    />
+                    <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                      <TextField
+                        label={`Intitule ${locale.label}`}
+                        value={label}
+                        required
+                        fullWidth
+                        onChange={(event) =>
+                          updateTranslation(locale.code, { label: event.target.value })
+                        }
+                      />
+                      {!isDefaultLocale && (
+                        <TranslateButton
+                          sourceText={item.label}
+                          targetLocale={locale.code}
+                          onTranslated={(translatedLabel) =>
+                            updateTranslation(locale.code, { label: translatedLabel })
+                          }
+                        />
+                      )}
+                    </Box>
                     <TextField
                       label={`Slug ${locale.label}`}
-                      value={item.translations?.[locale.code]?.slug ?? ""}
+                      value={slug}
                       required={!isHome}
                       fullWidth
                       disabled={isHome}
                       helperText={
                         isHome
-                          ? `La home conserve la racine /${locale.code}.`
+                          ? `La home conserve la racine /${isDefaultLocale ? "" : locale.code}.`
                           : "Segment d'URL, sans slash."
                       }
-                      error={
-                        !isHome &&
-                        Boolean(item.translations?.[locale.code]?.slug) &&
-                        !slugPattern.test(item.translations?.[locale.code]?.slug ?? "")
-                      }
+                      error={!isHome && Boolean(slug) && !slugPattern.test(slug)}
                       onChange={(event) =>
                         updateTranslation(locale.code, { slug: event.target.value })
                       }
                     />
                   </Box>
-                ))}
-              </Box>
-            )}
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
-                gap: 2,
-              }}
-            >
-              <TextField
-                label="Intitule francais"
-                value={item.label}
-                required
-                fullWidth
-                onChange={(event) => update({ label: event.target.value })}
-              />
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <TextField
-                  label="Intitule anglais"
-                  value={item.labelEn}
-                  required
-                  fullWidth
-                  onChange={(event) => update({ labelEn: event.target.value })}
-                />
-                <TranslateButton
-                  sourceText={item.label}
-                  onTranslated={(labelEn) => update({ labelEn })}
-                />
-              </Box>
-              <TextField
-                label="Slug francais"
-                value={item.slug}
-                required={!isHome}
-                fullWidth
-                disabled={isHome}
-                helperText={
-                  isHome ? "La home conserve la racine /." : "Segment d'URL, sans slash."
-                }
-                error={!isHome && Boolean(item.slug) && !slugPattern.test(item.slug)}
-                onChange={(event) => update({ slug: event.target.value })}
-              />
-              <TextField
-                label="Slug anglais"
-                value={item.slugEn}
-                required={!isHome}
-                fullWidth
-                disabled={isHome}
-                helperText={
-                  isHome
-                    ? "The home page keeps the /en root."
-                    : "URL segment, without slash."
-                }
-                error={!isHome && Boolean(item.slugEn) && !slugPattern.test(item.slugEn)}
-                onChange={(event) => update({ slugEn: event.target.value })}
-              />
+                );
+              })}
             </Box>
             <Box
               sx={{

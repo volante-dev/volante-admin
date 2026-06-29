@@ -26,15 +26,12 @@ export type AdminProjectSlide = {
   id: string;
   order: number;
   title: string;
-  titleEn: string | null;
   contentHtml: string;
-  contentHtmlEn: string | null;
   mediaType: "IMAGE" | "VIDEO";
   mediaUrl: string;
   mediaAssetId: string | null;
   posterUrl: string | null;
   alt: string | null;
-  altEn: string | null;
   translations: {
     locale: string;
     title: string | null;
@@ -46,10 +43,8 @@ export type AdminProjectSlide = {
 export type AdminProjectDetail = {
   id: string;
   title: string;
-  titleEn: string | null;
   slug: string;
   description: string;
-  descriptionEn: string | null;
   imageUrl: string;
   imageAssetId: string | null;
   imageAssetMediaType: "IMAGE" | "VIDEO" | null;
@@ -62,14 +57,10 @@ export type AdminProjectDetail = {
   locationEntryId: string | null;
   deliveredServiceEntryIds: string[];
   challenge: string | null;
-  challengeEn: string | null;
   approach: string | null;
-  approachEn: string | null;
   results: string | null;
-  resultsEn: string | null;
   credits: string | null;
   awards: string | null;
-  awardsEn: string | null;
   externalUrl: string | null;
   featured: boolean;
   order: number;

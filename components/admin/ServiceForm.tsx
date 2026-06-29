@@ -39,7 +39,7 @@ import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { TranslateButton } from "@/components/admin/TranslateButton";
 import type { ServiceData } from "@/app/(admin)/services/page";
 import type { SiteLocaleData } from "@/lib/site-locales";
-import { legacyDefaultLocale, legacySecondaryLocale } from "@/lib/admin-translations";
+import { defaultSiteLocaleCode } from "@/lib/admin-translations";
 
 export type ServicePortfolioExampleProject = {
   id: string;
@@ -74,27 +74,19 @@ const toLocalizedServiceFields = (
   return Object.fromEntries(
     locales.map((locale) => {
       const translation = byLocale.get(locale.code);
-      const isLegacyDefault = locale.code === legacyDefaultLocale;
-      const isLegacySecondary = locale.code === legacySecondaryLocale;
+      const isLegacyDefault = locale.code === defaultSiteLocaleCode;
 
       return [
         locale.code,
         {
           title:
             translation?.title ??
-            (isLegacyDefault
-              ? service?.title ?? ""
-              : isLegacySecondary
-                ? service?.titleEn ?? ""
-                : ""),
+            (isLegacyDefault ? service?.title ?? "" : ""),
           descriptionHtml:
             translation?.descriptionHtml ??
             (isLegacyDefault
               ? service?.descriptionHtml ?? `<p>${service?.description ?? ""}</p>`
-              : isLegacySecondary
-                ? service?.descriptionHtmlEn ??
-                  (service?.descriptionEn ? `<p>${service.descriptionEn}</p>` : "")
-                : ""),
+              : ""),
         },
       ];
     }),
@@ -224,7 +216,7 @@ export const ServiceForm = ({
   const [error, setError] = useState<string | null>(null);
   const activeLocales = locales.length
     ? locales
-    : [{ code: legacyDefaultLocale, label: "Français" } as SiteLocaleData];
+    : [{ code: defaultSiteLocaleCode, label: "Français" } as SiteLocaleData];
   const defaultLocale = activeLocales.find((locale) => locale.isDefault)?.code ?? activeLocales[0].code;
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -295,13 +287,9 @@ export const ServiceForm = ({
 
     const formData = new FormData();
     formData.set("translations", JSON.stringify(localizedFields));
-    const legacyDefaultFields = localizedFields[legacyDefaultLocale] ?? defaultFields;
-    const legacySecondaryFields =
-      localizedFields[legacySecondaryLocale] ?? { title: "", descriptionHtml: "" };
-    formData.set("title", legacyDefaultFields.title);
-    formData.set("titleEn", legacySecondaryFields.title);
-    formData.set("descriptionHtml", legacyDefaultFields.descriptionHtml);
-    formData.set("descriptionHtmlEn", legacySecondaryFields.descriptionHtml);
+    const defaultLocaleFields = localizedFields[defaultSiteLocaleCode] ?? defaultFields;
+    formData.set("title", defaultLocaleFields.title);
+    formData.set("descriptionHtml", defaultLocaleFields.descriptionHtml);
     formData.set("icon", icon);
     formData.set("order", order);
     formData.set("active", String(active));
@@ -376,6 +364,7 @@ export const ServiceForm = ({
                   {!isDefaultLocale && (
                     <TranslateButton
                       sourceText={sourceFields.title}
+                      targetLocale={locale.code}
                       onTranslated={updateLocalizedField(locale.code, "title")}
                     />
                   )}
@@ -396,6 +385,7 @@ export const ServiceForm = ({
                   {!isDefaultLocale && (
                     <TranslateButton
                       sourceText={sourceFields.descriptionHtml}
+                      targetLocale={locale.code}
                       onTranslated={updateLocalizedField(locale.code, "descriptionHtml")}
                       html
                     />

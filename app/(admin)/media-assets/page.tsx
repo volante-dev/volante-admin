@@ -11,7 +11,7 @@ const getUsageCount = async (asset: { id: string; url: string }) => {
   const [
     projectImages,
     slideMedia,
-    legacySlidePosters,
+    slidePosters,
     blogPostCovers,
     blogPostBlocks,
     studioFounderOneImages,
@@ -65,7 +65,7 @@ const getUsageCount = async (asset: { id: string; url: string }) => {
   return (
     projectImages +
     slideMedia +
-    legacySlidePosters +
+    slidePosters +
     blogPostCovers +
     blogPostBlocks +
     studioFounderOneImages +
@@ -86,31 +86,30 @@ const MediaAssetsPage = async () => {
 
   const assets: MediaAssetData[] = await Promise.all(
     rawAssets.map(async (asset) => ({
-      id: asset.id,
-      url: asset.url,
-      pathname: asset.pathname,
-      mediaType: asset.mediaType,
-      mimeType: asset.mimeType,
-      size: asset.size,
-      width: asset.width,
-      height: asset.height,
-      posterUrl: asset.posterUrl,
-      posterPathname: asset.posterPathname,
-      posterMimeType: asset.posterMimeType,
-      posterSize: asset.posterSize,
-      name: asset.name,
-      alt: asset.alt,
-      altEn: asset.altEn,
-      tags: asset.tags,
-      active: asset.active,
-      createdAt: asset.createdAt.toISOString(),
-      usageCount: await getUsageCount(asset),
-      translations: asset.translations.map((translation) => ({
-        locale: translation.locale,
-        alt: translation.alt,
-        tags: translation.tags,
+        id: asset.id,
+        url: asset.url,
+        pathname: asset.pathname,
+        mediaType: asset.mediaType,
+        mimeType: asset.mimeType,
+        size: asset.size,
+        width: asset.width,
+        height: asset.height,
+        posterUrl: asset.posterUrl,
+        posterPathname: asset.posterPathname,
+        posterMimeType: asset.posterMimeType,
+        posterSize: asset.posterSize,
+        name: asset.name,
+        alt: asset.alt,
+        tags: asset.tags,
+        active: asset.active,
+        createdAt: asset.createdAt.toISOString(),
+        usageCount: await getUsageCount(asset),
+        translations: asset.translations.map((translation) => ({
+          locale: translation.locale,
+          alt: translation.alt,
+          tags: translation.tags,
+        })),
       })),
-    })),
   );
 
   return (

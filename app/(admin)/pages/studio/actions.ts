@@ -6,11 +6,9 @@ import { requireCrmAccess } from "@/lib/auth-guard";
 import { isValidMediaUrl, normalizeNullable, normalizeRequired } from "@/lib/validation";
 import { isBlankRichText, sanitizeRichTextHtml } from "@/lib/rich-text";
 import {
-  legacyDefaultLocale,
-  legacyDefaultTextValue,
-  legacySecondaryLocale,
-  legacySecondaryTextValue,
-  mergeLegacyLocaleTextTranslations,
+  defaultSiteLocaleCode,
+  defaultLocaleTextValue,
+  mergeLocaleTextTranslations,
   parseLocaleTextTranslations,
   type LocaleTextTranslations,
 } from "@/lib/admin-translations";
@@ -65,13 +63,7 @@ const translationValue = (
   translations: LocaleTextTranslations<StudioPageTranslationField>,
   field: StudioPageTranslationField,
   fallback: FormDataEntryValue | null,
-) => legacyDefaultTextValue(translations, field) ?? normalizeRequired(fallback);
-
-const translationSecondaryValue = (
-  translations: LocaleTextTranslations<StudioPageTranslationField>,
-  field: StudioPageTranslationField,
-  fallback: FormDataEntryValue | null,
-) => legacySecondaryTextValue(translations, field) ?? normalizeNullable(fallback);
+) => defaultLocaleTextValue(translations, field) ?? normalizeRequired(fallback);
 
 const parseStudioPageContent = async (formData: FormData) => {
   const translations = parseLocaleTextTranslations(
@@ -80,118 +72,57 @@ const parseStudioPageContent = async (formData: FormData) => {
   );
   const values = {
     eyebrow: translationValue(translations, "eyebrow", formData.get("eyebrow")),
-    eyebrowEn: translationSecondaryValue(
-      translations,
-      "eyebrow",
-      formData.get("eyebrowEn"),
-    ),
     title: translationValue(translations, "title", formData.get("title")),
-    titleEn: translationSecondaryValue(
-      translations,
-      "title",
-      formData.get("titleEn"),
-    ),
     intro: translationValue(translations, "intro", formData.get("intro")),
-    introEn: translationSecondaryValue(
-      translations,
-      "intro",
-      formData.get("introEn"),
-    ),
     founderOneName: translationValue(
       translations,
       "founderOneName",
       formData.get("founderOneName"),
-    ),
-    founderOneNameEn: translationSecondaryValue(
-      translations,
-      "founderOneName",
-      formData.get("founderOneNameEn"),
     ),
     founderOneRole: translationValue(
       translations,
       "founderOneRole",
       formData.get("founderOneRole"),
     ),
-    founderOneRoleEn: translationSecondaryValue(
-      translations,
-      "founderOneRole",
-      formData.get("founderOneRoleEn"),
-    ),
     founderOneDescription:
-      legacyDefaultTextValue(translations, "founderOneDescription") ??
+      defaultLocaleTextValue(translations, "founderOneDescription") ??
       (typeof formData.get("founderOneDescription") === "string"
         ? String(formData.get("founderOneDescription"))
-        : ""),
-    founderOneDescriptionEn:
-      legacySecondaryTextValue(translations, "founderOneDescription") ??
-      (typeof formData.get("founderOneDescriptionEn") === "string"
-        ? String(formData.get("founderOneDescriptionEn"))
         : ""),
     founderOneImageUrl: normalizeRequired(formData.get("founderOneImageUrl")),
     founderOneImageAssetId: normalizeNullable(
       formData.get("founderOneImageAssetId"),
     ),
     founderOneImageAlt: normalizeNullable(formData.get("founderOneImageAlt")),
-    founderOneImageAltEn: normalizeNullable(
-      formData.get("founderOneImageAltEn"),
-    ),
     founderTwoName: translationValue(
       translations,
       "founderTwoName",
       formData.get("founderTwoName"),
-    ),
-    founderTwoNameEn: translationSecondaryValue(
-      translations,
-      "founderTwoName",
-      formData.get("founderTwoNameEn"),
     ),
     founderTwoRole: translationValue(
       translations,
       "founderTwoRole",
       formData.get("founderTwoRole"),
     ),
-    founderTwoRoleEn: translationSecondaryValue(
-      translations,
-      "founderTwoRole",
-      formData.get("founderTwoRoleEn"),
-    ),
     founderTwoDescription:
-      legacyDefaultTextValue(translations, "founderTwoDescription") ??
+      defaultLocaleTextValue(translations, "founderTwoDescription") ??
       (typeof formData.get("founderTwoDescription") === "string"
         ? String(formData.get("founderTwoDescription"))
-        : ""),
-    founderTwoDescriptionEn:
-      legacySecondaryTextValue(translations, "founderTwoDescription") ??
-      (typeof formData.get("founderTwoDescriptionEn") === "string"
-        ? String(formData.get("founderTwoDescriptionEn"))
         : ""),
     founderTwoImageUrl: normalizeRequired(formData.get("founderTwoImageUrl")),
     founderTwoImageAssetId: normalizeNullable(
       formData.get("founderTwoImageAssetId"),
     ),
     founderTwoImageAlt: normalizeNullable(formData.get("founderTwoImageAlt")),
-    founderTwoImageAltEn: normalizeNullable(
-      formData.get("founderTwoImageAltEn"),
-    ),
     historyTitle: translationValue(
       translations,
       "historyTitle",
       formData.get("historyTitle"),
     ),
-    historyTitleEn: translationSecondaryValue(
-      translations,
-      "historyTitle",
-      formData.get("historyTitleEn"),
-    ),
     historyContentHtml:
-      legacyDefaultTextValue(translations, "historyContentHtml") ??
+      defaultLocaleTextValue(translations, "historyContentHtml") ??
       (typeof formData.get("historyContentHtml") === "string"
         ? String(formData.get("historyContentHtml"))
-        : ""),
-    historyContentHtmlEn:
-      legacySecondaryTextValue(translations, "historyContentHtml") ??
-      (typeof formData.get("historyContentHtmlEn") === "string"
-        ? String(formData.get("historyContentHtmlEn"))
         : ""),
   };
 
@@ -271,17 +202,8 @@ const parseStudioPageContent = async (formData: FormData) => {
     data: {
       ...values,
       founderOneDescription: sanitizeRichTextHtml(values.founderOneDescription),
-      founderOneDescriptionEn: isBlankRichText(values.founderOneDescriptionEn)
-        ? null
-        : sanitizeRichTextHtml(values.founderOneDescriptionEn),
       founderTwoDescription: sanitizeRichTextHtml(values.founderTwoDescription),
-      founderTwoDescriptionEn: isBlankRichText(values.founderTwoDescriptionEn)
-        ? null
-        : sanitizeRichTextHtml(values.founderTwoDescriptionEn),
       historyContentHtml: sanitizeRichTextHtml(values.historyContentHtml),
-      historyContentHtmlEn: isBlankRichText(values.historyContentHtmlEn)
-        ? null
-        : sanitizeRichTextHtml(values.historyContentHtmlEn),
       translations,
     },
   } as const;
@@ -302,7 +224,7 @@ const studioPageTranslations = (
   data: StudioPageContentData,
 ) => {
   const translations = data.translations;
-  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
+  mergeLocaleTextTranslations(translations, defaultSiteLocaleCode, {
     eyebrow: data.eyebrow,
     title: data.title,
     intro: data.intro,
@@ -315,20 +237,6 @@ const studioPageTranslations = (
     historyTitle: data.historyTitle,
     historyContentHtml: data.historyContentHtml,
   });
-  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
-    eyebrow: data.eyebrowEn,
-    title: data.titleEn,
-    intro: data.introEn,
-    founderOneName: data.founderOneNameEn,
-    founderOneRole: data.founderOneRoleEn,
-    founderOneDescription: data.founderOneDescriptionEn,
-    founderTwoName: data.founderTwoNameEn,
-    founderTwoRole: data.founderTwoRoleEn,
-    founderTwoDescription: data.founderTwoDescriptionEn,
-    historyTitle: data.historyTitleEn,
-    historyContentHtml: data.historyContentHtmlEn,
-  });
-
   return Object.entries(translations).map(([locale, values]) => ({
     contentId,
     locale,
@@ -342,11 +250,9 @@ const studioPageTranslations = (
         ? sanitizeRichTextHtml(values.founderOneDescription)
         : null,
     founderOneImageAlt:
-      locale === legacyDefaultLocale
+      locale === defaultSiteLocaleCode
         ? data.founderOneImageAlt
-        : locale === legacySecondaryLocale
-          ? data.founderOneImageAltEn
-          : null,
+        : null,
     founderTwoName: values.founderTwoName ?? null,
     founderTwoRole: values.founderTwoRole ?? null,
     founderTwoDescription:
@@ -354,11 +260,9 @@ const studioPageTranslations = (
         ? sanitizeRichTextHtml(values.founderTwoDescription)
         : null,
     founderTwoImageAlt:
-      locale === legacyDefaultLocale
+      locale === defaultSiteLocaleCode
         ? data.founderTwoImageAlt
-        : locale === legacySecondaryLocale
-          ? data.founderTwoImageAltEn
-          : null,
+        : null,
     historyTitle: values.historyTitle ?? null,
     historyContentHtml:
       values.historyContentHtml && !isBlankRichText(values.historyContentHtml)
@@ -369,35 +273,22 @@ const studioPageTranslations = (
 
 const studioPageContentData = (data: StudioPageContentData) => ({
   eyebrow: data.eyebrow,
-  eyebrowEn: data.eyebrowEn,
   title: data.title,
-  titleEn: data.titleEn,
   intro: data.intro,
-  introEn: data.introEn,
   founderOneName: data.founderOneName,
-  founderOneNameEn: data.founderOneNameEn,
   founderOneRole: data.founderOneRole,
-  founderOneRoleEn: data.founderOneRoleEn,
   founderOneDescription: data.founderOneDescription,
-  founderOneDescriptionEn: data.founderOneDescriptionEn,
   founderOneImageUrl: data.founderOneImageUrl,
   founderOneImageAssetId: data.founderOneImageAssetId,
   founderOneImageAlt: data.founderOneImageAlt,
-  founderOneImageAltEn: data.founderOneImageAltEn,
   founderTwoName: data.founderTwoName,
-  founderTwoNameEn: data.founderTwoNameEn,
   founderTwoRole: data.founderTwoRole,
-  founderTwoRoleEn: data.founderTwoRoleEn,
   founderTwoDescription: data.founderTwoDescription,
-  founderTwoDescriptionEn: data.founderTwoDescriptionEn,
   founderTwoImageUrl: data.founderTwoImageUrl,
   founderTwoImageAssetId: data.founderTwoImageAssetId,
   founderTwoImageAlt: data.founderTwoImageAlt,
-  founderTwoImageAltEn: data.founderTwoImageAltEn,
   historyTitle: data.historyTitle,
-  historyTitleEn: data.historyTitleEn,
   historyContentHtml: data.historyContentHtml,
-  historyContentHtmlEn: data.historyContentHtmlEn,
 });
 
 export const updateStudioPageContent = async (

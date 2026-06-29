@@ -11,11 +11,9 @@ import {
   parseDateOrNull,
 } from "@/lib/validation";
 import {
-  legacyDefaultLocale,
-  legacyDefaultTextValue,
-  legacySecondaryLocale,
-  legacySecondaryTextValue,
-  mergeLegacyLocaleTextTranslations,
+  defaultSiteLocaleCode,
+  defaultLocaleTextValue,
+  mergeLocaleTextTranslations,
   parseLocaleTextTranslations,
   type LocaleTextTranslations,
 } from "@/lib/admin-translations";
@@ -31,7 +29,6 @@ type BlogBlockPayload = {
   id?: string;
   type: "RICHTEXT" | "IMAGE" | "VIDEO";
   contentHtml?: string;
-  contentHtmlEn?: string;
   mediaUrl?: string;
   mediaAssetId?: string;
   translations?: LocaleTextTranslations<BlogBlockTranslationField>;
@@ -142,10 +139,6 @@ const parseBlocks = (formData: FormData): BlogBlockPayload[] => {
       type,
       contentHtml:
         typeof value.contentHtml === "string" ? value.contentHtml : undefined,
-      contentHtmlEn:
-        typeof value.contentHtmlEn === "string"
-          ? value.contentHtmlEn
-          : undefined,
       mediaUrl:
         typeof value.mediaUrl === "string" ? value.mediaUrl.trim() : undefined,
       mediaAssetId:
@@ -169,42 +162,25 @@ const validateBlogPostPayload = async (
     blogPostTranslationFields,
   );
   const title =
-    legacyDefaultTextValue(translations, "title") ??
+    defaultLocaleTextValue(translations, "title") ??
     normalizeRequired(formData.get("title"));
-  const titleEn =
-    legacySecondaryTextValue(translations, "title") ??
-    normalizeRequired(formData.get("titleEn"));
   const eyebrow =
-    legacyDefaultTextValue(translations, "eyebrow") ??
+    defaultLocaleTextValue(translations, "eyebrow") ??
     normalizeRequired(formData.get("eyebrow"));
-  const eyebrowEn =
-    legacySecondaryTextValue(translations, "eyebrow") ??
-    normalizeNullable(formData.get("eyebrowEn"));
   const slug =
-    legacyDefaultTextValue(translations, "slug") ??
+    defaultLocaleTextValue(translations, "slug") ??
     normalizeRequired(formData.get("slug"));
-  const slugEn =
-    legacySecondaryTextValue(translations, "slug") ??
-    normalizeRequired(formData.get("slugEn"));
   const seoDescription =
-    legacyDefaultTextValue(translations, "seoDescription") ??
+    defaultLocaleTextValue(translations, "seoDescription") ??
     normalizeNullable(formData.get("seoDescription"));
-  const seoDescriptionEn =
-    legacySecondaryTextValue(translations, "seoDescription") ??
-    normalizeNullable(formData.get("seoDescriptionEn"));
   const coverMediaUrl = normalizeRequired(formData.get("coverMediaUrl"));
   const coverMediaAssetId = normalizeNullable(formData.get("coverMediaAssetId"));
-  const normalizedTags = legacyDefaultTextValue(translations, "tags");
-  const normalizedTagsEn = legacySecondaryTextValue(translations, "tags");
+  const normalizedTags = defaultLocaleTextValue(translations, "tags");
   const tags = normalizedTags ? parseTagText(normalizedTags) : parseTags(formData.get("tags"));
-  const tagsEn = normalizedTagsEn
-    ? parseTagText(normalizedTagsEn)
-    : parseTags(formData.get("tagsEn"));
   const publishedAt = parseDateOrNull(formData.get("publishedAt"));
   const blocks = parseBlocks(formData);
 
   if (!title) return { error: "Le titre est obligatoire." };
-  if (!titleEn) return { error: "Le titre anglais est obligatoire." };
   if (!eyebrow) return { error: "L'eyebrow est obligatoire." };
   if (!slug || !slugPattern.test(slug)) {
     return {
@@ -212,20 +188,9 @@ const validateBlogPostPayload = async (
         "Le slug francais doit contenir uniquement des minuscules, chiffres et tirets.",
     };
   }
-  if (!slugEn || !slugPattern.test(slugEn)) {
-    return {
-      error:
-        "Le slug anglais doit contenir uniquement des minuscules, chiffres et tirets.",
-    };
-  }
   if (seoDescription && seoDescription.length > seoDescriptionMaxLength) {
     return {
       error: `La description SEO francaise doit faire ${seoDescriptionMaxLength} caracteres maximum.`,
-    };
-  }
-  if (seoDescriptionEn && seoDescriptionEn.length > seoDescriptionMaxLength) {
-    return {
-      error: `La description SEO anglaise doit faire ${seoDescriptionMaxLength} caracteres maximum.`,
     };
   }
   if (!coverMediaUrl || !isValidMediaUrl(coverMediaUrl)) {
@@ -235,15 +200,9 @@ const validateBlogPostPayload = async (
     return { error: "La date de publication est invalide." };
   }
 
-  const [existingFr, existingEn] = await Promise.all([
-    prisma.blogPost.findUnique({ where: { slug } }),
-    prisma.blogPost.findUnique({ where: { slugEn } }),
-  ]);
+  const existingFr = await prisma.blogPost.findUnique({ where: { slug } });
   if (existingFr && existingFr.id !== currentId) {
     return { error: "Ce slug francais est deja utilise." };
-  }
-  if (existingEn && existingEn.id !== currentId) {
-    return { error: "Ce slug anglais est deja utilise." };
   }
 
   const mediaAssetIds = [
@@ -280,12 +239,8 @@ const validateBlogPostPayload = async (
         throw new Error(`${label}: le contenu rich text est obligatoire.`);
       }
       const contentHtml = sanitizeRichTextHtml(block.contentHtml);
-      const contentHtmlEn =
-        block.contentHtmlEn && !isBlankRichText(block.contentHtmlEn)
-          ? sanitizeRichTextHtml(block.contentHtmlEn)
-          : null;
 
-      if (contentHtml !== block.contentHtml || contentHtmlEn !== (block.contentHtmlEn || null)) {
+      if (contentHtml !== block.contentHtml) {
         warnings.push(`${label}: du HTML non supporte a ete nettoye.`);
       }
 
@@ -294,7 +249,6 @@ const validateBlogPostPayload = async (
         order: index,
         type: block.type,
         contentHtml,
-        contentHtmlEn,
         mediaUrl: null,
         mediaAssetId: null,
         translations: block.translations ?? {},
@@ -328,7 +282,6 @@ const validateBlogPostPayload = async (
       order: index,
       type: block.type,
       contentHtml: null,
-      contentHtmlEn: null,
       mediaUrl: block.mediaUrl,
       mediaAssetId: block.mediaAssetId || null,
       translations: block.translations ?? {},
@@ -342,17 +295,12 @@ const validateBlogPostPayload = async (
   return {
     data: {
       title,
-      titleEn,
       eyebrow,
-      eyebrowEn,
       slug,
-      slugEn,
       seoDescription,
-      seoDescriptionEn,
       coverMediaUrl,
       coverMediaAssetId,
       tags,
-      tagsEn,
       publishedAt,
       blocks: sanitizedBlocks,
       translations,
@@ -369,21 +317,13 @@ type ValidatedBlogPostData = ValidatedBlogPostResult["data"];
 
 const blogPostTranslations = (postId: string, data: ValidatedBlogPostData) => {
   const translations = data.translations;
-  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
+  mergeLocaleTextTranslations(translations, defaultSiteLocaleCode, {
     title: data.title,
     eyebrow: data.eyebrow,
     slug: data.slug,
     seoDescription: data.seoDescription,
     tags: data.tags.join(", "),
   });
-  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
-    title: data.titleEn,
-    eyebrow: data.eyebrowEn,
-    slug: data.slugEn,
-    seoDescription: data.seoDescriptionEn,
-    tags: data.tagsEn.join(", "),
-  });
-
   return Object.entries(translations).map(([locale, values]) => ({
     postId,
     locale,
@@ -400,13 +340,9 @@ const blogBlockTranslations = (
   block: ValidatedBlogPostData["blocks"][number],
 ) => {
   const translations = block.translations;
-  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
+  mergeLocaleTextTranslations(translations, defaultSiteLocaleCode, {
     contentHtml: block.contentHtml,
   });
-  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
-    contentHtml: block.contentHtmlEn,
-  });
-
   return Object.entries(translations).map(([locale, values]) => ({
     blockId,
     locale,
@@ -469,7 +405,6 @@ const saveBlocks = async (
       order: block.order,
       type: block.type,
       contentHtml: block.contentHtml,
-      contentHtmlEn: block.contentHtmlEn,
       mediaUrl: block.mediaUrl,
       mediaAssetId: block.mediaAssetId,
     };
@@ -525,17 +460,12 @@ export const createBlogPost = async (formData: FormData): Promise<ActionResult> 
       const created = await tx.blogPost.create({
         data: {
           title: parsed.data.title,
-          titleEn: parsed.data.titleEn,
           eyebrow: parsed.data.eyebrow,
-          eyebrowEn: parsed.data.eyebrowEn,
           slug: parsed.data.slug,
-          slugEn: parsed.data.slugEn,
           seoDescription: parsed.data.seoDescription,
-          seoDescriptionEn: parsed.data.seoDescriptionEn,
           coverMediaUrl: parsed.data.coverMediaUrl,
           coverMediaAssetId: parsed.data.coverMediaAssetId,
           tags: parsed.data.tags,
-          tagsEn: parsed.data.tagsEn,
           publishedAt: parsed.data.publishedAt,
         },
       });
@@ -571,17 +501,12 @@ export const updateBlogPost = async (
         where: { id },
         data: {
           title: parsed.data.title,
-          titleEn: parsed.data.titleEn,
           eyebrow: parsed.data.eyebrow,
-          eyebrowEn: parsed.data.eyebrowEn,
           slug: parsed.data.slug,
-          slugEn: parsed.data.slugEn,
           seoDescription: parsed.data.seoDescription,
-          seoDescriptionEn: parsed.data.seoDescriptionEn,
           coverMediaUrl: parsed.data.coverMediaUrl,
           coverMediaAssetId: parsed.data.coverMediaAssetId,
           tags: parsed.data.tags,
-          tagsEn: parsed.data.tagsEn,
           publishedAt: parsed.data.publishedAt,
         },
       });
@@ -609,7 +534,7 @@ export const publishBlogPost = async (id: string): Promise<ActionResult> => {
     });
     if (!post) return { success: false, error: "Article introuvable." };
 
-    if (!post.title || !post.titleEn || !post.slug || !post.slugEn || !post.coverMediaUrl) {
+    if (!post.title || !post.slug || !post.coverMediaUrl) {
       return {
         success: false,
         error:

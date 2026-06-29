@@ -54,10 +54,7 @@ import {
   updateProject,
 } from "@/app/(admin)/projects/actions";
 import { nowAdminDatetimeLocal, toAdminDatetimeLocal } from "@/lib/admin-date";
-import {
-  legacyDefaultLocale,
-  legacySecondaryLocale,
-} from "@/lib/admin-translations";
+import { defaultSiteLocaleCode } from "@/lib/admin-translations";
 import { hasUnsupportedRichTextHtml } from "@/lib/rich-text";
 import type { SiteLocaleData } from "@/lib/site-locales";
 import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
@@ -76,9 +73,7 @@ type EditableSlide = {
   key: string;
   id?: string;
   title: string;
-  titleEn: string;
   contentHtml: string;
-  contentHtmlEn: string;
   translations: Record<
     string,
     {
@@ -92,7 +87,6 @@ type EditableSlide = {
   mediaAssetId: string;
   posterUrl: string;
   alt: string;
-  altEn: string;
 };
 
 type ProjectFormProps = {
@@ -122,16 +116,13 @@ const newKey = () =>
 const emptySlide = (): EditableSlide => ({
   key: newKey(),
   title: "",
-  titleEn: "",
   contentHtml: "<p></p>",
-  contentHtmlEn: "",
   translations: {},
   mediaType: "IMAGE",
   mediaUrl: "",
   mediaAssetId: "",
   posterUrl: "",
   alt: "",
-  altEn: "",
 });
 
 const stripHtml = (value: string) =>
@@ -144,11 +135,7 @@ const isIncompleteSlide = (slide: EditableSlide) =>
   !slide.title.trim() || !stripHtml(slide.contentHtml) || !slide.mediaUrl.trim();
 
 const extraAdminLocales = (locales: SiteLocaleData[]) =>
-  locales.filter(
-    (locale) =>
-      locale.code !== legacyDefaultLocale &&
-      locale.code !== legacySecondaryLocale,
-  );
+  locales.filter((locale) => locale.code !== defaultSiteLocaleCode);
 
 const emptyLocalizedProjectFields = () => ({
   title: "",
@@ -294,7 +281,11 @@ const SortableSlide = ({
 
   const unsupportedHtml =
     hasUnsupportedRichTextHtml(slide.contentHtml) ||
-    (!!slide.contentHtmlEn && hasUnsupportedRichTextHtml(slide.contentHtmlEn));
+    Object.values(slide.translations).some(
+      (translation) =>
+        !!translation.contentHtml &&
+        hasUnsupportedRichTextHtml(translation.contentHtml),
+    );
 
   return (
     <Accordion
@@ -371,7 +362,6 @@ const SortableSlide = ({
             sx={{ borderBottom: 1, borderColor: "divider" }}
           >
             <Tab label="Francais" />
-            <Tab label="English" />
             {extraLocales.map((locale) => (
               <Tab key={locale.code} label={locale.nativeLabel || locale.label} />
             ))}
@@ -397,39 +387,8 @@ const SortableSlide = ({
             </>
           )}
 
-          {tab === 1 && (
-            <>
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <TextField
-                  label="Title (EN)"
-                  value={slide.titleEn}
-                  fullWidth
-                  onChange={(event) => update({ titleEn: event.target.value })}
-                />
-                <TranslateButton
-                  sourceText={slide.title}
-                  onTranslated={(text) => update({ titleEn: text })}
-                />
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <Box sx={{ flex: 1 }}>
-                  <RichTextEditor
-                    label="Paragraph"
-                    value={slide.contentHtmlEn || "<p></p>"}
-                    onChange={(value) => update({ contentHtmlEn: value })}
-                  />
-                </Box>
-                <TranslateButton
-                  sourceText={slide.contentHtml}
-                  onTranslated={(text) => update({ contentHtmlEn: text })}
-                  html
-                />
-              </Box>
-            </>
-          )}
-
           {extraLocales.map((locale, localeIndex) => {
-            const tabIndex = 2 + localeIndex;
+            const tabIndex = 1 + localeIndex;
             const translation = slide.translations[locale.code] ?? {
               title: "",
               contentHtml: "",
@@ -449,6 +408,7 @@ const SortableSlide = ({
                   />
                   <TranslateButton
                     sourceText={slide.title}
+                    targetLocale={locale.code}
                     onTranslated={(text) =>
                       updateTranslation(locale.code, "title", text)
                     }
@@ -466,6 +426,7 @@ const SortableSlide = ({
                   </Box>
                   <TranslateButton
                     sourceText={slide.contentHtml}
+                    targetLocale={locale.code}
                     onTranslated={(text) =>
                       updateTranslation(locale.code, "contentHtml", text)
                     }
@@ -476,7 +437,7 @@ const SortableSlide = ({
             ) : null;
           })}
 
-          {tab === 2 + extraLocales.length && (
+          {tab === 1 + extraLocales.length && (
             <>
               <ToggleButtonGroup
                 value={slide.mediaType}
@@ -512,17 +473,16 @@ const SortableSlide = ({
                   n&apos;a pas de poster centralise.
                 </Alert>
               )}
-              {(slide.alt || slide.altEn) && (
+              {slide.alt && (
                 <Alert severity="info">
-                  Ancien alt conserve en lecture seule : {slide.alt || "N/A"}
-                  {slide.altEn ? ` / ${slide.altEn}` : ""}. Les nouveaux alts se
-                  gerent depuis la galerie.
+                  Ancien alt conserve en lecture seule : {slide.alt}. Les
+                  nouveaux alts se gerent depuis la galerie.
                 </Alert>
               )}
             </>
           )}
 
-          {tab === 3 + extraLocales.length && (
+          {tab === 2 + extraLocales.length && (
             <Box
               sx={{
                 display: "grid",
@@ -604,12 +564,8 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
   const [deleteTarget, setDeleteTarget] = useState<EditableSlide | null>(null);
 
   const [title, setTitle] = useState(project?.title ?? "");
-  const [titleEn, setTitleEn] = useState(project?.titleEn ?? "");
   const [slug, setSlug] = useState(project?.slug ?? "");
   const [description, setDescription] = useState(project?.description ?? "");
-  const [descriptionEn, setDescriptionEn] = useState(
-    project?.descriptionEn ?? "",
-  );
   const extraLocales = extraAdminLocales(locales);
   const [localizedProjectFields, setLocalizedProjectFields] = useState(() =>
     toLocalizedProjectFields(project, locales),
@@ -640,14 +596,10 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
     label: string;
   } | null>(null);
   const [challenge, setChallenge] = useState(project?.challenge ?? "");
-  const [challengeEn, setChallengeEn] = useState(project?.challengeEn ?? "");
   const [approach, setApproach] = useState(project?.approach ?? "");
-  const [approachEn, setApproachEn] = useState(project?.approachEn ?? "");
   const [results, setResults] = useState(project?.results ?? "");
-  const [resultsEn, setResultsEn] = useState(project?.resultsEn ?? "");
   const [credits, setCredits] = useState(project?.credits ?? "");
   const [awards, setAwards] = useState(project?.awards ?? "");
-  const [awardsEn, setAwardsEn] = useState(project?.awardsEn ?? "");
   const [externalUrl, setExternalUrl] = useState(project?.externalUrl ?? "");
   const [featured, setFeatured] = useState(project?.featured ?? false);
   const [order, setOrder] = useState(String(project?.order ?? 0));
@@ -659,16 +611,13 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
       key: slide.id,
       id: slide.id,
       title: slide.title,
-      titleEn: slide.titleEn ?? "",
       contentHtml: slide.contentHtml,
-      contentHtmlEn: slide.contentHtmlEn ?? "",
       translations: toSlideTranslations(slide, locales),
       mediaType: slide.mediaType,
       mediaUrl: slide.mediaUrl,
       mediaAssetId: slide.mediaAssetId ?? "",
       posterUrl: slide.posterUrl ?? "",
       alt: slide.alt ?? "",
-      altEn: slide.altEn ?? "",
     })) ?? [],
   );
 
@@ -700,7 +649,7 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
   const optionLabel = (option: string | ProjectTaxonomyOption) =>
     typeof option === "string"
       ? option
-      : `${option.label} — ${option.labelEn}${option.active ? "" : " (inactive)"}`;
+      : `${option.label}${option.active ? "" : " (inactive)"}`;
   const displayedPalette = paletteOverride ?? project?.heroPaletteComputed ?? [];
 
   const updateCoverUrl = (value: string) => {
@@ -766,14 +715,12 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
 
     const formData = new FormData();
     formData.set("title", title);
-    formData.set("titleEn", titleEn);
     formData.set("slug", slug);
     formData.set("description", description);
-    formData.set("descriptionEn", descriptionEn);
     formData.set(
       "translations",
       JSON.stringify({
-        [legacyDefaultLocale]: {
+        [defaultSiteLocaleCode]: {
           title,
           slug,
           description,
@@ -781,15 +728,6 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
           approach,
           results,
           awards,
-        },
-        [legacySecondaryLocale]: {
-          title: titleEn,
-          slug: "",
-          description: descriptionEn,
-          challenge: challengeEn,
-          approach: approachEn,
-          results: resultsEn,
-          awards: awardsEn,
         },
         ...localizedProjectFields,
       }),
@@ -803,14 +741,10 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
     formData.set("locationEntryId", locationEntryId);
     formData.set("deliveredServiceEntryIds", JSON.stringify(deliveredServiceEntryIds));
     formData.set("challenge", challenge);
-    formData.set("challengeEn", challengeEn);
     formData.set("approach", approach);
-    formData.set("approachEn", approachEn);
     formData.set("results", results);
-    formData.set("resultsEn", resultsEn);
     formData.set("credits", credits);
     formData.set("awards", awards);
-    formData.set("awardsEn", awardsEn);
     formData.set("externalUrl", externalUrl);
     formData.set("featured", String(featured));
     formData.set("order", order);
@@ -821,27 +755,17 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
           slides.map((slide) => ({
           id: slide.id,
           title: slide.title,
-          titleEn: slide.titleEn,
           contentHtml: slide.contentHtml,
-          contentHtmlEn: stripHtml(slide.contentHtmlEn)
-            ? slide.contentHtmlEn
-            : "",
           mediaType: slide.mediaType,
           mediaUrl: slide.mediaUrl,
           mediaAssetId: slide.mediaAssetId,
           posterUrl: slide.posterUrl,
           alt: slide.alt,
-          altEn: slide.altEn,
           translations: {
-            [legacyDefaultLocale]: {
+            [defaultSiteLocaleCode]: {
               title: slide.title,
               contentHtml: slide.contentHtml,
               alt: slide.alt,
-            },
-            [legacySecondaryLocale]: {
-              title: slide.titleEn,
-              contentHtml: slide.contentHtmlEn,
-              alt: slide.altEn,
             },
             ...slide.translations,
           },
@@ -894,7 +818,6 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
             sx={{ mb: 3, borderBottom: 1, borderColor: "divider" }}
           >
             <Tab label="Francais" />
-            <Tab label="English" />
             {extraLocales.map((locale) => (
               <Tab key={locale.code} label={locale.nativeLabel || locale.label} />
             ))}
@@ -946,33 +869,8 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
             </Box>
           )}
 
-          {tab === 1 && (
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <TextField
-                  label="Title (EN)"
-                  value={titleEn}
-                  fullWidth
-                  onChange={(event) => setTitleEn(event.target.value)}
-                />
-                <TranslateButton sourceText={title} onTranslated={setTitleEn} />
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <TextField
-                  label="Description (EN)"
-                  value={descriptionEn}
-                  fullWidth
-                  multiline
-                  rows={4}
-                  onChange={(event) => setDescriptionEn(event.target.value)}
-                />
-                <TranslateButton sourceText={description} onTranslated={setDescriptionEn} />
-              </Box>
-            </Box>
-          )}
-
           {extraLocales.map((locale, localeIndex) => {
-            const tabIndex = 2 + localeIndex;
+            const tabIndex = 1 + localeIndex;
             const fields =
               localizedProjectFields[locale.code] ?? emptyLocalizedProjectFields();
 
@@ -991,6 +889,7 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
                   />
                   <TranslateButton
                     sourceText={title}
+                    targetLocale={locale.code}
                     onTranslated={updateLocalizedProjectField(locale.code, "title")}
                   />
                 </Box>
@@ -1020,6 +919,7 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
                   />
                   <TranslateButton
                     sourceText={description}
+                    targetLocale={locale.code}
                     onTranslated={updateLocalizedProjectField(
                       locale.code,
                       "description",
@@ -1049,6 +949,7 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
                     />
                     <TranslateButton
                       sourceText={source}
+                      targetLocale={locale.code}
                       onTranslated={updateLocalizedProjectField(locale.code, field)}
                     />
                   </Box>
@@ -1057,7 +958,7 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
             ) : null;
           })}
 
-          {tab === 2 + extraLocales.length && (
+          {tab === 1 + extraLocales.length && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
               <Alert severity="info">
                 Ces informations rendent la realisation plus claire pour les
@@ -1154,7 +1055,8 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
                   )}
                 />
                 <Alert severity="info">
-                  Les traductions anglaises sont liées aux entrées sélectionnées et se remplissent automatiquement sur le site.
+                  Les traductions des entrées sélectionnées sont gérées depuis
+                  la taxonomie.
                 </Alert>
               </Box>
 
@@ -1168,39 +1070,21 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
               >
                 {(
                   [
-                    ["Problematique", challenge, setChallenge, undefined],
-                    ["Challenge (EN)", challengeEn, setChallengeEn, challenge],
-                    ["Approche", approach, setApproach, undefined],
-                    ["Approach (EN)", approachEn, setApproachEn, approach],
-                    ["Resultats", results, setResults, undefined],
-                    ["Results (EN)", resultsEn, setResultsEn, results],
-                    ["Distinctions", awards, setAwards, undefined],
-                    ["Awards (EN)", awardsEn, setAwardsEn, awards],
-                  ] as [string, string, (v: string) => void, string | undefined][]
-                ).map(([label, value, setter, translateFrom]) =>
-                  translateFrom !== undefined ? (
-                    <Box key={label} sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                      <TextField
-                        label={label}
-                        value={value}
-                        fullWidth
-                        multiline
-                        rows={3}
-                        onChange={(event) => setter(event.target.value)}
-                      />
-                      <TranslateButton sourceText={translateFrom} onTranslated={setter} />
-                    </Box>
-                  ) : (
-                    <TextField
-                      key={label}
-                      label={label}
-                      value={value}
-                      multiline
-                      rows={3}
-                      onChange={(event) => setter(event.target.value)}
-                    />
-                  ),
-                )}
+                    ["Problematique", challenge, setChallenge],
+                    ["Approche", approach, setApproach],
+                    ["Resultats", results, setResults],
+                    ["Distinctions", awards, setAwards],
+                  ] as [string, string, (v: string) => void][]
+                ).map(([label, value, setter]) => (
+                  <TextField
+                    key={label}
+                    label={label}
+                    value={value}
+                    multiline
+                    rows={3}
+                    onChange={(event) => setter(event.target.value)}
+                  />
+                ))}
               </Box>
               <TextField
                 label="Credits"
@@ -1219,7 +1103,7 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
             </Box>
           )}
 
-          {tab === 3 + extraLocales.length && (
+          {tab === 2 + extraLocales.length && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
               <Box>
                 <Typography variant="h4" sx={{ mb: 1.5 }}>
@@ -1504,7 +1388,7 @@ export const ProjectForm = ({ project, taxonomyOptions, locales }: ProjectFormPr
         onCreated={(entry) => {
           setAvailableTaxonomies((current) =>
             [...current, entry].sort((first, second) =>
-              first.label.localeCompare(second.label, legacyDefaultLocale),
+              first.label.localeCompare(second.label, defaultSiteLocaleCode),
             ),
           );
           if (entry.type === "SECTOR") setSectorEntryId(entry.id);

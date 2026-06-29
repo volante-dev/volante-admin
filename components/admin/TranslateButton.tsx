@@ -6,13 +6,14 @@ import Tooltip from "@mui/material/Tooltip";
 import TranslateIcon from "@mui/icons-material/Translate";
 import { useAiRequest } from "@/lib/use-ai-request";
 import {
-  legacyDefaultLocale,
-  legacySecondaryLocale,
+  defaultSiteLocaleCode,
+  initialTranslatedLocaleCode,
 } from "@/lib/admin-translations";
 
 type TranslateButtonProps = {
   sourceText: string;
   onTranslated: (text: string) => void;
+  targetLocale?: string;
   html?: boolean;
   disabled?: boolean;
 };
@@ -20,6 +21,7 @@ type TranslateButtonProps = {
 export const TranslateButton = ({
   sourceText,
   onTranslated,
+  targetLocale = initialTranslatedLocaleCode,
   html = false,
   disabled = false,
 }: TranslateButtonProps) => {
@@ -31,8 +33,8 @@ export const TranslateButton = ({
     const result = await execute({
       task: "translate",
       text: sourceText,
-      from: legacyDefaultLocale,
-      to: legacySecondaryLocale,
+      from: defaultSiteLocaleCode,
+      to: targetLocale,
       format: html ? "html" : "plain",
     });
 

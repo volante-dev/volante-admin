@@ -31,13 +31,6 @@ export const SortableServiceRow = ({ service }: { service: ServiceData }) => {
       </TableCell>
       <TableCell>{service.title}</TableCell>
       <TableCell>
-        {service.titleEn || (
-          <Typography variant="body2" color="text.secondary">
-            --
-          </Typography>
-        )}
-      </TableCell>
-      <TableCell>
         {service.icon || (
           <Typography variant="body2" color="text.secondary">
             --

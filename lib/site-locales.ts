@@ -1,7 +1,7 @@
 import prisma from "@/lib/prisma";
 import {
-  legacyDefaultLocale,
-  legacySecondaryLocale,
+  defaultSiteLocaleCode,
+  initialTranslatedLocaleCode,
 } from "@/lib/admin-translations";
 
 export type SiteLocaleData = {
@@ -18,7 +18,7 @@ export type SiteLocaleData = {
 
 export const defaultSiteLocales: SiteLocaleData[] = [
   {
-    code: legacyDefaultLocale,
+    code: defaultSiteLocaleCode,
     label: "Français",
     nativeLabel: "Français",
     hreflang: "fr-FR",
@@ -29,7 +29,7 @@ export const defaultSiteLocales: SiteLocaleData[] = [
     order: 0,
   },
   {
-    code: legacySecondaryLocale,
+    code: initialTranslatedLocaleCode,
     label: "Anglais",
     nativeLabel: "English",
     hreflang: "en",

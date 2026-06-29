@@ -27,11 +27,8 @@ export type AggregatePageHeaderContent = {
 export type PageHeaderContentMinAggregateOutputType = {
   id: string | null
   eyebrow: string | null
-  eyebrowEn: string | null
   title: string | null
-  titleEn: string | null
   intro: string | null
-  introEn: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -39,11 +36,8 @@ export type PageHeaderContentMinAggregateOutputType = {
 export type PageHeaderContentMaxAggregateOutputType = {
   id: string | null
   eyebrow: string | null
-  eyebrowEn: string | null
   title: string | null
-  titleEn: string | null
   intro: string | null
-  introEn: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -51,11 +45,8 @@ export type PageHeaderContentMaxAggregateOutputType = {
 export type PageHeaderContentCountAggregateOutputType = {
   id: number
   eyebrow: number
-  eyebrowEn: number
   title: number
-  titleEn: number
   intro: number
-  introEn: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -65,11 +56,8 @@ export type PageHeaderContentCountAggregateOutputType = {
 export type PageHeaderContentMinAggregateInputType = {
   id?: true
   eyebrow?: true
-  eyebrowEn?: true
   title?: true
-  titleEn?: true
   intro?: true
-  introEn?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -77,11 +65,8 @@ export type PageHeaderContentMinAggregateInputType = {
 export type PageHeaderContentMaxAggregateInputType = {
   id?: true
   eyebrow?: true
-  eyebrowEn?: true
   title?: true
-  titleEn?: true
   intro?: true
-  introEn?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -89,11 +74,8 @@ export type PageHeaderContentMaxAggregateInputType = {
 export type PageHeaderContentCountAggregateInputType = {
   id?: true
   eyebrow?: true
-  eyebrowEn?: true
   title?: true
-  titleEn?: true
   intro?: true
-  introEn?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -174,11 +156,8 @@ export type PageHeaderContentGroupByArgs<ExtArgs extends runtime.Types.Extension
 export type PageHeaderContentGroupByOutputType = {
   id: string
   eyebrow: string
-  eyebrowEn: string | null
   title: string
-  titleEn: string | null
   intro: string | null
-  introEn: string | null
   createdAt: Date
   updatedAt: Date
   _count: PageHeaderContentCountAggregateOutputType | null
@@ -207,11 +186,8 @@ export type PageHeaderContentWhereInput = {
   NOT?: Prisma.PageHeaderContentWhereInput | Prisma.PageHeaderContentWhereInput[]
   id?: Prisma.StringFilter<"PageHeaderContent"> | string
   eyebrow?: Prisma.StringFilter<"PageHeaderContent"> | string
-  eyebrowEn?: Prisma.StringNullableFilter<"PageHeaderContent"> | string | null
   title?: Prisma.StringFilter<"PageHeaderContent"> | string
-  titleEn?: Prisma.StringNullableFilter<"PageHeaderContent"> | string | null
   intro?: Prisma.StringNullableFilter<"PageHeaderContent"> | string | null
-  introEn?: Prisma.StringNullableFilter<"PageHeaderContent"> | string | null
   createdAt?: Prisma.DateTimeFilter<"PageHeaderContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PageHeaderContent"> | Date | string
   translations?: Prisma.PageHeaderContentTranslationListRelationFilter
@@ -220,11 +196,8 @@ export type PageHeaderContentWhereInput = {
 export type PageHeaderContentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   eyebrow?: Prisma.SortOrder
-  eyebrowEn?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrderInput | Prisma.SortOrder
   intro?: Prisma.SortOrderInput | Prisma.SortOrder
-  introEn?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   translations?: Prisma.PageHeaderContentTranslationOrderByRelationAggregateInput
@@ -236,11 +209,8 @@ export type PageHeaderContentWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.PageHeaderContentWhereInput[]
   NOT?: Prisma.PageHeaderContentWhereInput | Prisma.PageHeaderContentWhereInput[]
   eyebrow?: Prisma.StringFilter<"PageHeaderContent"> | string
-  eyebrowEn?: Prisma.StringNullableFilter<"PageHeaderContent"> | string | null
   title?: Prisma.StringFilter<"PageHeaderContent"> | string
-  titleEn?: Prisma.StringNullableFilter<"PageHeaderContent"> | string | null
   intro?: Prisma.StringNullableFilter<"PageHeaderContent"> | string | null
-  introEn?: Prisma.StringNullableFilter<"PageHeaderContent"> | string | null
   createdAt?: Prisma.DateTimeFilter<"PageHeaderContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"PageHeaderContent"> | Date | string
   translations?: Prisma.PageHeaderContentTranslationListRelationFilter
@@ -249,11 +219,8 @@ export type PageHeaderContentWhereUniqueInput = Prisma.AtLeast<{
 export type PageHeaderContentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   eyebrow?: Prisma.SortOrder
-  eyebrowEn?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrderInput | Prisma.SortOrder
   intro?: Prisma.SortOrderInput | Prisma.SortOrder
-  introEn?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.PageHeaderContentCountOrderByAggregateInput
@@ -267,11 +234,8 @@ export type PageHeaderContentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PageHeaderContentScalarWhereWithAggregatesInput | Prisma.PageHeaderContentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"PageHeaderContent"> | string
   eyebrow?: Prisma.StringWithAggregatesFilter<"PageHeaderContent"> | string
-  eyebrowEn?: Prisma.StringNullableWithAggregatesFilter<"PageHeaderContent"> | string | null
   title?: Prisma.StringWithAggregatesFilter<"PageHeaderContent"> | string
-  titleEn?: Prisma.StringNullableWithAggregatesFilter<"PageHeaderContent"> | string | null
   intro?: Prisma.StringNullableWithAggregatesFilter<"PageHeaderContent"> | string | null
-  introEn?: Prisma.StringNullableWithAggregatesFilter<"PageHeaderContent"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"PageHeaderContent"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"PageHeaderContent"> | Date | string
 }
@@ -279,11 +243,8 @@ export type PageHeaderContentScalarWhereWithAggregatesInput = {
 export type PageHeaderContentCreateInput = {
   id: string
   eyebrow: string
-  eyebrowEn?: string | null
   title: string
-  titleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.PageHeaderContentTranslationCreateNestedManyWithoutContentInput
@@ -292,11 +253,8 @@ export type PageHeaderContentCreateInput = {
 export type PageHeaderContentUncheckedCreateInput = {
   id: string
   eyebrow: string
-  eyebrowEn?: string | null
   title: string
-  titleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   translations?: Prisma.PageHeaderContentTranslationUncheckedCreateNestedManyWithoutContentInput
@@ -305,11 +263,8 @@ export type PageHeaderContentUncheckedCreateInput = {
 export type PageHeaderContentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
-  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.PageHeaderContentTranslationUpdateManyWithoutContentNestedInput
@@ -318,11 +273,8 @@ export type PageHeaderContentUpdateInput = {
 export type PageHeaderContentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
-  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   translations?: Prisma.PageHeaderContentTranslationUncheckedUpdateManyWithoutContentNestedInput
@@ -331,11 +283,8 @@ export type PageHeaderContentUncheckedUpdateInput = {
 export type PageHeaderContentCreateManyInput = {
   id: string
   eyebrow: string
-  eyebrowEn?: string | null
   title: string
-  titleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -343,11 +292,8 @@ export type PageHeaderContentCreateManyInput = {
 export type PageHeaderContentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
-  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -355,11 +301,8 @@ export type PageHeaderContentUpdateManyMutationInput = {
 export type PageHeaderContentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
-  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -367,11 +310,8 @@ export type PageHeaderContentUncheckedUpdateManyInput = {
 export type PageHeaderContentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   eyebrow?: Prisma.SortOrder
-  eyebrowEn?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   intro?: Prisma.SortOrder
-  introEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -379,11 +319,8 @@ export type PageHeaderContentCountOrderByAggregateInput = {
 export type PageHeaderContentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   eyebrow?: Prisma.SortOrder
-  eyebrowEn?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   intro?: Prisma.SortOrder
-  introEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -391,11 +328,8 @@ export type PageHeaderContentMaxOrderByAggregateInput = {
 export type PageHeaderContentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   eyebrow?: Prisma.SortOrder
-  eyebrowEn?: Prisma.SortOrder
   title?: Prisma.SortOrder
-  titleEn?: Prisma.SortOrder
   intro?: Prisma.SortOrder
-  introEn?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -422,11 +356,8 @@ export type PageHeaderContentUpdateOneRequiredWithoutTranslationsNestedInput = {
 export type PageHeaderContentCreateWithoutTranslationsInput = {
   id: string
   eyebrow: string
-  eyebrowEn?: string | null
   title: string
-  titleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -434,11 +365,8 @@ export type PageHeaderContentCreateWithoutTranslationsInput = {
 export type PageHeaderContentUncheckedCreateWithoutTranslationsInput = {
   id: string
   eyebrow: string
-  eyebrowEn?: string | null
   title: string
-  titleEn?: string | null
   intro?: string | null
-  introEn?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -462,11 +390,8 @@ export type PageHeaderContentUpdateToOneWithWhereWithoutTranslationsInput = {
 export type PageHeaderContentUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
-  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -474,11 +399,8 @@ export type PageHeaderContentUpdateWithoutTranslationsInput = {
 export type PageHeaderContentUncheckedUpdateWithoutTranslationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   eyebrow?: Prisma.StringFieldUpdateOperationsInput | string
-  eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
-  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   intro?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  introEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -517,11 +439,8 @@ export type PageHeaderContentCountOutputTypeCountTranslationsArgs<ExtArgs extend
 export type PageHeaderContentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   eyebrow?: boolean
-  eyebrowEn?: boolean
   title?: boolean
-  titleEn?: boolean
   intro?: boolean
-  introEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   translations?: boolean | Prisma.PageHeaderContent$translationsArgs<ExtArgs>
@@ -531,11 +450,8 @@ export type PageHeaderContentSelect<ExtArgs extends runtime.Types.Extensions.Int
 export type PageHeaderContentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   eyebrow?: boolean
-  eyebrowEn?: boolean
   title?: boolean
-  titleEn?: boolean
   intro?: boolean
-  introEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["pageHeaderContent"]>
@@ -543,11 +459,8 @@ export type PageHeaderContentSelectCreateManyAndReturn<ExtArgs extends runtime.T
 export type PageHeaderContentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   eyebrow?: boolean
-  eyebrowEn?: boolean
   title?: boolean
-  titleEn?: boolean
   intro?: boolean
-  introEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["pageHeaderContent"]>
@@ -555,16 +468,13 @@ export type PageHeaderContentSelectUpdateManyAndReturn<ExtArgs extends runtime.T
 export type PageHeaderContentSelectScalar = {
   id?: boolean
   eyebrow?: boolean
-  eyebrowEn?: boolean
   title?: boolean
-  titleEn?: boolean
   intro?: boolean
-  introEn?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type PageHeaderContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eyebrow" | "eyebrowEn" | "title" | "titleEn" | "intro" | "introEn" | "createdAt" | "updatedAt", ExtArgs["result"]["pageHeaderContent"]>
+export type PageHeaderContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "eyebrow" | "title" | "intro" | "createdAt" | "updatedAt", ExtArgs["result"]["pageHeaderContent"]>
 export type PageHeaderContentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   translations?: boolean | Prisma.PageHeaderContent$translationsArgs<ExtArgs>
   _count?: boolean | Prisma.PageHeaderContentCountOutputTypeDefaultArgs<ExtArgs>
@@ -580,11 +490,8 @@ export type $PageHeaderContentPayload<ExtArgs extends runtime.Types.Extensions.I
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     eyebrow: string
-    eyebrowEn: string | null
     title: string
-    titleEn: string | null
     intro: string | null
-    introEn: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["pageHeaderContent"]>
@@ -1013,11 +920,8 @@ export interface Prisma__PageHeaderContentClient<T, Null = never, ExtArgs extend
 export interface PageHeaderContentFieldRefs {
   readonly id: Prisma.FieldRef<"PageHeaderContent", 'String'>
   readonly eyebrow: Prisma.FieldRef<"PageHeaderContent", 'String'>
-  readonly eyebrowEn: Prisma.FieldRef<"PageHeaderContent", 'String'>
   readonly title: Prisma.FieldRef<"PageHeaderContent", 'String'>
-  readonly titleEn: Prisma.FieldRef<"PageHeaderContent", 'String'>
   readonly intro: Prisma.FieldRef<"PageHeaderContent", 'String'>
-  readonly introEn: Prisma.FieldRef<"PageHeaderContent", 'String'>
   readonly createdAt: Prisma.FieldRef<"PageHeaderContent", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"PageHeaderContent", 'DateTime'>
 }
