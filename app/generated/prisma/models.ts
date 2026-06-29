@@ -9,6 +9,8 @@
  * 🟢 You can import this file directly.
  */
 export type * from './models/Project'
+export type * from './models/BlogPost'
+export type * from './models/BlogPostBlock'
 export type * from './models/ProjectTaxonomyEntry'
 export type * from './models/ProjectSlide'
 export type * from './models/Service'

@@ -9,6 +9,15 @@
 * 🟢 You can import this file directly.
 */
 
+export const BlogPostBlockType = {
+  RICHTEXT: 'RICHTEXT',
+  IMAGE: 'IMAGE',
+  VIDEO: 'VIDEO'
+} as const
+
+export type BlogPostBlockType = (typeof BlogPostBlockType)[keyof typeof BlogPostBlockType]
+
+
 export const ProjectTaxonomyType = {
   SECTOR: 'SECTOR',
   LOCATION: 'LOCATION',

@@ -338,6 +338,8 @@ export type MediaAssetWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"MediaAsset"> | Date | string
   projectImages?: Prisma.ProjectListRelationFilter
   projectSlideMedia?: Prisma.ProjectSlideListRelationFilter
+  blogPostCovers?: Prisma.BlogPostListRelationFilter
+  blogPostBlockMedia?: Prisma.BlogPostBlockListRelationFilter
   studioFounderOneImages?: Prisma.StudioPageContentListRelationFilter
   studioFounderTwoImages?: Prisma.StudioPageContentListRelationFilter
   testimonialAvatars?: Prisma.TestimonialListRelationFilter
@@ -365,6 +367,8 @@ export type MediaAssetOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   projectImages?: Prisma.ProjectOrderByRelationAggregateInput
   projectSlideMedia?: Prisma.ProjectSlideOrderByRelationAggregateInput
+  blogPostCovers?: Prisma.BlogPostOrderByRelationAggregateInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockOrderByRelationAggregateInput
   studioFounderOneImages?: Prisma.StudioPageContentOrderByRelationAggregateInput
   studioFounderTwoImages?: Prisma.StudioPageContentOrderByRelationAggregateInput
   testimonialAvatars?: Prisma.TestimonialOrderByRelationAggregateInput
@@ -395,6 +399,8 @@ export type MediaAssetWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"MediaAsset"> | Date | string
   projectImages?: Prisma.ProjectListRelationFilter
   projectSlideMedia?: Prisma.ProjectSlideListRelationFilter
+  blogPostCovers?: Prisma.BlogPostListRelationFilter
+  blogPostBlockMedia?: Prisma.BlogPostBlockListRelationFilter
   studioFounderOneImages?: Prisma.StudioPageContentListRelationFilter
   studioFounderTwoImages?: Prisma.StudioPageContentListRelationFilter
   testimonialAvatars?: Prisma.TestimonialListRelationFilter
@@ -474,6 +480,8 @@ export type MediaAssetCreateInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideCreateNestedManyWithoutMediaAssetInput
+  blogPostCovers?: Prisma.BlogPostCreateNestedManyWithoutCoverMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockCreateNestedManyWithoutMediaAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialCreateNestedManyWithoutAvatarAssetInput
@@ -501,6 +509,8 @@ export type MediaAssetUncheckedCreateInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectUncheckedCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput
+  blogPostCovers?: Prisma.BlogPostUncheckedCreateNestedManyWithoutCoverMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedCreateNestedManyWithoutMediaAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput
@@ -528,6 +538,8 @@ export type MediaAssetUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUpdateManyWithoutMediaAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUpdateManyWithoutCoverMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUpdateManyWithoutMediaAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUpdateManyWithoutAvatarAssetNestedInput
@@ -555,6 +567,8 @@ export type MediaAssetUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUncheckedUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUncheckedUpdateManyWithoutCoverMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedUpdateManyWithoutMediaAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput
@@ -725,6 +739,38 @@ export type MediaAssetUpdateOneWithoutProjectImagesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MediaAssetUpdateToOneWithWhereWithoutProjectImagesInput, Prisma.MediaAssetUpdateWithoutProjectImagesInput>, Prisma.MediaAssetUncheckedUpdateWithoutProjectImagesInput>
 }
 
+export type MediaAssetCreateNestedOneWithoutBlogPostCoversInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutBlogPostCoversInput, Prisma.MediaAssetUncheckedCreateWithoutBlogPostCoversInput>
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutBlogPostCoversInput
+  connect?: Prisma.MediaAssetWhereUniqueInput
+}
+
+export type MediaAssetUpdateOneWithoutBlogPostCoversNestedInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutBlogPostCoversInput, Prisma.MediaAssetUncheckedCreateWithoutBlogPostCoversInput>
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutBlogPostCoversInput
+  upsert?: Prisma.MediaAssetUpsertWithoutBlogPostCoversInput
+  disconnect?: Prisma.MediaAssetWhereInput | boolean
+  delete?: Prisma.MediaAssetWhereInput | boolean
+  connect?: Prisma.MediaAssetWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MediaAssetUpdateToOneWithWhereWithoutBlogPostCoversInput, Prisma.MediaAssetUpdateWithoutBlogPostCoversInput>, Prisma.MediaAssetUncheckedUpdateWithoutBlogPostCoversInput>
+}
+
+export type MediaAssetCreateNestedOneWithoutBlogPostBlockMediaInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutBlogPostBlockMediaInput, Prisma.MediaAssetUncheckedCreateWithoutBlogPostBlockMediaInput>
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutBlogPostBlockMediaInput
+  connect?: Prisma.MediaAssetWhereUniqueInput
+}
+
+export type MediaAssetUpdateOneWithoutBlogPostBlockMediaNestedInput = {
+  create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutBlogPostBlockMediaInput, Prisma.MediaAssetUncheckedCreateWithoutBlogPostBlockMediaInput>
+  connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutBlogPostBlockMediaInput
+  upsert?: Prisma.MediaAssetUpsertWithoutBlogPostBlockMediaInput
+  disconnect?: Prisma.MediaAssetWhereInput | boolean
+  delete?: Prisma.MediaAssetWhereInput | boolean
+  connect?: Prisma.MediaAssetWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MediaAssetUpdateToOneWithWhereWithoutBlogPostBlockMediaInput, Prisma.MediaAssetUpdateWithoutBlogPostBlockMediaInput>, Prisma.MediaAssetUncheckedUpdateWithoutBlogPostBlockMediaInput>
+}
+
 export type MediaAssetCreateNestedOneWithoutProjectSlideMediaInput = {
   create?: Prisma.XOR<Prisma.MediaAssetCreateWithoutProjectSlideMediaInput, Prisma.MediaAssetUncheckedCreateWithoutProjectSlideMediaInput>
   connectOrCreate?: Prisma.MediaAssetCreateOrConnectWithoutProjectSlideMediaInput
@@ -823,6 +869,8 @@ export type MediaAssetCreateWithoutProjectImagesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   projectSlideMedia?: Prisma.ProjectSlideCreateNestedManyWithoutMediaAssetInput
+  blogPostCovers?: Prisma.BlogPostCreateNestedManyWithoutCoverMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockCreateNestedManyWithoutMediaAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialCreateNestedManyWithoutAvatarAssetInput
@@ -849,6 +897,8 @@ export type MediaAssetUncheckedCreateWithoutProjectImagesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   projectSlideMedia?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput
+  blogPostCovers?: Prisma.BlogPostUncheckedCreateNestedManyWithoutCoverMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedCreateNestedManyWithoutMediaAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput
@@ -891,6 +941,8 @@ export type MediaAssetUpdateWithoutProjectImagesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectSlideMedia?: Prisma.ProjectSlideUpdateManyWithoutMediaAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUpdateManyWithoutCoverMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUpdateManyWithoutMediaAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUpdateManyWithoutAvatarAssetNestedInput
@@ -917,6 +969,264 @@ export type MediaAssetUncheckedUpdateWithoutProjectImagesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectSlideMedia?: Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUncheckedUpdateManyWithoutCoverMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedUpdateManyWithoutMediaAssetNestedInput
+  studioFounderOneImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput
+  studioFounderTwoImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput
+  testimonialAvatars?: Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput
+}
+
+export type MediaAssetCreateWithoutBlogPostCoversInput = {
+  id?: string
+  url: string
+  pathname: string
+  mediaType: $Enums.MediaAssetType
+  mimeType?: string | null
+  size?: number | null
+  width?: number | null
+  height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
+  name: string
+  alt?: string | null
+  altEn?: string | null
+  tags?: Prisma.MediaAssetCreatetagsInput | string[]
+  active?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  projectImages?: Prisma.ProjectCreateNestedManyWithoutImageAssetInput
+  projectSlideMedia?: Prisma.ProjectSlideCreateNestedManyWithoutMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockCreateNestedManyWithoutMediaAssetInput
+  studioFounderOneImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput
+  studioFounderTwoImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput
+  testimonialAvatars?: Prisma.TestimonialCreateNestedManyWithoutAvatarAssetInput
+}
+
+export type MediaAssetUncheckedCreateWithoutBlogPostCoversInput = {
+  id?: string
+  url: string
+  pathname: string
+  mediaType: $Enums.MediaAssetType
+  mimeType?: string | null
+  size?: number | null
+  width?: number | null
+  height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
+  name: string
+  alt?: string | null
+  altEn?: string | null
+  tags?: Prisma.MediaAssetCreatetagsInput | string[]
+  active?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  projectImages?: Prisma.ProjectUncheckedCreateNestedManyWithoutImageAssetInput
+  projectSlideMedia?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedCreateNestedManyWithoutMediaAssetInput
+  studioFounderOneImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput
+  studioFounderTwoImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput
+  testimonialAvatars?: Prisma.TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput
+}
+
+export type MediaAssetCreateOrConnectWithoutBlogPostCoversInput = {
+  where: Prisma.MediaAssetWhereUniqueInput
+  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutBlogPostCoversInput, Prisma.MediaAssetUncheckedCreateWithoutBlogPostCoversInput>
+}
+
+export type MediaAssetUpsertWithoutBlogPostCoversInput = {
+  update: Prisma.XOR<Prisma.MediaAssetUpdateWithoutBlogPostCoversInput, Prisma.MediaAssetUncheckedUpdateWithoutBlogPostCoversInput>
+  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutBlogPostCoversInput, Prisma.MediaAssetUncheckedCreateWithoutBlogPostCoversInput>
+  where?: Prisma.MediaAssetWhereInput
+}
+
+export type MediaAssetUpdateToOneWithWhereWithoutBlogPostCoversInput = {
+  where?: Prisma.MediaAssetWhereInput
+  data: Prisma.XOR<Prisma.MediaAssetUpdateWithoutBlogPostCoversInput, Prisma.MediaAssetUncheckedUpdateWithoutBlogPostCoversInput>
+}
+
+export type MediaAssetUpdateWithoutBlogPostCoversInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  pathname?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaType?: Prisma.EnumMediaAssetTypeFieldUpdateOperationsInput | $Enums.MediaAssetType
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.MediaAssetUpdatetagsInput | string[]
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectImages?: Prisma.ProjectUpdateManyWithoutImageAssetNestedInput
+  projectSlideMedia?: Prisma.ProjectSlideUpdateManyWithoutMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUpdateManyWithoutMediaAssetNestedInput
+  studioFounderOneImages?: Prisma.StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput
+  studioFounderTwoImages?: Prisma.StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput
+  testimonialAvatars?: Prisma.TestimonialUpdateManyWithoutAvatarAssetNestedInput
+}
+
+export type MediaAssetUncheckedUpdateWithoutBlogPostCoversInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  pathname?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaType?: Prisma.EnumMediaAssetTypeFieldUpdateOperationsInput | $Enums.MediaAssetType
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.MediaAssetUpdatetagsInput | string[]
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectImages?: Prisma.ProjectUncheckedUpdateManyWithoutImageAssetNestedInput
+  projectSlideMedia?: Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedUpdateManyWithoutMediaAssetNestedInput
+  studioFounderOneImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput
+  studioFounderTwoImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput
+  testimonialAvatars?: Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput
+}
+
+export type MediaAssetCreateWithoutBlogPostBlockMediaInput = {
+  id?: string
+  url: string
+  pathname: string
+  mediaType: $Enums.MediaAssetType
+  mimeType?: string | null
+  size?: number | null
+  width?: number | null
+  height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
+  name: string
+  alt?: string | null
+  altEn?: string | null
+  tags?: Prisma.MediaAssetCreatetagsInput | string[]
+  active?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  projectImages?: Prisma.ProjectCreateNestedManyWithoutImageAssetInput
+  projectSlideMedia?: Prisma.ProjectSlideCreateNestedManyWithoutMediaAssetInput
+  blogPostCovers?: Prisma.BlogPostCreateNestedManyWithoutCoverMediaAssetInput
+  studioFounderOneImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput
+  studioFounderTwoImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput
+  testimonialAvatars?: Prisma.TestimonialCreateNestedManyWithoutAvatarAssetInput
+}
+
+export type MediaAssetUncheckedCreateWithoutBlogPostBlockMediaInput = {
+  id?: string
+  url: string
+  pathname: string
+  mediaType: $Enums.MediaAssetType
+  mimeType?: string | null
+  size?: number | null
+  width?: number | null
+  height?: number | null
+  posterUrl?: string | null
+  posterPathname?: string | null
+  posterMimeType?: string | null
+  posterSize?: number | null
+  name: string
+  alt?: string | null
+  altEn?: string | null
+  tags?: Prisma.MediaAssetCreatetagsInput | string[]
+  active?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  projectImages?: Prisma.ProjectUncheckedCreateNestedManyWithoutImageAssetInput
+  projectSlideMedia?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput
+  blogPostCovers?: Prisma.BlogPostUncheckedCreateNestedManyWithoutCoverMediaAssetInput
+  studioFounderOneImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput
+  studioFounderTwoImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput
+  testimonialAvatars?: Prisma.TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput
+}
+
+export type MediaAssetCreateOrConnectWithoutBlogPostBlockMediaInput = {
+  where: Prisma.MediaAssetWhereUniqueInput
+  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutBlogPostBlockMediaInput, Prisma.MediaAssetUncheckedCreateWithoutBlogPostBlockMediaInput>
+}
+
+export type MediaAssetUpsertWithoutBlogPostBlockMediaInput = {
+  update: Prisma.XOR<Prisma.MediaAssetUpdateWithoutBlogPostBlockMediaInput, Prisma.MediaAssetUncheckedUpdateWithoutBlogPostBlockMediaInput>
+  create: Prisma.XOR<Prisma.MediaAssetCreateWithoutBlogPostBlockMediaInput, Prisma.MediaAssetUncheckedCreateWithoutBlogPostBlockMediaInput>
+  where?: Prisma.MediaAssetWhereInput
+}
+
+export type MediaAssetUpdateToOneWithWhereWithoutBlogPostBlockMediaInput = {
+  where?: Prisma.MediaAssetWhereInput
+  data: Prisma.XOR<Prisma.MediaAssetUpdateWithoutBlogPostBlockMediaInput, Prisma.MediaAssetUncheckedUpdateWithoutBlogPostBlockMediaInput>
+}
+
+export type MediaAssetUpdateWithoutBlogPostBlockMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  pathname?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaType?: Prisma.EnumMediaAssetTypeFieldUpdateOperationsInput | $Enums.MediaAssetType
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.MediaAssetUpdatetagsInput | string[]
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectImages?: Prisma.ProjectUpdateManyWithoutImageAssetNestedInput
+  projectSlideMedia?: Prisma.ProjectSlideUpdateManyWithoutMediaAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUpdateManyWithoutCoverMediaAssetNestedInput
+  studioFounderOneImages?: Prisma.StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput
+  studioFounderTwoImages?: Prisma.StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput
+  testimonialAvatars?: Prisma.TestimonialUpdateManyWithoutAvatarAssetNestedInput
+}
+
+export type MediaAssetUncheckedUpdateWithoutBlogPostBlockMediaInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  url?: Prisma.StringFieldUpdateOperationsInput | string
+  pathname?: Prisma.StringFieldUpdateOperationsInput | string
+  mediaType?: Prisma.EnumMediaAssetTypeFieldUpdateOperationsInput | $Enums.MediaAssetType
+  mimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  size?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  width?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  height?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  posterUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterPathname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterMimeType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  posterSize?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  alt?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  altEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tags?: Prisma.MediaAssetUpdatetagsInput | string[]
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  projectImages?: Prisma.ProjectUncheckedUpdateManyWithoutImageAssetNestedInput
+  projectSlideMedia?: Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUncheckedUpdateManyWithoutCoverMediaAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput
@@ -943,6 +1253,8 @@ export type MediaAssetCreateWithoutProjectSlideMediaInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectCreateNestedManyWithoutImageAssetInput
+  blogPostCovers?: Prisma.BlogPostCreateNestedManyWithoutCoverMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockCreateNestedManyWithoutMediaAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialCreateNestedManyWithoutAvatarAssetInput
@@ -969,6 +1281,8 @@ export type MediaAssetUncheckedCreateWithoutProjectSlideMediaInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectUncheckedCreateNestedManyWithoutImageAssetInput
+  blogPostCovers?: Prisma.BlogPostUncheckedCreateNestedManyWithoutCoverMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedCreateNestedManyWithoutMediaAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput
@@ -1011,6 +1325,8 @@ export type MediaAssetUpdateWithoutProjectSlideMediaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUpdateManyWithoutImageAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUpdateManyWithoutCoverMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUpdateManyWithoutMediaAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUpdateManyWithoutAvatarAssetNestedInput
@@ -1037,6 +1353,8 @@ export type MediaAssetUncheckedUpdateWithoutProjectSlideMediaInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUncheckedUpdateManyWithoutImageAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUncheckedUpdateManyWithoutCoverMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedUpdateManyWithoutMediaAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput
@@ -1064,6 +1382,8 @@ export type MediaAssetCreateWithoutStudioFounderOneImagesInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideCreateNestedManyWithoutMediaAssetInput
+  blogPostCovers?: Prisma.BlogPostCreateNestedManyWithoutCoverMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockCreateNestedManyWithoutMediaAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialCreateNestedManyWithoutAvatarAssetInput
 }
@@ -1090,6 +1410,8 @@ export type MediaAssetUncheckedCreateWithoutStudioFounderOneImagesInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectUncheckedCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput
+  blogPostCovers?: Prisma.BlogPostUncheckedCreateNestedManyWithoutCoverMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedCreateNestedManyWithoutMediaAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput
   testimonialAvatars?: Prisma.TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput
 }
@@ -1121,6 +1443,8 @@ export type MediaAssetCreateWithoutStudioFounderTwoImagesInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideCreateNestedManyWithoutMediaAssetInput
+  blogPostCovers?: Prisma.BlogPostCreateNestedManyWithoutCoverMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockCreateNestedManyWithoutMediaAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput
   testimonialAvatars?: Prisma.TestimonialCreateNestedManyWithoutAvatarAssetInput
 }
@@ -1147,6 +1471,8 @@ export type MediaAssetUncheckedCreateWithoutStudioFounderTwoImagesInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectUncheckedCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput
+  blogPostCovers?: Prisma.BlogPostUncheckedCreateNestedManyWithoutCoverMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedCreateNestedManyWithoutMediaAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput
   testimonialAvatars?: Prisma.TestimonialUncheckedCreateNestedManyWithoutAvatarAssetInput
 }
@@ -1189,6 +1515,8 @@ export type MediaAssetUpdateWithoutStudioFounderOneImagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUpdateManyWithoutMediaAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUpdateManyWithoutCoverMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUpdateManyWithoutMediaAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUpdateManyWithoutAvatarAssetNestedInput
 }
@@ -1215,6 +1543,8 @@ export type MediaAssetUncheckedUpdateWithoutStudioFounderOneImagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUncheckedUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUncheckedUpdateManyWithoutCoverMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedUpdateManyWithoutMediaAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput
 }
@@ -1252,6 +1582,8 @@ export type MediaAssetUpdateWithoutStudioFounderTwoImagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUpdateManyWithoutMediaAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUpdateManyWithoutCoverMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUpdateManyWithoutMediaAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUpdateManyWithoutAvatarAssetNestedInput
 }
@@ -1278,6 +1610,8 @@ export type MediaAssetUncheckedUpdateWithoutStudioFounderTwoImagesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUncheckedUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUncheckedUpdateManyWithoutCoverMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedUpdateManyWithoutMediaAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput
   testimonialAvatars?: Prisma.TestimonialUncheckedUpdateManyWithoutAvatarAssetNestedInput
 }
@@ -1304,6 +1638,8 @@ export type MediaAssetCreateWithoutTestimonialAvatarsInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideCreateNestedManyWithoutMediaAssetInput
+  blogPostCovers?: Prisma.BlogPostCreateNestedManyWithoutCoverMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockCreateNestedManyWithoutMediaAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentCreateNestedManyWithoutFounderTwoImageAssetInput
 }
@@ -1330,6 +1666,8 @@ export type MediaAssetUncheckedCreateWithoutTestimonialAvatarsInput = {
   updatedAt?: Date | string
   projectImages?: Prisma.ProjectUncheckedCreateNestedManyWithoutImageAssetInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedCreateNestedManyWithoutMediaAssetInput
+  blogPostCovers?: Prisma.BlogPostUncheckedCreateNestedManyWithoutCoverMediaAssetInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedCreateNestedManyWithoutMediaAssetInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderOneImageAssetInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedCreateNestedManyWithoutFounderTwoImageAssetInput
 }
@@ -1372,6 +1710,8 @@ export type MediaAssetUpdateWithoutTestimonialAvatarsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUpdateManyWithoutMediaAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUpdateManyWithoutCoverMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUpdateManyWithoutMediaAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUpdateManyWithoutFounderTwoImageAssetNestedInput
 }
@@ -1398,6 +1738,8 @@ export type MediaAssetUncheckedUpdateWithoutTestimonialAvatarsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   projectImages?: Prisma.ProjectUncheckedUpdateManyWithoutImageAssetNestedInput
   projectSlideMedia?: Prisma.ProjectSlideUncheckedUpdateManyWithoutMediaAssetNestedInput
+  blogPostCovers?: Prisma.BlogPostUncheckedUpdateManyWithoutCoverMediaAssetNestedInput
+  blogPostBlockMedia?: Prisma.BlogPostBlockUncheckedUpdateManyWithoutMediaAssetNestedInput
   studioFounderOneImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderOneImageAssetNestedInput
   studioFounderTwoImages?: Prisma.StudioPageContentUncheckedUpdateManyWithoutFounderTwoImageAssetNestedInput
 }
@@ -1410,6 +1752,8 @@ export type MediaAssetUncheckedUpdateWithoutTestimonialAvatarsInput = {
 export type MediaAssetCountOutputType = {
   projectImages: number
   projectSlideMedia: number
+  blogPostCovers: number
+  blogPostBlockMedia: number
   studioFounderOneImages: number
   studioFounderTwoImages: number
   testimonialAvatars: number
@@ -1418,6 +1762,8 @@ export type MediaAssetCountOutputType = {
 export type MediaAssetCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   projectImages?: boolean | MediaAssetCountOutputTypeCountProjectImagesArgs
   projectSlideMedia?: boolean | MediaAssetCountOutputTypeCountProjectSlideMediaArgs
+  blogPostCovers?: boolean | MediaAssetCountOutputTypeCountBlogPostCoversArgs
+  blogPostBlockMedia?: boolean | MediaAssetCountOutputTypeCountBlogPostBlockMediaArgs
   studioFounderOneImages?: boolean | MediaAssetCountOutputTypeCountStudioFounderOneImagesArgs
   studioFounderTwoImages?: boolean | MediaAssetCountOutputTypeCountStudioFounderTwoImagesArgs
   testimonialAvatars?: boolean | MediaAssetCountOutputTypeCountTestimonialAvatarsArgs
@@ -1445,6 +1791,20 @@ export type MediaAssetCountOutputTypeCountProjectImagesArgs<ExtArgs extends runt
  */
 export type MediaAssetCountOutputTypeCountProjectSlideMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ProjectSlideWhereInput
+}
+
+/**
+ * MediaAssetCountOutputType without action
+ */
+export type MediaAssetCountOutputTypeCountBlogPostCoversArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BlogPostWhereInput
+}
+
+/**
+ * MediaAssetCountOutputType without action
+ */
+export type MediaAssetCountOutputTypeCountBlogPostBlockMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BlogPostBlockWhereInput
 }
 
 /**
@@ -1491,6 +1851,8 @@ export type MediaAssetSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   updatedAt?: boolean
   projectImages?: boolean | Prisma.MediaAsset$projectImagesArgs<ExtArgs>
   projectSlideMedia?: boolean | Prisma.MediaAsset$projectSlideMediaArgs<ExtArgs>
+  blogPostCovers?: boolean | Prisma.MediaAsset$blogPostCoversArgs<ExtArgs>
+  blogPostBlockMedia?: boolean | Prisma.MediaAsset$blogPostBlockMediaArgs<ExtArgs>
   studioFounderOneImages?: boolean | Prisma.MediaAsset$studioFounderOneImagesArgs<ExtArgs>
   studioFounderTwoImages?: boolean | Prisma.MediaAsset$studioFounderTwoImagesArgs<ExtArgs>
   testimonialAvatars?: boolean | Prisma.MediaAsset$testimonialAvatarsArgs<ExtArgs>
@@ -1567,6 +1929,8 @@ export type MediaAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs
 export type MediaAssetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   projectImages?: boolean | Prisma.MediaAsset$projectImagesArgs<ExtArgs>
   projectSlideMedia?: boolean | Prisma.MediaAsset$projectSlideMediaArgs<ExtArgs>
+  blogPostCovers?: boolean | Prisma.MediaAsset$blogPostCoversArgs<ExtArgs>
+  blogPostBlockMedia?: boolean | Prisma.MediaAsset$blogPostBlockMediaArgs<ExtArgs>
   studioFounderOneImages?: boolean | Prisma.MediaAsset$studioFounderOneImagesArgs<ExtArgs>
   studioFounderTwoImages?: boolean | Prisma.MediaAsset$studioFounderTwoImagesArgs<ExtArgs>
   testimonialAvatars?: boolean | Prisma.MediaAsset$testimonialAvatarsArgs<ExtArgs>
@@ -1580,6 +1944,8 @@ export type $MediaAssetPayload<ExtArgs extends runtime.Types.Extensions.Internal
   objects: {
     projectImages: Prisma.$ProjectPayload<ExtArgs>[]
     projectSlideMedia: Prisma.$ProjectSlidePayload<ExtArgs>[]
+    blogPostCovers: Prisma.$BlogPostPayload<ExtArgs>[]
+    blogPostBlockMedia: Prisma.$BlogPostBlockPayload<ExtArgs>[]
     studioFounderOneImages: Prisma.$StudioPageContentPayload<ExtArgs>[]
     studioFounderTwoImages: Prisma.$StudioPageContentPayload<ExtArgs>[]
     testimonialAvatars: Prisma.$TestimonialPayload<ExtArgs>[]
@@ -2000,6 +2366,8 @@ export interface Prisma__MediaAssetClient<T, Null = never, ExtArgs extends runti
   readonly [Symbol.toStringTag]: "PrismaPromise"
   projectImages<T extends Prisma.MediaAsset$projectImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$projectImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   projectSlideMedia<T extends Prisma.MediaAsset$projectSlideMediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$projectSlideMediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectSlidePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  blogPostCovers<T extends Prisma.MediaAsset$blogPostCoversArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$blogPostCoversArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BlogPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  blogPostBlockMedia<T extends Prisma.MediaAsset$blogPostBlockMediaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$blogPostBlockMediaArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BlogPostBlockPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   studioFounderOneImages<T extends Prisma.MediaAsset$studioFounderOneImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$studioFounderOneImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudioPageContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   studioFounderTwoImages<T extends Prisma.MediaAsset$studioFounderTwoImagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$studioFounderTwoImagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StudioPageContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   testimonialAvatars<T extends Prisma.MediaAsset$testimonialAvatarsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAsset$testimonialAvatarsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TestimonialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2489,6 +2857,54 @@ export type MediaAsset$projectSlideMediaArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.ProjectSlideScalarFieldEnum | Prisma.ProjectSlideScalarFieldEnum[]
+}
+
+/**
+ * MediaAsset.blogPostCovers
+ */
+export type MediaAsset$blogPostCoversArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BlogPost
+   */
+  select?: Prisma.BlogPostSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BlogPost
+   */
+  omit?: Prisma.BlogPostOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BlogPostInclude<ExtArgs> | null
+  where?: Prisma.BlogPostWhereInput
+  orderBy?: Prisma.BlogPostOrderByWithRelationInput | Prisma.BlogPostOrderByWithRelationInput[]
+  cursor?: Prisma.BlogPostWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BlogPostScalarFieldEnum | Prisma.BlogPostScalarFieldEnum[]
+}
+
+/**
+ * MediaAsset.blogPostBlockMedia
+ */
+export type MediaAsset$blogPostBlockMediaArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BlogPostBlock
+   */
+  select?: Prisma.BlogPostBlockSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BlogPostBlock
+   */
+  omit?: Prisma.BlogPostBlockOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BlogPostBlockInclude<ExtArgs> | null
+  where?: Prisma.BlogPostBlockWhereInput
+  orderBy?: Prisma.BlogPostBlockOrderByWithRelationInput | Prisma.BlogPostBlockOrderByWithRelationInput[]
+  cursor?: Prisma.BlogPostBlockWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BlogPostBlockScalarFieldEnum | Prisma.BlogPostBlockScalarFieldEnum[]
 }
 
 /**

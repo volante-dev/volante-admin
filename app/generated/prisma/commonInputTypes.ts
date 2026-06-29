@@ -219,6 +219,23 @@ export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
 }
 
+export type EnumBlogPostBlockTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.BlogPostBlockType | Prisma.EnumBlogPostBlockTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.BlogPostBlockType[] | Prisma.ListEnumBlogPostBlockTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BlogPostBlockType[] | Prisma.ListEnumBlogPostBlockTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBlogPostBlockTypeFilter<$PrismaModel> | $Enums.BlogPostBlockType
+}
+
+export type EnumBlogPostBlockTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.BlogPostBlockType | Prisma.EnumBlogPostBlockTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.BlogPostBlockType[] | Prisma.ListEnumBlogPostBlockTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BlogPostBlockType[] | Prisma.ListEnumBlogPostBlockTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBlogPostBlockTypeWithAggregatesFilter<$PrismaModel> | $Enums.BlogPostBlockType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumBlogPostBlockTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumBlogPostBlockTypeFilter<$PrismaModel>
+}
+
 export type EnumProjectTaxonomyTypeFilter<$PrismaModel = never> = {
   equals?: $Enums.ProjectTaxonomyType | Prisma.EnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
   in?: $Enums.ProjectTaxonomyType[] | Prisma.ListEnumProjectTaxonomyTypeFieldRefInput<$PrismaModel>
@@ -486,6 +503,23 @@ export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeFilter<$PrismaModel>
+}
+
+export type NestedEnumBlogPostBlockTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.BlogPostBlockType | Prisma.EnumBlogPostBlockTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.BlogPostBlockType[] | Prisma.ListEnumBlogPostBlockTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BlogPostBlockType[] | Prisma.ListEnumBlogPostBlockTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBlogPostBlockTypeFilter<$PrismaModel> | $Enums.BlogPostBlockType
+}
+
+export type NestedEnumBlogPostBlockTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.BlogPostBlockType | Prisma.EnumBlogPostBlockTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.BlogPostBlockType[] | Prisma.ListEnumBlogPostBlockTypeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.BlogPostBlockType[] | Prisma.ListEnumBlogPostBlockTypeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumBlogPostBlockTypeWithAggregatesFilter<$PrismaModel> | $Enums.BlogPostBlockType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumBlogPostBlockTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumBlogPostBlockTypeFilter<$PrismaModel>
 }
 
 export type NestedEnumProjectTaxonomyTypeFilter<$PrismaModel = never> = {

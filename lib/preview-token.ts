@@ -43,3 +43,20 @@ export const createProjectPreviewUrl = (
 
   return url.toString();
 };
+
+export const createBlogPostPreviewUrl = (
+  slug: string,
+  published: boolean,
+) => {
+  const url = new URL(`/trailblaze/${slug}`, getFrontendAppUrl());
+  url.searchParams.set("preview", "true");
+
+  const token = createPreviewToken(slug);
+  if (token) {
+    url.searchParams.set("token", token);
+  } else if (!published) {
+    return null;
+  }
+
+  return url.toString();
+};

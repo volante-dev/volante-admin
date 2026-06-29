@@ -47,6 +47,48 @@ model Project {
   serviceExamples         ServicePortfolioExample[]
 }
 
+model BlogPost {
+  id                  String          @id @default(cuid())
+  title               String
+  titleEn             String
+  eyebrow             String
+  eyebrowEn           String?
+  slug                String          @unique
+  slugEn              String          @unique
+  coverMediaUrl       String
+  coverMediaAssetId   String?
+  coverMediaAsset     MediaAsset?     @relation("BlogPostCoverMediaAsset", fields: [coverMediaAssetId], references: [id], onDelete: SetNull)
+  publishedAt         DateTime?
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  blocks              BlogPostBlock[]
+
+  @@index([publishedAt, createdAt])
+}
+
+enum BlogPostBlockType {
+  RICHTEXT
+  IMAGE
+  VIDEO
+}
+
+model BlogPostBlock {
+  id            String            @id @default(cuid())
+  post          BlogPost          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId        String
+  order         Int               @default(0)
+  type          BlogPostBlockType
+  contentHtml   String?
+  contentHtmlEn String?
+  mediaUrl      String?
+  mediaAssetId  String?
+  mediaAsset    MediaAsset?       @relation("BlogPostBlockMediaAsset", fields: [mediaAssetId], references: [id], onDelete: SetNull)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  @@index([postId, order])
+}
+
 enum ProjectTaxonomyType {
   SECTOR
   LOCATION
@@ -244,6 +286,8 @@ model MediaAsset {
   updatedAt              DateTime            @updatedAt
   projectImages          Project[]           @relation("ProjectImageAsset")
   projectSlideMedia      ProjectSlide[]      @relation("ProjectSlideMediaAsset")
+  blogPostCovers         BlogPost[]          @relation("BlogPostCoverMediaAsset")
+  blogPostBlockMedia     BlogPostBlock[]     @relation("BlogPostBlockMediaAsset")
   studioFounderOneImages StudioPageContent[] @relation("StudioFounderOneImageAsset")
   studioFounderTwoImages StudioPageContent[] @relation("StudioFounderTwoImageAsset")
   testimonialAvatars     Testimonial[]       @relation("TestimonialAvatarAsset")

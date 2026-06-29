@@ -52,6 +52,8 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Project: 'Project',
+  BlogPost: 'BlogPost',
+  BlogPostBlock: 'BlogPostBlock',
   ProjectTaxonomyEntry: 'ProjectTaxonomyEntry',
   ProjectSlide: 'ProjectSlide',
   Service: 'Service',
@@ -115,6 +117,40 @@ export const ProjectScalarFieldEnum = {
 } as const
 
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const BlogPostScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  titleEn: 'titleEn',
+  eyebrow: 'eyebrow',
+  eyebrowEn: 'eyebrowEn',
+  slug: 'slug',
+  slugEn: 'slugEn',
+  coverMediaUrl: 'coverMediaUrl',
+  coverMediaAssetId: 'coverMediaAssetId',
+  publishedAt: 'publishedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BlogPostScalarFieldEnum = (typeof BlogPostScalarFieldEnum)[keyof typeof BlogPostScalarFieldEnum]
+
+
+export const BlogPostBlockScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  order: 'order',
+  type: 'type',
+  contentHtml: 'contentHtml',
+  contentHtmlEn: 'contentHtmlEn',
+  mediaUrl: 'mediaUrl',
+  mediaAssetId: 'mediaAssetId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type BlogPostBlockScalarFieldEnum = (typeof BlogPostBlockScalarFieldEnum)[keyof typeof BlogPostBlockScalarFieldEnum]
 
 
 export const ProjectTaxonomyEntryScalarFieldEnum = {

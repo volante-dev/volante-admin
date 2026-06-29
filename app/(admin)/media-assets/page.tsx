@@ -11,6 +11,8 @@ const getUsageCount = async (asset: { id: string; url: string }) => {
     projectImages,
     slideMedia,
     legacySlidePosters,
+    blogPostCovers,
+    blogPostBlocks,
     studioFounderOneImages,
     studioFounderTwoImages,
     testimonialAvatars,
@@ -22,6 +24,22 @@ const getUsageCount = async (asset: { id: string; url: string }) => {
       where: { OR: [{ mediaAssetId: asset.id }, { mediaUrl: asset.url }] },
     }),
     prisma.projectSlide.count({ where: { posterUrl: asset.url } }),
+    prisma.blogPost.count({
+      where: {
+        OR: [
+          { coverMediaAssetId: asset.id },
+          { coverMediaUrl: asset.url },
+        ],
+      },
+    }),
+    prisma.blogPostBlock.count({
+      where: {
+        OR: [
+          { mediaAssetId: asset.id },
+          { mediaUrl: asset.url },
+        ],
+      },
+    }),
     prisma.studioPageContent.count({
       where: {
         OR: [
@@ -47,6 +65,8 @@ const getUsageCount = async (asset: { id: string; url: string }) => {
     projectImages +
     slideMedia +
     legacySlidePosters +
+    blogPostCovers +
+    blogPostBlocks +
     studioFounderOneImages +
     studioFounderTwoImages +
     testimonialAvatars

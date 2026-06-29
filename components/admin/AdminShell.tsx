@@ -61,6 +61,11 @@ const navGroups: NavGroup[] = [
         icon: <CategoryIcon />,
       },
       {
+        label: "Trailblaze",
+        href: "/trailblaze",
+        icon: <ArticleIcon />,
+      },
+      {
         label: "Testimonials",
         href: "/testimonials",
         icon: <FormatQuoteIcon />,
