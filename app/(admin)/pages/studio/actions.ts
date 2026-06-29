@@ -181,6 +181,51 @@ const actionError = (error: unknown): ActionResult => ({
   error: error instanceof Error ? error.message : "Une erreur est survenue.",
 });
 
+type StudioPageContentData = Extract<
+  Awaited<ReturnType<typeof parseStudioPageContent>>,
+  { data: unknown }
+>["data"];
+
+const studioPageTranslations = (
+  contentId: string,
+  data: StudioPageContentData,
+) => [
+  {
+    contentId,
+    locale: "fr",
+    eyebrow: data.eyebrow,
+    title: data.title,
+    intro: data.intro,
+    founderOneName: data.founderOneName,
+    founderOneRole: data.founderOneRole,
+    founderOneDescription: data.founderOneDescription,
+    founderOneImageAlt: data.founderOneImageAlt,
+    founderTwoName: data.founderTwoName,
+    founderTwoRole: data.founderTwoRole,
+    founderTwoDescription: data.founderTwoDescription,
+    founderTwoImageAlt: data.founderTwoImageAlt,
+    historyTitle: data.historyTitle,
+    historyContentHtml: data.historyContentHtml,
+  },
+  {
+    contentId,
+    locale: "en",
+    eyebrow: data.eyebrowEn,
+    title: data.titleEn,
+    intro: data.introEn,
+    founderOneName: data.founderOneNameEn,
+    founderOneRole: data.founderOneRoleEn,
+    founderOneDescription: data.founderOneDescriptionEn,
+    founderOneImageAlt: data.founderOneImageAltEn,
+    founderTwoName: data.founderTwoNameEn,
+    founderTwoRole: data.founderTwoRoleEn,
+    founderTwoDescription: data.founderTwoDescriptionEn,
+    founderTwoImageAlt: data.founderTwoImageAltEn,
+    historyTitle: data.historyTitleEn,
+    historyContentHtml: data.historyContentHtmlEn,
+  },
+];
+
 export const updateStudioPageContent = async (
   formData: FormData,
 ): Promise<ActionResult> => {
@@ -189,11 +234,39 @@ export const updateStudioPageContent = async (
     const parsed = await parseStudioPageContent(formData);
     if ("error" in parsed) return { success: false, error: parsed.error };
 
-    await prisma.studioPageContent.upsert({
-      where: { id: "studio" },
-      create: { id: "studio", ...parsed.data },
-      update: parsed.data,
-    });
+    await prisma.$transaction([
+      prisma.studioPageContent.upsert({
+        where: { id: "studio" },
+        create: { id: "studio", ...parsed.data },
+        update: parsed.data,
+      }),
+      ...studioPageTranslations("studio", parsed.data).map((translation) =>
+        prisma.studioPageContentTranslation.upsert({
+          where: {
+            contentId_locale: {
+              contentId: translation.contentId,
+              locale: translation.locale,
+            },
+          },
+          create: translation,
+          update: {
+            eyebrow: translation.eyebrow,
+            title: translation.title,
+            intro: translation.intro,
+            founderOneName: translation.founderOneName,
+            founderOneRole: translation.founderOneRole,
+            founderOneDescription: translation.founderOneDescription,
+            founderOneImageAlt: translation.founderOneImageAlt,
+            founderTwoName: translation.founderTwoName,
+            founderTwoRole: translation.founderTwoRole,
+            founderTwoDescription: translation.founderTwoDescription,
+            founderTwoImageAlt: translation.founderTwoImageAlt,
+            historyTitle: translation.historyTitle,
+            historyContentHtml: translation.historyContentHtml,
+          },
+        }),
+      ),
+    ]);
 
     revalidatePath("/pages/studio");
     return { success: true };

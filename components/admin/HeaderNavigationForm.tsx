@@ -37,33 +37,53 @@ import {
   sitemapFrequencies,
   type SiteRouteData,
 } from "@/lib/site-route-config";
+import type { SiteLocaleData } from "@/lib/site-locales";
 import { TranslateButton } from "./TranslateButton";
 
 type EditableSiteRoute = SiteRouteData;
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-const validateItems = (items: EditableSiteRoute[]) => {
-  if (items.some((item) => !item.label.trim() || !item.labelEn.trim())) {
+const getRouteLabel = (item: EditableSiteRoute, locale: string) => {
+  if (locale === "fr") return item.label;
+  if (locale === "en") return item.labelEn;
+  return item.translations?.[locale]?.label ?? "";
+};
+
+const getRouteSlug = (item: EditableSiteRoute, locale: string) => {
+  if (locale === "fr") return item.slug;
+  if (locale === "en") return item.slugEn;
+  return item.translations?.[locale]?.slug ?? "";
+};
+
+const validateItems = (items: EditableSiteRoute[], locales: SiteLocaleData[]) => {
+  if (
+    items.some((item) =>
+      locales.some((locale) => !getRouteLabel(item, locale.code).trim()),
+    )
+  ) {
     return "Tous les intitules sont obligatoires.";
   }
   if (
-    items.some(
-      (item) =>
-        item.id !== "home" &&
-        (!slugPattern.test(item.slug) || !slugPattern.test(item.slugEn)),
+    items.some((item) =>
+      locales.some(
+        (locale) =>
+          item.id !== "home" && !slugPattern.test(getRouteSlug(item, locale.code)),
+      ),
     )
   ) {
     return "Les slugs doivent contenir uniquement des minuscules, chiffres et tirets.";
   }
-  const frSlugs = items.filter((item) => item.slug).map((item) => item.slug);
-  const enSlugs = items.filter((item) => item.slugEn).map((item) => item.slugEn);
-  if (new Set(frSlugs).size !== frSlugs.length) {
-    return "Les slugs francais doivent etre uniques.";
+
+  for (const locale of locales) {
+    const slugs = items
+      .map((item) => getRouteSlug(item, locale.code))
+      .filter(Boolean);
+    if (new Set(slugs).size !== slugs.length) {
+      return `Les slugs ${locale.label} doivent etre uniques.`;
+    }
   }
-  if (new Set(enSlugs).size !== enSlugs.length) {
-    return "Les slugs anglais doivent etre uniques.";
-  }
+
   return null;
 };
 
@@ -71,10 +91,12 @@ const SortableSiteRoute = ({
   item,
   index,
   onChange,
+  locales,
 }: {
   item: EditableSiteRoute;
   index: number;
   onChange: (item: EditableSiteRoute) => void;
+  locales: SiteLocaleData[];
 }) => {
   const {
     attributes,
@@ -87,7 +109,23 @@ const SortableSiteRoute = ({
 
   const update = (patch: Partial<EditableSiteRoute>) =>
     onChange({ ...item, ...patch });
+  const updateTranslation = (
+    locale: string,
+    patch: { label?: string; slug?: string },
+  ) =>
+    update({
+      translations: {
+        ...item.translations,
+        [locale]: {
+          ...item.translations?.[locale],
+          ...patch,
+        },
+      },
+    });
   const isHome = item.id === "home";
+  const extraLocales = locales.filter(
+    (locale) => locale.code !== "fr" && locale.code !== "en",
+  );
 
   return (
     <Card
@@ -113,6 +151,50 @@ const SortableSiteRoute = ({
                 {item.id}
               </Typography>
             </Box>
+            {extraLocales.length > 0 && (
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                {extraLocales.map((locale) => (
+                  <Box
+                    key={locale.code}
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+                      gap: 2,
+                    }}
+                  >
+                    <TextField
+                      label={`Intitule ${locale.label}`}
+                      value={item.translations?.[locale.code]?.label ?? ""}
+                      required
+                      fullWidth
+                      onChange={(event) =>
+                        updateTranslation(locale.code, { label: event.target.value })
+                      }
+                    />
+                    <TextField
+                      label={`Slug ${locale.label}`}
+                      value={item.translations?.[locale.code]?.slug ?? ""}
+                      required={!isHome}
+                      fullWidth
+                      disabled={isHome}
+                      helperText={
+                        isHome
+                          ? `La home conserve la racine /${locale.code}.`
+                          : "Segment d'URL, sans slash."
+                      }
+                      error={
+                        !isHome &&
+                        Boolean(item.translations?.[locale.code]?.slug) &&
+                        !slugPattern.test(item.translations?.[locale.code]?.slug ?? "")
+                      }
+                      onChange={(event) =>
+                        updateTranslation(locale.code, { slug: event.target.value })
+                      }
+                    />
+                  </Box>
+                ))}
+              </Box>
+            )}
             <Box
               sx={{
                 display: "grid",
@@ -245,8 +327,10 @@ const SortableSiteRoute = ({
 
 export const HeaderNavigationForm = ({
   initialItems,
+  locales,
 }: {
   initialItems: SiteRouteData[];
+  locales: SiteLocaleData[];
 }) => {
   const [pending, startTransition] = useTransition();
   const [items, setItems] = useState<EditableSiteRoute[]>(
@@ -279,7 +363,7 @@ export const HeaderNavigationForm = ({
 
   const submit = (event: FormEvent) => {
     event.preventDefault();
-    const clientError = validateItems(items);
+    const clientError = validateItems(items, locales);
     setError(clientError);
     if (clientError) return;
 
@@ -320,6 +404,7 @@ export const HeaderNavigationForm = ({
                     key={item.id}
                     item={item}
                     index={index}
+                    locales={locales}
                     onChange={(next) => updateItem(item.id, next)}
                   />
                 ))}

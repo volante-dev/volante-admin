@@ -45,6 +45,7 @@ model Project {
   updatedAt               DateTime               @updatedAt
   slides                  ProjectSlide[]
   serviceExamples         ServicePortfolioExample[]
+  translations            ProjectTranslation[]
 }
 
 model BlogPost {
@@ -66,6 +67,7 @@ model BlogPost {
   createdAt           DateTime        @default(now())
   updatedAt           DateTime        @updatedAt
   blocks              BlogPostBlock[]
+  translations        BlogPostTranslation[]
 
   @@index([publishedAt, createdAt])
 }
@@ -84,11 +86,94 @@ model SiteRoute {
   sitemapFrequency  String   @default("monthly")
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+  translations      SiteRouteTranslation[]
 
   @@index([order])
   @@index([showInHeader, order])
   @@index([showInFooter, order])
   @@index([includeInSitemap, order])
+}
+
+model SiteLocale {
+  code             String   @id
+  label            String
+  nativeLabel      String
+  hreflang         String
+  isDefault        Boolean  @default(false)
+  enabledInAdmin   Boolean  @default(true)
+  publishedOnFront Boolean  @default(false)
+  aiEnabled        Boolean  @default(false)
+  order            Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([enabledInAdmin, order])
+  @@index([publishedOnFront, order])
+  @@index([isDefault])
+}
+
+enum TranslationSource {
+  MANUAL
+  AI
+}
+
+model ProjectTranslation {
+  id             String            @id @default(cuid())
+  project        Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId      String
+  locale         String
+  title          String?
+  slug           String?
+  description    String?
+  challenge      String?
+  approach       String?
+  results        String?
+  awards         String?
+  source         TranslationSource @default(MANUAL)
+  reviewedAt     DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@unique([projectId, locale])
+  @@unique([locale, slug])
+  @@index([locale])
+}
+
+model BlogPostTranslation {
+  id             String            @id @default(cuid())
+  post           BlogPost          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId         String
+  locale         String
+  title          String?
+  eyebrow        String?
+  slug           String?
+  seoDescription String?
+  tags           String[]          @default([])
+  source         TranslationSource @default(MANUAL)
+  reviewedAt     DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@unique([postId, locale])
+  @@unique([locale, slug])
+  @@index([locale])
+}
+
+model SiteRouteTranslation {
+  id             String            @id @default(cuid())
+  route          SiteRoute         @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  routeId        String
+  locale         String
+  label          String?
+  slug           String?
+  source         TranslationSource @default(MANUAL)
+  reviewedAt     DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@unique([routeId, locale])
+  @@unique([locale, slug])
+  @@index([locale])
 }
 
 enum BlogPostBlockType {
@@ -98,11 +183,11 @@ enum BlogPostBlockType {
 }
 
 model BlogPostBlock {
-  id            String            @id @default(cuid())
-  post          BlogPost          @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId        String
-  order         Int               @default(0)
-  type          BlogPostBlockType
+  id           String            @id @default(cuid())
+  post         BlogPost          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId       String
+  order        Int               @default(0)
+  type         BlogPostBlockType
   contentHtml   String?
   contentHtmlEn String?
   mediaUrl      String?
@@ -110,8 +195,24 @@ model BlogPostBlock {
   mediaAsset    MediaAsset?       @relation("BlogPostBlockMediaAsset", fields: [mediaAssetId], references: [id], onDelete: SetNull)
   createdAt     DateTime          @default(now())
   updatedAt     DateTime          @updatedAt
+  translations  BlogPostBlockTranslation[]
 
   @@index([postId, order])
+}
+
+model BlogPostBlockTranslation {
+  id             String            @id @default(cuid())
+  block          BlogPostBlock     @relation(fields: [blockId], references: [id], onDelete: Cascade)
+  blockId        String
+  locale         String
+  contentHtml    String?
+  source         TranslationSource @default(MANUAL)
+  reviewedAt     DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@unique([blockId, locale])
+  @@index([locale])
 }
 
 enum ProjectTaxonomyType {
@@ -140,10 +241,30 @@ model ProjectTaxonomyEntry {
   sectorProjects           Project[]           @relation("ProjectSector")
   locationProjects         Project[]           @relation("ProjectLocation")
   deliveredServiceProjects Project[]           @relation("ProjectDeliveredServices")
+  translations             ProjectTaxonomyEntryTranslation[]
 
   @@unique([type, normalizedKey])
   @@unique([type, slug])
   @@index([type, active, label])
+}
+
+model ProjectTaxonomyEntryTranslation {
+  id             String               @id @default(cuid())
+  entry          ProjectTaxonomyEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  entryId        String
+  locale         String
+  label          String?
+  slug           String?
+  introEyebrow   String?
+  introTitle     String?
+  intro          String?
+  source         TranslationSource    @default(MANUAL)
+  reviewedAt     DateTime?
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+
+  @@unique([entryId, locale])
+  @@index([locale])
 }
 
 enum ProjectPortfolioSize {
@@ -174,8 +295,26 @@ model ProjectSlide {
   altEn         String?
   createdAt     DateTime              @default(now())
   updatedAt     DateTime              @updatedAt
+  translations  ProjectSlideTranslation[]
 
   @@index([projectId, order])
+}
+
+model ProjectSlideTranslation {
+  id             String            @id @default(cuid())
+  slide          ProjectSlide      @relation(fields: [slideId], references: [id], onDelete: Cascade)
+  slideId        String
+  locale         String
+  title          String?
+  contentHtml    String?
+  alt            String?
+  source         TranslationSource @default(MANUAL)
+  reviewedAt     DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@unique([slideId, locale])
+  @@index([locale])
 }
 
 model Service {
@@ -190,6 +329,24 @@ model Service {
   order             Int                       @default(0)
   active            Boolean                   @default(true)
   portfolioExamples ServicePortfolioExample[]
+  translations      ServiceTranslation[]
+}
+
+model ServiceTranslation {
+  id              String            @id @default(cuid())
+  service         Service           @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId       String
+  locale          String
+  title           String?
+  description     String?
+  descriptionHtml String?
+  source          TranslationSource @default(MANUAL)
+  reviewedAt      DateTime?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@unique([serviceId, locale])
+  @@index([locale])
 }
 
 model ServicePortfolioExample {
@@ -214,8 +371,25 @@ model StudioValue {
   descriptionEn String?
   order         Int     @default(0)
   active        Boolean @default(true)
+  translations  StudioValueTranslation[]
 
   @@index([active, order])
+}
+
+model StudioValueTranslation {
+  id             String            @id @default(cuid())
+  studioValue    StudioValue       @relation(fields: [studioValueId], references: [id], onDelete: Cascade)
+  studioValueId  String
+  locale         String
+  title          String?
+  description    String?
+  source         TranslationSource @default(MANUAL)
+  reviewedAt     DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@unique([studioValueId, locale])
+  @@index([locale])
 }
 
 model StudioPageContent {
@@ -254,6 +428,34 @@ model StudioPageContent {
   historyContentHtmlEn    String?
   createdAt               DateTime    @default(now())
   updatedAt               DateTime    @updatedAt
+  translations            StudioPageContentTranslation[]
+}
+
+model StudioPageContentTranslation {
+  id                      String            @id @default(cuid())
+  content                 StudioPageContent @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  contentId               String
+  locale                  String
+  eyebrow                 String?
+  title                   String?
+  intro                   String?
+  founderOneName          String?
+  founderOneRole          String?
+  founderOneDescription   String?
+  founderOneImageAlt      String?
+  founderTwoName          String?
+  founderTwoRole          String?
+  founderTwoDescription   String?
+  founderTwoImageAlt      String?
+  historyTitle            String?
+  historyContentHtml      String?
+  source                  TranslationSource @default(MANUAL)
+  reviewedAt              DateTime?
+  createdAt               DateTime          @default(now())
+  updatedAt               DateTime          @updatedAt
+
+  @@unique([contentId, locale])
+  @@index([locale])
 }
 
 model PageHeaderContent {
@@ -266,6 +468,24 @@ model PageHeaderContent {
   introEn   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  translations PageHeaderContentTranslation[]
+}
+
+model PageHeaderContentTranslation {
+  id             String            @id @default(cuid())
+  content        PageHeaderContent @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  contentId      String
+  locale         String
+  eyebrow        String?
+  title          String?
+  intro          String?
+  source         TranslationSource @default(MANUAL)
+  reviewedAt     DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@unique([contentId, locale])
+  @@index([locale])
 }
 
 model HomePageContent {
@@ -282,6 +502,26 @@ model HomePageContent {
   secondaryCtaLabelEn String?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
+  translations        HomePageContentTranslation[]
+}
+
+model HomePageContentTranslation {
+  id                  String            @id @default(cuid())
+  content             HomePageContent   @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  contentId           String
+  locale              String
+  eyebrow             String?
+  title               String?
+  subheading          String?
+  primaryCtaLabel     String?
+  secondaryCtaLabel   String?
+  source              TranslationSource @default(MANUAL)
+  reviewedAt          DateTime?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+
+  @@unique([contentId, locale])
+  @@index([locale])
 }
 
 enum MediaAssetType {
@@ -316,8 +556,25 @@ model MediaAsset {
   studioFounderOneImages StudioPageContent[] @relation("StudioFounderOneImageAsset")
   studioFounderTwoImages StudioPageContent[] @relation("StudioFounderTwoImageAsset")
   testimonialAvatars     Testimonial[]       @relation("TestimonialAvatarAsset")
+  translations           MediaAssetTranslation[]
 
   @@index([active, mediaType, createdAt])
+}
+
+model MediaAssetTranslation {
+  id             String            @id @default(cuid())
+  asset          MediaAsset        @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  assetId        String
+  locale         String
+  alt            String?
+  tags           String[]          @default([])
+  source         TranslationSource @default(MANUAL)
+  reviewedAt     DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@unique([assetId, locale])
+  @@index([locale])
 }
 
 model Testimonial {

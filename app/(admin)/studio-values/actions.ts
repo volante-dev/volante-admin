@@ -41,6 +41,30 @@ const actionError = (error: unknown): ActionResult => ({
   error: error instanceof Error ? error.message : "Une erreur est survenue.",
 });
 
+type StudioValueData = {
+  title: string;
+  titleEn: string | null;
+  description: string;
+  descriptionEn: string | null;
+  order: number;
+  active: boolean;
+};
+
+const studioValueTranslations = (studioValueId: string, data: StudioValueData) => [
+  {
+    studioValueId,
+    locale: "fr",
+    title: data.title,
+    description: data.description,
+  },
+  {
+    studioValueId,
+    locale: "en",
+    title: data.titleEn,
+    description: data.descriptionEn,
+  },
+];
+
 export const createStudioValue = async (
   formData: FormData,
 ): Promise<ActionResult> => {
@@ -49,7 +73,27 @@ export const createStudioValue = async (
     const parsed = parseStudioValue(formData);
     if ("error" in parsed) return { success: false, error: parsed.error };
 
-    const studioValue = await prisma.studioValue.create({ data: parsed.data });
+    const studioValue = await prisma.$transaction(async (tx) => {
+      const created = await tx.studioValue.create({ data: parsed.data });
+      await Promise.all(
+        studioValueTranslations(created.id, parsed.data).map((translation) =>
+          tx.studioValueTranslation.upsert({
+            where: {
+              studioValueId_locale: {
+                studioValueId: created.id,
+                locale: translation.locale,
+              },
+            },
+            create: translation,
+            update: {
+              title: translation.title,
+              description: translation.description,
+            },
+          }),
+        ),
+      );
+      return created;
+    });
     revalidatePath("/studio-values");
     return { success: true, id: studioValue.id };
   } catch (error) {
@@ -66,7 +110,24 @@ export const updateStudioValue = async (
     const parsed = parseStudioValue(formData);
     if ("error" in parsed) return { success: false, error: parsed.error };
 
-    await prisma.studioValue.update({ where: { id }, data: parsed.data });
+    await prisma.$transaction([
+      prisma.studioValue.update({ where: { id }, data: parsed.data }),
+      ...studioValueTranslations(id, parsed.data).map((translation) =>
+        prisma.studioValueTranslation.upsert({
+          where: {
+            studioValueId_locale: {
+              studioValueId: id,
+              locale: translation.locale,
+            },
+          },
+          create: translation,
+          update: {
+            title: translation.title,
+            description: translation.description,
+          },
+        }),
+      ),
+    ]);
     revalidatePath("/studio-values");
     return { success: true };
   } catch (error) {

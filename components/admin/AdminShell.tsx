@@ -23,6 +23,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import ArticleIcon from "@mui/icons-material/Article";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import SettingsIcon from "@mui/icons-material/Settings";
+import TranslateIcon from "@mui/icons-material/Translate";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Link from "next/link";
 
@@ -107,7 +108,12 @@ const navGroups: NavGroup[] = [
 ];
 
 const settingsItems: NavItem[] = [
-  { label: "Settings", href: "/header", icon: <SettingsIcon fontSize="small" /> },
+  { label: "Header", href: "/header", icon: <SettingsIcon fontSize="small" /> },
+  {
+    label: "Langues",
+    href: "/settings/languages",
+    icon: <TranslateIcon fontSize="small" />,
+  },
 ];
 
 type AdminShellProps = {

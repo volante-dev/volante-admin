@@ -171,30 +171,48 @@ export const createMediaAssetFromUpload = async (
       return { success: false, error: "Type de media non supporte." };
     }
 
-    const asset = await prisma.mediaAsset.upsert({
-      where: { url: blob.url },
-      create: {
-        url: blob.url,
-        pathname: blob.pathname,
-        mediaType: inferMediaType(mimeType),
-        mimeType,
-        size: metadata.size ?? blob.size ?? null,
-        name,
-        alt: metadata.alt?.trim() || null,
-        altEn: metadata.altEn?.trim() || null,
-        tags: metadata.tags ?? [],
-      },
-      update: {
-        pathname: blob.pathname,
-        mediaType: inferMediaType(mimeType),
-        mimeType,
-        size: metadata.size ?? blob.size ?? null,
-        name,
-        alt: metadata.alt?.trim() || null,
-        altEn: metadata.altEn?.trim() || null,
-        tags: metadata.tags ?? [],
-        active: true,
-      },
+    const alt = metadata.alt?.trim() || null;
+    const altEn = metadata.altEn?.trim() || null;
+    const tags = metadata.tags ?? [];
+    const asset = await prisma.$transaction(async (tx) => {
+      const saved = await tx.mediaAsset.upsert({
+        where: { url: blob.url },
+        create: {
+          url: blob.url,
+          pathname: blob.pathname,
+          mediaType: inferMediaType(mimeType),
+          mimeType,
+          size: metadata.size ?? blob.size ?? null,
+          name,
+          alt,
+          altEn,
+          tags,
+        },
+        update: {
+          pathname: blob.pathname,
+          mediaType: inferMediaType(mimeType),
+          mimeType,
+          size: metadata.size ?? blob.size ?? null,
+          name,
+          alt,
+          altEn,
+          tags,
+          active: true,
+        },
+      });
+      await Promise.all([
+        tx.mediaAssetTranslation.upsert({
+          where: { assetId_locale: { assetId: saved.id, locale: "fr" } },
+          create: { assetId: saved.id, locale: "fr", alt, tags },
+          update: { alt, tags },
+        }),
+        tx.mediaAssetTranslation.upsert({
+          where: { assetId_locale: { assetId: saved.id, locale: "en" } },
+          create: { assetId: saved.id, locale: "en", alt: altEn, tags: [] },
+          update: { alt: altEn, tags: [] },
+        }),
+      ]);
+      return saved;
     });
 
     revalidatePath("/media-assets");
@@ -256,16 +274,34 @@ export const updateMediaAsset = async (
           }
         : {};
 
-    const asset = await prisma.mediaAsset.update({
-      where: { id },
-      data: {
-        name,
-        alt: normalizeNullable(formData.get("alt")),
-        altEn: normalizeNullable(formData.get("altEn")),
-        tags: parseTags(formData.get("tags")),
-        active: formData.get("active") === "true",
-        ...posterData,
-      },
+    const alt = normalizeNullable(formData.get("alt"));
+    const altEn = normalizeNullable(formData.get("altEn"));
+    const tags = parseTags(formData.get("tags"));
+    const asset = await prisma.$transaction(async (tx) => {
+      const saved = await tx.mediaAsset.update({
+        where: { id },
+        data: {
+          name,
+          alt,
+          altEn,
+          tags,
+          active: formData.get("active") === "true",
+          ...posterData,
+        },
+      });
+      await Promise.all([
+        tx.mediaAssetTranslation.upsert({
+          where: { assetId_locale: { assetId: id, locale: "fr" } },
+          create: { assetId: id, locale: "fr", alt, tags },
+          update: { alt, tags },
+        }),
+        tx.mediaAssetTranslation.upsert({
+          where: { assetId_locale: { assetId: id, locale: "en" } },
+          create: { assetId: id, locale: "en", alt: altEn, tags: [] },
+          update: { alt: altEn, tags: [] },
+        }),
+      ]);
+      return saved;
     });
 
     revalidatePath("/media-assets");

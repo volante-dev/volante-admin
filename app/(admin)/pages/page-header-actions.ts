@@ -11,6 +11,15 @@ type ActionResult = {
   error?: string;
 };
 
+type PageHeaderContentValues = {
+  eyebrow: string;
+  eyebrowEn: string | null;
+  title: string;
+  titleEn: string | null;
+  intro: string | null;
+  introEn: string | null;
+};
+
 const actionError = (error: unknown): ActionResult => ({
   success: false,
   error: error instanceof Error ? error.message : "Une erreur est survenue.",
@@ -36,6 +45,26 @@ const parsePageHeaderContent = (formData: FormData) => {
   return { data: values } as const;
 };
 
+const pageHeaderTranslations = (
+  contentId: string,
+  data: PageHeaderContentValues,
+) => [
+  {
+    contentId,
+    locale: "fr",
+    eyebrow: data.eyebrow,
+    title: data.title,
+    intro: data.intro,
+  },
+  {
+    contentId,
+    locale: "en",
+    eyebrow: data.eyebrowEn,
+    title: data.titleEn,
+    intro: data.introEn,
+  },
+];
+
 export const updatePageHeaderContent = async (
   pageId: PageHeaderId,
   formData: FormData,
@@ -49,11 +78,29 @@ export const updatePageHeaderContent = async (
     const parsed = parsePageHeaderContent(formData);
     if ("error" in parsed) return { success: false, error: parsed.error };
 
-    await prisma.pageHeaderContent.upsert({
-      where: { id: pageId },
-      create: { id: pageId, ...parsed.data },
-      update: parsed.data,
-    });
+    await prisma.$transaction([
+      prisma.pageHeaderContent.upsert({
+        where: { id: pageId },
+        create: { id: pageId, ...parsed.data },
+        update: parsed.data,
+      }),
+      ...pageHeaderTranslations(pageId, parsed.data).map((translation) =>
+        prisma.pageHeaderContentTranslation.upsert({
+          where: {
+            contentId_locale: {
+              contentId: translation.contentId,
+              locale: translation.locale,
+            },
+          },
+          create: translation,
+          update: {
+            eyebrow: translation.eyebrow,
+            title: translation.title,
+            intro: translation.intro,
+          },
+        }),
+      ),
+    ]);
 
     revalidatePath(`/pages/${pageId}`);
     return { success: true };

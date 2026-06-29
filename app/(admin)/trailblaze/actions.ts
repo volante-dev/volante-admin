@@ -261,12 +261,84 @@ const validateBlogPostPayload = async (
   };
 };
 
-const saveBlocks = async (
-  tx: Pick<typeof prisma, "blogPostBlock">,
+type ValidatedBlogPostResult = Extract<
+  Awaited<ReturnType<typeof validateBlogPostPayload>>,
+  { data: unknown }
+>;
+type ValidatedBlogPostData = ValidatedBlogPostResult["data"];
+
+const blogPostTranslations = (postId: string, data: ValidatedBlogPostData) => [
+  {
+    postId,
+    locale: "fr",
+    title: data.title,
+    eyebrow: data.eyebrow,
+    slug: data.slug,
+    seoDescription: data.seoDescription,
+    tags: data.tags,
+  },
+  {
+    postId,
+    locale: "en",
+    title: data.titleEn,
+    eyebrow: data.eyebrowEn,
+    slug: data.slugEn,
+    seoDescription: data.seoDescriptionEn,
+    tags: data.tagsEn,
+  },
+];
+
+const blogBlockTranslations = (
+  blockId: string,
+  block: ValidatedBlogPostData["blocks"][number],
+) => [
+  {
+    blockId,
+    locale: "fr",
+    contentHtml: block.contentHtml,
+  },
+  {
+    blockId,
+    locale: "en",
+    contentHtml: block.contentHtmlEn,
+  },
+];
+
+type BlogWriteClient = Pick<
+  typeof prisma,
+  "blogPostBlock" | "blogPostTranslation" | "blogPostBlockTranslation"
+>;
+
+const upsertBlogPostTranslations = (
+  tx: BlogWriteClient,
   postId: string,
-  blocks: NonNullable<
-    Awaited<ReturnType<typeof validateBlogPostPayload>>["data"]
-  >["blocks"],
+  data: ValidatedBlogPostData,
+) =>
+  Promise.all(
+    blogPostTranslations(postId, data).map((translation) =>
+      tx.blogPostTranslation.upsert({
+        where: {
+          postId_locale: {
+            postId,
+            locale: translation.locale,
+          },
+        },
+        create: translation,
+        update: {
+          title: translation.title,
+          eyebrow: translation.eyebrow,
+          slug: translation.slug,
+          seoDescription: translation.seoDescription,
+          tags: translation.tags,
+        },
+      }),
+    ),
+  );
+
+const saveBlocks = async (
+  tx: BlogWriteClient,
+  postId: string,
+  blocks: ValidatedBlogPostData["blocks"],
 ) => {
   const incomingIds = blocks
     .map((block) => block.id)
@@ -294,10 +366,38 @@ const saveBlocks = async (
         where: { id: block.id, postId },
         data,
       });
+      await Promise.all(
+        blogBlockTranslations(block.id, block).map((translation) =>
+          tx.blogPostBlockTranslation.upsert({
+            where: {
+              blockId_locale: {
+                blockId: block.id!,
+                locale: translation.locale,
+              },
+            },
+            create: translation,
+            update: { contentHtml: translation.contentHtml },
+          }),
+        ),
+      );
     } else {
-      await tx.blogPostBlock.create({
+      const created = await tx.blogPostBlock.create({
         data: { ...data, postId },
       });
+      await Promise.all(
+        blogBlockTranslations(created.id, block).map((translation) =>
+          tx.blogPostBlockTranslation.upsert({
+            where: {
+              blockId_locale: {
+                blockId: created.id,
+                locale: translation.locale,
+              },
+            },
+            create: translation,
+            update: { contentHtml: translation.contentHtml },
+          }),
+        ),
+      );
     }
   }
 };
@@ -326,6 +426,7 @@ export const createBlogPost = async (formData: FormData): Promise<ActionResult> 
           publishedAt: parsed.data.publishedAt,
         },
       });
+      await upsertBlogPostTranslations(tx, created.id, parsed.data);
       await saveBlocks(tx, created.id, parsed.data.blocks);
       return created;
     });
@@ -371,6 +472,7 @@ export const updateBlogPost = async (
           publishedAt: parsed.data.publishedAt,
         },
       });
+      await upsertBlogPostTranslations(tx, id, parsed.data);
       await saveBlocks(tx, id, parsed.data.blocks);
     });
 

@@ -351,12 +351,94 @@ const validateProjectPayload = async (
   };
 };
 
-const saveSlides = async (
-  tx: Pick<typeof prisma, "projectSlide">,
+type ValidatedProjectResult = Extract<
+  Awaited<ReturnType<typeof validateProjectPayload>>,
+  { data: unknown }
+>;
+type ValidatedProjectData = ValidatedProjectResult["data"];
+
+const projectTranslations = (projectId: string, data: ValidatedProjectData) => [
+  {
+    projectId,
+    locale: "fr",
+    title: data.title,
+    slug: data.slug,
+    description: data.description,
+    challenge: data.challenge,
+    approach: data.approach,
+    results: data.results,
+    awards: data.awards,
+  },
+  {
+    projectId,
+    locale: "en",
+    title: data.titleEn,
+    slug: null,
+    description: data.descriptionEn,
+    challenge: data.challengeEn,
+    approach: data.approachEn,
+    results: data.resultsEn,
+    awards: data.awardsEn,
+  },
+];
+
+const slideTranslations = (
+  slideId: string,
+  slide: ValidatedProjectData["slides"][number],
+) => [
+  {
+    slideId,
+    locale: "fr",
+    title: slide.title,
+    contentHtml: slide.contentHtml,
+    alt: slide.alt,
+  },
+  {
+    slideId,
+    locale: "en",
+    title: slide.titleEn,
+    contentHtml: slide.contentHtmlEn,
+    alt: slide.altEn,
+  },
+];
+
+type ProjectWriteClient = Pick<
+  typeof prisma,
+  "project" | "projectSlide" | "projectTranslation" | "projectSlideTranslation"
+>;
+
+const upsertProjectTranslations = (
+  tx: ProjectWriteClient,
   projectId: string,
-  slides: NonNullable<
-    Awaited<ReturnType<typeof validateProjectPayload>>["data"]
-  >["slides"],
+  data: ValidatedProjectData,
+) =>
+  Promise.all(
+    projectTranslations(projectId, data).map((translation) =>
+      tx.projectTranslation.upsert({
+        where: {
+          projectId_locale: {
+            projectId,
+            locale: translation.locale,
+          },
+        },
+        create: translation,
+        update: {
+          title: translation.title,
+          slug: translation.slug,
+          description: translation.description,
+          challenge: translation.challenge,
+          approach: translation.approach,
+          results: translation.results,
+          awards: translation.awards,
+        },
+      }),
+    ),
+  );
+
+const saveSlides = async (
+  tx: ProjectWriteClient,
+  projectId: string,
+  slides: ValidatedProjectData["slides"],
 ) => {
   const incomingIds = slides
     .map((slide) => slide.id)
@@ -389,13 +471,49 @@ const saveSlides = async (
         where: { id: slide.id, projectId },
         data,
       });
+      await Promise.all(
+        slideTranslations(slide.id, slide).map((translation) =>
+          tx.projectSlideTranslation.upsert({
+            where: {
+              slideId_locale: {
+                slideId: slide.id!,
+                locale: translation.locale,
+              },
+            },
+            create: translation,
+            update: {
+              title: translation.title,
+              contentHtml: translation.contentHtml,
+              alt: translation.alt,
+            },
+          }),
+        ),
+      );
     } else {
-      await tx.projectSlide.create({
+      const created = await tx.projectSlide.create({
         data: {
           ...data,
           projectId,
         },
       });
+      await Promise.all(
+        slideTranslations(created.id, slide).map((translation) =>
+          tx.projectSlideTranslation.upsert({
+            where: {
+              slideId_locale: {
+                slideId: created.id,
+                locale: translation.locale,
+              },
+            },
+            create: translation,
+            update: {
+              title: translation.title,
+              contentHtml: translation.contentHtml,
+              alt: translation.alt,
+            },
+          }),
+        ),
+      );
     }
   }
 };
@@ -452,6 +570,7 @@ export const createProject = async (
           publishedAt: parsed.data.publishedAt,
         },
       });
+      await upsertProjectTranslations(tx, created.id, parsed.data);
       await saveSlides(tx, created.id, parsed.data.slides);
       return created;
     });
@@ -530,6 +649,7 @@ export const updateProject = async (
           publishedAt: parsed.data.publishedAt,
         },
       });
+      await upsertProjectTranslations(tx, id, parsed.data);
       await saveSlides(tx, id, parsed.data.slides);
     });
 

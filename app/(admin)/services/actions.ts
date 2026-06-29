@@ -157,6 +157,49 @@ const serviceData = (data: ParsedServiceData) => {
   };
 };
 
+const serviceTranslations = (serviceId: string, data: ParsedServiceData) => [
+  {
+    serviceId,
+    locale: "fr",
+    title: data.title,
+    description: data.description,
+    descriptionHtml: data.descriptionHtml,
+  },
+  {
+    serviceId,
+    locale: "en",
+    title: data.titleEn,
+    description: data.descriptionEn,
+    descriptionHtml: data.descriptionHtmlEn,
+  },
+];
+
+type ServiceTranslationClient = Pick<typeof prisma, "serviceTranslation">;
+
+const upsertServiceTranslations = (
+  tx: ServiceTranslationClient,
+  serviceId: string,
+  data: ParsedServiceData,
+) =>
+  Promise.all(
+    serviceTranslations(serviceId, data).map((translation) =>
+      tx.serviceTranslation.upsert({
+        where: {
+          serviceId_locale: {
+            serviceId,
+            locale: translation.locale,
+          },
+        },
+        create: translation,
+        update: {
+          title: translation.title,
+          description: translation.description,
+          descriptionHtml: translation.descriptionHtml,
+        },
+      }),
+    ),
+  );
+
 const createPortfolioExamples = (serviceId: string, projectIds: string[]) =>
   projectIds.map((projectId, order) => ({
     serviceId,
@@ -199,16 +242,20 @@ export const createService = async (
       return { success: false, error: validProjectIds.error };
     }
 
-    const service = await prisma.service.create({
-      data: {
-        ...serviceData(parsed.data),
-        portfolioExamples: {
-          create: validProjectIds.data.map((projectId, order) => ({
-            projectId,
-            order,
-          })),
+    const service = await prisma.$transaction(async (tx) => {
+      const created = await tx.service.create({
+        data: {
+          ...serviceData(parsed.data),
+          portfolioExamples: {
+            create: validProjectIds.data.map((projectId, order) => ({
+              projectId,
+              order,
+            })),
+          },
         },
-      },
+      });
+      await upsertServiceTranslations(tx, created.id, parsed.data);
+      return created;
     });
 
     revalidatePath("/services");
@@ -242,6 +289,7 @@ export const updateService = async (
         where: { id },
         data: serviceData(parsed.data),
       });
+      await upsertServiceTranslations(tx, id, parsed.data);
       await tx.servicePortfolioExample.deleteMany({ where: { serviceId: id } });
       if (validProjectIds.data.length > 0) {
         await tx.servicePortfolioExample.createMany({

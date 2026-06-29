@@ -2,11 +2,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { HeaderNavigationForm } from "@/components/admin/HeaderNavigationForm";
 import { getSiteRoutes } from "@/lib/site-routes";
+import { getSiteLocales } from "@/lib/site-locales";
 
 export const dynamic = "force-dynamic";
 
 const HeaderNavigationPage = async () => {
-  const items = await getSiteRoutes();
+  const [items, locales] = await Promise.all([getSiteRoutes(), getSiteLocales()]);
 
   return (
     <>
@@ -20,7 +21,10 @@ const HeaderNavigationPage = async () => {
           routes principales. Les segments internes Next.js restent verrouillés.
         </Typography>
       </Box>
-      <HeaderNavigationForm initialItems={items} />
+      <HeaderNavigationForm
+        initialItems={items}
+        locales={locales.filter((locale) => locale.enabledInAdmin)}
+      />
     </>
   );
 };

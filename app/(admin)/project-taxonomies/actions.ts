@@ -100,6 +100,29 @@ const actionError = (error: unknown): TaxonomyResult => {
   return { success: false, error: "Une erreur est survenue." };
 };
 
+type ParsedEntryData = Extract<ReturnType<typeof parseEntry>, { data: unknown }>["data"];
+
+const taxonomyTranslations = (entryId: string, data: ParsedEntryData) => [
+  {
+    entryId,
+    locale: "fr",
+    label: data.label,
+    slug: data.slug,
+    introEyebrow: data.introEyebrow,
+    introTitle: data.introTitle,
+    intro: data.intro,
+  },
+  {
+    entryId,
+    locale: "en",
+    label: data.labelEn,
+    slug: data.slug,
+    introEyebrow: data.introEyebrowEn,
+    introTitle: data.introTitleEn,
+    intro: data.introEn,
+  },
+];
+
 export const createProjectTaxonomyEntry = async (
   type: ProjectTaxonomyType,
   label: string,
@@ -130,7 +153,30 @@ export const createProjectTaxonomyEntry = async (
     );
     if ("error" in parsed) return { success: false, error: parsed.error };
 
-    const entry = await prisma.projectTaxonomyEntry.create({ data: parsed.data });
+    const entry = await prisma.$transaction(async (tx) => {
+      const created = await tx.projectTaxonomyEntry.create({ data: parsed.data });
+      await Promise.all(
+        taxonomyTranslations(created.id, parsed.data).map((translation) =>
+          tx.projectTaxonomyEntryTranslation.upsert({
+            where: {
+              entryId_locale: {
+                entryId: created.id,
+                locale: translation.locale,
+              },
+            },
+            create: translation,
+            update: {
+              label: translation.label,
+              slug: translation.slug,
+              introEyebrow: translation.introEyebrow,
+              introTitle: translation.introTitle,
+              intro: translation.intro,
+            },
+          }),
+        ),
+      );
+      return created;
+    });
     revalidatePath("/project-taxonomies");
     revalidatePath("/projects/new");
     return { success: true, entry };
@@ -171,21 +217,44 @@ export const updateProjectTaxonomyEntry = async (
     );
     if ("error" in parsed) return { success: false, error: parsed.error };
 
-    const entry = await prisma.projectTaxonomyEntry.update({
-      where: { id },
-      data: {
-        label: parsed.data.label,
-        labelEn: parsed.data.labelEn,
-        normalizedKey: parsed.data.normalizedKey,
-        slug: parsed.data.slug,
-        icon: parsed.data.icon,
-        introEyebrow: parsed.data.introEyebrow,
-        introEyebrowEn: parsed.data.introEyebrowEn,
-        introTitle: parsed.data.introTitle,
-        introTitleEn: parsed.data.introTitleEn,
-        intro: parsed.data.intro,
-        introEn: parsed.data.introEn,
-      },
+    const entry = await prisma.$transaction(async (tx) => {
+      const updated = await tx.projectTaxonomyEntry.update({
+        where: { id },
+        data: {
+          label: parsed.data.label,
+          labelEn: parsed.data.labelEn,
+          normalizedKey: parsed.data.normalizedKey,
+          slug: parsed.data.slug,
+          icon: parsed.data.icon,
+          introEyebrow: parsed.data.introEyebrow,
+          introEyebrowEn: parsed.data.introEyebrowEn,
+          introTitle: parsed.data.introTitle,
+          introTitleEn: parsed.data.introTitleEn,
+          intro: parsed.data.intro,
+          introEn: parsed.data.introEn,
+        },
+      });
+      await Promise.all(
+        taxonomyTranslations(id, parsed.data).map((translation) =>
+          tx.projectTaxonomyEntryTranslation.upsert({
+            where: {
+              entryId_locale: {
+                entryId: id,
+                locale: translation.locale,
+              },
+            },
+            create: translation,
+            update: {
+              label: translation.label,
+              slug: translation.slug,
+              introEyebrow: translation.introEyebrow,
+              introTitle: translation.introTitle,
+              intro: translation.intro,
+            },
+          }),
+        ),
+      );
+      return updated;
     });
     revalidatePath("/project-taxonomies");
     revalidatePath("/projects");

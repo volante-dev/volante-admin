@@ -24,6 +24,7 @@ export type SiteRouteData = {
   labelEn: string;
   slug: string;
   slugEn: string;
+  translations?: Record<string, { label?: string | null; slug?: string | null }>;
   order: number;
   showInHeader: boolean;
   showInFooter: boolean;

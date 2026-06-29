@@ -17,6 +17,13 @@ type ActionResult = {
 };
 
 type SiteRoutePayload = Partial<SiteRouteData>;
+type ParsedSiteRoute = SiteRouteData & {
+  normalizedTranslations: Array<{
+    locale: string;
+    label: string;
+    slug: string;
+  }>;
+};
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const ids = new Set<string>(siteRouteIds);
@@ -31,6 +38,36 @@ const actionError = (error: unknown): ActionResult => ({
 });
 
 const hasDuplicates = (values: string[]) => new Set(values).size !== values.length;
+
+const parseTranslations = (value: SiteRoutePayload, isHome: boolean) => {
+  const customTranslations =
+    value.translations && typeof value.translations === "object"
+      ? Object.entries(value.translations).map(([locale, translation]) => {
+          const entry = translation ?? {};
+          return {
+            locale: normalize(locale).toLowerCase(),
+            label: normalize(entry.label),
+            slug: isHome ? "" : normalize(entry.slug),
+          };
+        })
+      : [];
+
+  return [
+    {
+      locale: "fr",
+      label: normalize(value.label),
+      slug: isHome ? "" : normalize(value.slug),
+    },
+    {
+      locale: "en",
+      label: normalize(value.labelEn),
+      slug: isHome ? "" : normalize(value.slugEn),
+    },
+    ...customTranslations.filter(
+      (translation) => translation.locale !== "fr" && translation.locale !== "en",
+    ),
+  ];
+};
 
 const parseSiteRoutes = (formData: FormData) => {
   const raw = formData.get("items");
@@ -56,15 +93,27 @@ const parseSiteRoutes = (formData: FormData) => {
   const items = parsed.map((item, index) => {
     const value = item as SiteRoutePayload;
     const defaultRoute = defaultSiteRoutes.find((route) => route.id === value.id);
+    const isHome = value.id === "home";
+    const normalizedTranslations = parseTranslations(value, isHome);
     return {
       id: normalize(value.id),
       label: normalize(value.label),
       labelEn: normalize(value.labelEn),
-      slug: value.id === "home" ? "" : normalize(value.slug),
-      slugEn: value.id === "home" ? "" : normalize(value.slugEn),
+      slug: isHome ? "" : normalize(value.slug),
+      slugEn: isHome ? "" : normalize(value.slugEn),
+      translations: Object.fromEntries(
+        normalizedTranslations.map((translation) => [
+          translation.locale,
+          {
+            label: translation.label,
+            slug: translation.slug,
+          },
+        ]),
+      ),
+      normalizedTranslations,
       order: index,
-      showInHeader: value.id === "home" ? false : Boolean(value.showInHeader),
-      showInFooter: value.id === "home" ? false : Boolean(value.showInFooter),
+      showInHeader: isHome ? false : Boolean(value.showInHeader),
+      showInFooter: isHome ? false : Boolean(value.showInFooter),
       includeInSitemap: value.includeInSitemap !== false,
       sitemapPriority:
         typeof value.sitemapPriority === "number"
@@ -85,12 +134,16 @@ const parseSiteRoutes = (formData: FormData) => {
   }
 
   for (const item of items) {
-    if (!item.label || !item.labelEn) {
+    if (
+      item.normalizedTranslations.some((translation) => !translation.label)
+    ) {
       return { error: "Tous les intitules sont obligatoires." } as const;
     }
     if (
       item.id !== "home" &&
-      (!slugPattern.test(item.slug) || !slugPattern.test(item.slugEn))
+      item.normalizedTranslations.some(
+        (translation) => !slugPattern.test(translation.slug),
+      )
     ) {
       return {
         error:
@@ -99,15 +152,25 @@ const parseSiteRoutes = (formData: FormData) => {
     }
   }
 
-  if (hasDuplicates(items.filter((item) => item.slug).map((item) => item.slug))) {
-    return { error: "Les slugs francais doivent etre uniques." } as const;
+  const locales = new Set(
+    items.flatMap((item) =>
+      item.normalizedTranslations.map((translation) => translation.locale),
+    ),
+  );
+  for (const locale of locales) {
+    const slugs = items
+      .flatMap((item) =>
+        item.normalizedTranslations
+          .filter((translation) => translation.locale === locale)
+          .map((translation) => translation.slug),
+      )
+      .filter(Boolean);
+    if (hasDuplicates(slugs)) {
+      return { error: `Les slugs ${locale} doivent etre uniques.` } as const;
+    }
   }
 
-  if (hasDuplicates(items.filter((item) => item.slugEn).map((item) => item.slugEn))) {
-    return { error: "Les slugs anglais doivent etre uniques." } as const;
-  }
-
-  return { data: items as SiteRouteData[] } as const;
+  return { data: items as ParsedSiteRoute[] } as const;
 };
 
 export const updateSiteRoutes = async (
@@ -118,11 +181,23 @@ export const updateSiteRoutes = async (
     const parsed = parseSiteRoutes(formData);
     if ("error" in parsed) return { success: false, error: parsed.error };
 
-    await prisma.$transaction(
-      parsed.data.map((item) =>
+    await prisma.$transaction([
+      ...parsed.data.map((item) =>
         prisma.siteRoute.upsert({
           where: { id: item.id },
-          create: item,
+          create: {
+            id: item.id,
+            label: item.label,
+            labelEn: item.labelEn,
+            slug: item.slug,
+            slugEn: item.slugEn,
+            order: item.order,
+            showInHeader: item.showInHeader,
+            showInFooter: item.showInFooter,
+            includeInSitemap: item.includeInSitemap,
+            sitemapPriority: item.sitemapPriority,
+            sitemapFrequency: item.sitemapFrequency,
+          },
           update: {
             label: item.label,
             labelEn: item.labelEn,
@@ -137,7 +212,29 @@ export const updateSiteRoutes = async (
           },
         }),
       ),
-    );
+      ...parsed.data.flatMap((item) =>
+        item.normalizedTranslations.map((translation) =>
+          prisma.siteRouteTranslation.upsert({
+            where: {
+              routeId_locale: {
+                routeId: item.id,
+                locale: translation.locale,
+              },
+            },
+            create: {
+              routeId: item.id,
+              locale: translation.locale,
+              label: translation.label,
+              slug: translation.slug,
+            },
+            update: {
+              label: translation.label,
+              slug: translation.slug,
+            },
+          }),
+        ),
+      ),
+    ]);
 
     revalidatePath("/header");
     return { success: true };

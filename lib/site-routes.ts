@@ -16,6 +16,7 @@ const toSitemapFrequency = (value: string): SitemapFrequency =>
 export const getSiteRoutes = async (): Promise<SiteRouteData[]> => {
   const routes = await prisma.siteRoute.findMany({
     orderBy: [{ order: "asc" }, { id: "asc" }],
+    include: { translations: true },
   });
 
   if (!routes.length) return defaultSiteRoutes;
@@ -29,6 +30,15 @@ export const getSiteRoutes = async (): Promise<SiteRouteData[]> => {
         labelEn: route.labelEn,
         slug: route.slug,
         slugEn: route.slugEn,
+        translations: Object.fromEntries(
+          route.translations.map((translation) => [
+            translation.locale,
+            {
+              label: translation.label,
+              slug: translation.slug,
+            },
+          ]),
+        ),
         order: route.order,
         showInHeader: route.showInHeader,
         showInFooter: route.showInFooter,
