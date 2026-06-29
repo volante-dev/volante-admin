@@ -55,6 +55,7 @@ export const ModelName = {
   ProjectTaxonomyEntry: 'ProjectTaxonomyEntry',
   ProjectSlide: 'ProjectSlide',
   Service: 'Service',
+  ServicePortfolioExample: 'ServicePortfolioExample',
   StudioValue: 'StudioValue',
   StudioPageContent: 'StudioPageContent',
   PageHeaderContent: 'PageHeaderContent',
@@ -173,6 +174,18 @@ export const ServiceScalarFieldEnum = {
 } as const
 
 export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
+
+
+export const ServicePortfolioExampleScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  projectId: 'projectId',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServicePortfolioExampleScalarFieldEnum = (typeof ServicePortfolioExampleScalarFieldEnum)[keyof typeof ServicePortfolioExampleScalarFieldEnum]
 
 
 export const StudioValueScalarFieldEnum = {

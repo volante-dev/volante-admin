@@ -15,7 +15,53 @@ type ActionResult = {
   id?: string;
 };
 
-const parseService = (formData: FormData) => {
+type ParsedServiceData = {
+  title: string;
+  titleEn: string | null;
+  description: string;
+  descriptionEn: string | null;
+  descriptionHtml: string;
+  descriptionHtmlEn: string | null;
+  icon: string | null;
+  order: number;
+  active: boolean;
+  portfolioExampleProjectIds: string[];
+};
+
+type ParseResult<T> =
+  | { ok: true; data: T }
+  | { ok: false; error: string };
+
+const parsePortfolioExampleProjectIds = (
+  formData: FormData,
+): ParseResult<string[]> => {
+  const raw = String(formData.get("portfolioExampleProjectIds") ?? "[]");
+  let parsed: unknown;
+
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return { ok: false, error: "La liste des exemples de réalisations est invalide." };
+  }
+
+  if (!Array.isArray(parsed) || !parsed.every((value) => typeof value === "string")) {
+    return { ok: false, error: "La liste des exemples de réalisations est invalide." };
+  }
+
+  const ids = parsed.map((value) => value.trim()).filter(Boolean);
+  const uniqueIds = Array.from(new Set(ids));
+
+  if (ids.length !== uniqueIds.length) {
+    return { ok: false, error: "Une réalisation ne peut être sélectionnée qu'une seule fois." };
+  }
+  if (uniqueIds.length > 3) {
+    return { ok: false, error: "Vous pouvez sélectionner au maximum 3 exemples." };
+  }
+
+  return { ok: true, data: uniqueIds };
+};
+
+const parseService = (formData: FormData): ParseResult<ParsedServiceData> => {
   const title = String(formData.get("title") ?? "").trim();
   const titleEn = String(formData.get("titleEn") ?? "").trim() || null;
   const descriptionHtml = String(formData.get("descriptionHtml") ?? "");
@@ -26,16 +72,18 @@ const parseService = (formData: FormData) => {
 
   if (!title || title.length < 2) {
     return {
+      ok: false,
       error: "Le titre doit contenir au moins 2 caracteres.",
-    } as const;
+    };
   }
   if (isBlankRichText(descriptionHtml)) {
     return {
+      ok: false,
       error: "La description doit contenir au moins 10 caracteres.",
-    } as const;
+    };
   }
   if (isNaN(order) || order < 0) {
-    return { error: "L'ordre doit etre un nombre positif." } as const;
+    return { ok: false, error: "L'ordre doit etre un nombre positif." };
   }
 
   const sanitizedDescriptionHtml = sanitizeRichTextHtml(descriptionHtml);
@@ -49,11 +97,16 @@ const parseService = (formData: FormData) => {
 
   if (description.length < 10) {
     return {
+      ok: false,
       error: "La description doit contenir au moins 10 caracteres.",
-    } as const;
+    };
   }
 
+  const parsedExampleIds = parsePortfolioExampleProjectIds(formData);
+  if (!parsedExampleIds.ok) return { ok: false, error: parsedExampleIds.error };
+
   return {
+    ok: true,
     data: {
       title,
       titleEn,
@@ -64,9 +117,52 @@ const parseService = (formData: FormData) => {
       icon,
       order,
       active,
+      portfolioExampleProjectIds: parsedExampleIds.data,
     },
-  } as const;
+  };
 };
+
+const validatePublishedProjectIds = async (projectIds: string[]) => {
+  if (projectIds.length === 0) return { data: [] as string[] };
+
+  const projects = await prisma.project.findMany({
+    where: {
+      id: { in: projectIds },
+      publishedAt: { not: null },
+    },
+    select: { id: true },
+  });
+  const validIds = new Set(projects.map((project) => project.id));
+
+  if (projectIds.some((id) => !validIds.has(id))) {
+    return {
+      error: "Les exemples doivent être des réalisations publiées.",
+    } as const;
+  }
+
+  return { data: projectIds } as const;
+};
+
+const serviceData = (data: ParsedServiceData) => {
+  return {
+    title: data.title,
+    titleEn: data.titleEn,
+    description: data.description,
+    descriptionEn: data.descriptionEn,
+    descriptionHtml: data.descriptionHtml,
+    descriptionHtmlEn: data.descriptionHtmlEn,
+    icon: data.icon,
+    order: data.order,
+    active: data.active,
+  };
+};
+
+const createPortfolioExamples = (serviceId: string, projectIds: string[]) =>
+  projectIds.map((projectId, order) => ({
+    serviceId,
+    projectId,
+    order,
+  }));
 
 export const toggleServiceActive = async (
   id: string,
@@ -95,10 +191,24 @@ export const createService = async (
     await requireCrmAccess();
 
     const parsed = parseService(formData);
-    if ("error" in parsed) return { success: false, error: parsed.error };
+    if (!parsed.ok) return { success: false, error: parsed.error };
+    const validProjectIds = await validatePublishedProjectIds(
+      parsed.data.portfolioExampleProjectIds,
+    );
+    if ("error" in validProjectIds) {
+      return { success: false, error: validProjectIds.error };
+    }
 
     const service = await prisma.service.create({
-      data: parsed.data,
+      data: {
+        ...serviceData(parsed.data),
+        portfolioExamples: {
+          create: validProjectIds.data.map((projectId, order) => ({
+            projectId,
+            order,
+          })),
+        },
+      },
     });
 
     revalidatePath("/services");
@@ -119,11 +229,25 @@ export const updateService = async (
     await requireCrmAccess();
 
     const parsed = parseService(formData);
-    if ("error" in parsed) return { success: false, error: parsed.error };
+    if (!parsed.ok) return { success: false, error: parsed.error };
+    const validProjectIds = await validatePublishedProjectIds(
+      parsed.data.portfolioExampleProjectIds,
+    );
+    if ("error" in validProjectIds) {
+      return { success: false, error: validProjectIds.error };
+    }
 
-    await prisma.service.update({
-      where: { id },
-      data: parsed.data,
+    await prisma.$transaction(async (tx) => {
+      await tx.service.update({
+        where: { id },
+        data: serviceData(parsed.data),
+      });
+      await tx.servicePortfolioExample.deleteMany({ where: { serviceId: id } });
+      if (validProjectIds.data.length > 0) {
+        await tx.servicePortfolioExample.createMany({
+          data: createPortfolioExamples(id, validProjectIds.data),
+        });
+      }
     });
 
     revalidatePath("/services");

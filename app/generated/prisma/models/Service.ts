@@ -256,6 +256,7 @@ export type ServiceWhereInput = {
   icon?: Prisma.StringNullableFilter<"Service"> | string | null
   order?: Prisma.IntFilter<"Service"> | number
   active?: Prisma.BoolFilter<"Service"> | boolean
+  portfolioExamples?: Prisma.ServicePortfolioExampleListRelationFilter
 }
 
 export type ServiceOrderByWithRelationInput = {
@@ -269,6 +270,7 @@ export type ServiceOrderByWithRelationInput = {
   icon?: Prisma.SortOrderInput | Prisma.SortOrder
   order?: Prisma.SortOrder
   active?: Prisma.SortOrder
+  portfolioExamples?: Prisma.ServicePortfolioExampleOrderByRelationAggregateInput
 }
 
 export type ServiceWhereUniqueInput = Prisma.AtLeast<{
@@ -285,6 +287,7 @@ export type ServiceWhereUniqueInput = Prisma.AtLeast<{
   icon?: Prisma.StringNullableFilter<"Service"> | string | null
   order?: Prisma.IntFilter<"Service"> | number
   active?: Prisma.BoolFilter<"Service"> | boolean
+  portfolioExamples?: Prisma.ServicePortfolioExampleListRelationFilter
 }, "id">
 
 export type ServiceOrderByWithAggregationInput = {
@@ -332,6 +335,7 @@ export type ServiceCreateInput = {
   icon?: string | null
   order?: number
   active?: boolean
+  portfolioExamples?: Prisma.ServicePortfolioExampleCreateNestedManyWithoutServiceInput
 }
 
 export type ServiceUncheckedCreateInput = {
@@ -345,6 +349,7 @@ export type ServiceUncheckedCreateInput = {
   icon?: string | null
   order?: number
   active?: boolean
+  portfolioExamples?: Prisma.ServicePortfolioExampleUncheckedCreateNestedManyWithoutServiceInput
 }
 
 export type ServiceUpdateInput = {
@@ -358,6 +363,7 @@ export type ServiceUpdateInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portfolioExamples?: Prisma.ServicePortfolioExampleUpdateManyWithoutServiceNestedInput
 }
 
 export type ServiceUncheckedUpdateInput = {
@@ -371,6 +377,7 @@ export type ServiceUncheckedUpdateInput = {
   icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   order?: Prisma.IntFieldUpdateOperationsInput | number
   active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portfolioExamples?: Prisma.ServicePortfolioExampleUncheckedUpdateManyWithoutServiceNestedInput
 }
 
 export type ServiceCreateManyInput = {
@@ -459,6 +466,122 @@ export type ServiceSumOrderByAggregateInput = {
   order?: Prisma.SortOrder
 }
 
+export type ServiceScalarRelationFilter = {
+  is?: Prisma.ServiceWhereInput
+  isNot?: Prisma.ServiceWhereInput
+}
+
+export type ServiceCreateNestedOneWithoutPortfolioExamplesInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutPortfolioExamplesInput, Prisma.ServiceUncheckedCreateWithoutPortfolioExamplesInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutPortfolioExamplesInput
+  connect?: Prisma.ServiceWhereUniqueInput
+}
+
+export type ServiceUpdateOneRequiredWithoutPortfolioExamplesNestedInput = {
+  create?: Prisma.XOR<Prisma.ServiceCreateWithoutPortfolioExamplesInput, Prisma.ServiceUncheckedCreateWithoutPortfolioExamplesInput>
+  connectOrCreate?: Prisma.ServiceCreateOrConnectWithoutPortfolioExamplesInput
+  upsert?: Prisma.ServiceUpsertWithoutPortfolioExamplesInput
+  connect?: Prisma.ServiceWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ServiceUpdateToOneWithWhereWithoutPortfolioExamplesInput, Prisma.ServiceUpdateWithoutPortfolioExamplesInput>, Prisma.ServiceUncheckedUpdateWithoutPortfolioExamplesInput>
+}
+
+export type ServiceCreateWithoutPortfolioExamplesInput = {
+  id?: string
+  title: string
+  titleEn?: string | null
+  description: string
+  descriptionEn?: string | null
+  descriptionHtml: string
+  descriptionHtmlEn?: string | null
+  icon?: string | null
+  order?: number
+  active?: boolean
+}
+
+export type ServiceUncheckedCreateWithoutPortfolioExamplesInput = {
+  id?: string
+  title: string
+  titleEn?: string | null
+  description: string
+  descriptionEn?: string | null
+  descriptionHtml: string
+  descriptionHtmlEn?: string | null
+  icon?: string | null
+  order?: number
+  active?: boolean
+}
+
+export type ServiceCreateOrConnectWithoutPortfolioExamplesInput = {
+  where: Prisma.ServiceWhereUniqueInput
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutPortfolioExamplesInput, Prisma.ServiceUncheckedCreateWithoutPortfolioExamplesInput>
+}
+
+export type ServiceUpsertWithoutPortfolioExamplesInput = {
+  update: Prisma.XOR<Prisma.ServiceUpdateWithoutPortfolioExamplesInput, Prisma.ServiceUncheckedUpdateWithoutPortfolioExamplesInput>
+  create: Prisma.XOR<Prisma.ServiceCreateWithoutPortfolioExamplesInput, Prisma.ServiceUncheckedCreateWithoutPortfolioExamplesInput>
+  where?: Prisma.ServiceWhereInput
+}
+
+export type ServiceUpdateToOneWithWhereWithoutPortfolioExamplesInput = {
+  where?: Prisma.ServiceWhereInput
+  data: Prisma.XOR<Prisma.ServiceUpdateWithoutPortfolioExamplesInput, Prisma.ServiceUncheckedUpdateWithoutPortfolioExamplesInput>
+}
+
+export type ServiceUpdateWithoutPortfolioExamplesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  descriptionHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  descriptionHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+export type ServiceUncheckedUpdateWithoutPortfolioExamplesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  titleEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  descriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  descriptionHtml?: Prisma.StringFieldUpdateOperationsInput | string
+  descriptionHtmlEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  icon?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  order?: Prisma.IntFieldUpdateOperationsInput | number
+  active?: Prisma.BoolFieldUpdateOperationsInput | boolean
+}
+
+
+/**
+ * Count Type ServiceCountOutputType
+ */
+
+export type ServiceCountOutputType = {
+  portfolioExamples: number
+}
+
+export type ServiceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  portfolioExamples?: boolean | ServiceCountOutputTypeCountPortfolioExamplesArgs
+}
+
+/**
+ * ServiceCountOutputType without action
+ */
+export type ServiceCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServiceCountOutputType
+   */
+  select?: Prisma.ServiceCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ServiceCountOutputType without action
+ */
+export type ServiceCountOutputTypeCountPortfolioExamplesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ServicePortfolioExampleWhereInput
+}
 
 
 export type ServiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -472,6 +595,8 @@ export type ServiceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   icon?: boolean
   order?: boolean
   active?: boolean
+  portfolioExamples?: boolean | Prisma.Service$portfolioExamplesArgs<ExtArgs>
+  _count?: boolean | Prisma.ServiceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["service"]>
 
 export type ServiceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -514,10 +639,18 @@ export type ServiceSelectScalar = {
 }
 
 export type ServiceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "titleEn" | "description" | "descriptionEn" | "descriptionHtml" | "descriptionHtmlEn" | "icon" | "order" | "active", ExtArgs["result"]["service"]>
+export type ServiceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  portfolioExamples?: boolean | Prisma.Service$portfolioExamplesArgs<ExtArgs>
+  _count?: boolean | Prisma.ServiceCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type ServiceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type ServiceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $ServicePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Service"
-  objects: {}
+  objects: {
+    portfolioExamples: Prisma.$ServicePortfolioExamplePayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
@@ -923,6 +1056,7 @@ readonly fields: ServiceFieldRefs;
  */
 export interface Prisma__ServiceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  portfolioExamples<T extends Prisma.Service$portfolioExamplesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Service$portfolioExamplesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServicePortfolioExamplePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -979,6 +1113,10 @@ export type ServiceFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.ServiceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceInclude<ExtArgs> | null
+  /**
    * Filter, which Service to fetch.
    */
   where: Prisma.ServiceWhereUniqueInput
@@ -997,6 +1135,10 @@ export type ServiceFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.ServiceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceInclude<ExtArgs> | null
+  /**
    * Filter, which Service to fetch.
    */
   where: Prisma.ServiceWhereUniqueInput
@@ -1014,6 +1156,10 @@ export type ServiceFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the Service
    */
   omit?: Prisma.ServiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceInclude<ExtArgs> | null
   /**
    * Filter, which Service to fetch.
    */
@@ -1063,6 +1209,10 @@ export type ServiceFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.ServiceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceInclude<ExtArgs> | null
+  /**
    * Filter, which Service to fetch.
    */
   where?: Prisma.ServiceWhereInput
@@ -1110,6 +1260,10 @@ export type ServiceFindManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the Service
    */
   omit?: Prisma.ServiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceInclude<ExtArgs> | null
   /**
    * Filter, which Services to fetch.
    */
@@ -1159,6 +1313,10 @@ export type ServiceCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.ServiceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceInclude<ExtArgs> | null
+  /**
    * The data needed to create a Service.
    */
   data: Prisma.XOR<Prisma.ServiceCreateInput, Prisma.ServiceUncheckedCreateInput>
@@ -1206,6 +1364,10 @@ export type ServiceUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Service
    */
   omit?: Prisma.ServiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceInclude<ExtArgs> | null
   /**
    * The data needed to update a Service.
    */
@@ -1273,6 +1435,10 @@ export type ServiceUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.ServiceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceInclude<ExtArgs> | null
+  /**
    * The filter to search for the Service to update in case it exists.
    */
   where: Prisma.ServiceWhereUniqueInput
@@ -1299,6 +1465,10 @@ export type ServiceDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.ServiceOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceInclude<ExtArgs> | null
+  /**
    * Filter which Service to delete.
    */
   where: Prisma.ServiceWhereUniqueInput
@@ -1319,6 +1489,30 @@ export type ServiceDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Service.portfolioExamples
+ */
+export type Service$portfolioExamplesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServicePortfolioExample
+   */
+  select?: Prisma.ServicePortfolioExampleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ServicePortfolioExample
+   */
+  omit?: Prisma.ServicePortfolioExampleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServicePortfolioExampleInclude<ExtArgs> | null
+  where?: Prisma.ServicePortfolioExampleWhereInput
+  orderBy?: Prisma.ServicePortfolioExampleOrderByWithRelationInput | Prisma.ServicePortfolioExampleOrderByWithRelationInput[]
+  cursor?: Prisma.ServicePortfolioExampleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ServicePortfolioExampleScalarFieldEnum | Prisma.ServicePortfolioExampleScalarFieldEnum[]
+}
+
+/**
  * Service without action
  */
 export type ServiceDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1330,4 +1524,8 @@ export type ServiceDefaultArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Service
    */
   omit?: Prisma.ServiceOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServiceInclude<ExtArgs> | null
 }

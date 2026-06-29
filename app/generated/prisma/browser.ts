@@ -38,6 +38,11 @@ export type ProjectSlide = Prisma.ProjectSlideModel
  */
 export type Service = Prisma.ServiceModel
 /**
+ * Model ServicePortfolioExample
+ *
+ */
+export type ServicePortfolioExample = Prisma.ServicePortfolioExampleModel
+/**
  * Model StudioValue
  *
  */

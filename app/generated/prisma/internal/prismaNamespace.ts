@@ -388,6 +388,7 @@ export const ModelName = {
   ProjectTaxonomyEntry: 'ProjectTaxonomyEntry',
   ProjectSlide: 'ProjectSlide',
   Service: 'Service',
+  ServicePortfolioExample: 'ServicePortfolioExample',
   StudioValue: 'StudioValue',
   StudioPageContent: 'StudioPageContent',
   PageHeaderContent: 'PageHeaderContent',
@@ -409,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "project" | "projectTaxonomyEntry" | "projectSlide" | "service" | "studioValue" | "studioPageContent" | "pageHeaderContent" | "homePageContent" | "mediaAsset" | "testimonial"
+    modelProps: "project" | "projectTaxonomyEntry" | "projectSlide" | "service" | "servicePortfolioExample" | "studioValue" | "studioPageContent" | "pageHeaderContent" | "homePageContent" | "mediaAsset" | "testimonial"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -706,6 +707,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ServiceCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ServiceCountAggregateOutputType> | number
+        }
+      }
+    }
+    ServicePortfolioExample: {
+      payload: Prisma.$ServicePortfolioExamplePayload<ExtArgs>
+      fields: Prisma.ServicePortfolioExampleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ServicePortfolioExampleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServicePortfolioExamplePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ServicePortfolioExampleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServicePortfolioExamplePayload>
+        }
+        findFirst: {
+          args: Prisma.ServicePortfolioExampleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServicePortfolioExamplePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ServicePortfolioExampleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServicePortfolioExamplePayload>
+        }
+        findMany: {
+          args: Prisma.ServicePortfolioExampleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServicePortfolioExamplePayload>[]
+        }
+        create: {
+          args: Prisma.ServicePortfolioExampleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServicePortfolioExamplePayload>
+        }
+        createMany: {
+          args: Prisma.ServicePortfolioExampleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ServicePortfolioExampleCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServicePortfolioExamplePayload>[]
+        }
+        delete: {
+          args: Prisma.ServicePortfolioExampleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServicePortfolioExamplePayload>
+        }
+        update: {
+          args: Prisma.ServicePortfolioExampleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServicePortfolioExamplePayload>
+        }
+        deleteMany: {
+          args: Prisma.ServicePortfolioExampleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ServicePortfolioExampleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ServicePortfolioExampleUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServicePortfolioExamplePayload>[]
+        }
+        upsert: {
+          args: Prisma.ServicePortfolioExampleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ServicePortfolioExamplePayload>
+        }
+        aggregate: {
+          args: Prisma.ServicePortfolioExampleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateServicePortfolioExample>
+        }
+        groupBy: {
+          args: Prisma.ServicePortfolioExampleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServicePortfolioExampleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ServicePortfolioExampleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ServicePortfolioExampleCountAggregateOutputType> | number
         }
       }
     }
@@ -1288,6 +1363,18 @@ export const ServiceScalarFieldEnum = {
 export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
 
 
+export const ServicePortfolioExampleScalarFieldEnum = {
+  id: 'id',
+  serviceId: 'serviceId',
+  projectId: 'projectId',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ServicePortfolioExampleScalarFieldEnum = (typeof ServicePortfolioExampleScalarFieldEnum)[keyof typeof ServicePortfolioExampleScalarFieldEnum]
+
+
 export const StudioValueScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -1675,6 +1762,7 @@ export type GlobalOmitConfig = {
   projectTaxonomyEntry?: Prisma.ProjectTaxonomyEntryOmit
   projectSlide?: Prisma.ProjectSlideOmit
   service?: Prisma.ServiceOmit
+  servicePortfolioExample?: Prisma.ServicePortfolioExampleOmit
   studioValue?: Prisma.StudioValueOmit
   studioPageContent?: Prisma.StudioPageContentOmit
   pageHeaderContent?: Prisma.PageHeaderContentOmit
