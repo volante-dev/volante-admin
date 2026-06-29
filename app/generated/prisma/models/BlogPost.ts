@@ -32,6 +32,8 @@ export type BlogPostMinAggregateOutputType = {
   eyebrowEn: string | null
   slug: string | null
   slugEn: string | null
+  seoDescription: string | null
+  seoDescriptionEn: string | null
   coverMediaUrl: string | null
   coverMediaAssetId: string | null
   publishedAt: Date | null
@@ -47,6 +49,8 @@ export type BlogPostMaxAggregateOutputType = {
   eyebrowEn: string | null
   slug: string | null
   slugEn: string | null
+  seoDescription: string | null
+  seoDescriptionEn: string | null
   coverMediaUrl: string | null
   coverMediaAssetId: string | null
   publishedAt: Date | null
@@ -62,6 +66,8 @@ export type BlogPostCountAggregateOutputType = {
   eyebrowEn: number
   slug: number
   slugEn: number
+  seoDescription: number
+  seoDescriptionEn: number
   coverMediaUrl: number
   coverMediaAssetId: number
   tags: number
@@ -81,6 +87,8 @@ export type BlogPostMinAggregateInputType = {
   eyebrowEn?: true
   slug?: true
   slugEn?: true
+  seoDescription?: true
+  seoDescriptionEn?: true
   coverMediaUrl?: true
   coverMediaAssetId?: true
   publishedAt?: true
@@ -96,6 +104,8 @@ export type BlogPostMaxAggregateInputType = {
   eyebrowEn?: true
   slug?: true
   slugEn?: true
+  seoDescription?: true
+  seoDescriptionEn?: true
   coverMediaUrl?: true
   coverMediaAssetId?: true
   publishedAt?: true
@@ -111,6 +121,8 @@ export type BlogPostCountAggregateInputType = {
   eyebrowEn?: true
   slug?: true
   slugEn?: true
+  seoDescription?: true
+  seoDescriptionEn?: true
   coverMediaUrl?: true
   coverMediaAssetId?: true
   tags?: true
@@ -201,6 +213,8 @@ export type BlogPostGroupByOutputType = {
   eyebrowEn: string | null
   slug: string
   slugEn: string
+  seoDescription: string | null
+  seoDescriptionEn: string | null
   coverMediaUrl: string
   coverMediaAssetId: string | null
   tags: string[]
@@ -239,6 +253,8 @@ export type BlogPostWhereInput = {
   eyebrowEn?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   slug?: Prisma.StringFilter<"BlogPost"> | string
   slugEn?: Prisma.StringFilter<"BlogPost"> | string
+  seoDescription?: Prisma.StringNullableFilter<"BlogPost"> | string | null
+  seoDescriptionEn?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   coverMediaUrl?: Prisma.StringFilter<"BlogPost"> | string
   coverMediaAssetId?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   tags?: Prisma.StringNullableListFilter<"BlogPost">
@@ -258,6 +274,8 @@ export type BlogPostOrderByWithRelationInput = {
   eyebrowEn?: Prisma.SortOrderInput | Prisma.SortOrder
   slug?: Prisma.SortOrder
   slugEn?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoDescriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   coverMediaUrl?: Prisma.SortOrder
   coverMediaAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
@@ -280,6 +298,8 @@ export type BlogPostWhereUniqueInput = Prisma.AtLeast<{
   titleEn?: Prisma.StringFilter<"BlogPost"> | string
   eyebrow?: Prisma.StringFilter<"BlogPost"> | string
   eyebrowEn?: Prisma.StringNullableFilter<"BlogPost"> | string | null
+  seoDescription?: Prisma.StringNullableFilter<"BlogPost"> | string | null
+  seoDescriptionEn?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   coverMediaUrl?: Prisma.StringFilter<"BlogPost"> | string
   coverMediaAssetId?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   tags?: Prisma.StringNullableListFilter<"BlogPost">
@@ -299,6 +319,8 @@ export type BlogPostOrderByWithAggregationInput = {
   eyebrowEn?: Prisma.SortOrderInput | Prisma.SortOrder
   slug?: Prisma.SortOrder
   slugEn?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrderInput | Prisma.SortOrder
+  seoDescriptionEn?: Prisma.SortOrderInput | Prisma.SortOrder
   coverMediaUrl?: Prisma.SortOrder
   coverMediaAssetId?: Prisma.SortOrderInput | Prisma.SortOrder
   tags?: Prisma.SortOrder
@@ -322,6 +344,8 @@ export type BlogPostScalarWhereWithAggregatesInput = {
   eyebrowEn?: Prisma.StringNullableWithAggregatesFilter<"BlogPost"> | string | null
   slug?: Prisma.StringWithAggregatesFilter<"BlogPost"> | string
   slugEn?: Prisma.StringWithAggregatesFilter<"BlogPost"> | string
+  seoDescription?: Prisma.StringNullableWithAggregatesFilter<"BlogPost"> | string | null
+  seoDescriptionEn?: Prisma.StringNullableWithAggregatesFilter<"BlogPost"> | string | null
   coverMediaUrl?: Prisma.StringWithAggregatesFilter<"BlogPost"> | string
   coverMediaAssetId?: Prisma.StringNullableWithAggregatesFilter<"BlogPost"> | string | null
   tags?: Prisma.StringNullableListFilter<"BlogPost">
@@ -339,6 +363,8 @@ export type BlogPostCreateInput = {
   eyebrowEn?: string | null
   slug: string
   slugEn: string
+  seoDescription?: string | null
+  seoDescriptionEn?: string | null
   coverMediaUrl: string
   tags?: Prisma.BlogPostCreatetagsInput | string[]
   tagsEn?: Prisma.BlogPostCreatetagsEnInput | string[]
@@ -357,6 +383,8 @@ export type BlogPostUncheckedCreateInput = {
   eyebrowEn?: string | null
   slug: string
   slugEn: string
+  seoDescription?: string | null
+  seoDescriptionEn?: string | null
   coverMediaUrl: string
   coverMediaAssetId?: string | null
   tags?: Prisma.BlogPostCreatetagsInput | string[]
@@ -375,6 +403,8 @@ export type BlogPostUpdateInput = {
   eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   slugEn?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverMediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.BlogPostUpdatetagsInput | string[]
   tagsEn?: Prisma.BlogPostUpdatetagsEnInput | string[]
@@ -393,6 +423,8 @@ export type BlogPostUncheckedUpdateInput = {
   eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   slugEn?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverMediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   coverMediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.BlogPostUpdatetagsInput | string[]
@@ -411,6 +443,8 @@ export type BlogPostCreateManyInput = {
   eyebrowEn?: string | null
   slug: string
   slugEn: string
+  seoDescription?: string | null
+  seoDescriptionEn?: string | null
   coverMediaUrl: string
   coverMediaAssetId?: string | null
   tags?: Prisma.BlogPostCreatetagsInput | string[]
@@ -428,6 +462,8 @@ export type BlogPostUpdateManyMutationInput = {
   eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   slugEn?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverMediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.BlogPostUpdatetagsInput | string[]
   tagsEn?: Prisma.BlogPostUpdatetagsEnInput | string[]
@@ -444,6 +480,8 @@ export type BlogPostUncheckedUpdateManyInput = {
   eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   slugEn?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverMediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   coverMediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.BlogPostUpdatetagsInput | string[]
@@ -461,6 +499,8 @@ export type BlogPostCountOrderByAggregateInput = {
   eyebrowEn?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   slugEn?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
+  seoDescriptionEn?: Prisma.SortOrder
   coverMediaUrl?: Prisma.SortOrder
   coverMediaAssetId?: Prisma.SortOrder
   tags?: Prisma.SortOrder
@@ -478,6 +518,8 @@ export type BlogPostMaxOrderByAggregateInput = {
   eyebrowEn?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   slugEn?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
+  seoDescriptionEn?: Prisma.SortOrder
   coverMediaUrl?: Prisma.SortOrder
   coverMediaAssetId?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
@@ -493,6 +535,8 @@ export type BlogPostMinOrderByAggregateInput = {
   eyebrowEn?: Prisma.SortOrder
   slug?: Prisma.SortOrder
   slugEn?: Prisma.SortOrder
+  seoDescription?: Prisma.SortOrder
+  seoDescriptionEn?: Prisma.SortOrder
   coverMediaUrl?: Prisma.SortOrder
   coverMediaAssetId?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrder
@@ -597,6 +641,8 @@ export type BlogPostCreateWithoutBlocksInput = {
   eyebrowEn?: string | null
   slug: string
   slugEn: string
+  seoDescription?: string | null
+  seoDescriptionEn?: string | null
   coverMediaUrl: string
   tags?: Prisma.BlogPostCreatetagsInput | string[]
   tagsEn?: Prisma.BlogPostCreatetagsEnInput | string[]
@@ -614,6 +660,8 @@ export type BlogPostUncheckedCreateWithoutBlocksInput = {
   eyebrowEn?: string | null
   slug: string
   slugEn: string
+  seoDescription?: string | null
+  seoDescriptionEn?: string | null
   coverMediaUrl: string
   coverMediaAssetId?: string | null
   tags?: Prisma.BlogPostCreatetagsInput | string[]
@@ -647,6 +695,8 @@ export type BlogPostUpdateWithoutBlocksInput = {
   eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   slugEn?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverMediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.BlogPostUpdatetagsInput | string[]
   tagsEn?: Prisma.BlogPostUpdatetagsEnInput | string[]
@@ -664,6 +714,8 @@ export type BlogPostUncheckedUpdateWithoutBlocksInput = {
   eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   slugEn?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverMediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   coverMediaAssetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   tags?: Prisma.BlogPostUpdatetagsInput | string[]
@@ -681,6 +733,8 @@ export type BlogPostCreateWithoutCoverMediaAssetInput = {
   eyebrowEn?: string | null
   slug: string
   slugEn: string
+  seoDescription?: string | null
+  seoDescriptionEn?: string | null
   coverMediaUrl: string
   tags?: Prisma.BlogPostCreatetagsInput | string[]
   tagsEn?: Prisma.BlogPostCreatetagsEnInput | string[]
@@ -698,6 +752,8 @@ export type BlogPostUncheckedCreateWithoutCoverMediaAssetInput = {
   eyebrowEn?: string | null
   slug: string
   slugEn: string
+  seoDescription?: string | null
+  seoDescriptionEn?: string | null
   coverMediaUrl: string
   tags?: Prisma.BlogPostCreatetagsInput | string[]
   tagsEn?: Prisma.BlogPostCreatetagsEnInput | string[]
@@ -744,6 +800,8 @@ export type BlogPostScalarWhereInput = {
   eyebrowEn?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   slug?: Prisma.StringFilter<"BlogPost"> | string
   slugEn?: Prisma.StringFilter<"BlogPost"> | string
+  seoDescription?: Prisma.StringNullableFilter<"BlogPost"> | string | null
+  seoDescriptionEn?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   coverMediaUrl?: Prisma.StringFilter<"BlogPost"> | string
   coverMediaAssetId?: Prisma.StringNullableFilter<"BlogPost"> | string | null
   tags?: Prisma.StringNullableListFilter<"BlogPost">
@@ -761,6 +819,8 @@ export type BlogPostCreateManyCoverMediaAssetInput = {
   eyebrowEn?: string | null
   slug: string
   slugEn: string
+  seoDescription?: string | null
+  seoDescriptionEn?: string | null
   coverMediaUrl: string
   tags?: Prisma.BlogPostCreatetagsInput | string[]
   tagsEn?: Prisma.BlogPostCreatetagsEnInput | string[]
@@ -777,6 +837,8 @@ export type BlogPostUpdateWithoutCoverMediaAssetInput = {
   eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   slugEn?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverMediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.BlogPostUpdatetagsInput | string[]
   tagsEn?: Prisma.BlogPostUpdatetagsEnInput | string[]
@@ -794,6 +856,8 @@ export type BlogPostUncheckedUpdateWithoutCoverMediaAssetInput = {
   eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   slugEn?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverMediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.BlogPostUpdatetagsInput | string[]
   tagsEn?: Prisma.BlogPostUpdatetagsEnInput | string[]
@@ -811,6 +875,8 @@ export type BlogPostUncheckedUpdateManyWithoutCoverMediaAssetInput = {
   eyebrowEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   slugEn?: Prisma.StringFieldUpdateOperationsInput | string
+  seoDescription?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seoDescriptionEn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   coverMediaUrl?: Prisma.StringFieldUpdateOperationsInput | string
   tags?: Prisma.BlogPostUpdatetagsInput | string[]
   tagsEn?: Prisma.BlogPostUpdatetagsEnInput | string[]
@@ -858,6 +924,8 @@ export type BlogPostSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   eyebrowEn?: boolean
   slug?: boolean
   slugEn?: boolean
+  seoDescription?: boolean
+  seoDescriptionEn?: boolean
   coverMediaUrl?: boolean
   coverMediaAssetId?: boolean
   tags?: boolean
@@ -878,6 +946,8 @@ export type BlogPostSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   eyebrowEn?: boolean
   slug?: boolean
   slugEn?: boolean
+  seoDescription?: boolean
+  seoDescriptionEn?: boolean
   coverMediaUrl?: boolean
   coverMediaAssetId?: boolean
   tags?: boolean
@@ -896,6 +966,8 @@ export type BlogPostSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   eyebrowEn?: boolean
   slug?: boolean
   slugEn?: boolean
+  seoDescription?: boolean
+  seoDescriptionEn?: boolean
   coverMediaUrl?: boolean
   coverMediaAssetId?: boolean
   tags?: boolean
@@ -914,6 +986,8 @@ export type BlogPostSelectScalar = {
   eyebrowEn?: boolean
   slug?: boolean
   slugEn?: boolean
+  seoDescription?: boolean
+  seoDescriptionEn?: boolean
   coverMediaUrl?: boolean
   coverMediaAssetId?: boolean
   tags?: boolean
@@ -923,7 +997,7 @@ export type BlogPostSelectScalar = {
   updatedAt?: boolean
 }
 
-export type BlogPostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "titleEn" | "eyebrow" | "eyebrowEn" | "slug" | "slugEn" | "coverMediaUrl" | "coverMediaAssetId" | "tags" | "tagsEn" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["blogPost"]>
+export type BlogPostOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "titleEn" | "eyebrow" | "eyebrowEn" | "slug" | "slugEn" | "seoDescription" | "seoDescriptionEn" | "coverMediaUrl" | "coverMediaAssetId" | "tags" | "tagsEn" | "publishedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["blogPost"]>
 export type BlogPostInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   coverMediaAsset?: boolean | Prisma.BlogPost$coverMediaAssetArgs<ExtArgs>
   blocks?: boolean | Prisma.BlogPost$blocksArgs<ExtArgs>
@@ -950,6 +1024,8 @@ export type $BlogPostPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     eyebrowEn: string | null
     slug: string
     slugEn: string
+    seoDescription: string | null
+    seoDescriptionEn: string | null
     coverMediaUrl: string
     coverMediaAssetId: string | null
     tags: string[]
@@ -1389,6 +1465,8 @@ export interface BlogPostFieldRefs {
   readonly eyebrowEn: Prisma.FieldRef<"BlogPost", 'String'>
   readonly slug: Prisma.FieldRef<"BlogPost", 'String'>
   readonly slugEn: Prisma.FieldRef<"BlogPost", 'String'>
+  readonly seoDescription: Prisma.FieldRef<"BlogPost", 'String'>
+  readonly seoDescriptionEn: Prisma.FieldRef<"BlogPost", 'String'>
   readonly coverMediaUrl: Prisma.FieldRef<"BlogPost", 'String'>
   readonly coverMediaAssetId: Prisma.FieldRef<"BlogPost", 'String'>
   readonly tags: Prisma.FieldRef<"BlogPost", 'String[]'>

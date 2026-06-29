@@ -28,6 +28,7 @@ type BlogBlockPayload = {
 };
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const seoDescriptionMaxLength = 240;
 
 const inferMediaTypeFromUrl = (value: string) =>
   /\.(mp4|mov|webm)(?:[?#].*)?$/i.test(value) ? "VIDEO" : "IMAGE";
@@ -96,6 +97,8 @@ const validateBlogPostPayload = async (
   const eyebrowEn = normalizeNullable(formData.get("eyebrowEn"));
   const slug = normalizeRequired(formData.get("slug"));
   const slugEn = normalizeRequired(formData.get("slugEn"));
+  const seoDescription = normalizeNullable(formData.get("seoDescription"));
+  const seoDescriptionEn = normalizeNullable(formData.get("seoDescriptionEn"));
   const coverMediaUrl = normalizeRequired(formData.get("coverMediaUrl"));
   const coverMediaAssetId = normalizeNullable(formData.get("coverMediaAssetId"));
   const tags = parseTags(formData.get("tags"));
@@ -116,6 +119,16 @@ const validateBlogPostPayload = async (
     return {
       error:
         "Le slug anglais doit contenir uniquement des minuscules, chiffres et tirets.",
+    };
+  }
+  if (seoDescription && seoDescription.length > seoDescriptionMaxLength) {
+    return {
+      error: `La description SEO francaise doit faire ${seoDescriptionMaxLength} caracteres maximum.`,
+    };
+  }
+  if (seoDescriptionEn && seoDescriptionEn.length > seoDescriptionMaxLength) {
+    return {
+      error: `La description SEO anglaise doit faire ${seoDescriptionMaxLength} caracteres maximum.`,
     };
   }
   if (!coverMediaUrl || !isValidMediaUrl(coverMediaUrl)) {
@@ -235,6 +248,8 @@ const validateBlogPostPayload = async (
       eyebrowEn,
       slug,
       slugEn,
+      seoDescription,
+      seoDescriptionEn,
       coverMediaUrl,
       coverMediaAssetId,
       tags,
@@ -302,6 +317,8 @@ export const createBlogPost = async (formData: FormData): Promise<ActionResult> 
           eyebrowEn: parsed.data.eyebrowEn,
           slug: parsed.data.slug,
           slugEn: parsed.data.slugEn,
+          seoDescription: parsed.data.seoDescription,
+          seoDescriptionEn: parsed.data.seoDescriptionEn,
           coverMediaUrl: parsed.data.coverMediaUrl,
           coverMediaAssetId: parsed.data.coverMediaAssetId,
           tags: parsed.data.tags,
@@ -345,6 +362,8 @@ export const updateBlogPost = async (
           eyebrowEn: parsed.data.eyebrowEn,
           slug: parsed.data.slug,
           slugEn: parsed.data.slugEn,
+          seoDescription: parsed.data.seoDescription,
+          seoDescriptionEn: parsed.data.seoDescriptionEn,
           coverMediaUrl: parsed.data.coverMediaUrl,
           coverMediaAssetId: parsed.data.coverMediaAssetId,
           tags: parsed.data.tags,

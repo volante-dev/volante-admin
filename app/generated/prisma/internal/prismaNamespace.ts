@@ -1462,6 +1462,8 @@ export const BlogPostScalarFieldEnum = {
   eyebrowEn: 'eyebrowEn',
   slug: 'slug',
   slugEn: 'slugEn',
+  seoDescription: 'seoDescription',
+  seoDescriptionEn: 'seoDescriptionEn',
   coverMediaUrl: 'coverMediaUrl',
   coverMediaAssetId: 'coverMediaAssetId',
   tags: 'tags',

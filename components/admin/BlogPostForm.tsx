@@ -97,6 +97,7 @@ const stripHtml = (value: string) =>
   value.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim();
 
 const tagsToText = (tags: string[]) => tags.join(", ");
+const seoDescriptionMaxLength = 240;
 
 const parseTagText = (value: string) => {
   const seen = new Set<string>();
@@ -375,6 +376,12 @@ export const BlogPostForm = ({ post }: BlogPostFormProps) => {
   const [eyebrowEn, setEyebrowEn] = useState(post?.eyebrowEn ?? "");
   const [slug, setSlug] = useState(post?.slug ?? "");
   const [slugEn, setSlugEn] = useState(post?.slugEn ?? "");
+  const [seoDescription, setSeoDescription] = useState(
+    post?.seoDescription ?? "",
+  );
+  const [seoDescriptionEn, setSeoDescriptionEn] = useState(
+    post?.seoDescriptionEn ?? "",
+  );
   const [coverMediaUrl, setCoverMediaUrl] = useState(post?.coverMediaUrl ?? "");
   const [coverMediaAssetId, setCoverMediaAssetId] = useState(
     post?.coverMediaAssetId ?? "",
@@ -496,6 +503,12 @@ export const BlogPostForm = ({ post }: BlogPostFormProps) => {
     if (!eyebrow.trim()) return "L'eyebrow est obligatoire.";
     if (!slug.trim()) return "Le slug francais est obligatoire.";
     if (!slugEn.trim()) return "Le slug anglais est obligatoire.";
+    if (seoDescription.trim().length > seoDescriptionMaxLength) {
+      return `La description SEO francaise doit faire ${seoDescriptionMaxLength} caracteres maximum.`;
+    }
+    if (seoDescriptionEn.trim().length > seoDescriptionMaxLength) {
+      return `La description SEO anglaise doit faire ${seoDescriptionMaxLength} caracteres maximum.`;
+    }
     if (!coverMediaUrl.trim()) return "Le media de couverture est obligatoire.";
     if (blocks.some(isIncompleteBlock)) {
       return "Un ou plusieurs blocs sont incomplets.";
@@ -518,6 +531,8 @@ export const BlogPostForm = ({ post }: BlogPostFormProps) => {
     formData.set("eyebrowEn", eyebrowEn);
     formData.set("slug", slug);
     formData.set("slugEn", slugEn);
+    formData.set("seoDescription", seoDescription);
+    formData.set("seoDescriptionEn", seoDescriptionEn);
     formData.set("coverMediaUrl", coverMediaUrl);
     formData.set("coverMediaAssetId", coverMediaAssetId);
     formData.set("tags", JSON.stringify(parseTagText(tags)));
@@ -611,6 +626,16 @@ export const BlogPostForm = ({ post }: BlogPostFormProps) => {
                 helperText="Minuscules, chiffres et tirets uniquement."
                 onChange={(event) => setSlug(event.target.value)}
               />
+              <TextField
+                label="Description SEO"
+                value={seoDescription}
+                fullWidth
+                multiline
+                minRows={3}
+                helperText={`${seoDescription.trim().length}/${seoDescriptionMaxLength} caracteres. Utilisee pour Google, les partages sociaux et la donnee structuree.`}
+                error={seoDescription.trim().length > seoDescriptionMaxLength}
+                onChange={(event) => setSeoDescription(event.target.value)}
+              />
             </Box>
           )}
 
@@ -643,6 +668,22 @@ export const BlogPostForm = ({ post }: BlogPostFormProps) => {
                 helperText="Minuscules, chiffres et tirets uniquement."
                 onChange={(event) => setSlugEn(event.target.value)}
               />
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <TextField
+                  label="SEO description"
+                  value={seoDescriptionEn}
+                  fullWidth
+                  multiline
+                  minRows={3}
+                  helperText={`${seoDescriptionEn.trim().length}/${seoDescriptionMaxLength} characters. Used for Google, social sharing and structured data.`}
+                  error={seoDescriptionEn.trim().length > seoDescriptionMaxLength}
+                  onChange={(event) => setSeoDescriptionEn(event.target.value)}
+                />
+                <TranslateButton
+                  sourceText={seoDescription}
+                  onTranslated={setSeoDescriptionEn}
+                />
+              </Box>
             </Box>
           )}
 

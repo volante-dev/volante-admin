@@ -55,6 +55,8 @@ model BlogPost {
   eyebrowEn           String?
   slug                String          @unique
   slugEn              String          @unique
+  seoDescription      String?
+  seoDescriptionEn    String?
   coverMediaUrl       String
   coverMediaAssetId   String?
   coverMediaAsset     MediaAsset?     @relation("BlogPostCoverMediaAsset", fields: [coverMediaAssetId], references: [id], onDelete: SetNull)

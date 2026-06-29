@@ -38,6 +38,8 @@ const EditBlogPostPage = async ({
     eyebrowEn: raw.eyebrowEn,
     slug: raw.slug,
     slugEn: raw.slugEn,
+    seoDescription: raw.seoDescription,
+    seoDescriptionEn: raw.seoDescriptionEn,
     coverMediaUrl: raw.coverMediaUrl,
     coverMediaAssetId: raw.coverMediaAssetId,
     coverMediaAssetType: raw.coverMediaAsset?.mediaType ?? null,

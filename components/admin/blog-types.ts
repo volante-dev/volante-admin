@@ -29,6 +29,8 @@ export type AdminBlogPostDetail = {
   eyebrowEn: string | null;
   slug: string;
   slugEn: string;
+  seoDescription: string | null;
+  seoDescriptionEn: string | null;
   coverMediaUrl: string;
   coverMediaAssetId: string | null;
   coverMediaAssetType: "IMAGE" | "VIDEO" | null;
