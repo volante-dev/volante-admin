@@ -22,6 +22,7 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import CategoryIcon from "@mui/icons-material/Category";
 import ArticleIcon from "@mui/icons-material/Article";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
+import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Link from "next/link";
 
@@ -43,7 +44,6 @@ const navGroups: NavGroup[] = [
   {
     items: [
       { label: "Dashboard", href: "/", icon: <DashboardIcon /> },
-      { label: "Header", href: "/header", icon: <MenuIcon /> },
       { label: "Services", href: "/services", icon: <BuildIcon /> },
       {
         label: "Valeurs Studio",
@@ -104,6 +104,10 @@ const navGroups: NavGroup[] = [
       },
     ],
   },
+];
+
+const settingsItems: NavItem[] = [
+  { label: "Settings", href: "/header", icon: <SettingsIcon fontSize="small" /> },
 ];
 
 type AdminShellProps = {
@@ -181,6 +185,36 @@ export const AdminShell = ({
               </ListItemButton>
             ))}
           </Box>
+        ))}
+      </List>
+      <Divider />
+      <List sx={{ py: 1 }}>
+        {settingsItems.map((item) => (
+          <ListItemButton
+            key={item.href}
+            component={Link}
+            href={item.href}
+            selected={isActive(item.href)}
+            sx={{
+              mx: 1,
+              borderRadius: 1,
+              mb: 0.5,
+              "&.Mui-selected": {
+                backgroundColor: "primary.main",
+                color: "primary.contrastText",
+                "& .MuiListItemIcon-root": {
+                  color: "primary.contrastText",
+                },
+                "&:hover": { backgroundColor: "primary.dark" },
+              },
+            }}
+          >
+            <ListItemIcon sx={{ minWidth: 36 }}>{item.icon}</ListItemIcon>
+            <ListItemText
+              primary={item.label}
+              primaryTypographyProps={{ fontSize: "0.875rem" }}
+            />
+          </ListItemButton>
         ))}
       </List>
       <Divider />
