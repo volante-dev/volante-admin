@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   Project: 'Project',
   BlogPost: 'BlogPost',
+  SiteRoute: 'SiteRoute',
   BlogPostBlock: 'BlogPostBlock',
   ProjectTaxonomyEntry: 'ProjectTaxonomyEntry',
   ProjectSlide: 'ProjectSlide',
@@ -139,6 +140,25 @@ export const BlogPostScalarFieldEnum = {
 } as const
 
 export type BlogPostScalarFieldEnum = (typeof BlogPostScalarFieldEnum)[keyof typeof BlogPostScalarFieldEnum]
+
+
+export const SiteRouteScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  labelEn: 'labelEn',
+  slug: 'slug',
+  slugEn: 'slugEn',
+  order: 'order',
+  showInHeader: 'showInHeader',
+  showInFooter: 'showInFooter',
+  includeInSitemap: 'includeInSitemap',
+  sitemapPriority: 'sitemapPriority',
+  sitemapFrequency: 'sitemapFrequency',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SiteRouteScalarFieldEnum = (typeof SiteRouteScalarFieldEnum)[keyof typeof SiteRouteScalarFieldEnum]
 
 
 export const BlogPostBlockScalarFieldEnum = {

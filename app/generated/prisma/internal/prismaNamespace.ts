@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   Project: 'Project',
   BlogPost: 'BlogPost',
+  SiteRoute: 'SiteRoute',
   BlogPostBlock: 'BlogPostBlock',
   ProjectTaxonomyEntry: 'ProjectTaxonomyEntry',
   ProjectSlide: 'ProjectSlide',
@@ -412,7 +413,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "project" | "blogPost" | "blogPostBlock" | "projectTaxonomyEntry" | "projectSlide" | "service" | "servicePortfolioExample" | "studioValue" | "studioPageContent" | "pageHeaderContent" | "homePageContent" | "mediaAsset" | "testimonial"
+    modelProps: "project" | "blogPost" | "siteRoute" | "blogPostBlock" | "projectTaxonomyEntry" | "projectSlide" | "service" | "servicePortfolioExample" | "studioValue" | "studioPageContent" | "pageHeaderContent" | "homePageContent" | "mediaAsset" | "testimonial"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -561,6 +562,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.BlogPostCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.BlogPostCountAggregateOutputType> | number
+        }
+      }
+    }
+    SiteRoute: {
+      payload: Prisma.$SiteRoutePayload<ExtArgs>
+      fields: Prisma.SiteRouteFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SiteRouteFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteRoutePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SiteRouteFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteRoutePayload>
+        }
+        findFirst: {
+          args: Prisma.SiteRouteFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteRoutePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SiteRouteFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteRoutePayload>
+        }
+        findMany: {
+          args: Prisma.SiteRouteFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteRoutePayload>[]
+        }
+        create: {
+          args: Prisma.SiteRouteCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteRoutePayload>
+        }
+        createMany: {
+          args: Prisma.SiteRouteCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SiteRouteCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteRoutePayload>[]
+        }
+        delete: {
+          args: Prisma.SiteRouteDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteRoutePayload>
+        }
+        update: {
+          args: Prisma.SiteRouteUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteRoutePayload>
+        }
+        deleteMany: {
+          args: Prisma.SiteRouteDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SiteRouteUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SiteRouteUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteRoutePayload>[]
+        }
+        upsert: {
+          args: Prisma.SiteRouteUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SiteRoutePayload>
+        }
+        aggregate: {
+          args: Prisma.SiteRouteAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSiteRoute>
+        }
+        groupBy: {
+          args: Prisma.SiteRouteGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SiteRouteGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SiteRouteCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SiteRouteCountAggregateOutputType> | number
         }
       }
     }
@@ -1476,6 +1551,25 @@ export const BlogPostScalarFieldEnum = {
 export type BlogPostScalarFieldEnum = (typeof BlogPostScalarFieldEnum)[keyof typeof BlogPostScalarFieldEnum]
 
 
+export const SiteRouteScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  labelEn: 'labelEn',
+  slug: 'slug',
+  slugEn: 'slugEn',
+  order: 'order',
+  showInHeader: 'showInHeader',
+  showInFooter: 'showInFooter',
+  includeInSitemap: 'includeInSitemap',
+  sitemapPriority: 'sitemapPriority',
+  sitemapFrequency: 'sitemapFrequency',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SiteRouteScalarFieldEnum = (typeof SiteRouteScalarFieldEnum)[keyof typeof SiteRouteScalarFieldEnum]
+
+
 export const BlogPostBlockScalarFieldEnum = {
   id: 'id',
   postId: 'postId',
@@ -1782,6 +1876,20 @@ export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+
+
+
+/**
  * Reference to a field of type 'BlogPostBlockType'
  */
 export type EnumBlogPostBlockTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BlogPostBlockType'>
@@ -1834,20 +1942,6 @@ export type EnumMediaAssetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'MediaAssetType[]'
  */
 export type ListEnumMediaAssetTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MediaAssetType[]'>
-
-
-
-/**
- * Reference to a field of type 'Float'
- */
-export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-
-
-
-/**
- * Reference to a field of type 'Float[]'
- */
-export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
 
 
 /**
@@ -1962,6 +2056,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   project?: Prisma.ProjectOmit
   blogPost?: Prisma.BlogPostOmit
+  siteRoute?: Prisma.SiteRouteOmit
   blogPostBlock?: Prisma.BlogPostBlockOmit
   projectTaxonomyEntry?: Prisma.ProjectTaxonomyEntryOmit
   projectSlide?: Prisma.ProjectSlideOmit

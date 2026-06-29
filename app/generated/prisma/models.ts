@@ -10,6 +10,7 @@
  */
 export type * from './models/Project'
 export type * from './models/BlogPost'
+export type * from './models/SiteRoute'
 export type * from './models/BlogPostBlock'
 export type * from './models/ProjectTaxonomyEntry'
 export type * from './models/ProjectSlide'

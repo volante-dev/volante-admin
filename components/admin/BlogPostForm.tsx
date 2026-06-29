@@ -56,7 +56,7 @@ import { MediaUrlField } from "./MediaUrlField";
 import { RichTextEditor } from "./RichTextEditor";
 import { TranslateButton } from "./TranslateButton";
 import { useAiRequest } from "@/lib/use-ai-request";
-import type { BlogTagsOutput } from "@/lib/ai";
+import type { BlogSeoDescriptionOutput, BlogTagsOutput } from "@/lib/ai";
 import type { MediaAssetType, MediaSelection } from "./media/media-types";
 import type {
   AdminBlogPostDetail,
@@ -365,7 +365,11 @@ const SortableBlogBlock = ({
 export const BlogPostForm = ({ post }: BlogPostFormProps) => {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const { execute: executeAi, loading: generatingTags } = useAiRequest();
+  const { execute: executeTagsAi, loading: generatingTags } = useAiRequest();
+  const {
+    execute: executeSeoDescriptionAi,
+    loading: generatingSeoDescription,
+  } = useAiRequest();
   const [tab, setTab] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<EditableBlock | null>(null);
@@ -477,7 +481,7 @@ export const BlogPostForm = ({ post }: BlogPostFormProps) => {
       return;
     }
 
-    const result = await executeAi({
+    const result = await executeTagsAi({
       task: "generate-blog-tags",
       title,
       titleEn,
@@ -494,6 +498,38 @@ export const BlogPostForm = ({ post }: BlogPostFormProps) => {
       setTags(tagsToText(output.tags));
       setTagsEn(tagsToText(output.tagsEn));
       toast.success("Tags SEO generes.");
+    }
+  };
+
+  const generateSeoDescription = async () => {
+    const content = collectRichTextContent("fr");
+    if (!title.trim() || !eyebrow.trim() || !content.trim()) {
+      setError("Renseignez au moins le titre, l'eyebrow et un bloc rich text francais.");
+      return;
+    }
+
+    const result = await executeSeoDescriptionAi({
+      task: "generate-blog-seo-description",
+      title,
+      titleEn,
+      eyebrow,
+      eyebrowEn,
+      slug,
+      slugEn,
+      content,
+      contentEn: collectRichTextContent("en"),
+    });
+
+    if (
+      result &&
+      typeof result === "object" &&
+      "seoDescription" in result &&
+      "seoDescriptionEn" in result
+    ) {
+      const output = result as BlogSeoDescriptionOutput;
+      setSeoDescription(output.seoDescription);
+      setSeoDescriptionEn(output.seoDescriptionEn);
+      toast.success("Descriptions SEO generees.");
     }
   };
 
@@ -626,16 +662,29 @@ export const BlogPostForm = ({ post }: BlogPostFormProps) => {
                 helperText="Minuscules, chiffres et tirets uniquement."
                 onChange={(event) => setSlug(event.target.value)}
               />
-              <TextField
-                label="Description SEO"
-                value={seoDescription}
-                fullWidth
-                multiline
-                minRows={3}
-                helperText={`${seoDescription.trim().length}/${seoDescriptionMaxLength} caracteres. Utilisee pour Google, les partages sociaux et la donnee structuree.`}
-                error={seoDescription.trim().length > seoDescriptionMaxLength}
-                onChange={(event) => setSeoDescription(event.target.value)}
-              />
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <TextField
+                  label="Description SEO"
+                  value={seoDescription}
+                  fullWidth
+                  multiline
+                  minRows={3}
+                  helperText={`${seoDescription.trim().length}/${seoDescriptionMaxLength} caracteres. Utilisee pour Google, les partages sociaux et la donnee structuree.`}
+                  error={seoDescription.trim().length > seoDescriptionMaxLength}
+                  onChange={(event) => setSeoDescription(event.target.value)}
+                />
+                <Tooltip title="Generer une description SEO FR/EN">
+                  <span>
+                    <IconButton
+                      onClick={generateSeoDescription}
+                      disabled={generatingSeoDescription}
+                      sx={{ mt: 1 }}
+                    >
+                      <AutoAwesomeIcon fontSize="small" />
+                    </IconButton>
+                  </span>
+                </Tooltip>
+              </Box>
             </Box>
           )}
 

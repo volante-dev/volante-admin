@@ -1,4 +1,5 @@
 import OpenAI from "openai";
+import { AI_PROMPTS, getTranslateSystemPrompt } from "./ai-prompts";
 import { getAppUrl, getOpenAiApiKey } from "./config";
 
 export type TranslateTask = {
@@ -27,6 +28,18 @@ export type GenerateBlogTagsTask = {
   contentEn?: string;
 };
 
+export type GenerateBlogSeoDescriptionTask = {
+  task: "generate-blog-seo-description";
+  title: string;
+  titleEn?: string;
+  eyebrow: string;
+  eyebrowEn?: string;
+  slug: string;
+  slugEn?: string;
+  content: string;
+  contentEn?: string;
+};
+
 export type MediaMetadataOutput = {
   alt: string;
   altEn: string;
@@ -38,10 +51,26 @@ export type BlogTagsOutput = {
   tagsEn: string[];
 };
 
-export type AiTask = TranslateTask | GenerateMediaMetadataTask | GenerateBlogTagsTask;
+export type BlogSeoDescriptionOutput = {
+  seoDescription: string;
+  seoDescriptionEn: string;
+};
+
+export type AiTask =
+  | TranslateTask
+  | GenerateMediaMetadataTask
+  | GenerateBlogTagsTask
+  | GenerateBlogSeoDescriptionTask;
 
 export type AiTaskResult =
-  | { success: true; output: string | MediaMetadataOutput | BlogTagsOutput }
+  | {
+      success: true;
+      output:
+        | string
+        | MediaMetadataOutput
+        | BlogTagsOutput
+        | BlogSeoDescriptionOutput;
+    }
   | { success: false; error: string };
 
 let client: OpenAI | null = null;
@@ -52,18 +81,6 @@ function getClient() {
   }
   return client;
 }
-
-const TRANSLATE_SYSTEM_PROMPT =
-  "You are a professional translator. Translate the following text from French to English. Preserve the original tone and style. Return only the translated text, nothing else.";
-
-const TRANSLATE_HTML_ADDENDUM =
-  " The text contains HTML markup. Preserve all HTML tags, attributes, and structure exactly. Only translate the text content within and between tags.";
-
-const MEDIA_METADATA_SYSTEM_PROMPT =
-  "You generate accessibility metadata for a French creative studio website. Return only valid JSON with keys alt, altEn, tags. alt must be concise French image alternative text. altEn must be the English equivalent. tags must contain exactly 5 short French tags, lowercase where natural, without hashtags.";
-
-const BLOG_TAGS_SYSTEM_PROMPT =
-  "You generate concise SEO tags for a bilingual blog article on a French creative studio website. Return only valid JSON with keys tags and tagsEn. tags must contain 10 to 14 short French tags. tagsEn must contain 10 to 14 short English tags. Tags must be relevant, natural, lowercase where appropriate, without hashtags, without duplicates, and must not be clickbait or keyword stuffing.";
 
 const toAbsoluteImageUrl = (imageUrl: string) => {
   if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
@@ -121,18 +138,39 @@ const parseBlogTags = (value: string): BlogTagsOutput | null => {
   }
 };
 
-async function handleTranslate(task: TranslateTask): Promise<AiTaskResult> {
-  const systemPrompt =
-    task.format === "html"
-      ? TRANSLATE_SYSTEM_PROMPT + TRANSLATE_HTML_ADDENDUM
-      : TRANSLATE_SYSTEM_PROMPT;
+const normalizeSeoDescription = (value: unknown) =>
+  typeof value === "string" ? value.replace(/\s+/g, " ").trim() : "";
 
+const parseBlogSeoDescription = (
+  value: string,
+): BlogSeoDescriptionOutput | null => {
+  try {
+    const parsed = JSON.parse(value) as Partial<BlogSeoDescriptionOutput>;
+    const seoDescription = normalizeSeoDescription(parsed.seoDescription);
+    const seoDescriptionEn = normalizeSeoDescription(parsed.seoDescriptionEn);
+
+    if (
+      seoDescription.length < 60 ||
+      seoDescription.length > 240 ||
+      seoDescriptionEn.length < 60 ||
+      seoDescriptionEn.length > 240
+    ) {
+      return null;
+    }
+
+    return { seoDescription, seoDescriptionEn };
+  } catch {
+    return null;
+  }
+};
+
+async function handleTranslate(task: TranslateTask): Promise<AiTaskResult> {
   const response = await getClient().chat.completions.create({
     model: "gpt-4o-mini",
     temperature: 0.3,
     max_tokens: 4096,
     messages: [
-      { role: "system", content: systemPrompt },
+      { role: "system", content: getTranslateSystemPrompt(task.format) },
       { role: "user", content: task.text },
     ],
   });
@@ -155,13 +193,13 @@ async function handleGenerateMediaMetadata(
     max_tokens: 700,
     response_format: { type: "json_object" },
     messages: [
-      { role: "system", content: MEDIA_METADATA_SYSTEM_PROMPT },
+      { role: "system", content: AI_PROMPTS.mediaMetadata.system },
       {
         role: "user",
         content: [
           {
             type: "text",
-            text: `Analyse cette image${task.assetName ? ` (${task.assetName})` : ""} et genere les metadonnees demandees.`,
+            text: AI_PROMPTS.mediaMetadata.user(task.assetName),
           },
           {
             type: "image_url",
@@ -197,21 +235,10 @@ async function handleGenerateBlogTags(
     max_tokens: 900,
     response_format: { type: "json_object" },
     messages: [
-      { role: "system", content: BLOG_TAGS_SYSTEM_PROMPT },
+      { role: "system", content: AI_PROMPTS.blogTags.system },
       {
         role: "user",
-        content: [
-          `Titre FR: ${task.title}`,
-          task.titleEn ? `Title EN: ${task.titleEn}` : "",
-          `Eyebrow FR: ${task.eyebrow}`,
-          task.eyebrowEn ? `Eyebrow EN: ${task.eyebrowEn}` : "",
-          `Slug FR: ${task.slug}`,
-          task.slugEn ? `Slug EN: ${task.slugEn}` : "",
-          `Contenu FR:\n${task.content}`,
-          task.contentEn ? `Content EN:\n${task.contentEn}` : "",
-        ]
-          .filter(Boolean)
-          .join("\n\n"),
+        content: AI_PROMPTS.blogTags.user(task),
       },
     ],
   });
@@ -232,6 +259,39 @@ async function handleGenerateBlogTags(
   return { success: true, output: tags };
 }
 
+async function handleGenerateBlogSeoDescription(
+  task: GenerateBlogSeoDescriptionTask,
+): Promise<AiTaskResult> {
+  const response = await getClient().chat.completions.create({
+    model: "gpt-4o-mini",
+    temperature: 0.35,
+    max_tokens: 700,
+    response_format: { type: "json_object" },
+    messages: [
+      { role: "system", content: AI_PROMPTS.blogSeoDescription.system },
+      {
+        role: "user",
+        content: AI_PROMPTS.blogSeoDescription.user(task),
+      },
+    ],
+  });
+
+  const output = response.choices[0]?.message?.content?.trim();
+  if (!output) {
+    return { success: false, error: "Aucune reponse du modele." };
+  }
+
+  const descriptions = parseBlogSeoDescription(output);
+  if (!descriptions) {
+    return {
+      success: false,
+      error: "La reponse IA ne contient pas deux descriptions SEO valides.",
+    };
+  }
+
+  return { success: true, output: descriptions };
+}
+
 export async function executeAiTask(task: AiTask): Promise<AiTaskResult> {
   switch (task.task) {
     case "translate":
@@ -240,6 +300,8 @@ export async function executeAiTask(task: AiTask): Promise<AiTaskResult> {
       return handleGenerateMediaMetadata(task);
     case "generate-blog-tags":
       return handleGenerateBlogTags(task);
+    case "generate-blog-seo-description":
+      return handleGenerateBlogSeoDescription(task);
     default:
       return { success: false, error: "Tache IA inconnue." };
   }

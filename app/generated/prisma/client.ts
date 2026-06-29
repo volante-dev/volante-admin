@@ -52,6 +52,11 @@ export type Project = Prisma.ProjectModel
  */
 export type BlogPost = Prisma.BlogPostModel
 /**
+ * Model SiteRoute
+ *
+ */
+export type SiteRoute = Prisma.SiteRouteModel
+/**
  * Model BlogPostBlock
  *
  */

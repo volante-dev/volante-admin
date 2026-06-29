@@ -7,6 +7,7 @@ const KNOWN_TASKS = new Set([
   "translate",
   "generate-media-metadata",
   "generate-blog-tags",
+  "generate-blog-seo-description",
 ]);
 
 export async function POST(request: Request) {
@@ -44,6 +45,18 @@ export async function POST(request: Request) {
   }
 
   if (body.task === "generate-blog-tags") {
+    if (!body.title || typeof body.title !== "string" || !body.title.trim()) {
+      return Response.json({ success: false, error: "Le titre est requis." }, { status: 400 });
+    }
+    if (!body.eyebrow || typeof body.eyebrow !== "string" || !body.eyebrow.trim()) {
+      return Response.json({ success: false, error: "L'eyebrow est requis." }, { status: 400 });
+    }
+    if (!body.content || typeof body.content !== "string" || !body.content.trim()) {
+      return Response.json({ success: false, error: "Le contenu est requis." }, { status: 400 });
+    }
+  }
+
+  if (body.task === "generate-blog-seo-description") {
     if (!body.title || typeof body.title !== "string" || !body.title.trim()) {
       return Response.json({ success: false, error: "Le titre est requis." }, { status: 400 });
     }

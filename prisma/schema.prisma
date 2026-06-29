@@ -70,6 +70,27 @@ model BlogPost {
   @@index([publishedAt, createdAt])
 }
 
+model SiteRoute {
+  id                String   @id
+  label             String
+  labelEn           String
+  slug              String
+  slugEn            String
+  order             Int      @default(0)
+  showInHeader      Boolean  @default(true)
+  showInFooter      Boolean  @default(true)
+  includeInSitemap  Boolean  @default(true)
+  sitemapPriority   Float    @default(0.7)
+  sitemapFrequency  String   @default("monthly")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([order])
+  @@index([showInHeader, order])
+  @@index([showInFooter, order])
+  @@index([includeInSitemap, order])
+}
+
 enum BlogPostBlockType {
   RICHTEXT
   IMAGE
