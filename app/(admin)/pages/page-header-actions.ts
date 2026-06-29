@@ -22,6 +22,8 @@ const parsePageHeaderContent = (formData: FormData) => {
     eyebrowEn: normalizeNullable(formData.get("eyebrowEn")),
     title: normalizeRequired(formData.get("title")),
     titleEn: normalizeNullable(formData.get("titleEn")),
+    intro: normalizeNullable(formData.get("intro")),
+    introEn: normalizeNullable(formData.get("introEn")),
   };
 
   if (values.eyebrow.length < 2) {

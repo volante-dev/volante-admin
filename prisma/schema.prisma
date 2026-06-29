@@ -58,6 +58,14 @@ model ProjectTaxonomyEntry {
   label                    String
   labelEn                  String
   normalizedKey            String
+  slug                     String?
+  icon                     String?
+  introEyebrow             String?
+  introEyebrowEn           String?
+  introTitle               String?
+  introTitleEn             String?
+  intro                    String?
+  introEn                  String?
   active                   Boolean             @default(true)
   createdAt                DateTime            @default(now())
   updatedAt                DateTime            @updatedAt
@@ -66,6 +74,7 @@ model ProjectTaxonomyEntry {
   deliveredServiceProjects Project[]           @relation("ProjectDeliveredServices")
 
   @@unique([type, normalizedKey])
+  @@unique([type, slug])
   @@index([type, active, label])
 }
 
@@ -170,6 +179,8 @@ model PageHeaderContent {
   eyebrowEn String?
   title     String
   titleEn   String?
+  intro     String?
+  introEn   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

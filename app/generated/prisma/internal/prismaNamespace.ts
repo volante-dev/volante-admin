@@ -1235,6 +1235,14 @@ export const ProjectTaxonomyEntryScalarFieldEnum = {
   label: 'label',
   labelEn: 'labelEn',
   normalizedKey: 'normalizedKey',
+  slug: 'slug',
+  icon: 'icon',
+  introEyebrow: 'introEyebrow',
+  introEyebrowEn: 'introEyebrowEn',
+  introTitle: 'introTitle',
+  introTitleEn: 'introTitleEn',
+  intro: 'intro',
+  introEn: 'introEn',
   active: 'active',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1338,6 +1346,8 @@ export const PageHeaderContentScalarFieldEnum = {
   eyebrowEn: 'eyebrowEn',
   title: 'title',
   titleEn: 'titleEn',
+  intro: 'intro',
+  introEn: 'introEn',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

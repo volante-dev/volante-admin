@@ -27,6 +27,8 @@ const toEditableContent = (
   eyebrowEn: content.eyebrowEn ?? "",
   title: content.title,
   titleEn: content.titleEn ?? "",
+  intro: content.intro ?? "",
+  introEn: content.introEn ?? "",
 });
 
 type TextFieldRowProps = {
@@ -34,6 +36,8 @@ type TextFieldRowProps = {
   value: string;
   onChange: (value: string) => void;
   required?: boolean;
+  multiline?: boolean;
+  rows?: number;
   translateFrom?: string;
 };
 
@@ -42,6 +46,8 @@ const TextFieldRow = ({
   value,
   onChange,
   required = false,
+  multiline = false,
+  rows,
   translateFrom,
 }: TextFieldRowProps) => {
   const field = (
@@ -50,6 +56,8 @@ const TextFieldRow = ({
       value={value}
       onChange={(event) => onChange(event.target.value)}
       required={required}
+      multiline={multiline}
+      rows={rows}
       fullWidth
     />
   );
@@ -73,6 +81,7 @@ export const PageHeaderForm = ({
   const [tab, setTab] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [fields, setFields] = useState(() => toEditableContent(content));
+  const isPortfolio = content.id === "portfolio";
 
   const updateField =
     (field: keyof EditablePageHeaderContent) => (value: string) => {
@@ -143,6 +152,15 @@ export const PageHeaderForm = ({
                 onChange={updateField("title")}
                 required
               />
+              {isPortfolio && (
+                <TextFieldRow
+                  label="Texte introductif"
+                  value={fields.intro}
+                  onChange={updateField("intro")}
+                  multiline
+                  rows={4}
+                />
+              )}
             </Box>
           )}
 
@@ -160,6 +178,16 @@ export const PageHeaderForm = ({
                 onChange={updateField("titleEn")}
                 translateFrom={fields.title}
               />
+              {isPortfolio && (
+                <TextFieldRow
+                  label="Intro anglaise"
+                  value={fields.introEn}
+                  onChange={updateField("introEn")}
+                  multiline
+                  rows={4}
+                  translateFrom={fields.intro}
+                />
+              )}
             </Box>
           )}
 

@@ -23,6 +23,14 @@ const ProjectTaxonomiesPage = async () => {
     type: entry.type,
     label: entry.label,
     labelEn: entry.labelEn,
+    slug: entry.slug,
+    icon: entry.icon,
+    introEyebrow: entry.introEyebrow,
+    introEyebrowEn: entry.introEyebrowEn,
+    introTitle: entry.introTitle,
+    introTitleEn: entry.introTitleEn,
+    intro: entry.intro,
+    introEn: entry.introEn,
     active: entry.active,
     usageCount:
       entry._count.sectorProjects +

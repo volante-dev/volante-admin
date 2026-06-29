@@ -8,9 +8,30 @@ export type ProjectTaxonomyOption = {
   type: ProjectTaxonomyType;
   label: string;
   labelEn: string;
+  slug: string | null;
+  icon: string | null;
+  introEyebrow: string | null;
+  introEyebrowEn: string | null;
+  introTitle: string | null;
+  introTitleEn: string | null;
+  intro: string | null;
+  introEn: string | null;
   active: boolean;
 };
 
 export type ProjectTaxonomyRow = ProjectTaxonomyOption & {
   usageCount: number;
 };
+
+export const projectTaxonomyIconOptions = [
+  { value: "palette", label: "Palette" },
+  { value: "museum", label: "Musee" },
+  { value: "restaurant", label: "Restaurant" },
+  { value: "localBar", label: "Bar" },
+  { value: "architecture", label: "Architecture" },
+  { value: "storefront", label: "Boutique" },
+  { value: "autoAwesome", label: "Creation" },
+  { value: "category", label: "Categorie" },
+] as const;
+
+export type ProjectTaxonomyIcon = (typeof projectTaxonomyIconOptions)[number]["value"];

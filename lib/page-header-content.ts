@@ -20,5 +20,7 @@ export const getPageHeaderContent = async (
     eyebrowEn: content.eyebrowEn,
     title: content.title,
     titleEn: content.titleEn,
+    intro: content.intro,
+    introEn: content.introEn,
   };
 };

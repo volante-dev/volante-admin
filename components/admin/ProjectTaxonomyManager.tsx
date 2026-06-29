@@ -10,6 +10,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
+import MenuItem from "@mui/material/MenuItem";
 import Switch from "@mui/material/Switch";
 import Tab from "@mui/material/Tab";
 import Table from "@mui/material/Table";
@@ -31,9 +32,10 @@ import {
   toggleProjectTaxonomyEntry,
   updateProjectTaxonomyEntry,
 } from "@/app/(admin)/project-taxonomies/actions";
-import type {
-  ProjectTaxonomyRow,
-  ProjectTaxonomyType,
+import {
+  projectTaxonomyIconOptions,
+  type ProjectTaxonomyRow,
+  type ProjectTaxonomyType,
 } from "./project-taxonomy-types";
 import { TranslateButton } from "./TranslateButton";
 
@@ -43,6 +45,15 @@ const categories: { type: ProjectTaxonomyType; label: string; singular: string }
   { type: "DELIVERED_SERVICE", label: "Services réalisés", singular: "service réalisé" },
 ];
 
+const normalizeSlug = (value: string) =>
+  value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
 export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRow[] }) => {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -51,13 +62,33 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
   const [dialogOpen, setDialogOpen] = useState(false);
   const [label, setLabel] = useState("");
   const [labelEn, setLabelEn] = useState("");
+  const [slug, setSlug] = useState("");
+  const [icon, setIcon] = useState("category");
+  const [introEyebrow, setIntroEyebrow] = useState("");
+  const [introEyebrowEn, setIntroEyebrowEn] = useState("");
+  const [introTitle, setIntroTitle] = useState("");
+  const [introTitleEn, setIntroTitleEn] = useState("");
+  const [intro, setIntro] = useState("");
+  const [introEn, setIntroEn] = useState("");
+  const [slugEdited, setSlugEdited] = useState(false);
   const currentCategory = categories.find((category) => category.type === type)!;
+  const currentType = editing?.type ?? type;
+  const currentIsSector = currentType === "SECTOR";
   const rows = entries.filter((entry) => entry.type === type);
 
   const openCreate = () => {
     setEditing(null);
     setLabel("");
     setLabelEn("");
+    setSlug("");
+    setIcon("category");
+    setIntroEyebrow("");
+    setIntroEyebrowEn("");
+    setIntroTitle("");
+    setIntroTitleEn("");
+    setIntro("");
+    setIntroEn("");
+    setSlugEdited(false);
     setDialogOpen(true);
   };
 
@@ -65,14 +96,54 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
     setEditing(entry);
     setLabel(entry.label);
     setLabelEn(entry.labelEn);
+    setSlug(entry.slug ?? "");
+    setIcon(entry.icon ?? "category");
+    setIntroEyebrow(entry.introEyebrow ?? "");
+    setIntroEyebrowEn(entry.introEyebrowEn ?? "");
+    setIntroTitle(entry.introTitle ?? "");
+    setIntroTitleEn(entry.introTitleEn ?? "");
+    setIntro(entry.intro ?? "");
+    setIntroEn(entry.introEn ?? "");
+    setSlugEdited(true);
     setDialogOpen(true);
+  };
+
+  const updateLabel = (value: string) => {
+    setLabel(value);
+    if (!editing && type === "SECTOR" && !slugEdited) {
+      setSlug(normalizeSlug(value));
+    }
   };
 
   const save = () => {
     startTransition(async () => {
       const result = editing
-        ? await updateProjectTaxonomyEntry(editing.id, label, labelEn)
-        : await createProjectTaxonomyEntry(type, label, labelEn);
+        ? await updateProjectTaxonomyEntry(
+            editing.id,
+            label,
+            labelEn,
+            slug,
+            icon,
+            introEyebrow,
+            introEyebrowEn,
+            introTitle,
+            introTitleEn,
+            intro,
+            introEn,
+          )
+        : await createProjectTaxonomyEntry(
+            type,
+            label,
+            labelEn,
+            slug,
+            icon,
+            introEyebrow,
+            introEyebrowEn,
+            introTitle,
+            introTitleEn,
+            intro,
+            introEn,
+          );
       if (!result.success) {
         toast.error(result.error ?? "Enregistrement impossible.");
         return;
@@ -109,6 +180,8 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
             <TableRow>
               <TableCell>Français</TableCell>
               <TableCell>English</TableCell>
+              <TableCell>Slug</TableCell>
+              <TableCell>Icone</TableCell>
               <TableCell align="center">Utilisations</TableCell>
               <TableCell align="center">Actif</TableCell>
               <TableCell align="right">Actions</TableCell>
@@ -119,6 +192,8 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
               <TableRow key={entry.id} hover>
                 <TableCell>{entry.label}</TableCell>
                 <TableCell>{entry.labelEn}</TableCell>
+                <TableCell>{entry.type === "SECTOR" ? entry.slug : "—"}</TableCell>
+                <TableCell>{entry.type === "SECTOR" ? entry.icon ?? "category" : "—"}</TableCell>
                 <TableCell align="center">{entry.usageCount}</TableCell>
                 <TableCell align="center">
                   <Switch
@@ -160,7 +235,7 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
             ))}
             {rows.length === 0 && (
               <TableRow>
-                <TableCell colSpan={5} align="center" sx={{ py: 6, color: "text.secondary" }}>
+                <TableCell colSpan={7} align="center" sx={{ py: 6, color: "text.secondary" }}>
                   Aucune entrée dans cette catégorie.
                 </TableCell>
               </TableRow>
@@ -176,7 +251,7 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
       <Dialog open={dialogOpen} onClose={() => !pending && setDialogOpen(false)} fullWidth maxWidth="sm">
         <DialogTitle>{editing ? "Modifier l’entrée" : `Nouveau ${currentCategory.singular}`}</DialogTitle>
         <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, pt: "12px !important" }}>
-          <TextField label="Libellé français" value={label} required onChange={(event) => setLabel(event.target.value)} />
+          <TextField label="Libellé français" value={label} required onChange={(event) => updateLabel(event.target.value)} />
           <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
             <TextField
               label="English label"
@@ -187,10 +262,97 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
             />
             <TranslateButton sourceText={label} onTranslated={setLabelEn} />
           </Box>
+          {currentIsSector && (
+            <>
+              <TextField
+                label="Slug URL"
+                value={slug}
+                required
+                onChange={(event) => {
+                  setSlug(normalizeSlug(event.target.value));
+                  setSlugEdited(true);
+                }}
+                helperText="Utilisé dans l'URL publique du filtre secteur."
+              />
+              <TextField
+                select
+                label="Icone"
+                value={icon}
+                onChange={(event) => setIcon(event.target.value)}
+                helperText="Pictogramme utilisé dans le dock menu."
+              >
+                {projectTaxonomyIconOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <Typography variant="h3" sx={{ mt: 1 }}>
+                Intro page secteur
+              </Typography>
+              <TextField
+                label="Eyebrow surcharge"
+                value={introEyebrow}
+                onChange={(event) => setIntroEyebrow(event.target.value)}
+                helperText="La surcharge s'active si l'eyebrow et le titre sont renseignés."
+              />
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <TextField
+                  label="Eyebrow surcharge anglais"
+                  value={introEyebrowEn}
+                  fullWidth
+                  onChange={(event) => setIntroEyebrowEn(event.target.value)}
+                />
+                <TranslateButton sourceText={introEyebrow} onTranslated={setIntroEyebrowEn} />
+              </Box>
+              <TextField
+                label="Titre surcharge"
+                value={introTitle}
+                onChange={(event) => setIntroTitle(event.target.value)}
+              />
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <TextField
+                  label="Titre surcharge anglais"
+                  value={introTitleEn}
+                  fullWidth
+                  onChange={(event) => setIntroTitleEn(event.target.value)}
+                />
+                <TranslateButton sourceText={introTitle} onTranslated={setIntroTitleEn} />
+              </Box>
+              <TextField
+                label="Paragraphe surcharge"
+                value={intro}
+                onChange={(event) => setIntro(event.target.value)}
+                multiline
+                rows={4}
+                helperText="Optionnel. Peut rester vide même si l'eyebrow et le titre sont renseignés."
+              />
+              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                <TextField
+                  label="Paragraphe surcharge anglais"
+                  value={introEn}
+                  fullWidth
+                  onChange={(event) => setIntroEn(event.target.value)}
+                  multiline
+                  rows={4}
+                />
+                <TranslateButton sourceText={intro} onTranslated={setIntroEn} />
+              </Box>
+            </>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDialogOpen(false)} disabled={pending}>Annuler</Button>
-          <Button variant="contained" onClick={save} disabled={pending || label.trim().length < 2 || labelEn.trim().length < 2}>
+          <Button
+            variant="contained"
+            onClick={save}
+            disabled={
+              pending ||
+              label.trim().length < 2 ||
+              labelEn.trim().length < 2 ||
+              (currentIsSector && slug.trim().length < 2)
+            }
+          >
             Enregistrer
           </Button>
         </DialogActions>

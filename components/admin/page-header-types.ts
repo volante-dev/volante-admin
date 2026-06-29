@@ -13,6 +13,8 @@ export type PageHeaderContentData = {
   eyebrowEn: string | null;
   title: string;
   titleEn: string | null;
+  intro: string | null;
+  introEn: string | null;
 };
 
 export const pageHeaderLabels: Record<PageHeaderId, string> = {
@@ -29,6 +31,8 @@ export const pageHeaderDefaults: Record<PageHeaderId, PageHeaderContentData> = {
     eyebrowEn: "About us",
     title: "Un studio indépendant, une vision singulière.",
     titleEn: "An independent studio with a singular vision.",
+    intro: null,
+    introEn: null,
   },
   services: {
     id: "services",
@@ -36,6 +40,8 @@ export const pageHeaderDefaults: Record<PageHeaderId, PageHeaderContentData> = {
     eyebrowEn: "Our expertise",
     title: "Des services pensés pour faire rayonner votre marque.",
     titleEn: "Services designed to make your brand shine.",
+    intro: null,
+    introEn: null,
   },
   portfolio: {
     id: "portfolio",
@@ -43,6 +49,8 @@ export const pageHeaderDefaults: Record<PageHeaderId, PageHeaderContentData> = {
     eyebrowEn: "Selected work",
     title: "Des projets construits avec exigence.",
     titleEn: "Projects crafted with care and precision.",
+    intro: null,
+    introEn: null,
   },
   contact: {
     id: "contact",
@@ -50,6 +58,8 @@ export const pageHeaderDefaults: Record<PageHeaderId, PageHeaderContentData> = {
     eyebrowEn: "Contact us",
     title: "Parlons de votre projet.",
     titleEn: "Let's talk about your project.",
+    intro: null,
+    introEn: null,
   },
 };
 

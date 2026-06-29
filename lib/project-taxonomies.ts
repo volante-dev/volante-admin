@@ -8,6 +8,20 @@ export const getProjectTaxonomyOptions = async (
     where: {
       OR: [{ active: true }, ...(selectedIds.length ? [{ id: { in: selectedIds } }] : [])],
     },
-    select: { id: true, type: true, label: true, labelEn: true, active: true },
+    select: {
+      id: true,
+      type: true,
+      label: true,
+      labelEn: true,
+      slug: true,
+      icon: true,
+      introEyebrow: true,
+      introEyebrowEn: true,
+      introTitle: true,
+      introTitleEn: true,
+      intro: true,
+      introEn: true,
+      active: true,
+    },
     orderBy: [{ type: "asc" }, { label: "asc" }],
   });

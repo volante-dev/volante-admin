@@ -3,9 +3,10 @@
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { requireCrmAccess } from "@/lib/auth-guard";
-import type {
-  ProjectTaxonomyOption,
-  ProjectTaxonomyType,
+import {
+  projectTaxonomyIconOptions,
+  type ProjectTaxonomyOption,
+  type ProjectTaxonomyType,
 } from "@/components/admin/project-taxonomy-types";
 
 type TaxonomyResult = {
@@ -19,8 +20,9 @@ const TYPES = new Set<ProjectTaxonomyType>([
   "LOCATION",
   "DELIVERED_SERVICE",
 ]);
+const ICONS = new Set<string>(projectTaxonomyIconOptions.map((option) => option.value));
 
-const normalizeKey = (value: string) =>
+const normalizeSlug = (value: string) =>
   value
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -29,20 +31,61 @@ const normalizeKey = (value: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
+const normalizeNullableText = (value?: string | null) => {
+  const normalized = value?.trim();
+  return normalized ? normalized : null;
+};
+
 const parseEntry = (
   type: ProjectTaxonomyType,
   labelValue: string,
   labelEnValue: string,
+  slugValue?: string | null,
+  iconValue?: string | null,
+  introEyebrowValue?: string | null,
+  introEyebrowEnValue?: string | null,
+  introTitleValue?: string | null,
+  introTitleEnValue?: string | null,
+  introValue?: string | null,
+  introEnValue?: string | null,
 ) => {
   const label = labelValue.trim();
   const labelEn = labelEnValue.trim();
+  const normalizedKey = normalizeSlug(label);
+  const slug = type === "SECTOR" ? normalizeSlug(slugValue || label) : null;
+  const icon = type === "SECTOR" && ICONS.has(iconValue ?? "")
+    ? iconValue
+    : type === "SECTOR"
+      ? "category"
+      : null;
+  const introEyebrow = type === "SECTOR" ? normalizeNullableText(introEyebrowValue) : null;
+  const introEyebrowEn = type === "SECTOR" ? normalizeNullableText(introEyebrowEnValue) : null;
+  const introTitle = type === "SECTOR" ? normalizeNullableText(introTitleValue) : null;
+  const introTitleEn = type === "SECTOR" ? normalizeNullableText(introTitleEnValue) : null;
+  const intro = type === "SECTOR" ? normalizeNullableText(introValue) : null;
+  const introEn = type === "SECTOR" ? normalizeNullableText(introEnValue) : null;
   if (!TYPES.has(type)) return { error: "Type de taxonomie invalide." } as const;
   if (label.length < 2) return { error: "Le libellé français est obligatoire." } as const;
   if (labelEn.length < 2) return { error: "La traduction anglaise est obligatoire." } as const;
+  if (type === "SECTOR" && !slug) return { error: "Le slug du secteur est invalide." } as const;
 
-  const normalizedKey = normalizeKey(label);
   if (!normalizedKey) return { error: "Le libellé français est invalide." } as const;
-  return { data: { type, label, labelEn, normalizedKey } } as const;
+  return {
+    data: {
+      type,
+      label,
+      labelEn,
+      normalizedKey,
+      slug,
+      icon,
+      introEyebrow,
+      introEyebrowEn,
+      introTitle,
+      introTitleEn,
+      intro,
+      introEn,
+    },
+  } as const;
 };
 
 const actionError = (error: unknown): TaxonomyResult => {
@@ -61,10 +104,30 @@ export const createProjectTaxonomyEntry = async (
   type: ProjectTaxonomyType,
   label: string,
   labelEn: string,
+  slug?: string | null,
+  icon?: string | null,
+  introEyebrow?: string | null,
+  introEyebrowEn?: string | null,
+  introTitle?: string | null,
+  introTitleEn?: string | null,
+  intro?: string | null,
+  introEn?: string | null,
 ): Promise<TaxonomyResult> => {
   try {
     await requireCrmAccess();
-    const parsed = parseEntry(type, label, labelEn);
+    const parsed = parseEntry(
+      type,
+      label,
+      labelEn,
+      slug,
+      icon,
+      introEyebrow,
+      introEyebrowEn,
+      introTitle,
+      introTitleEn,
+      intro,
+      introEn,
+    );
     if ("error" in parsed) return { success: false, error: parsed.error };
 
     const entry = await prisma.projectTaxonomyEntry.create({ data: parsed.data });
@@ -80,12 +143,32 @@ export const updateProjectTaxonomyEntry = async (
   id: string,
   label: string,
   labelEn: string,
+  slug?: string | null,
+  icon?: string | null,
+  introEyebrow?: string | null,
+  introEyebrowEn?: string | null,
+  introTitle?: string | null,
+  introTitleEn?: string | null,
+  intro?: string | null,
+  introEn?: string | null,
 ): Promise<TaxonomyResult> => {
   try {
     await requireCrmAccess();
     const current = await prisma.projectTaxonomyEntry.findUnique({ where: { id } });
     if (!current) return { success: false, error: "Entrée introuvable." };
-    const parsed = parseEntry(current.type, label, labelEn);
+    const parsed = parseEntry(
+      current.type,
+      label,
+      labelEn,
+      slug ?? current.slug,
+      icon ?? current.icon,
+      introEyebrow ?? current.introEyebrow,
+      introEyebrowEn ?? current.introEyebrowEn,
+      introTitle ?? current.introTitle,
+      introTitleEn ?? current.introTitleEn,
+      intro ?? current.intro,
+      introEn ?? current.introEn,
+    );
     if ("error" in parsed) return { success: false, error: parsed.error };
 
     const entry = await prisma.projectTaxonomyEntry.update({
@@ -94,6 +177,14 @@ export const updateProjectTaxonomyEntry = async (
         label: parsed.data.label,
         labelEn: parsed.data.labelEn,
         normalizedKey: parsed.data.normalizedKey,
+        slug: parsed.data.slug,
+        icon: parsed.data.icon,
+        introEyebrow: parsed.data.introEyebrow,
+        introEyebrowEn: parsed.data.introEyebrowEn,
+        introTitle: parsed.data.introTitle,
+        introTitleEn: parsed.data.introTitleEn,
+        intro: parsed.data.intro,
+        introEn: parsed.data.introEn,
       },
     });
     revalidatePath("/project-taxonomies");
