@@ -17,6 +17,14 @@ export type ProjectTaxonomyOption = {
   intro: string | null;
   introEn: string | null;
   active: boolean;
+  translations?: {
+    locale: string;
+    label: string | null;
+    slug: string | null;
+    introEyebrow: string | null;
+    introTitle: string | null;
+    intro: string | null;
+  }[];
 };
 
 export type ProjectTaxonomyRow = ProjectTaxonomyOption & {

@@ -5,6 +5,7 @@ import { getPageHeaderContent } from "@/lib/page-header-content";
 import { PageHeaderForm } from "@/components/admin/PageHeaderForm";
 import { StudioPageForm } from "@/components/admin/StudioPageForm";
 import type { StudioPageContentData } from "@/components/admin/studio-page-types";
+import { getSiteLocales } from "@/lib/site-locales";
 
 export const dynamic = "force-dynamic";
 
@@ -45,21 +46,27 @@ const defaultStudioPageContent: StudioPageContentData = {
     "<p>Studio Volante est né de la conviction que la communication doit être aussi bien pensée qu'elle est belle. Fondé par des créatifs passionnés, le studio accompagne des marques de toutes tailles dans la construction d'une identité forte et cohérente.</p><p>Notre approche est toujours stratégique avant d'être esthétique : comprendre le positionnement, les cibles, les ambitions — puis créer.</p>",
   historyContentHtmlEn:
     "<p>Studio Volante was born from the belief that communication should be as thoughtful as it is beautiful. Founded by passionate creatives, the studio helps brands of every size build strong, consistent identities.</p><p>Our approach is always strategic before it is aesthetic: understand the positioning, audiences and ambitions — then create.</p>",
+  translations: [],
 };
 
 const getStudioPageContent = async (): Promise<StudioPageContentData> => {
   const content = await prisma.studioPageContent
-    .findUnique({ where: { id: "studio" } })
+    .findUnique({
+      where: { id: "studio" },
+      include: { translations: true },
+    })
     .catch(() => null);
 
   return content ?? defaultStudioPageContent;
 };
 
 const StudioPageAdmin = async () => {
-  const [pageContent, sectionContent] = await Promise.all([
+  const [pageContent, sectionContent, locales] = await Promise.all([
     getPageHeaderContent("studio"),
     getStudioPageContent(),
+    getSiteLocales(),
   ]);
+  const adminLocales = locales.filter((locale) => locale.enabledInAdmin);
 
   return (
     <>
@@ -74,13 +81,13 @@ const StudioPageAdmin = async () => {
         <Typography variant="h3" sx={{ mb: 2 }}>
           Contenu de page
         </Typography>
-        <PageHeaderForm content={pageContent} />
+        <PageHeaderForm content={pageContent} locales={adminLocales} />
       </Box>
 
       <Box sx={{ mb: 2 }}>
         <Typography variant="h3">Sections Studio</Typography>
       </Box>
-      <StudioPageForm content={sectionContent} />
+      <StudioPageForm content={sectionContent} locales={adminLocales} />
     </>
   );
 };

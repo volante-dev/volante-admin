@@ -38,6 +38,11 @@ import {
   type SiteRouteData,
 } from "@/lib/site-route-config";
 import type { SiteLocaleData } from "@/lib/site-locales";
+import {
+  isLegacyLocale,
+  legacyDefaultLocale,
+  legacySecondaryLocale,
+} from "@/lib/admin-translations";
 import { TranslateButton } from "./TranslateButton";
 
 type EditableSiteRoute = SiteRouteData;
@@ -45,14 +50,14 @@ type EditableSiteRoute = SiteRouteData;
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const getRouteLabel = (item: EditableSiteRoute, locale: string) => {
-  if (locale === "fr") return item.label;
-  if (locale === "en") return item.labelEn;
+  if (locale === legacyDefaultLocale) return item.label;
+  if (locale === legacySecondaryLocale) return item.labelEn;
   return item.translations?.[locale]?.label ?? "";
 };
 
 const getRouteSlug = (item: EditableSiteRoute, locale: string) => {
-  if (locale === "fr") return item.slug;
-  if (locale === "en") return item.slugEn;
+  if (locale === legacyDefaultLocale) return item.slug;
+  if (locale === legacySecondaryLocale) return item.slugEn;
   return item.translations?.[locale]?.slug ?? "";
 };
 
@@ -123,9 +128,7 @@ const SortableSiteRoute = ({
       },
     });
   const isHome = item.id === "home";
-  const extraLocales = locales.filter(
-    (locale) => locale.code !== "fr" && locale.code !== "en",
-  );
+  const extraLocales = locales.filter((locale) => !isLegacyLocale(locale.code));
 
   return (
     <Card

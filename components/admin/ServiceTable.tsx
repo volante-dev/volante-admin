@@ -40,6 +40,7 @@ import {
   deleteService,
   reorderServices,
 } from "@/app/(admin)/services/actions";
+import { legacyDefaultLocale } from "@/lib/admin-translations";
 import type { ServiceData } from "@/app/(admin)/services/page";
 
 type SortKey = "order" | "title" | "titleEn" | "active";
@@ -82,8 +83,8 @@ export const ServiceTable = ({ services }: { services: ServiceData[] }) => {
       if (bVal == null) return -1;
       if (typeof aVal === "string" && typeof bVal === "string") {
         return sortDir === "asc"
-          ? aVal.localeCompare(bVal, "fr")
-          : bVal.localeCompare(aVal, "fr");
+          ? aVal.localeCompare(bVal, legacyDefaultLocale)
+          : bVal.localeCompare(aVal, legacyDefaultLocale);
       }
       if (typeof aVal === "boolean" && typeof bVal === "boolean") {
         return sortDir === "asc"

@@ -3,6 +3,7 @@ import Typography from "@mui/material/Typography";
 import prisma from "@/lib/prisma";
 import { MediaAssetTable } from "@/components/admin/media/MediaAssetTable";
 import type { MediaAssetData } from "@/components/admin/media/media-types";
+import { getSiteLocales } from "@/lib/site-locales";
 
 export const dynamic = "force-dynamic";
 
@@ -74,10 +75,14 @@ const getUsageCount = async (asset: { id: string; url: string }) => {
 };
 
 const MediaAssetsPage = async () => {
-  const rawAssets = await prisma.mediaAsset.findMany({
-    orderBy: [{ createdAt: "desc" }, { name: "asc" }],
-    take: 300,
-  });
+  const [rawAssets, locales] = await Promise.all([
+    prisma.mediaAsset.findMany({
+      orderBy: [{ createdAt: "desc" }, { name: "asc" }],
+      take: 300,
+      include: { translations: true },
+    }),
+    getSiteLocales(),
+  ]);
 
   const assets: MediaAssetData[] = await Promise.all(
     rawAssets.map(async (asset) => ({
@@ -100,6 +105,11 @@ const MediaAssetsPage = async () => {
       active: asset.active,
       createdAt: asset.createdAt.toISOString(),
       usageCount: await getUsageCount(asset),
+      translations: asset.translations.map((translation) => ({
+        locale: translation.locale,
+        alt: translation.alt,
+        tags: translation.tags,
+      })),
     })),
   );
 
@@ -111,7 +121,10 @@ const MediaAssetsPage = async () => {
           Images et videos disponibles pour les contenus du site.
         </Typography>
       </Box>
-      <MediaAssetTable assets={assets} />
+      <MediaAssetTable
+        assets={assets}
+        locales={locales.filter((locale) => locale.enabledInAdmin)}
+      />
     </>
   );
 };

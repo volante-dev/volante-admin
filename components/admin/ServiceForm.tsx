@@ -38,6 +38,8 @@ import { isBlankRichText } from "@/lib/rich-text";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { TranslateButton } from "@/components/admin/TranslateButton";
 import type { ServiceData } from "@/app/(admin)/services/page";
+import type { SiteLocaleData } from "@/lib/site-locales";
+import { legacyDefaultLocale, legacySecondaryLocale } from "@/lib/admin-translations";
 
 export type ServicePortfolioExampleProject = {
   id: string;
@@ -52,6 +54,51 @@ type ServiceFormProps = {
     portfolioExamples?: ServicePortfolioExampleProject[];
   };
   availableProjects?: ServicePortfolioExampleProject[];
+  locales: SiteLocaleData[];
+};
+
+type LocalizedServiceFields = Record<
+  string,
+  {
+    title: string;
+    descriptionHtml: string;
+  }
+>;
+
+const toLocalizedServiceFields = (
+  service: ServiceFormProps["service"],
+  locales: SiteLocaleData[],
+): LocalizedServiceFields => {
+  const byLocale = new Map(service?.translations?.map((item) => [item.locale, item]) ?? []);
+
+  return Object.fromEntries(
+    locales.map((locale) => {
+      const translation = byLocale.get(locale.code);
+      const isLegacyDefault = locale.code === legacyDefaultLocale;
+      const isLegacySecondary = locale.code === legacySecondaryLocale;
+
+      return [
+        locale.code,
+        {
+          title:
+            translation?.title ??
+            (isLegacyDefault
+              ? service?.title ?? ""
+              : isLegacySecondary
+                ? service?.titleEn ?? ""
+                : ""),
+          descriptionHtml:
+            translation?.descriptionHtml ??
+            (isLegacyDefault
+              ? service?.descriptionHtml ?? `<p>${service?.description ?? ""}</p>`
+              : isLegacySecondary
+                ? service?.descriptionHtmlEn ??
+                  (service?.descriptionEn ? `<p>${service.descriptionEn}</p>` : "")
+                : ""),
+        },
+      ];
+    }),
+  );
 };
 
 const inferMediaTypeFromUrl = (value: string) =>
@@ -166,22 +213,25 @@ const SortableSelectedProject = ({
   );
 };
 
-export const ServiceForm = ({ service, availableProjects = [] }: ServiceFormProps) => {
+export const ServiceForm = ({
+  service,
+  availableProjects = [],
+  locales,
+}: ServiceFormProps) => {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [tab, setTab] = useState(0);
   const [error, setError] = useState<string | null>(null);
+  const activeLocales = locales.length
+    ? locales
+    : [{ code: legacyDefaultLocale, label: "Français" } as SiteLocaleData];
+  const defaultLocale = activeLocales.find((locale) => locale.isDefault)?.code ?? activeLocales[0].code;
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
   );
 
-  const [title, setTitle] = useState(service?.title ?? "");
-  const [titleEn, setTitleEn] = useState(service?.titleEn ?? "");
-  const [descriptionHtml, setDescriptionHtml] = useState(
-    service?.descriptionHtml ?? `<p>${service?.description ?? ""}</p>`,
-  );
-  const [descriptionEn, setDescriptionEn] = useState(
-    service?.descriptionHtmlEn ?? (service?.descriptionEn ? `<p>${service.descriptionEn}</p>` : ""),
+  const [localizedFields, setLocalizedFields] = useState(() =>
+    toLocalizedServiceFields(service, activeLocales),
   );
   const [icon, setIcon] = useState(service?.icon ?? "");
   const [order, setOrder] = useState(String(service?.order ?? 0));
@@ -190,6 +240,16 @@ export const ServiceForm = ({ service, availableProjects = [] }: ServiceFormProp
     service?.portfolioExamples ?? [],
   );
   const [projectToAdd, setProjectToAdd] = useState("");
+  const defaultFields = localizedFields[defaultLocale];
+
+  const updateLocalizedField =
+    (locale: string, field: keyof LocalizedServiceFields[string]) =>
+    (value: string) => {
+      setLocalizedFields((current) => ({
+        ...current,
+        [locale]: { ...current[locale], [field]: value },
+      }));
+    };
 
   const selectableProjects = availableProjects.filter(
     (project) => !selectedExamples.some((selected) => selected.id === project.id),
@@ -222,22 +282,26 @@ export const ServiceForm = ({ service, availableProjects = [] }: ServiceFormProp
     e.preventDefault();
     setError(null);
 
-    if (!title || title.length < 2) {
+    if (!defaultFields?.title || defaultFields.title.length < 2) {
       setError("Le titre doit contenir au moins 2 caracteres.");
       setTab(0);
       return;
     }
-    if (isBlankRichText(descriptionHtml)) {
+    if (isBlankRichText(defaultFields.descriptionHtml)) {
       setError("La description doit contenir au moins 10 caracteres.");
       setTab(0);
       return;
     }
 
     const formData = new FormData();
-    formData.set("title", title);
-    formData.set("titleEn", titleEn);
-    formData.set("descriptionHtml", descriptionHtml);
-    formData.set("descriptionHtmlEn", descriptionEn);
+    formData.set("translations", JSON.stringify(localizedFields));
+    const legacyDefaultFields = localizedFields[legacyDefaultLocale] ?? defaultFields;
+    const legacySecondaryFields =
+      localizedFields[legacySecondaryLocale] ?? { title: "", descriptionHtml: "" };
+    formData.set("title", legacyDefaultFields.title);
+    formData.set("titleEn", legacySecondaryFields.title);
+    formData.set("descriptionHtml", legacyDefaultFields.descriptionHtml);
+    formData.set("descriptionHtmlEn", legacySecondaryFields.descriptionHtml);
     formData.set("icon", icon);
     formData.set("order", order);
     formData.set("active", String(active));
@@ -281,58 +345,65 @@ export const ServiceForm = ({ service, availableProjects = [] }: ServiceFormProp
             onChange={(_, v) => setTab(v)}
             sx={{ mb: 3, borderBottom: 1, borderColor: "divider" }}
           >
-            <Tab label="Francais" />
-            <Tab label="English" />
+            {activeLocales.map((locale) => (
+              <Tab key={locale.code} label={locale.nativeLabel || locale.label} />
+            ))}
           </Tabs>
 
-          {tab === 0 && (
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
-              <TextField
-                label="Titre"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
-                fullWidth
-                error={!!error && title.length < 2}
-                helperText="Titre du service en francais (min. 2 caracteres)"
-              />
-              <RichTextEditor
-                label="Description"
-                value={descriptionHtml}
-                onChange={setDescriptionHtml}
-                error={!!error && isBlankRichText(descriptionHtml)}
-              />
-            </Box>
-          )}
+          {activeLocales.map((locale, index) => {
+            const localeFields = localizedFields[locale.code];
+            const sourceFields = localizedFields[defaultLocale];
+            const isDefaultLocale = locale.code === defaultLocale;
 
-          {tab === 1 && (
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <TextField
-                  label="Title (EN)"
-                  value={titleEn}
-                  onChange={(e) => setTitleEn(e.target.value)}
-                  fullWidth
-                  helperText="Traduction anglaise du titre (optionnel)"
-                />
-                <TranslateButton sourceText={title} onTranslated={setTitleEn} />
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
-                <Box sx={{ flex: 1 }}>
-                  <RichTextEditor
-                    label="Description (EN)"
-                    value={descriptionEn || "<p></p>"}
-                    onChange={setDescriptionEn}
+            return tab === index ? (
+              <Box key={locale.code} sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                  <TextField
+                    label="Titre"
+                    value={localeFields.title}
+                    onChange={(event) =>
+                      updateLocalizedField(locale.code, "title")(event.target.value)
+                    }
+                    required={isDefaultLocale}
+                    fullWidth
+                    error={!!error && isDefaultLocale && localeFields.title.length < 2}
+                    helperText={
+                      isDefaultLocale
+                        ? "Titre du service dans la langue par defaut (min. 2 caracteres)"
+                        : "Optionnel : la langue par defaut sera utilisee si ce champ est vide."
+                    }
                   />
+                  {!isDefaultLocale && (
+                    <TranslateButton
+                      sourceText={sourceFields.title}
+                      onTranslated={updateLocalizedField(locale.code, "title")}
+                    />
+                  )}
                 </Box>
-                <TranslateButton
-                  sourceText={descriptionHtml}
-                  onTranslated={setDescriptionEn}
-                  html
-                />
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                  <Box sx={{ flex: 1 }}>
+                    <RichTextEditor
+                      label="Description"
+                      value={localeFields.descriptionHtml || "<p></p>"}
+                      onChange={updateLocalizedField(locale.code, "descriptionHtml")}
+                      error={
+                        !!error &&
+                        isDefaultLocale &&
+                        isBlankRichText(localeFields.descriptionHtml)
+                      }
+                    />
+                  </Box>
+                  {!isDefaultLocale && (
+                    <TranslateButton
+                      sourceText={sourceFields.descriptionHtml}
+                      onTranslated={updateLocalizedField(locale.code, "descriptionHtml")}
+                      html
+                    />
+                  )}
+                </Box>
               </Box>
-            </Box>
-          )}
+            ) : null;
+          })}
 
           <Box sx={{ mt: 3, display: "flex", flexDirection: "column", gap: 2.5 }}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>

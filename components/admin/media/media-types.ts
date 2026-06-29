@@ -20,6 +20,11 @@ export type MediaAssetData = {
   active: boolean;
   createdAt: string;
   usageCount: number;
+  translations: {
+    locale: string;
+    alt: string | null;
+    tags: string[];
+  }[];
 };
 
 export type MediaSelection = {

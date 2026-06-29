@@ -19,11 +19,18 @@ export type ServiceData = {
   icon: string | null;
   order: number;
   active: boolean;
+  translations: {
+    locale: string;
+    title: string | null;
+    description: string | null;
+    descriptionHtml: string | null;
+  }[];
 };
 
 const ServicesPage = async () => {
   const raw = await prisma.service.findMany({
     orderBy: { order: "asc" },
+    include: { translations: true },
   });
 
   const services: ServiceData[] = raw.map((s) => ({
@@ -37,6 +44,12 @@ const ServicesPage = async () => {
     icon: s.icon,
     order: s.order,
     active: s.active,
+    translations: s.translations.map((translation) => ({
+      locale: translation.locale,
+      title: translation.title,
+      description: translation.description,
+      descriptionHtml: translation.descriptionHtml,
+    })),
   }));
 
   return (

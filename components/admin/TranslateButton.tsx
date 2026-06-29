@@ -5,6 +5,10 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import TranslateIcon from "@mui/icons-material/Translate";
 import { useAiRequest } from "@/lib/use-ai-request";
+import {
+  legacyDefaultLocale,
+  legacySecondaryLocale,
+} from "@/lib/admin-translations";
 
 type TranslateButtonProps = {
   sourceText: string;
@@ -27,8 +31,8 @@ export const TranslateButton = ({
     const result = await execute({
       task: "translate",
       text: sourceText,
-      from: "fr",
-      to: "en",
+      from: legacyDefaultLocale,
+      to: legacySecondaryLocale,
       format: html ? "html" : "plain",
     });
 

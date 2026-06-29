@@ -8,6 +8,7 @@ import prisma from "@/lib/prisma";
 import { createBlogPostPreviewUrl } from "@/lib/preview-token";
 import { BlogPostForm } from "@/components/admin/BlogPostForm";
 import type { AdminBlogPostDetail } from "@/components/admin/blog-types";
+import { getSiteLocales } from "@/lib/site-locales";
 
 export const dynamic = "force-dynamic";
 
@@ -22,9 +23,13 @@ const EditBlogPostPage = async ({
     where: { id },
     include: {
       coverMediaAsset: { select: { mediaType: true, posterUrl: true } },
+      translations: true,
       blocks: {
         orderBy: { order: "asc" },
-        include: { mediaAsset: { select: { posterUrl: true } } },
+        include: {
+          mediaAsset: { select: { posterUrl: true } },
+          translations: true,
+        },
       },
     },
   });
@@ -56,9 +61,22 @@ const EditBlogPostPage = async ({
       mediaUrl: block.mediaUrl,
       mediaAssetId: block.mediaAssetId,
       mediaAssetPosterUrl: block.mediaAsset?.posterUrl ?? null,
+      translations: block.translations.map((translation) => ({
+        locale: translation.locale,
+        contentHtml: translation.contentHtml,
+      })),
     })),
     previewUrl: createBlogPostPreviewUrl(raw.slug, raw.publishedAt !== null),
+    translations: raw.translations.map((translation) => ({
+      locale: translation.locale,
+      title: translation.title,
+      eyebrow: translation.eyebrow,
+      slug: translation.slug,
+      seoDescription: translation.seoDescription,
+      tags: translation.tags,
+    })),
   };
+  const locales = await getSiteLocales();
 
   return (
     <>
@@ -72,7 +90,10 @@ const EditBlogPostPage = async ({
       <Typography variant="h2" sx={{ mb: 3 }}>
         Modifier : {post.title}
       </Typography>
-      <BlogPostForm post={post} />
+      <BlogPostForm
+        post={post}
+        locales={locales.filter((locale) => locale.enabledInAdmin)}
+      />
     </>
   );
 };

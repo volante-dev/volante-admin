@@ -9,7 +9,10 @@ export const getPageHeaderContent = async (
   pageId: PageHeaderId,
 ): Promise<PageHeaderContentData> => {
   const content = await prisma.pageHeaderContent
-    .findUnique({ where: { id: pageId } })
+    .findUnique({
+      where: { id: pageId },
+      include: { translations: true },
+    })
     .catch(() => null);
 
   if (!content) return pageHeaderDefaults[pageId];
@@ -22,5 +25,11 @@ export const getPageHeaderContent = async (
     titleEn: content.titleEn,
     intro: content.intro,
     introEn: content.introEn,
+    translations: content.translations.map((translation) => ({
+      locale: translation.locale,
+      eyebrow: translation.eyebrow,
+      title: translation.title,
+      intro: translation.intro,
+    })),
   };
 };

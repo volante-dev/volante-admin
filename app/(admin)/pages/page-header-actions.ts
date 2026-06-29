@@ -5,6 +5,15 @@ import prisma from "@/lib/prisma";
 import { requireCrmAccess } from "@/lib/auth-guard";
 import { normalizeNullable, normalizeRequired } from "@/lib/validation";
 import { isPageHeaderId, type PageHeaderId } from "@/components/admin/page-header-types";
+import {
+  legacyDefaultLocale,
+  legacyDefaultTextValue,
+  legacySecondaryLocale,
+  legacySecondaryTextValue,
+  mergeLegacyLocaleTextTranslations,
+  parseLocaleTextTranslations,
+  type LocaleTextTranslations,
+} from "@/lib/admin-translations";
 
 type ActionResult = {
   success: boolean;
@@ -20,19 +29,43 @@ type PageHeaderContentValues = {
   introEn: string | null;
 };
 
+type PageHeaderTranslationField = "eyebrow" | "title" | "intro";
+
+const pageHeaderTranslationFields = [
+  "eyebrow",
+  "title",
+  "intro",
+] as const satisfies readonly PageHeaderTranslationField[];
+
 const actionError = (error: unknown): ActionResult => ({
   success: false,
   error: error instanceof Error ? error.message : "Une erreur est survenue.",
 });
 
 const parsePageHeaderContent = (formData: FormData) => {
+  const translations = parseLocaleTextTranslations(
+    formData,
+    pageHeaderTranslationFields,
+  );
   const values = {
-    eyebrow: normalizeRequired(formData.get("eyebrow")),
-    eyebrowEn: normalizeNullable(formData.get("eyebrowEn")),
-    title: normalizeRequired(formData.get("title")),
-    titleEn: normalizeNullable(formData.get("titleEn")),
-    intro: normalizeNullable(formData.get("intro")),
-    introEn: normalizeNullable(formData.get("introEn")),
+    eyebrow:
+      legacyDefaultTextValue(translations, "eyebrow") ??
+      normalizeRequired(formData.get("eyebrow")),
+    eyebrowEn:
+      legacySecondaryTextValue(translations, "eyebrow") ??
+      normalizeNullable(formData.get("eyebrowEn")),
+    title:
+      legacyDefaultTextValue(translations, "title") ??
+      normalizeRequired(formData.get("title")),
+    titleEn:
+      legacySecondaryTextValue(translations, "title") ??
+      normalizeNullable(formData.get("titleEn")),
+    intro:
+      legacyDefaultTextValue(translations, "intro") ??
+      normalizeNullable(formData.get("intro")),
+    introEn:
+      legacySecondaryTextValue(translations, "intro") ??
+      normalizeNullable(formData.get("introEn")),
   };
 
   if (values.eyebrow.length < 2) {
@@ -42,28 +75,33 @@ const parsePageHeaderContent = (formData: FormData) => {
     return { error: "Le titre est obligatoire." } as const;
   }
 
-  return { data: values } as const;
+  return { data: values, translations } as const;
 };
 
 const pageHeaderTranslations = (
   contentId: string,
   data: PageHeaderContentValues,
-) => [
-  {
-    contentId,
-    locale: "fr",
+  translations: LocaleTextTranslations<PageHeaderTranslationField>,
+) => {
+  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
     eyebrow: data.eyebrow,
     title: data.title,
     intro: data.intro,
-  },
-  {
-    contentId,
-    locale: "en",
+  });
+  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
     eyebrow: data.eyebrowEn,
     title: data.titleEn,
     intro: data.introEn,
-  },
-];
+  });
+
+  return Object.entries(translations).map(([locale, values]) => ({
+    contentId,
+    locale,
+    eyebrow: values.eyebrow ?? null,
+    title: values.title ?? null,
+    intro: values.intro ?? null,
+  }));
+};
 
 export const updatePageHeaderContent = async (
   pageId: PageHeaderId,
@@ -84,7 +122,7 @@ export const updatePageHeaderContent = async (
         create: { id: pageId, ...parsed.data },
         update: parsed.data,
       }),
-      ...pageHeaderTranslations(pageId, parsed.data).map((translation) =>
+      ...pageHeaderTranslations(pageId, parsed.data, parsed.translations).map((translation) =>
         prisma.pageHeaderContentTranslation.upsert({
           where: {
             contentId_locale: {

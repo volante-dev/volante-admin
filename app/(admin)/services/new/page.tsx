@@ -6,6 +6,7 @@ import Link from "next/link";
 import prisma from "@/lib/prisma";
 import type { ServicePortfolioExampleProject } from "@/components/admin/ServiceForm";
 import { ServiceForm } from "@/components/admin/ServiceForm";
+import { getSiteLocales } from "@/lib/site-locales";
 
 const mapProjectOption = (project: {
   id: string;
@@ -21,16 +22,19 @@ const mapProjectOption = (project: {
 });
 
 const NewServicePage = async () => {
-  const publishedProjects = await prisma.project.findMany({
-    where: { publishedAt: { not: null } },
-    orderBy: [{ portfolioOrder: "asc" }, { title: "asc" }],
-    select: {
-      id: true,
-      title: true,
-      imageUrl: true,
-      imageAsset: { select: { mediaType: true, posterUrl: true } },
-    },
-  });
+  const [publishedProjects, locales] = await Promise.all([
+    prisma.project.findMany({
+      where: { publishedAt: { not: null } },
+      orderBy: [{ portfolioOrder: "asc" }, { title: "asc" }],
+      select: {
+        id: true,
+        title: true,
+        imageUrl: true,
+        imageAsset: { select: { mediaType: true, posterUrl: true } },
+      },
+    }),
+    getSiteLocales(),
+  ]);
 
   return (
     <>
@@ -44,7 +48,10 @@ const NewServicePage = async () => {
       <Typography variant="h2" sx={{ mb: 3 }}>
         Nouveau service
       </Typography>
-      <ServiceForm availableProjects={publishedProjects.map(mapProjectOption)} />
+      <ServiceForm
+        availableProjects={publishedProjects.map(mapProjectOption)}
+        locales={locales.filter((locale) => locale.enabledInAdmin)}
+      />
     </>
   );
 };

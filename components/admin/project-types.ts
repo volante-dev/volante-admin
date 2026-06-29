@@ -35,6 +35,12 @@ export type AdminProjectSlide = {
   posterUrl: string | null;
   alt: string | null;
   altEn: string | null;
+  translations: {
+    locale: string;
+    title: string | null;
+    contentHtml: string | null;
+    alt: string | null;
+  }[];
 };
 
 export type AdminProjectDetail = {
@@ -72,4 +78,14 @@ export type AdminProjectDetail = {
   publishedAt: string | null;
   slides: AdminProjectSlide[];
   previewUrl: string | null;
+  translations: {
+    locale: string;
+    title: string | null;
+    slug: string | null;
+    description: string | null;
+    challenge: string | null;
+    approach: string | null;
+    results: string | null;
+    awards: string | null;
+  }[];
 };

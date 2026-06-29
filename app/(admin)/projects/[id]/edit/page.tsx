@@ -9,6 +9,7 @@ import { createProjectPreviewUrl } from "@/lib/preview-token";
 import { ProjectForm } from "@/components/admin/ProjectForm";
 import type { AdminProjectDetail } from "@/components/admin/project-types";
 import { getProjectTaxonomyOptions } from "@/lib/project-taxonomies";
+import { getSiteLocales } from "@/lib/site-locales";
 
 export const dynamic = "force-dynamic";
 
@@ -23,8 +24,12 @@ const EditProjectPage = async ({
     where: { id },
     include: {
       imageAsset: { select: { mediaType: true, posterUrl: true } },
-      slides: { orderBy: { order: "asc" } },
+      slides: {
+        orderBy: { order: "asc" },
+        include: { translations: true },
+      },
       deliveredServiceEntries: { select: { id: true } },
+      translations: true,
     },
   });
   if (!raw) notFound();
@@ -75,14 +80,33 @@ const EditProjectPage = async ({
       posterUrl: slide.posterUrl,
       alt: slide.alt,
       altEn: slide.altEn,
+      translations: slide.translations.map((translation) => ({
+        locale: translation.locale,
+        title: translation.title,
+        contentHtml: translation.contentHtml,
+        alt: translation.alt,
+      })),
     })),
     previewUrl: createProjectPreviewUrl(raw.slug, raw.publishedAt !== null),
+    translations: raw.translations.map((translation) => ({
+      locale: translation.locale,
+      title: translation.title,
+      slug: translation.slug,
+      description: translation.description,
+      challenge: translation.challenge,
+      approach: translation.approach,
+      results: translation.results,
+      awards: translation.awards,
+    })),
   };
-  const taxonomyOptions = await getProjectTaxonomyOptions([
-    raw.sectorEntryId,
-    raw.locationEntryId,
-    ...project.deliveredServiceEntryIds,
-  ].filter((id): id is string => Boolean(id)));
+  const [taxonomyOptions, locales] = await Promise.all([
+    getProjectTaxonomyOptions([
+      raw.sectorEntryId,
+      raw.locationEntryId,
+      ...project.deliveredServiceEntryIds,
+    ].filter((id): id is string => Boolean(id))),
+    getSiteLocales(),
+  ]);
 
   return (
     <>
@@ -96,7 +120,11 @@ const EditProjectPage = async ({
       <Typography variant="h2" sx={{ mb: 3 }}>
         Modifier : {project.title}
       </Typography>
-      <ProjectForm project={project} taxonomyOptions={taxonomyOptions} />
+      <ProjectForm
+        project={project}
+        taxonomyOptions={taxonomyOptions}
+        locales={locales.filter((locale) => locale.enabledInAdmin)}
+      />
     </>
   );
 };

@@ -3,6 +3,15 @@
 import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { requireCrmAccess } from "@/lib/auth-guard";
+import {
+  legacyDefaultLocale,
+  legacyDefaultTextValue,
+  legacySecondaryLocale,
+  legacySecondaryTextValue,
+  mergeLegacyLocaleTextTranslations,
+  parseLocaleTextTranslations,
+  type LocaleTextTranslations,
+} from "@/lib/admin-translations";
 
 type ActionResult = {
   success: boolean;
@@ -10,12 +19,32 @@ type ActionResult = {
   id?: string;
 };
 
+type StudioValueTranslationField = "title" | "description";
+
+const studioValueTranslationFields = [
+  "title",
+  "description",
+] as const satisfies readonly StudioValueTranslationField[];
+
 const parseStudioValue = (formData: FormData) => {
-  const title = String(formData.get("title") ?? "").trim();
-  const titleEn = String(formData.get("titleEn") ?? "").trim() || null;
-  const description = String(formData.get("description") ?? "").trim();
+  const translations = parseLocaleTextTranslations(
+    formData,
+    studioValueTranslationFields,
+  );
+  const title =
+    legacyDefaultTextValue(translations, "title") ??
+    String(formData.get("title") ?? "").trim();
+  const titleEn =
+    (legacySecondaryTextValue(translations, "title") ??
+      String(formData.get("titleEn") ?? "").trim()) ||
+    null;
+  const description =
+    legacyDefaultTextValue(translations, "description") ??
+    String(formData.get("description") ?? "").trim();
   const descriptionEn =
-    String(formData.get("descriptionEn") ?? "").trim() || null;
+    (legacySecondaryTextValue(translations, "description") ??
+      String(formData.get("descriptionEn") ?? "").trim()) ||
+    null;
   const order = Number.parseInt(String(formData.get("order") ?? ""), 10);
   const active = formData.get("active") === "true";
 
@@ -32,7 +61,7 @@ const parseStudioValue = (formData: FormData) => {
   }
 
   return {
-    data: { title, titleEn, description, descriptionEn, order, active },
+    data: { title, titleEn, description, descriptionEn, order, active, translations },
   } as const;
 };
 
@@ -48,22 +77,36 @@ type StudioValueData = {
   descriptionEn: string | null;
   order: number;
   active: boolean;
+  translations: LocaleTextTranslations<StudioValueTranslationField>;
 };
 
-const studioValueTranslations = (studioValueId: string, data: StudioValueData) => [
-  {
-    studioValueId,
-    locale: "fr",
+const studioValueTranslations = (studioValueId: string, data: StudioValueData) => {
+  const translations = data.translations;
+  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
     title: data.title,
     description: data.description,
-  },
-  {
-    studioValueId,
-    locale: "en",
+  });
+  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
     title: data.titleEn,
     description: data.descriptionEn,
-  },
-];
+  });
+
+  return Object.entries(translations).map(([locale, values]) => ({
+    studioValueId,
+    locale,
+    title: values.title ?? null,
+    description: values.description ?? null,
+  }));
+};
+
+const studioValueData = (data: StudioValueData) => ({
+  title: data.title,
+  titleEn: data.titleEn,
+  description: data.description,
+  descriptionEn: data.descriptionEn,
+  order: data.order,
+  active: data.active,
+});
 
 export const createStudioValue = async (
   formData: FormData,
@@ -74,7 +117,9 @@ export const createStudioValue = async (
     if ("error" in parsed) return { success: false, error: parsed.error };
 
     const studioValue = await prisma.$transaction(async (tx) => {
-      const created = await tx.studioValue.create({ data: parsed.data });
+      const created = await tx.studioValue.create({
+        data: studioValueData(parsed.data),
+      });
       await Promise.all(
         studioValueTranslations(created.id, parsed.data).map((translation) =>
           tx.studioValueTranslation.upsert({
@@ -111,7 +156,7 @@ export const updateStudioValue = async (
     if ("error" in parsed) return { success: false, error: parsed.error };
 
     await prisma.$transaction([
-      prisma.studioValue.update({ where: { id }, data: parsed.data }),
+      prisma.studioValue.update({ where: { id }, data: studioValueData(parsed.data) }),
       ...studioValueTranslations(id, parsed.data).map((translation) =>
         prisma.studioValueTranslation.upsert({
           where: {

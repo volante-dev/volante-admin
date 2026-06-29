@@ -33,6 +33,11 @@ import {
   updateProjectTaxonomyEntry,
 } from "@/app/(admin)/project-taxonomies/actions";
 import {
+  legacyDefaultLocale,
+  legacySecondaryLocale,
+} from "@/lib/admin-translations";
+import type { SiteLocaleData } from "@/lib/site-locales";
+import {
   projectTaxonomyIconOptions,
   type ProjectTaxonomyRow,
   type ProjectTaxonomyType,
@@ -54,7 +59,13 @@ const normalizeSlug = (value: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
-export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRow[] }) => {
+export const ProjectTaxonomyManager = ({
+  entries,
+  locales,
+}: {
+  entries: ProjectTaxonomyRow[];
+  locales: SiteLocaleData[];
+}) => {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [type, setType] = useState<ProjectTaxonomyType>("SECTOR");
@@ -70,6 +81,23 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
   const [introTitleEn, setIntroTitleEn] = useState("");
   const [intro, setIntro] = useState("");
   const [introEn, setIntroEn] = useState("");
+  const extraLocales = locales.filter(
+    (locale) =>
+      locale.code !== legacyDefaultLocale &&
+      locale.code !== legacySecondaryLocale,
+  );
+  const [localizedFields, setLocalizedFields] = useState<
+    Record<
+      string,
+      {
+        label: string;
+        slug: string;
+        introEyebrow: string;
+        introTitle: string;
+        intro: string;
+      }
+    >
+  >({});
   const [slugEdited, setSlugEdited] = useState(false);
   const currentCategory = categories.find((category) => category.type === type)!;
   const currentType = editing?.type ?? type;
@@ -88,6 +116,14 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
     setIntroTitleEn("");
     setIntro("");
     setIntroEn("");
+    setLocalizedFields(
+      Object.fromEntries(
+        extraLocales.map((locale) => [
+          locale.code,
+          { label: "", slug: "", introEyebrow: "", introTitle: "", intro: "" },
+        ]),
+      ),
+    );
     setSlugEdited(false);
     setDialogOpen(true);
   };
@@ -104,6 +140,24 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
     setIntroTitleEn(entry.introTitleEn ?? "");
     setIntro(entry.intro ?? "");
     setIntroEn(entry.introEn ?? "");
+    const byLocale = new Map(entry.translations?.map((item) => [item.locale, item]) ?? []);
+    setLocalizedFields(
+      Object.fromEntries(
+        extraLocales.map((locale) => {
+          const translation = byLocale.get(locale.code);
+          return [
+            locale.code,
+            {
+              label: translation?.label ?? "",
+              slug: translation?.slug ?? "",
+              introEyebrow: translation?.introEyebrow ?? "",
+              introTitle: translation?.introTitle ?? "",
+              intro: translation?.intro ?? "",
+            },
+          ];
+        }),
+      ),
+    );
     setSlugEdited(true);
     setDialogOpen(true);
   };
@@ -130,6 +184,7 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
             introTitleEn,
             intro,
             introEn,
+            localizedFields,
           )
         : await createProjectTaxonomyEntry(
             type,
@@ -143,6 +198,7 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
             introTitleEn,
             intro,
             introEn,
+            localizedFields,
           );
       if (!result.success) {
         toast.error(result.error ?? "Enregistrement impossible.");
@@ -262,6 +318,46 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
             />
             <TranslateButton sourceText={label} onTranslated={setLabelEn} />
           </Box>
+          {!currentIsSector &&
+            extraLocales.map((locale) => {
+              const fields = localizedFields[locale.code] ?? {
+                label: "",
+                slug: "",
+                introEyebrow: "",
+                introTitle: "",
+                intro: "",
+              };
+              return (
+                <Box key={locale.code} sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                  <TextField
+                    label={`Libellé ${locale.nativeLabel || locale.label}`}
+                    value={fields.label}
+                    fullWidth
+                    onChange={(event) =>
+                      setLocalizedFields((current) => ({
+                        ...current,
+                        [locale.code]: {
+                          ...(current[locale.code] ?? fields),
+                          label: event.target.value,
+                        },
+                      }))
+                    }
+                  />
+                  <TranslateButton
+                    sourceText={label}
+                    onTranslated={(translated) =>
+                      setLocalizedFields((current) => ({
+                        ...current,
+                        [locale.code]: {
+                          ...(current[locale.code] ?? fields),
+                          label: translated,
+                        },
+                      }))
+                    }
+                  />
+                </Box>
+              );
+            })}
           {currentIsSector && (
             <>
               <TextField
@@ -338,6 +434,107 @@ export const ProjectTaxonomyManager = ({ entries }: { entries: ProjectTaxonomyRo
                 />
                 <TranslateButton sourceText={intro} onTranslated={setIntroEn} />
               </Box>
+              {extraLocales.map((locale) => {
+                const fields = localizedFields[locale.code] ?? {
+                  label: "",
+                  slug: "",
+                  introEyebrow: "",
+                  introTitle: "",
+                  intro: "",
+                };
+                const updateLocalizedField =
+                  (field: keyof typeof fields) => (value: string) =>
+                    setLocalizedFields((current) => ({
+                      ...current,
+                      [locale.code]: {
+                        ...(current[locale.code] ?? fields),
+                        [field]: value,
+                      },
+                    }));
+
+                return (
+                  <Box
+                    key={locale.code}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 2,
+                      borderTop: "1px solid",
+                      borderColor: "divider",
+                      pt: 2,
+                    }}
+                  >
+                    <Typography variant="h3">
+                      {locale.nativeLabel || locale.label}
+                    </Typography>
+                    <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                      <TextField
+                        label="Libellé"
+                        value={fields.label}
+                        fullWidth
+                        onChange={(event) =>
+                          updateLocalizedField("label")(event.target.value)
+                        }
+                      />
+                      <TranslateButton
+                        sourceText={label}
+                        onTranslated={updateLocalizedField("label")}
+                      />
+                    </Box>
+                    <TextField
+                      label="Slug URL"
+                      value={fields.slug}
+                      onChange={(event) =>
+                        updateLocalizedField("slug")(normalizeSlug(event.target.value))
+                      }
+                    />
+                    <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                      <TextField
+                        label="Eyebrow surcharge"
+                        value={fields.introEyebrow}
+                        fullWidth
+                        onChange={(event) =>
+                          updateLocalizedField("introEyebrow")(event.target.value)
+                        }
+                      />
+                      <TranslateButton
+                        sourceText={introEyebrow}
+                        onTranslated={updateLocalizedField("introEyebrow")}
+                      />
+                    </Box>
+                    <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                      <TextField
+                        label="Titre surcharge"
+                        value={fields.introTitle}
+                        fullWidth
+                        onChange={(event) =>
+                          updateLocalizedField("introTitle")(event.target.value)
+                        }
+                      />
+                      <TranslateButton
+                        sourceText={introTitle}
+                        onTranslated={updateLocalizedField("introTitle")}
+                      />
+                    </Box>
+                    <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                      <TextField
+                        label="Paragraphe surcharge"
+                        value={fields.intro}
+                        fullWidth
+                        multiline
+                        rows={4}
+                        onChange={(event) =>
+                          updateLocalizedField("intro")(event.target.value)
+                        }
+                      />
+                      <TranslateButton
+                        sourceText={intro}
+                        onTranslated={updateLocalizedField("intro")}
+                      />
+                    </Box>
+                  </Box>
+                );
+              })}
             </>
           )}
         </DialogContent>

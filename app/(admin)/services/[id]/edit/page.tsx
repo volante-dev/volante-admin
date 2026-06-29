@@ -7,6 +7,7 @@ import Link from "next/link";
 import prisma from "@/lib/prisma";
 import type { ServicePortfolioExampleProject } from "@/components/admin/ServiceForm";
 import { ServiceForm } from "@/components/admin/ServiceForm";
+import { getSiteLocales } from "@/lib/site-locales";
 
 export const dynamic = "force-dynamic";
 
@@ -30,7 +31,7 @@ const EditServicePage = async ({
 }) => {
   const { id } = await params;
 
-  const [raw, publishedProjects] = await Promise.all([
+  const [raw, publishedProjects, locales] = await Promise.all([
     prisma.service.findUnique({
       where: { id },
       include: {
@@ -47,6 +48,7 @@ const EditServicePage = async ({
             },
           },
         },
+        translations: true,
       },
     }),
     prisma.project.findMany({
@@ -59,6 +61,7 @@ const EditServicePage = async ({
         imageAsset: { select: { mediaType: true, posterUrl: true } },
       },
     }),
+    getSiteLocales(),
   ]);
   if (!raw) notFound();
 
@@ -73,6 +76,12 @@ const EditServicePage = async ({
     icon: raw.icon,
     order: raw.order,
     active: raw.active,
+    translations: raw.translations.map((translation) => ({
+      locale: translation.locale,
+      title: translation.title,
+      description: translation.description,
+      descriptionHtml: translation.descriptionHtml,
+    })),
     portfolioExamples: raw.portfolioExamples.map((example) =>
       mapProjectOption(example.project),
     ),
@@ -91,7 +100,11 @@ const EditServicePage = async ({
       <Typography variant="h2" sx={{ mb: 3 }}>
         Modifier : {service.title}
       </Typography>
-      <ServiceForm service={service} availableProjects={availableProjects} />
+      <ServiceForm
+        service={service}
+        availableProjects={availableProjects}
+        locales={locales.filter((locale) => locale.enabledInAdmin)}
+      />
     </>
   );
 };

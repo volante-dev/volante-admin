@@ -19,6 +19,10 @@ export type AdminBlogPostBlock = {
   mediaUrl: string | null;
   mediaAssetId: string | null;
   mediaAssetPosterUrl: string | null;
+  translations: {
+    locale: string;
+    contentHtml: string | null;
+  }[];
 };
 
 export type AdminBlogPostDetail = {
@@ -40,4 +44,12 @@ export type AdminBlogPostDetail = {
   publishedAt: string | null;
   blocks: AdminBlogPostBlock[];
   previewUrl: string | null;
+  translations: {
+    locale: string;
+    title: string | null;
+    eyebrow: string | null;
+    slug: string | null;
+    seoDescription: string | null;
+    tags: string[];
+  }[];
 };

@@ -14,22 +14,54 @@ import { toast } from "sonner";
 import { updatePageHeaderContent } from "@/app/(admin)/pages/page-header-actions";
 import { TranslateButton } from "./TranslateButton";
 import type { PageHeaderContentData } from "./page-header-types";
+import type { SiteLocaleData } from "@/lib/site-locales";
+import { legacyDefaultLocale, legacySecondaryLocale } from "@/lib/admin-translations";
 
-type EditablePageHeaderContent = Record<
-  Exclude<keyof PageHeaderContentData, "id">,
-  string
->;
+type PageHeaderField = "eyebrow" | "title" | "intro";
+
+type EditablePageHeaderContent = Record<string, Record<PageHeaderField, string>>;
 
 const toEditableContent = (
   content: PageHeaderContentData,
-): EditablePageHeaderContent => ({
-  eyebrow: content.eyebrow,
-  eyebrowEn: content.eyebrowEn ?? "",
-  title: content.title,
-  titleEn: content.titleEn ?? "",
-  intro: content.intro ?? "",
-  introEn: content.introEn ?? "",
-});
+  locales: SiteLocaleData[],
+): EditablePageHeaderContent => {
+  const byLocale = new Map(content.translations.map((item) => [item.locale, item]));
+
+  return Object.fromEntries(
+    locales.map((locale) => {
+      const translation = byLocale.get(locale.code);
+      const isLegacyDefault = locale.code === legacyDefaultLocale;
+      const isLegacySecondary = locale.code === legacySecondaryLocale;
+
+      return [
+        locale.code,
+        {
+          eyebrow:
+            translation?.eyebrow ??
+            (isLegacyDefault
+              ? content.eyebrow
+              : isLegacySecondary
+                ? content.eyebrowEn ?? ""
+                : ""),
+          title:
+            translation?.title ??
+            (isLegacyDefault
+              ? content.title
+              : isLegacySecondary
+                ? content.titleEn ?? ""
+                : ""),
+          intro:
+            translation?.intro ??
+            (isLegacyDefault
+              ? content.intro ?? ""
+              : isLegacySecondary
+                ? content.introEn ?? ""
+                : ""),
+        },
+      ];
+    }),
+  );
+};
 
 type TextFieldRowProps = {
   label: string;
@@ -74,25 +106,35 @@ const TextFieldRow = ({
 
 export const PageHeaderForm = ({
   content,
+  locales,
 }: {
   content: PageHeaderContentData;
+  locales: SiteLocaleData[];
 }) => {
   const [pending, startTransition] = useTransition();
   const [tab, setTab] = useState(0);
   const [error, setError] = useState<string | null>(null);
-  const [fields, setFields] = useState(() => toEditableContent(content));
+  const activeLocales = locales.length
+    ? locales
+    : [{ code: legacyDefaultLocale, label: "Français" } as SiteLocaleData];
+  const defaultLocale = activeLocales.find((locale) => locale.isDefault)?.code ?? activeLocales[0].code;
+  const [fields, setFields] = useState(() => toEditableContent(content, activeLocales));
   const isPortfolio = content.id === "portfolio";
 
   const updateField =
-    (field: keyof EditablePageHeaderContent) => (value: string) => {
-      setFields((current) => ({ ...current, [field]: value }));
+    (locale: string, field: PageHeaderField) => (value: string) => {
+      setFields((current) => ({
+        ...current,
+        [locale]: { ...current[locale], [field]: value },
+      }));
     };
 
   const validateClient = () => {
-    if (fields.eyebrow.trim().length < 2) {
+    const defaultFields = fields[defaultLocale];
+    if (!defaultFields?.eyebrow.trim() || defaultFields.eyebrow.trim().length < 2) {
       return "L'eyebrow est obligatoire.";
     }
-    if (fields.title.trim().length < 2) {
+    if (!defaultFields?.title.trim() || defaultFields.title.trim().length < 2) {
       return "Le titre est obligatoire.";
     }
     return null;
@@ -105,9 +147,16 @@ export const PageHeaderForm = ({
     if (clientError) return;
 
     const formData = new FormData();
-    Object.entries(fields).forEach(([key, value]) => {
-      formData.set(key, value);
-    });
+    formData.set("translations", JSON.stringify(fields));
+    const legacyDefaultFields = fields[legacyDefaultLocale] ?? fields[defaultLocale];
+    const legacySecondaryFields =
+      fields[legacySecondaryLocale] ?? { eyebrow: "", title: "", intro: "" };
+    formData.set("eyebrow", legacyDefaultFields.eyebrow);
+    formData.set("title", legacyDefaultFields.title);
+    formData.set("intro", legacyDefaultFields.intro);
+    formData.set("eyebrowEn", legacySecondaryFields.eyebrow);
+    formData.set("titleEn", legacySecondaryFields.title);
+    formData.set("introEn", legacySecondaryFields.intro);
 
     startTransition(async () => {
       const result = await updatePageHeaderContent(content.id, formData);
@@ -134,62 +183,45 @@ export const PageHeaderForm = ({
             onChange={(_, value) => setTab(value)}
             sx={{ mb: 3, borderBottom: 1, borderColor: "divider" }}
           >
-            <Tab label="Francais" />
-            <Tab label="English" />
+            {activeLocales.map((locale) => (
+              <Tab key={locale.code} label={locale.nativeLabel || locale.label} />
+            ))}
           </Tabs>
 
-          {tab === 0 && (
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-              <TextFieldRow
-                label="Eyebrow"
-                value={fields.eyebrow}
-                onChange={updateField("eyebrow")}
-                required
-              />
-              <TextFieldRow
-                label="Titre"
-                value={fields.title}
-                onChange={updateField("title")}
-                required
-              />
-              {isPortfolio && (
-                <TextFieldRow
-                  label="Texte introductif"
-                  value={fields.intro}
-                  onChange={updateField("intro")}
-                  multiline
-                  rows={4}
-                />
-              )}
-            </Box>
-          )}
+          {activeLocales.map((locale, index) => {
+            const localeFields = fields[locale.code];
+            const sourceFields = fields[defaultLocale];
+            const isDefaultLocale = locale.code === defaultLocale;
 
-          {tab === 1 && (
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-              <TextFieldRow
-                label="Eyebrow anglais"
-                value={fields.eyebrowEn}
-                onChange={updateField("eyebrowEn")}
-                translateFrom={fields.eyebrow}
-              />
-              <TextFieldRow
-                label="Titre anglais"
-                value={fields.titleEn}
-                onChange={updateField("titleEn")}
-                translateFrom={fields.title}
-              />
-              {isPortfolio && (
+            return tab === index ? (
+              <Box key={locale.code} sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
                 <TextFieldRow
-                  label="Intro anglaise"
-                  value={fields.introEn}
-                  onChange={updateField("introEn")}
-                  multiline
-                  rows={4}
-                  translateFrom={fields.intro}
+                  label="Eyebrow"
+                  value={localeFields.eyebrow}
+                  onChange={updateField(locale.code, "eyebrow")}
+                  required={isDefaultLocale}
+                  translateFrom={isDefaultLocale ? undefined : sourceFields.eyebrow}
                 />
-              )}
-            </Box>
-          )}
+                <TextFieldRow
+                  label="Titre"
+                  value={localeFields.title}
+                  onChange={updateField(locale.code, "title")}
+                  required={isDefaultLocale}
+                  translateFrom={isDefaultLocale ? undefined : sourceFields.title}
+                />
+                {isPortfolio && (
+                  <TextFieldRow
+                    label="Texte introductif"
+                    value={localeFields.intro}
+                    onChange={updateField(locale.code, "intro")}
+                    multiline
+                    rows={4}
+                    translateFrom={isDefaultLocale ? undefined : sourceFields.intro}
+                  />
+                )}
+              </Box>
+            ) : null;
+          })}
 
           <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
             <Button

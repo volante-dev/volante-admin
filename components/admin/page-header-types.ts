@@ -15,6 +15,12 @@ export type PageHeaderContentData = {
   titleEn: string | null;
   intro: string | null;
   introEn: string | null;
+  translations: {
+    locale: string;
+    eyebrow: string | null;
+    title: string | null;
+    intro: string | null;
+  }[];
 };
 
 export const pageHeaderLabels: Record<PageHeaderId, string> = {
@@ -33,6 +39,7 @@ export const pageHeaderDefaults: Record<PageHeaderId, PageHeaderContentData> = {
     titleEn: "An independent studio with a singular vision.",
     intro: null,
     introEn: null,
+    translations: [],
   },
   services: {
     id: "services",
@@ -42,6 +49,7 @@ export const pageHeaderDefaults: Record<PageHeaderId, PageHeaderContentData> = {
     titleEn: "Services designed to make your brand shine.",
     intro: null,
     introEn: null,
+    translations: [],
   },
   portfolio: {
     id: "portfolio",
@@ -51,6 +59,7 @@ export const pageHeaderDefaults: Record<PageHeaderId, PageHeaderContentData> = {
     titleEn: "Projects crafted with care and precision.",
     intro: null,
     introEn: null,
+    translations: [],
   },
   contact: {
     id: "contact",
@@ -60,6 +69,7 @@ export const pageHeaderDefaults: Record<PageHeaderId, PageHeaderContentData> = {
     titleEn: "Let's talk about your project.",
     intro: null,
     introEn: null,
+    translations: [],
   },
 };
 

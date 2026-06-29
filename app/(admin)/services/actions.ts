@@ -8,6 +8,15 @@ import {
   richTextToPlainText,
   sanitizeRichTextHtml,
 } from "@/lib/rich-text";
+import {
+  legacyDefaultLocale,
+  legacyDefaultTextValue,
+  legacySecondaryLocale,
+  legacySecondaryTextValue,
+  mergeLegacyLocaleTextTranslations,
+  parseLocaleTextTranslations,
+  type LocaleTextTranslations,
+} from "@/lib/admin-translations";
 
 type ActionResult = {
   success: boolean;
@@ -26,7 +35,15 @@ type ParsedServiceData = {
   order: number;
   active: boolean;
   portfolioExampleProjectIds: string[];
+  translations: LocaleTextTranslations<ServiceTranslationField>;
 };
+
+type ServiceTranslationField = "title" | "descriptionHtml";
+
+const serviceTranslationFields = [
+  "title",
+  "descriptionHtml",
+] as const satisfies readonly ServiceTranslationField[];
 
 type ParseResult<T> =
   | { ok: true; data: T }
@@ -62,10 +79,23 @@ const parsePortfolioExampleProjectIds = (
 };
 
 const parseService = (formData: FormData): ParseResult<ParsedServiceData> => {
-  const title = String(formData.get("title") ?? "").trim();
-  const titleEn = String(formData.get("titleEn") ?? "").trim() || null;
-  const descriptionHtml = String(formData.get("descriptionHtml") ?? "");
-  const descriptionHtmlEn = String(formData.get("descriptionHtmlEn") ?? "");
+  const translations = parseLocaleTextTranslations(
+    formData,
+    serviceTranslationFields,
+  );
+  const title =
+    legacyDefaultTextValue(translations, "title") ??
+    String(formData.get("title") ?? "").trim();
+  const titleEn =
+    (legacySecondaryTextValue(translations, "title") ??
+      String(formData.get("titleEn") ?? "").trim()) ||
+    null;
+  const descriptionHtml =
+    legacyDefaultTextValue(translations, "descriptionHtml") ??
+    String(formData.get("descriptionHtml") ?? "");
+  const descriptionHtmlEn =
+    legacySecondaryTextValue(translations, "descriptionHtml") ??
+    String(formData.get("descriptionHtmlEn") ?? "");
   const icon = String(formData.get("icon") ?? "").trim() || null;
   const order = parseInt(String(formData.get("order") ?? ""), 10);
   const active = formData.get("active") === "true";
@@ -118,6 +148,7 @@ const parseService = (formData: FormData): ParseResult<ParsedServiceData> => {
       order,
       active,
       portfolioExampleProjectIds: parsedExampleIds.data,
+      translations,
     },
   };
 };
@@ -157,22 +188,35 @@ const serviceData = (data: ParsedServiceData) => {
   };
 };
 
-const serviceTranslations = (serviceId: string, data: ParsedServiceData) => [
-  {
-    serviceId,
-    locale: "fr",
+const serviceTranslationRows = (
+  serviceId: string,
+  data: ParsedServiceData,
+) => {
+  const translations = data.translations ?? {};
+  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
     title: data.title,
-    description: data.description,
     descriptionHtml: data.descriptionHtml,
-  },
-  {
-    serviceId,
-    locale: "en",
+  });
+  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
     title: data.titleEn,
-    description: data.descriptionEn,
     descriptionHtml: data.descriptionHtmlEn,
-  },
-];
+  });
+
+  return Object.entries(translations).map(([locale, values]) => {
+    const descriptionHtml =
+      values.descriptionHtml && !isBlankRichText(values.descriptionHtml)
+        ? sanitizeRichTextHtml(values.descriptionHtml)
+        : null;
+
+    return {
+      serviceId,
+      locale,
+      title: values.title ?? null,
+      description: descriptionHtml ? richTextToPlainText(descriptionHtml) : null,
+      descriptionHtml,
+    };
+  });
+};
 
 type ServiceTranslationClient = Pick<typeof prisma, "serviceTranslation">;
 
@@ -182,7 +226,7 @@ const upsertServiceTranslations = (
   data: ParsedServiceData,
 ) =>
   Promise.all(
-    serviceTranslations(serviceId, data).map((translation) =>
+    serviceTranslationRows(serviceId, data).map((translation) =>
       tx.serviceTranslation.upsert({
         where: {
           serviceId_locale: {

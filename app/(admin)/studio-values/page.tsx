@@ -12,6 +12,7 @@ export const dynamic = "force-dynamic";
 const StudioValuesPage = async () => {
   const studioValues: StudioValueData[] = await prisma.studioValue.findMany({
     orderBy: [{ order: "asc" }, { id: "asc" }],
+    include: { translations: true },
   });
 
   return (

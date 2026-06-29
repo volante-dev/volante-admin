@@ -14,6 +14,15 @@ import {
 } from "@/lib/validation";
 import { notifyProjectIndexing } from "@/lib/search-indexing";
 import { extractProjectHeroPalette } from "@/lib/project-hero-color";
+import {
+  legacyDefaultLocale,
+  legacyDefaultTextValue,
+  legacySecondaryLocale,
+  legacySecondaryTextValue,
+  mergeLegacyLocaleTextTranslations,
+  parseLocaleTextTranslations,
+  type LocaleTextTranslations,
+} from "@/lib/admin-translations";
 
 type ActionResult = {
   success: boolean;
@@ -40,6 +49,54 @@ type SlidePayload = {
   posterUrl?: string;
   alt?: string;
   altEn?: string;
+  translations?: LocaleTextTranslations<SlideTranslationField>;
+};
+
+type ProjectTranslationField =
+  | "title"
+  | "slug"
+  | "description"
+  | "challenge"
+  | "approach"
+  | "results"
+  | "awards";
+
+type SlideTranslationField = "title" | "contentHtml" | "alt";
+
+const projectTranslationFields = [
+  "title",
+  "slug",
+  "description",
+  "challenge",
+  "approach",
+  "results",
+  "awards",
+] as const satisfies readonly ProjectTranslationField[];
+
+const slideTranslationFields = [
+  "title",
+  "contentHtml",
+  "alt",
+] as const satisfies readonly SlideTranslationField[];
+
+const parseObjectTranslations = <Field extends string>(
+  raw: unknown,
+  fields: readonly Field[],
+): LocaleTextTranslations<Field> => {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+
+  const output: LocaleTextTranslations<Field> = {};
+  for (const [locale, rawValues] of Object.entries(raw)) {
+    if (!rawValues || typeof rawValues !== "object" || Array.isArray(rawValues)) {
+      continue;
+    }
+    output[locale] = {};
+    for (const field of fields) {
+      const value = (rawValues as Record<string, unknown>)[field];
+      output[locale][field] = typeof value === "string" && value.trim() ? value.trim() : null;
+    }
+  }
+  return output;
 };
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -89,6 +146,10 @@ const parseSlides = (formData: FormData): SlidePayload[] => {
         typeof value.posterUrl === "string" ? value.posterUrl.trim() : undefined,
       alt: typeof value.alt === "string" ? value.alt.trim() : undefined,
       altEn: typeof value.altEn === "string" ? value.altEn.trim() : undefined,
+      translations: parseObjectTranslations(
+        (value as { translations?: unknown }).translations,
+        slideTranslationFields,
+      ),
     };
   });
 };
@@ -97,11 +158,25 @@ const validateProjectPayload = async (
   formData: FormData,
   currentId?: string,
 ) => {
-  const title = normalizeRequired(formData.get("title"));
-  const titleEn = normalizeNullable(formData.get("titleEn"));
-  const slug = normalizeRequired(formData.get("slug"));
-  const description = normalizeRequired(formData.get("description"));
-  const descriptionEn = normalizeNullable(formData.get("descriptionEn"));
+  const translations = parseLocaleTextTranslations(
+    formData,
+    projectTranslationFields,
+  );
+  const title =
+    legacyDefaultTextValue(translations, "title") ??
+    normalizeRequired(formData.get("title"));
+  const titleEn =
+    legacySecondaryTextValue(translations, "title") ??
+    normalizeNullable(formData.get("titleEn"));
+  const slug =
+    legacyDefaultTextValue(translations, "slug") ??
+    normalizeRequired(formData.get("slug"));
+  const description =
+    legacyDefaultTextValue(translations, "description") ??
+    normalizeRequired(formData.get("description"));
+  const descriptionEn =
+    legacySecondaryTextValue(translations, "description") ??
+    normalizeNullable(formData.get("descriptionEn"));
   const imageUrl = normalizeRequired(formData.get("imageUrl"));
   const imageAssetId = normalizeNullable(formData.get("imageAssetId"));
   const tags = parseTags(formData.get("tags"));
@@ -113,15 +188,31 @@ const validateProjectPayload = async (
   const deliveredServiceEntryIds = parseIdArray(
     formData.get("deliveredServiceEntryIds"),
   );
-  const challenge = normalizeNullable(formData.get("challenge"));
-  const challengeEn = normalizeNullable(formData.get("challengeEn"));
-  const approach = normalizeNullable(formData.get("approach"));
-  const approachEn = normalizeNullable(formData.get("approachEn"));
-  const results = normalizeNullable(formData.get("results"));
-  const resultsEn = normalizeNullable(formData.get("resultsEn"));
+  const challenge =
+    legacyDefaultTextValue(translations, "challenge") ??
+    normalizeNullable(formData.get("challenge"));
+  const challengeEn =
+    legacySecondaryTextValue(translations, "challenge") ??
+    normalizeNullable(formData.get("challengeEn"));
+  const approach =
+    legacyDefaultTextValue(translations, "approach") ??
+    normalizeNullable(formData.get("approach"));
+  const approachEn =
+    legacySecondaryTextValue(translations, "approach") ??
+    normalizeNullable(formData.get("approachEn"));
+  const results =
+    legacyDefaultTextValue(translations, "results") ??
+    normalizeNullable(formData.get("results"));
+  const resultsEn =
+    legacySecondaryTextValue(translations, "results") ??
+    normalizeNullable(formData.get("resultsEn"));
   const credits = normalizeNullable(formData.get("credits"));
-  const awards = normalizeNullable(formData.get("awards"));
-  const awardsEn = normalizeNullable(formData.get("awardsEn"));
+  const awards =
+    legacyDefaultTextValue(translations, "awards") ??
+    normalizeNullable(formData.get("awards"));
+  const awardsEn =
+    legacySecondaryTextValue(translations, "awards") ??
+    normalizeNullable(formData.get("awardsEn"));
   const externalUrl = normalizeNullable(formData.get("externalUrl"));
   const featured = formData.get("featured") === "true";
   const order = parseNonNegativeInteger(formData.get("order"));
@@ -307,6 +398,7 @@ const validateProjectPayload = async (
       posterUrl: effectivePosterUrl || null,
       alt: slide.alt || null,
       altEn: slide.altEn || null,
+      translations: slide.translations ?? {},
     };
   });
 
@@ -346,6 +438,7 @@ const validateProjectPayload = async (
       order,
       publishedAt,
       slides: sanitizedSlides,
+      translations,
     },
     warnings,
   };
@@ -357,10 +450,9 @@ type ValidatedProjectResult = Extract<
 >;
 type ValidatedProjectData = ValidatedProjectResult["data"];
 
-const projectTranslations = (projectId: string, data: ValidatedProjectData) => [
-  {
-    projectId,
-    locale: "fr",
+const projectTranslations = (projectId: string, data: ValidatedProjectData) => {
+  const translations = data.translations;
+  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
     title: data.title,
     slug: data.slug,
     description: data.description,
@@ -368,39 +460,57 @@ const projectTranslations = (projectId: string, data: ValidatedProjectData) => [
     approach: data.approach,
     results: data.results,
     awards: data.awards,
-  },
-  {
-    projectId,
-    locale: "en",
+  });
+  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
     title: data.titleEn,
-    slug: null,
+    slug: translations[legacySecondaryLocale]?.slug ?? null,
     description: data.descriptionEn,
     challenge: data.challengeEn,
     approach: data.approachEn,
     results: data.resultsEn,
     awards: data.awardsEn,
-  },
-];
+  });
+
+  return Object.entries(translations).map(([locale, values]) => ({
+    projectId,
+    locale,
+    title: values.title ?? null,
+    slug: values.slug ?? null,
+    description: values.description ?? null,
+    challenge: values.challenge ?? null,
+    approach: values.approach ?? null,
+    results: values.results ?? null,
+    awards: values.awards ?? null,
+  }));
+};
 
 const slideTranslations = (
   slideId: string,
   slide: ValidatedProjectData["slides"][number],
-) => [
-  {
-    slideId,
-    locale: "fr",
+) => {
+  const translations = slide.translations;
+  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
     title: slide.title,
     contentHtml: slide.contentHtml,
     alt: slide.alt,
-  },
-  {
-    slideId,
-    locale: "en",
+  });
+  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
     title: slide.titleEn,
     contentHtml: slide.contentHtmlEn,
     alt: slide.altEn,
-  },
-];
+  });
+
+  return Object.entries(translations).map(([locale, values]) => ({
+    slideId,
+    locale,
+    title: values.title ?? null,
+    contentHtml:
+      values.contentHtml && !isBlankRichText(values.contentHtml)
+        ? sanitizeRichTextHtml(values.contentHtml)
+        : null,
+    alt: values.alt ?? null,
+  }));
+};
 
 type ProjectWriteClient = Pick<
   typeof prisma,

@@ -1,12 +1,16 @@
 import OpenAI from "openai";
 import { AI_PROMPTS, getTranslateSystemPrompt } from "./ai-prompts";
+import {
+  legacyDefaultLocale,
+  legacySecondaryLocale,
+} from "./admin-translations";
 import { getAppUrl, getOpenAiApiKey } from "./config";
 
 export type TranslateTask = {
   task: "translate";
   text: string;
-  from: "fr";
-  to: "en";
+  from: typeof legacyDefaultLocale;
+  to: typeof legacySecondaryLocale;
   format: "plain" | "html";
 };
 

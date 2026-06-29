@@ -10,6 +10,11 @@ import {
   sitemapFrequencies,
   type SiteRouteData,
 } from "@/lib/site-route-config";
+import {
+  isLegacyLocale,
+  legacyDefaultLocale,
+  legacySecondaryLocale,
+} from "@/lib/admin-translations";
 
 type ActionResult = {
   success: boolean;
@@ -54,18 +59,16 @@ const parseTranslations = (value: SiteRoutePayload, isHome: boolean) => {
 
   return [
     {
-      locale: "fr",
+      locale: legacyDefaultLocale,
       label: normalize(value.label),
       slug: isHome ? "" : normalize(value.slug),
     },
     {
-      locale: "en",
+      locale: legacySecondaryLocale,
       label: normalize(value.labelEn),
       slug: isHome ? "" : normalize(value.slugEn),
     },
-    ...customTranslations.filter(
-      (translation) => translation.locale !== "fr" && translation.locale !== "en",
-    ),
+    ...customTranslations.filter((translation) => !isLegacyLocale(translation.locale)),
   ];
 };
 

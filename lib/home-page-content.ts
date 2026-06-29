@@ -6,7 +6,10 @@ import {
 
 export const getHomePageContent = async (): Promise<HomePageContentData> => {
   const content = await prisma.homePageContent
-    .findUnique({ where: { id: "home" } })
+    .findUnique({
+      where: { id: "home" },
+      include: { translations: true },
+    })
     .catch(() => null);
 
   if (!content) return homePageContentDefault;
@@ -23,5 +26,13 @@ export const getHomePageContent = async (): Promise<HomePageContentData> => {
     primaryCtaLabelEn: content.primaryCtaLabelEn,
     secondaryCtaLabel: content.secondaryCtaLabel,
     secondaryCtaLabelEn: content.secondaryCtaLabelEn,
+    translations: content.translations.map((translation) => ({
+      locale: translation.locale,
+      eyebrow: translation.eyebrow,
+      title: translation.title,
+      subheading: translation.subheading,
+      primaryCtaLabel: translation.primaryCtaLabel,
+      secondaryCtaLabel: translation.secondaryCtaLabel,
+    })),
   };
 };

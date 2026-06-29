@@ -4,6 +4,15 @@ import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
 import { requireCrmAccess } from "@/lib/auth-guard";
 import { normalizeNullable, normalizeRequired } from "@/lib/validation";
+import {
+  legacyDefaultLocale,
+  legacyDefaultTextValue,
+  legacySecondaryLocale,
+  legacySecondaryTextValue,
+  mergeLegacyLocaleTextTranslations,
+  parseLocaleTextTranslations,
+  type LocaleTextTranslations,
+} from "@/lib/admin-translations";
 
 type ActionResult = {
   success: boolean;
@@ -23,6 +32,21 @@ type HomePageContentValues = {
   secondaryCtaLabelEn: string | null;
 };
 
+type HomePageTranslationField =
+  | "eyebrow"
+  | "title"
+  | "subheading"
+  | "primaryCtaLabel"
+  | "secondaryCtaLabel";
+
+const homePageTranslationFields = [
+  "eyebrow",
+  "title",
+  "subheading",
+  "primaryCtaLabel",
+  "secondaryCtaLabel",
+] as const satisfies readonly HomePageTranslationField[];
+
 const requiredTextFields = [
   ["eyebrow", "L'eyebrow est obligatoire."],
   ["title", "Le titre est obligatoire."],
@@ -39,48 +63,77 @@ const actionError = (error: unknown): ActionResult => ({
 const homePageTranslations = (
   contentId: string,
   data: HomePageContentValues,
-) => [
-  {
-    contentId,
-    locale: "fr",
+  translations: LocaleTextTranslations<HomePageTranslationField>,
+) => {
+  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
     eyebrow: data.eyebrow,
     title: data.title,
     subheading: data.subheading,
     primaryCtaLabel: data.primaryCtaLabel,
     secondaryCtaLabel: data.secondaryCtaLabel,
-  },
-  {
-    contentId,
-    locale: "en",
+  });
+  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
     eyebrow: data.eyebrowEn,
     title: data.titleEn,
     subheading: data.subheadingEn,
     primaryCtaLabel: data.primaryCtaLabelEn,
     secondaryCtaLabel: data.secondaryCtaLabelEn,
-  },
-];
+  });
+
+  return Object.entries(translations).map(([locale, values]) => ({
+    contentId,
+    locale,
+    eyebrow: values.eyebrow ?? null,
+    title: values.title ?? null,
+    subheading: values.subheading ?? null,
+    primaryCtaLabel: values.primaryCtaLabel ?? null,
+    secondaryCtaLabel: values.secondaryCtaLabel ?? null,
+  }));
+};
 
 const parseHomePageContent = (formData: FormData) => {
+  const translations = parseLocaleTextTranslations(
+    formData,
+    homePageTranslationFields,
+  );
   const values = {
-    eyebrow: normalizeRequired(formData.get("eyebrow")),
-    eyebrowEn: normalizeNullable(formData.get("eyebrowEn")),
-    title: normalizeRequired(formData.get("title")),
-    titleEn: normalizeNullable(formData.get("titleEn")),
-    subheading: normalizeRequired(formData.get("subheading")),
-    subheadingEn: normalizeNullable(formData.get("subheadingEn")),
-    primaryCtaLabel: normalizeRequired(formData.get("primaryCtaLabel")),
-    primaryCtaLabelEn: normalizeNullable(formData.get("primaryCtaLabelEn")),
-    secondaryCtaLabel: normalizeRequired(formData.get("secondaryCtaLabel")),
-    secondaryCtaLabelEn: normalizeNullable(
-      formData.get("secondaryCtaLabelEn"),
-    ),
+    eyebrow:
+      legacyDefaultTextValue(translations, "eyebrow") ??
+      normalizeRequired(formData.get("eyebrow")),
+    eyebrowEn:
+      legacySecondaryTextValue(translations, "eyebrow") ??
+      normalizeNullable(formData.get("eyebrowEn")),
+    title:
+      legacyDefaultTextValue(translations, "title") ??
+      normalizeRequired(formData.get("title")),
+    titleEn:
+      legacySecondaryTextValue(translations, "title") ??
+      normalizeNullable(formData.get("titleEn")),
+    subheading:
+      legacyDefaultTextValue(translations, "subheading") ??
+      normalizeRequired(formData.get("subheading")),
+    subheadingEn:
+      legacySecondaryTextValue(translations, "subheading") ??
+      normalizeNullable(formData.get("subheadingEn")),
+    primaryCtaLabel:
+      legacyDefaultTextValue(translations, "primaryCtaLabel") ??
+      normalizeRequired(formData.get("primaryCtaLabel")),
+    primaryCtaLabelEn:
+      legacySecondaryTextValue(translations, "primaryCtaLabel") ??
+      normalizeNullable(formData.get("primaryCtaLabelEn")),
+    secondaryCtaLabel:
+      legacyDefaultTextValue(translations, "secondaryCtaLabel") ??
+      normalizeRequired(formData.get("secondaryCtaLabel")),
+    secondaryCtaLabelEn:
+      legacySecondaryTextValue(translations, "secondaryCtaLabel") ??
+      normalizeNullable(formData.get("secondaryCtaLabelEn")),
   };
 
   for (const [field, message] of requiredTextFields) {
     if (values[field].length < 2) return { error: message } as const;
   }
 
-  return { data: values } as const;
+  return { data: values, translations } as const;
 };
 
 export const updateHomePageContent = async (
@@ -97,7 +150,7 @@ export const updateHomePageContent = async (
         create: { id: "home", ...parsed.data },
         update: parsed.data,
       }),
-      ...homePageTranslations("home", parsed.data).map((translation) =>
+      ...homePageTranslations("home", parsed.data, parsed.translations).map((translation) =>
         prisma.homePageContentTranslation.upsert({
           where: {
             contentId_locale: {

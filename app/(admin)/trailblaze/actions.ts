@@ -10,6 +10,15 @@ import {
   normalizeRequired,
   parseDateOrNull,
 } from "@/lib/validation";
+import {
+  legacyDefaultLocale,
+  legacyDefaultTextValue,
+  legacySecondaryLocale,
+  legacySecondaryTextValue,
+  mergeLegacyLocaleTextTranslations,
+  parseLocaleTextTranslations,
+  type LocaleTextTranslations,
+} from "@/lib/admin-translations";
 
 type ActionResult = {
   success: boolean;
@@ -25,6 +34,49 @@ type BlogBlockPayload = {
   contentHtmlEn?: string;
   mediaUrl?: string;
   mediaAssetId?: string;
+  translations?: LocaleTextTranslations<BlogBlockTranslationField>;
+};
+
+type BlogPostTranslationField =
+  | "title"
+  | "eyebrow"
+  | "slug"
+  | "seoDescription"
+  | "tags";
+
+type BlogBlockTranslationField = "contentHtml";
+
+const blogPostTranslationFields = [
+  "title",
+  "eyebrow",
+  "slug",
+  "seoDescription",
+  "tags",
+] as const satisfies readonly BlogPostTranslationField[];
+
+const blogBlockTranslationFields = [
+  "contentHtml",
+] as const satisfies readonly BlogBlockTranslationField[];
+
+const parseObjectTranslations = <Field extends string>(
+  raw: unknown,
+  fields: readonly Field[],
+): LocaleTextTranslations<Field> => {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
+  const output: LocaleTextTranslations<Field> = {};
+
+  for (const [locale, rawValues] of Object.entries(raw)) {
+    if (!rawValues || typeof rawValues !== "object" || Array.isArray(rawValues)) {
+      continue;
+    }
+    output[locale] = {};
+    for (const field of fields) {
+      const value = (rawValues as Record<string, unknown>)[field];
+      output[locale][field] = typeof value === "string" && value.trim() ? value.trim() : null;
+    }
+  }
+
+  return output;
 };
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -56,6 +108,23 @@ const parseTags = (value: FormDataEntryValue | null) => {
   }
 };
 
+const parseTagText = (value: string | null | undefined) => {
+  if (!value) return [];
+  const seen = new Set<string>();
+
+  return value
+    .split(/[\n,]/)
+    .map((tag) => tag.replace(/^#+/, "").trim())
+    .filter((tag) => tag.length >= 2 && tag.length <= 48)
+    .filter((tag) => {
+      const key = tag.toLocaleLowerCase("fr-FR");
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 18);
+};
+
 const parseBlocks = (formData: FormData): BlogBlockPayload[] => {
   const raw = formData.get("blocks");
   if (typeof raw !== "string" || !raw.trim()) return [];
@@ -83,6 +152,10 @@ const parseBlocks = (formData: FormData): BlogBlockPayload[] => {
         typeof value.mediaAssetId === "string" && value.mediaAssetId
           ? value.mediaAssetId
           : undefined,
+      translations: parseObjectTranslations(
+        (value as { translations?: unknown }).translations,
+        blogBlockTranslationFields,
+      ),
     };
   });
 };
@@ -91,18 +164,42 @@ const validateBlogPostPayload = async (
   formData: FormData,
   currentId?: string,
 ) => {
-  const title = normalizeRequired(formData.get("title"));
-  const titleEn = normalizeRequired(formData.get("titleEn"));
-  const eyebrow = normalizeRequired(formData.get("eyebrow"));
-  const eyebrowEn = normalizeNullable(formData.get("eyebrowEn"));
-  const slug = normalizeRequired(formData.get("slug"));
-  const slugEn = normalizeRequired(formData.get("slugEn"));
-  const seoDescription = normalizeNullable(formData.get("seoDescription"));
-  const seoDescriptionEn = normalizeNullable(formData.get("seoDescriptionEn"));
+  const translations = parseLocaleTextTranslations(
+    formData,
+    blogPostTranslationFields,
+  );
+  const title =
+    legacyDefaultTextValue(translations, "title") ??
+    normalizeRequired(formData.get("title"));
+  const titleEn =
+    legacySecondaryTextValue(translations, "title") ??
+    normalizeRequired(formData.get("titleEn"));
+  const eyebrow =
+    legacyDefaultTextValue(translations, "eyebrow") ??
+    normalizeRequired(formData.get("eyebrow"));
+  const eyebrowEn =
+    legacySecondaryTextValue(translations, "eyebrow") ??
+    normalizeNullable(formData.get("eyebrowEn"));
+  const slug =
+    legacyDefaultTextValue(translations, "slug") ??
+    normalizeRequired(formData.get("slug"));
+  const slugEn =
+    legacySecondaryTextValue(translations, "slug") ??
+    normalizeRequired(formData.get("slugEn"));
+  const seoDescription =
+    legacyDefaultTextValue(translations, "seoDescription") ??
+    normalizeNullable(formData.get("seoDescription"));
+  const seoDescriptionEn =
+    legacySecondaryTextValue(translations, "seoDescription") ??
+    normalizeNullable(formData.get("seoDescriptionEn"));
   const coverMediaUrl = normalizeRequired(formData.get("coverMediaUrl"));
   const coverMediaAssetId = normalizeNullable(formData.get("coverMediaAssetId"));
-  const tags = parseTags(formData.get("tags"));
-  const tagsEn = parseTags(formData.get("tagsEn"));
+  const normalizedTags = legacyDefaultTextValue(translations, "tags");
+  const normalizedTagsEn = legacySecondaryTextValue(translations, "tags");
+  const tags = normalizedTags ? parseTagText(normalizedTags) : parseTags(formData.get("tags"));
+  const tagsEn = normalizedTagsEn
+    ? parseTagText(normalizedTagsEn)
+    : parseTags(formData.get("tagsEn"));
   const publishedAt = parseDateOrNull(formData.get("publishedAt"));
   const blocks = parseBlocks(formData);
 
@@ -200,6 +297,7 @@ const validateBlogPostPayload = async (
         contentHtmlEn,
         mediaUrl: null,
         mediaAssetId: null,
+        translations: block.translations ?? {},
       };
     }
 
@@ -233,6 +331,7 @@ const validateBlogPostPayload = async (
       contentHtmlEn: null,
       mediaUrl: block.mediaUrl,
       mediaAssetId: block.mediaAssetId || null,
+      translations: block.translations ?? {},
     };
   });
 
@@ -256,6 +355,7 @@ const validateBlogPostPayload = async (
       tagsEn,
       publishedAt,
       blocks: sanitizedBlocks,
+      translations,
     },
     warnings,
   };
@@ -267,42 +367,55 @@ type ValidatedBlogPostResult = Extract<
 >;
 type ValidatedBlogPostData = ValidatedBlogPostResult["data"];
 
-const blogPostTranslations = (postId: string, data: ValidatedBlogPostData) => [
-  {
-    postId,
-    locale: "fr",
+const blogPostTranslations = (postId: string, data: ValidatedBlogPostData) => {
+  const translations = data.translations;
+  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
     title: data.title,
     eyebrow: data.eyebrow,
     slug: data.slug,
     seoDescription: data.seoDescription,
-    tags: data.tags,
-  },
-  {
-    postId,
-    locale: "en",
+    tags: data.tags.join(", "),
+  });
+  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
     title: data.titleEn,
     eyebrow: data.eyebrowEn,
     slug: data.slugEn,
     seoDescription: data.seoDescriptionEn,
-    tags: data.tagsEn,
-  },
-];
+    tags: data.tagsEn.join(", "),
+  });
+
+  return Object.entries(translations).map(([locale, values]) => ({
+    postId,
+    locale,
+    title: values.title ?? null,
+    eyebrow: values.eyebrow ?? null,
+    slug: values.slug ?? null,
+    seoDescription: values.seoDescription ?? null,
+    tags: parseTagText(values.tags ?? null),
+  }));
+};
 
 const blogBlockTranslations = (
   blockId: string,
   block: ValidatedBlogPostData["blocks"][number],
-) => [
-  {
-    blockId,
-    locale: "fr",
+) => {
+  const translations = block.translations;
+  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
     contentHtml: block.contentHtml,
-  },
-  {
-    blockId,
-    locale: "en",
+  });
+  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
     contentHtml: block.contentHtmlEn,
-  },
-];
+  });
+
+  return Object.entries(translations).map(([locale, values]) => ({
+    blockId,
+    locale,
+    contentHtml:
+      values.contentHtml && !isBlankRichText(values.contentHtml)
+        ? sanitizeRichTextHtml(values.contentHtml)
+        : null,
+  }));
+};
 
 type BlogWriteClient = Pick<
   typeof prisma,

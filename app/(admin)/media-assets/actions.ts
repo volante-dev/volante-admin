@@ -7,6 +7,14 @@ import prisma from "@/lib/prisma";
 import { requireCrmAccess } from "@/lib/auth-guard";
 import { describeUnknownError } from "@/lib/error-utils";
 import { isValidMediaUrl, normalizeNullable, normalizeRequired } from "@/lib/validation";
+import {
+  legacyDefaultLocale,
+  legacyDefaultTextValue,
+  legacySecondaryLocale,
+  legacySecondaryTextValue,
+  mergeLegacyLocaleTextTranslations,
+  parseLocaleTextTranslations,
+} from "@/lib/admin-translations";
 import type { MediaAssetData, MediaAssetType } from "@/components/admin/media/media-types";
 
 const MAX_OPTIMIZE_SOURCE_BYTES = 25 * 1024 * 1024;
@@ -36,6 +44,13 @@ type UploadedBlob = {
   contentType?: string;
   size?: number;
 };
+
+type MediaAssetTranslationField = "alt" | "tags";
+
+const mediaAssetTranslationFields = [
+  "alt",
+  "tags",
+] as const satisfies readonly MediaAssetTranslationField[];
 
 const imageTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/avif"]);
 const videoTypes = new Set(["video/mp4", "video/quicktime", "video/mov", "video/x-quicktime"]);
@@ -90,12 +105,18 @@ const toMediaAssetData = (
     tags: string[];
     active: boolean;
     createdAt: Date;
+    translations?: {
+      locale: string;
+      alt: string | null;
+      tags: string[];
+    }[];
   },
   usageCount = 0,
 ): MediaAssetData => ({
   ...asset,
   createdAt: asset.createdAt.toISOString(),
   usageCount,
+  translations: asset.translations ?? [],
 });
 
 const getUsageCount = async (asset: { id: string; url: string }) => {
@@ -202,13 +223,13 @@ export const createMediaAssetFromUpload = async (
       });
       await Promise.all([
         tx.mediaAssetTranslation.upsert({
-          where: { assetId_locale: { assetId: saved.id, locale: "fr" } },
-          create: { assetId: saved.id, locale: "fr", alt, tags },
+          where: { assetId_locale: { assetId: saved.id, locale: legacyDefaultLocale } },
+          create: { assetId: saved.id, locale: legacyDefaultLocale, alt, tags },
           update: { alt, tags },
         }),
         tx.mediaAssetTranslation.upsert({
-          where: { assetId_locale: { assetId: saved.id, locale: "en" } },
-          create: { assetId: saved.id, locale: "en", alt: altEn, tags: [] },
+          where: { assetId_locale: { assetId: saved.id, locale: legacySecondaryLocale } },
+          create: { assetId: saved.id, locale: legacySecondaryLocale, alt: altEn, tags: [] },
           update: { alt: altEn, tags: [] },
         }),
       ]);
@@ -274,9 +295,28 @@ export const updateMediaAsset = async (
           }
         : {};
 
-    const alt = normalizeNullable(formData.get("alt"));
-    const altEn = normalizeNullable(formData.get("altEn"));
-    const tags = parseTags(formData.get("tags"));
+    const translations = parseLocaleTextTranslations(
+      formData,
+      mediaAssetTranslationFields,
+    );
+    const alt =
+      legacyDefaultTextValue(translations, "alt") ??
+      normalizeNullable(formData.get("alt"));
+    const altEn =
+      legacySecondaryTextValue(translations, "alt") ??
+      normalizeNullable(formData.get("altEn"));
+    const normalizedTags = legacyDefaultTextValue(translations, "tags");
+    const tags = normalizedTags
+      ? parseTags(normalizedTags)
+      : parseTags(formData.get("tags"));
+    mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
+      alt,
+      tags: tags.join(", "),
+    });
+    mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
+      alt: altEn,
+      tags: legacySecondaryTextValue(translations, "tags") ?? "",
+    });
     const asset = await prisma.$transaction(async (tx) => {
       const saved = await tx.mediaAsset.update({
         where: { id },
@@ -289,25 +329,37 @@ export const updateMediaAsset = async (
           ...posterData,
         },
       });
-      await Promise.all([
-        tx.mediaAssetTranslation.upsert({
-          where: { assetId_locale: { assetId: id, locale: "fr" } },
-          create: { assetId: id, locale: "fr", alt, tags },
-          update: { alt, tags },
-        }),
-        tx.mediaAssetTranslation.upsert({
-          where: { assetId_locale: { assetId: id, locale: "en" } },
-          create: { assetId: id, locale: "en", alt: altEn, tags: [] },
-          update: { alt: altEn, tags: [] },
-        }),
-      ]);
+      await Promise.all(
+        Object.entries(translations).map(([locale, values]) =>
+          tx.mediaAssetTranslation.upsert({
+            where: { assetId_locale: { assetId: id, locale } },
+            create: {
+              assetId: id,
+              locale,
+              alt: values.alt ?? null,
+              tags: parseTags(values.tags),
+            },
+            update: {
+              alt: values.alt ?? null,
+              tags: parseTags(values.tags),
+            },
+          }),
+        ),
+      );
       return saved;
+    });
+    const assetWithTranslations = await prisma.mediaAsset.findUnique({
+      where: { id: asset.id },
+      include: { translations: true },
     });
 
     revalidatePath("/media-assets");
     return {
       success: true,
-      asset: toMediaAssetData(asset, await getUsageCount(asset)),
+      asset: toMediaAssetData(
+        assetWithTranslations ?? asset,
+        await getUsageCount(asset),
+      ),
     };
   } catch (error) {
     return {

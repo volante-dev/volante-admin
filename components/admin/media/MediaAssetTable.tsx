@@ -39,6 +39,11 @@ import {
 } from "@/lib/browser-video-converter";
 import { describeUnknownError } from "@/lib/error-utils";
 import { useAiRequest } from "@/lib/use-ai-request";
+import {
+  legacyDefaultLocale,
+  legacySecondaryLocale,
+} from "@/lib/admin-translations";
+import type { SiteLocaleData } from "@/lib/site-locales";
 import type { MediaMetadataOutput } from "@/lib/ai";
 import type { MediaAssetData } from "./media-types";
 
@@ -126,7 +131,13 @@ const formatBytes = (value: number) => {
   return `${(value / (1024 * 1024)).toFixed(1)} Mo`;
 };
 
-export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
+export const MediaAssetTable = ({
+  assets,
+  locales,
+}: {
+  assets: MediaAssetData[];
+  locales: SiteLocaleData[];
+}) => {
   const [rows, setRows] = useState(assets);
   const [query, setQuery] = useState("");
   const [editing, setEditing] = useState<MediaAssetData | null>(null);
@@ -134,6 +145,14 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
   const [draftAlt, setDraftAlt] = useState("");
   const [draftAltEn, setDraftAltEn] = useState("");
   const [draftTags, setDraftTags] = useState("");
+  const extraLocales = locales.filter(
+    (locale) =>
+      locale.code !== legacyDefaultLocale &&
+      locale.code !== legacySecondaryLocale,
+  );
+  const [draftTranslations, setDraftTranslations] = useState<
+    Record<string, { alt: string; tags: string }>
+  >({});
   const [draftPosterUrl, setDraftPosterUrl] = useState("");
   const [draftPosterPathname, setDraftPosterPathname] = useState("");
   const [draftPosterMimeType, setDraftPosterMimeType] = useState("");
@@ -168,6 +187,21 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
     setDraftAlt(asset.alt ?? "");
     setDraftAltEn(asset.altEn ?? "");
     setDraftTags(asset.tags.join(", "));
+    const byLocale = new Map(asset.translations.map((item) => [item.locale, item]));
+    setDraftTranslations(
+      Object.fromEntries(
+        extraLocales.map((locale) => {
+          const translation = byLocale.get(locale.code);
+          return [
+            locale.code,
+            {
+              alt: translation?.alt ?? "",
+              tags: translation?.tags.join(", ") ?? "",
+            },
+          ];
+        }),
+      ),
+    );
     setDraftPosterUrl(asset.posterUrl ?? "");
     setDraftPosterPathname(asset.posterPathname ?? "");
     setDraftPosterMimeType(asset.posterMimeType ?? "");
@@ -182,6 +216,14 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
     formData.set("alt", draftAlt);
     formData.set("altEn", draftAltEn);
     formData.set("tags", draftTags);
+    formData.set(
+      "translations",
+      JSON.stringify({
+        [legacyDefaultLocale]: { alt: draftAlt, tags: draftTags },
+        [legacySecondaryLocale]: { alt: draftAltEn, tags: "" },
+        ...draftTranslations,
+      }),
+    );
     formData.set("active", String(editing.active));
     if (editing.mediaType === "VIDEO") {
       formData.set("posterUrl", draftPosterUrl);
@@ -730,6 +772,51 @@ export const MediaAssetTable = ({ assets }: { assets: MediaAssetData[] }) => {
             onChange={(event) => setDraftTags(event.target.value)}
             fullWidth
           />
+          {extraLocales.map((locale) => {
+            const fields = draftTranslations[locale.code] ?? { alt: "", tags: "" };
+            const updateField =
+              (field: keyof typeof fields) => (value: string) =>
+                setDraftTranslations((current) => ({
+                  ...current,
+                  [locale.code]: {
+                    ...(current[locale.code] ?? fields),
+                    [field]: value,
+                  },
+                }));
+
+            return (
+              <Box
+                key={locale.code}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 2,
+                  borderTop: "1px solid",
+                  borderColor: "divider",
+                  pt: 2,
+                }}
+              >
+                <Typography variant="h3">
+                  {locale.nativeLabel || locale.label}
+                </Typography>
+                <TextField
+                  label="Alt"
+                  value={fields.alt}
+                  onChange={(event) => updateField("alt")(event.target.value)}
+                  fullWidth
+                  multiline
+                  minRows={2}
+                />
+                <TextField
+                  label="Tags"
+                  value={fields.tags}
+                  helperText="Separes par des virgules."
+                  onChange={(event) => updateField("tags")(event.target.value)}
+                  fullWidth
+                />
+              </Box>
+            );
+          })}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setEditing(null)} disabled={pending || generating}>

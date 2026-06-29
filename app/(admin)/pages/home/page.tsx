@@ -2,11 +2,16 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { HomePageForm } from "@/components/admin/HomePageForm";
 import { getHomePageContent } from "@/lib/home-page-content";
+import { getSiteLocales } from "@/lib/site-locales";
 
 export const dynamic = "force-dynamic";
 
 const HomePageAdmin = async () => {
-  const content = await getHomePageContent();
+  const [content, locales] = await Promise.all([
+    getHomePageContent(),
+    getSiteLocales(),
+  ]);
+  const adminLocales = locales.filter((locale) => locale.enabledInAdmin);
 
   return (
     <>
@@ -20,7 +25,7 @@ const HomePageAdmin = async () => {
       <Box sx={{ mb: 2 }}>
         <Typography variant="h3">Sections Accueil</Typography>
       </Box>
-      <HomePageForm content={content} />
+      <HomePageForm content={content} locales={adminLocales} />
     </>
   );
 };

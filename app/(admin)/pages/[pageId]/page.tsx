@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { getPageHeaderContent } from "@/lib/page-header-content";
 import { PageHeaderForm } from "@/components/admin/PageHeaderForm";
+import { getSiteLocales } from "@/lib/site-locales";
 import {
   isPageHeaderId,
   pageHeaderLabels,
@@ -23,7 +24,11 @@ const PageAdmin = async ({
     notFound();
   }
 
-  const content = await getPageHeaderContent(rawPageId);
+  const [content, locales] = await Promise.all([
+    getPageHeaderContent(rawPageId),
+    getSiteLocales(),
+  ]);
+  const adminLocales = locales.filter((locale) => locale.enabledInAdmin);
   const label = pageHeaderLabels[rawPageId];
 
   return (
@@ -38,7 +43,7 @@ const PageAdmin = async ({
       <Box sx={{ mb: 2 }}>
         <Typography variant="h3">Contenu de page</Typography>
       </Box>
-      <PageHeaderForm content={content} />
+      <PageHeaderForm content={content} locales={adminLocales} />
     </>
   );
 };

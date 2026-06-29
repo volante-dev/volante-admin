@@ -30,4 +30,20 @@ export type StudioPageContentData = {
   historyTitleEn: string | null;
   historyContentHtml: string;
   historyContentHtmlEn: string | null;
+  translations: {
+    locale: string;
+    eyebrow: string | null;
+    title: string | null;
+    intro: string | null;
+    founderOneName: string | null;
+    founderOneRole: string | null;
+    founderOneDescription: string | null;
+    founderOneImageAlt: string | null;
+    founderTwoName: string | null;
+    founderTwoRole: string | null;
+    founderTwoDescription: string | null;
+    founderTwoImageAlt: string | null;
+    historyTitle: string | null;
+    historyContentHtml: string | null;
+  }[];
 };

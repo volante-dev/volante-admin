@@ -8,6 +8,12 @@ import {
   type ProjectTaxonomyOption,
   type ProjectTaxonomyType,
 } from "@/components/admin/project-taxonomy-types";
+import {
+  legacyDefaultLocale,
+  legacySecondaryLocale,
+  mergeLegacyLocaleTextTranslations,
+  type LocaleTextTranslations,
+} from "@/lib/admin-translations";
 
 type TaxonomyResult = {
   success: boolean;
@@ -35,6 +41,13 @@ const normalizeNullableText = (value?: string | null) => {
   const normalized = value?.trim();
   return normalized ? normalized : null;
 };
+
+type TaxonomyTranslationField =
+  | "label"
+  | "slug"
+  | "introEyebrow"
+  | "introTitle"
+  | "intro";
 
 const parseEntry = (
   type: ProjectTaxonomyType,
@@ -102,26 +115,36 @@ const actionError = (error: unknown): TaxonomyResult => {
 
 type ParsedEntryData = Extract<ReturnType<typeof parseEntry>, { data: unknown }>["data"];
 
-const taxonomyTranslations = (entryId: string, data: ParsedEntryData) => [
-  {
-    entryId,
-    locale: "fr",
+const taxonomyTranslationRows = (
+  entryId: string,
+  data: ParsedEntryData,
+  translations: LocaleTextTranslations<TaxonomyTranslationField> = {},
+) => {
+  mergeLegacyLocaleTextTranslations(translations, legacyDefaultLocale, {
     label: data.label,
     slug: data.slug,
     introEyebrow: data.introEyebrow,
     introTitle: data.introTitle,
     intro: data.intro,
-  },
-  {
-    entryId,
-    locale: "en",
+  });
+  mergeLegacyLocaleTextTranslations(translations, legacySecondaryLocale, {
     label: data.labelEn,
     slug: data.slug,
     introEyebrow: data.introEyebrowEn,
     introTitle: data.introTitleEn,
     intro: data.introEn,
-  },
-];
+  });
+
+  return Object.entries(translations).map(([locale, values]) => ({
+    entryId,
+    locale,
+    label: values.label ?? null,
+    slug: values.slug ?? null,
+    introEyebrow: values.introEyebrow ?? null,
+    introTitle: values.introTitle ?? null,
+    intro: values.intro ?? null,
+  }));
+};
 
 export const createProjectTaxonomyEntry = async (
   type: ProjectTaxonomyType,
@@ -135,6 +158,7 @@ export const createProjectTaxonomyEntry = async (
   introTitleEn?: string | null,
   intro?: string | null,
   introEn?: string | null,
+  translations?: LocaleTextTranslations<TaxonomyTranslationField>,
 ): Promise<TaxonomyResult> => {
   try {
     await requireCrmAccess();
@@ -156,7 +180,7 @@ export const createProjectTaxonomyEntry = async (
     const entry = await prisma.$transaction(async (tx) => {
       const created = await tx.projectTaxonomyEntry.create({ data: parsed.data });
       await Promise.all(
-        taxonomyTranslations(created.id, parsed.data).map((translation) =>
+        taxonomyTranslationRows(created.id, parsed.data, translations).map((translation) =>
           tx.projectTaxonomyEntryTranslation.upsert({
             where: {
               entryId_locale: {
@@ -197,6 +221,7 @@ export const updateProjectTaxonomyEntry = async (
   introTitleEn?: string | null,
   intro?: string | null,
   introEn?: string | null,
+  translations?: LocaleTextTranslations<TaxonomyTranslationField>,
 ): Promise<TaxonomyResult> => {
   try {
     await requireCrmAccess();
@@ -235,7 +260,7 @@ export const updateProjectTaxonomyEntry = async (
         },
       });
       await Promise.all(
-        taxonomyTranslations(id, parsed.data).map((translation) =>
+        taxonomyTranslationRows(id, parsed.data, translations).map((translation) =>
           tx.projectTaxonomyEntryTranslation.upsert({
             where: {
               entryId_locale: {
