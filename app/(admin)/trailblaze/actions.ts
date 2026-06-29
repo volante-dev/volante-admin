@@ -32,6 +32,29 @@ const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const inferMediaTypeFromUrl = (value: string) =>
   /\.(mp4|mov|webm)(?:[?#].*)?$/i.test(value) ? "VIDEO" : "IMAGE";
 
+const parseTags = (value: FormDataEntryValue | null) => {
+  if (typeof value !== "string") return [];
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    const seen = new Set<string>();
+
+    return parsed
+      .filter((tag): tag is string => typeof tag === "string")
+      .map((tag) => tag.replace(/^#+/, "").trim())
+      .filter((tag) => tag.length >= 2 && tag.length <= 48)
+      .filter((tag) => {
+        const key = tag.toLocaleLowerCase("fr-FR");
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      })
+      .slice(0, 18);
+  } catch {
+    return [];
+  }
+};
+
 const parseBlocks = (formData: FormData): BlogBlockPayload[] => {
   const raw = formData.get("blocks");
   if (typeof raw !== "string" || !raw.trim()) return [];
@@ -75,6 +98,8 @@ const validateBlogPostPayload = async (
   const slugEn = normalizeRequired(formData.get("slugEn"));
   const coverMediaUrl = normalizeRequired(formData.get("coverMediaUrl"));
   const coverMediaAssetId = normalizeNullable(formData.get("coverMediaAssetId"));
+  const tags = parseTags(formData.get("tags"));
+  const tagsEn = parseTags(formData.get("tagsEn"));
   const publishedAt = parseDateOrNull(formData.get("publishedAt"));
   const blocks = parseBlocks(formData);
 
@@ -212,6 +237,8 @@ const validateBlogPostPayload = async (
       slugEn,
       coverMediaUrl,
       coverMediaAssetId,
+      tags,
+      tagsEn,
       publishedAt,
       blocks: sanitizedBlocks,
     },
@@ -277,6 +304,8 @@ export const createBlogPost = async (formData: FormData): Promise<ActionResult> 
           slugEn: parsed.data.slugEn,
           coverMediaUrl: parsed.data.coverMediaUrl,
           coverMediaAssetId: parsed.data.coverMediaAssetId,
+          tags: parsed.data.tags,
+          tagsEn: parsed.data.tagsEn,
           publishedAt: parsed.data.publishedAt,
         },
       });
@@ -318,6 +347,8 @@ export const updateBlogPost = async (
           slugEn: parsed.data.slugEn,
           coverMediaUrl: parsed.data.coverMediaUrl,
           coverMediaAssetId: parsed.data.coverMediaAssetId,
+          tags: parsed.data.tags,
+          tagsEn: parsed.data.tagsEn,
           publishedAt: parsed.data.publishedAt,
         },
       });

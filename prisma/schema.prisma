@@ -58,6 +58,8 @@ model BlogPost {
   coverMediaUrl       String
   coverMediaAssetId   String?
   coverMediaAsset     MediaAsset?     @relation("BlogPostCoverMediaAsset", fields: [coverMediaAssetId], references: [id], onDelete: SetNull)
+  tags                String[]        @default([])
+  tagsEn              String[]        @default([])
   publishedAt         DateTime?
   createdAt           DateTime        @default(now())
   updatedAt           DateTime        @updatedAt

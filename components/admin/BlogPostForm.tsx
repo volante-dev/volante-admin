@@ -43,6 +43,7 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import SaveIcon from "@mui/icons-material/Save";
 import UnpublishedIcon from "@mui/icons-material/Unpublished";
 import PublishIcon from "@mui/icons-material/Publish";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import { toast } from "sonner";
 import {
   createBlogPost,
@@ -54,6 +55,8 @@ import { DeleteConfirmDialog } from "./DeleteConfirmDialog";
 import { MediaUrlField } from "./MediaUrlField";
 import { RichTextEditor } from "./RichTextEditor";
 import { TranslateButton } from "./TranslateButton";
+import { useAiRequest } from "@/lib/use-ai-request";
+import type { BlogTagsOutput } from "@/lib/ai";
 import type { MediaAssetType, MediaSelection } from "./media/media-types";
 import type {
   AdminBlogPostDetail,
@@ -92,6 +95,22 @@ const emptyBlock = (type: BlogPostBlockType): EditableBlock => ({
 
 const stripHtml = (value: string) =>
   value.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").trim();
+
+const tagsToText = (tags: string[]) => tags.join(", ");
+
+const parseTagText = (value: string) => {
+  const seen = new Set<string>();
+  return value
+    .split(/[\n,]/)
+    .map((tag) => tag.replace(/^#+/, "").trim())
+    .filter((tag) => tag.length >= 2)
+    .filter((tag) => {
+      const key = tag.toLocaleLowerCase("fr-FR");
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+};
 
 const inferMediaTypeFromUrl = (value: string): MediaAssetType =>
   /\.(mp4|mov|webm)(?:[?#].*)?$/i.test(value) ? "VIDEO" : "IMAGE";
@@ -345,6 +364,7 @@ const SortableBlogBlock = ({
 export const BlogPostForm = ({ post }: BlogPostFormProps) => {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
+  const { execute: executeAi, loading: generatingTags } = useAiRequest();
   const [tab, setTab] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<EditableBlock | null>(null);
@@ -366,6 +386,8 @@ export const BlogPostForm = ({ post }: BlogPostFormProps) => {
   const [publishedAt, setPublishedAt] = useState(
     toAdminDatetimeLocal(post?.publishedAt ?? null),
   );
+  const [tags, setTags] = useState(tagsToText(post?.tags ?? []));
+  const [tagsEn, setTagsEn] = useState(tagsToText(post?.tagsEn ?? []));
   const [blocks, setBlocks] = useState<EditableBlock[]>(
     post?.blocks.map((block) => ({
       key: block.id,
@@ -432,6 +454,42 @@ export const BlogPostForm = ({ post }: BlogPostFormProps) => {
     });
   };
 
+  const collectRichTextContent = (language: "fr" | "en") =>
+    blocks
+      .filter((block) => block.type === "RICHTEXT")
+      .map((block) =>
+        stripHtml(language === "fr" ? block.contentHtml : block.contentHtmlEn),
+      )
+      .filter(Boolean)
+      .join("\n\n");
+
+  const generateTags = async () => {
+    const content = collectRichTextContent("fr");
+    if (!title.trim() || !eyebrow.trim() || !content.trim()) {
+      setError("Renseignez au moins le titre, l'eyebrow et un bloc rich text francais.");
+      return;
+    }
+
+    const result = await executeAi({
+      task: "generate-blog-tags",
+      title,
+      titleEn,
+      eyebrow,
+      eyebrowEn,
+      slug,
+      slugEn,
+      content,
+      contentEn: collectRichTextContent("en"),
+    });
+
+    if (result && typeof result === "object" && "tags" in result && "tagsEn" in result) {
+      const output = result as BlogTagsOutput;
+      setTags(tagsToText(output.tags));
+      setTagsEn(tagsToText(output.tagsEn));
+      toast.success("Tags SEO generes.");
+    }
+  };
+
   const validateClient = () => {
     if (!title.trim()) return "Le titre est obligatoire.";
     if (!titleEn.trim()) return "Le titre anglais est obligatoire.";
@@ -462,6 +520,8 @@ export const BlogPostForm = ({ post }: BlogPostFormProps) => {
     formData.set("slugEn", slugEn);
     formData.set("coverMediaUrl", coverMediaUrl);
     formData.set("coverMediaAssetId", coverMediaAssetId);
+    formData.set("tags", JSON.stringify(parseTagText(tags)));
+    formData.set("tagsEn", JSON.stringify(parseTagText(tagsEn)));
     formData.set("publishedAt", nextPublishedAt);
     formData.set(
       "blocks",
@@ -667,6 +727,52 @@ export const BlogPostForm = ({ post }: BlogPostFormProps) => {
 
           {tab === 4 && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
+              <Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    gap: 2,
+                    mb: 2,
+                  }}
+                >
+                  <Typography variant="h4">Tags SEO</Typography>
+                  <Button
+                    startIcon={<AutoAwesomeIcon />}
+                    onClick={generateTags}
+                    disabled={generatingTags}
+                  >
+                    {generatingTags ? "Generation..." : "Generer par IA"}
+                  </Button>
+                </Box>
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" },
+                    gap: 2.5,
+                  }}
+                >
+                  <TextField
+                    label="Tags francais"
+                    value={tags}
+                    onChange={(event) => setTags(event.target.value)}
+                    fullWidth
+                    multiline
+                    minRows={3}
+                    helperText="Separez les tags par des virgules ou des retours a la ligne."
+                  />
+                  <TextField
+                    label="Tags anglais"
+                    value={tagsEn}
+                    onChange={(event) => setTagsEn(event.target.value)}
+                    fullWidth
+                    multiline
+                    minRows={3}
+                    helperText="Affiches sur la version anglaise."
+                  />
+                </Box>
+              </Box>
               <TextField
                 label="Date de publication"
                 type="datetime-local"

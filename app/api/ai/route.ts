@@ -3,7 +3,11 @@ import { getAccountSummary } from "@/lib/account";
 import { executeAiTask } from "@/lib/ai";
 import type { AiTask } from "@/lib/ai";
 
-const KNOWN_TASKS = new Set(["translate", "generate-media-metadata"]);
+const KNOWN_TASKS = new Set([
+  "translate",
+  "generate-media-metadata",
+  "generate-blog-tags",
+]);
 
 export async function POST(request: Request) {
   const session = await getSession();
@@ -36,6 +40,18 @@ export async function POST(request: Request) {
   if (body.task === "generate-media-metadata") {
     if (!body.imageUrl || typeof body.imageUrl !== "string" || !body.imageUrl.trim()) {
       return Response.json({ success: false, error: "L'image est requise." }, { status: 400 });
+    }
+  }
+
+  if (body.task === "generate-blog-tags") {
+    if (!body.title || typeof body.title !== "string" || !body.title.trim()) {
+      return Response.json({ success: false, error: "Le titre est requis." }, { status: 400 });
+    }
+    if (!body.eyebrow || typeof body.eyebrow !== "string" || !body.eyebrow.trim()) {
+      return Response.json({ success: false, error: "L'eyebrow est requis." }, { status: 400 });
+    }
+    if (!body.content || typeof body.content !== "string" || !body.content.trim()) {
+      return Response.json({ success: false, error: "Le contenu est requis." }, { status: 400 });
     }
   }
 

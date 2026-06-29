@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "BlogPost" ADD COLUMN "tags" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[];
+
+-- AlterTable
+ALTER TABLE "BlogPost" ADD COLUMN "tagsEn" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[];

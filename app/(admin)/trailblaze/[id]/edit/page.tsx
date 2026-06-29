@@ -42,6 +42,8 @@ const EditBlogPostPage = async ({
     coverMediaAssetId: raw.coverMediaAssetId,
     coverMediaAssetType: raw.coverMediaAsset?.mediaType ?? null,
     coverMediaPosterUrl: raw.coverMediaAsset?.posterUrl ?? null,
+    tags: raw.tags,
+    tagsEn: raw.tagsEn,
     publishedAt: raw.publishedAt?.toISOString() ?? null,
     blocks: raw.blocks.map((block) => ({
       id: block.id,

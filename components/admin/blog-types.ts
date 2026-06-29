@@ -33,6 +33,8 @@ export type AdminBlogPostDetail = {
   coverMediaAssetId: string | null;
   coverMediaAssetType: "IMAGE" | "VIDEO" | null;
   coverMediaPosterUrl: string | null;
+  tags: string[];
+  tagsEn: string[];
   publishedAt: string | null;
   blocks: AdminBlogPostBlock[];
   previewUrl: string | null;

@@ -1464,6 +1464,8 @@ export const BlogPostScalarFieldEnum = {
   slugEn: 'slugEn',
   coverMediaUrl: 'coverMediaUrl',
   coverMediaAssetId: 'coverMediaAssetId',
+  tags: 'tags',
+  tagsEn: 'tagsEn',
   publishedAt: 'publishedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
