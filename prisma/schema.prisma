@@ -477,6 +477,39 @@ model HomePageContentTranslation {
   @@index([locale])
 }
 
+model FooterContent {
+  id                 String   @id
+  tagline            String
+  contactHeading     String
+  contactEmail       String
+  contactSocialLabel String
+  legalText          String
+  madeWithCare       String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  translations       FooterContentTranslation[]
+}
+
+model FooterContentTranslation {
+  id                 String            @id @default(cuid())
+  content            FooterContent     @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  contentId          String
+  locale             String
+  tagline            String?
+  contactHeading     String?
+  contactEmail       String?
+  contactSocialLabel String?
+  legalText          String?
+  madeWithCare       String?
+  source             TranslationSource @default(MANUAL)
+  reviewedAt         DateTime?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+
+  @@unique([contentId, locale])
+  @@index([locale])
+}
+
 enum MediaAssetType {
   IMAGE
   VIDEO

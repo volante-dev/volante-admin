@@ -162,6 +162,16 @@ export type HomePageContent = Prisma.HomePageContentModel
  */
 export type HomePageContentTranslation = Prisma.HomePageContentTranslationModel
 /**
+ * Model FooterContent
+ * 
+ */
+export type FooterContent = Prisma.FooterContentModel
+/**
+ * Model FooterContentTranslation
+ * 
+ */
+export type FooterContentTranslation = Prisma.FooterContentTranslationModel
+/**
  * Model MediaAsset
  * 
  */

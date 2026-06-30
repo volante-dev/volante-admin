@@ -408,6 +408,8 @@ export const ModelName = {
   PageHeaderContentTranslation: 'PageHeaderContentTranslation',
   HomePageContent: 'HomePageContent',
   HomePageContentTranslation: 'HomePageContentTranslation',
+  FooterContent: 'FooterContent',
+  FooterContentTranslation: 'FooterContentTranslation',
   MediaAsset: 'MediaAsset',
   MediaAssetTranslation: 'MediaAssetTranslation',
   Testimonial: 'Testimonial'
@@ -426,7 +428,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "project" | "blogPost" | "siteRoute" | "siteLocale" | "projectTranslation" | "blogPostTranslation" | "siteRouteTranslation" | "blogPostBlock" | "blogPostBlockTranslation" | "projectTaxonomyEntry" | "projectTaxonomyEntryTranslation" | "projectSlide" | "projectSlideTranslation" | "service" | "serviceTranslation" | "servicePortfolioExample" | "studioValue" | "studioValueTranslation" | "studioPageContent" | "studioPageContentTranslation" | "pageHeaderContent" | "pageHeaderContentTranslation" | "homePageContent" | "homePageContentTranslation" | "mediaAsset" | "mediaAssetTranslation" | "testimonial"
+    modelProps: "project" | "blogPost" | "siteRoute" | "siteLocale" | "projectTranslation" | "blogPostTranslation" | "siteRouteTranslation" | "blogPostBlock" | "blogPostBlockTranslation" | "projectTaxonomyEntry" | "projectTaxonomyEntryTranslation" | "projectSlide" | "projectSlideTranslation" | "service" | "serviceTranslation" | "servicePortfolioExample" | "studioValue" | "studioValueTranslation" | "studioPageContent" | "studioPageContentTranslation" | "pageHeaderContent" | "pageHeaderContentTranslation" | "homePageContent" | "homePageContentTranslation" | "footerContent" | "footerContentTranslation" | "mediaAsset" | "mediaAssetTranslation" | "testimonial"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2206,6 +2208,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FooterContent: {
+      payload: Prisma.$FooterContentPayload<ExtArgs>
+      fields: Prisma.FooterContentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FooterContentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FooterContentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentPayload>
+        }
+        findFirst: {
+          args: Prisma.FooterContentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FooterContentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentPayload>
+        }
+        findMany: {
+          args: Prisma.FooterContentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentPayload>[]
+        }
+        create: {
+          args: Prisma.FooterContentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentPayload>
+        }
+        createMany: {
+          args: Prisma.FooterContentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FooterContentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentPayload>[]
+        }
+        delete: {
+          args: Prisma.FooterContentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentPayload>
+        }
+        update: {
+          args: Prisma.FooterContentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentPayload>
+        }
+        deleteMany: {
+          args: Prisma.FooterContentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FooterContentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FooterContentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentPayload>[]
+        }
+        upsert: {
+          args: Prisma.FooterContentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentPayload>
+        }
+        aggregate: {
+          args: Prisma.FooterContentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFooterContent>
+        }
+        groupBy: {
+          args: Prisma.FooterContentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FooterContentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FooterContentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FooterContentCountAggregateOutputType> | number
+        }
+      }
+    }
+    FooterContentTranslation: {
+      payload: Prisma.$FooterContentTranslationPayload<ExtArgs>
+      fields: Prisma.FooterContentTranslationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FooterContentTranslationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentTranslationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FooterContentTranslationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentTranslationPayload>
+        }
+        findFirst: {
+          args: Prisma.FooterContentTranslationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentTranslationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FooterContentTranslationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentTranslationPayload>
+        }
+        findMany: {
+          args: Prisma.FooterContentTranslationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentTranslationPayload>[]
+        }
+        create: {
+          args: Prisma.FooterContentTranslationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentTranslationPayload>
+        }
+        createMany: {
+          args: Prisma.FooterContentTranslationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FooterContentTranslationCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentTranslationPayload>[]
+        }
+        delete: {
+          args: Prisma.FooterContentTranslationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentTranslationPayload>
+        }
+        update: {
+          args: Prisma.FooterContentTranslationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentTranslationPayload>
+        }
+        deleteMany: {
+          args: Prisma.FooterContentTranslationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FooterContentTranslationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FooterContentTranslationUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentTranslationPayload>[]
+        }
+        upsert: {
+          args: Prisma.FooterContentTranslationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FooterContentTranslationPayload>
+        }
+        aggregate: {
+          args: Prisma.FooterContentTranslationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFooterContentTranslation>
+        }
+        groupBy: {
+          args: Prisma.FooterContentTranslationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FooterContentTranslationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FooterContentTranslationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FooterContentTranslationCountAggregateOutputType> | number
+        }
+      }
+    }
     MediaAsset: {
       payload: Prisma.$MediaAssetPayload<ExtArgs>
       fields: Prisma.MediaAssetFieldRefs
@@ -2880,6 +3030,40 @@ export const HomePageContentTranslationScalarFieldEnum = {
 export type HomePageContentTranslationScalarFieldEnum = (typeof HomePageContentTranslationScalarFieldEnum)[keyof typeof HomePageContentTranslationScalarFieldEnum]
 
 
+export const FooterContentScalarFieldEnum = {
+  id: 'id',
+  tagline: 'tagline',
+  contactHeading: 'contactHeading',
+  contactEmail: 'contactEmail',
+  contactSocialLabel: 'contactSocialLabel',
+  legalText: 'legalText',
+  madeWithCare: 'madeWithCare',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FooterContentScalarFieldEnum = (typeof FooterContentScalarFieldEnum)[keyof typeof FooterContentScalarFieldEnum]
+
+
+export const FooterContentTranslationScalarFieldEnum = {
+  id: 'id',
+  contentId: 'contentId',
+  locale: 'locale',
+  tagline: 'tagline',
+  contactHeading: 'contactHeading',
+  contactEmail: 'contactEmail',
+  contactSocialLabel: 'contactSocialLabel',
+  legalText: 'legalText',
+  madeWithCare: 'madeWithCare',
+  source: 'source',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FooterContentTranslationScalarFieldEnum = (typeof FooterContentTranslationScalarFieldEnum)[keyof typeof FooterContentTranslationScalarFieldEnum]
+
+
 export const MediaAssetScalarFieldEnum = {
   id: 'id',
   url: 'url',
@@ -3243,6 +3427,8 @@ export type GlobalOmitConfig = {
   pageHeaderContentTranslation?: Prisma.PageHeaderContentTranslationOmit
   homePageContent?: Prisma.HomePageContentOmit
   homePageContentTranslation?: Prisma.HomePageContentTranslationOmit
+  footerContent?: Prisma.FooterContentOmit
+  footerContentTranslation?: Prisma.FooterContentTranslationOmit
   mediaAsset?: Prisma.MediaAssetOmit
   mediaAssetTranslation?: Prisma.MediaAssetTranslationOmit
   testimonial?: Prisma.TestimonialOmit

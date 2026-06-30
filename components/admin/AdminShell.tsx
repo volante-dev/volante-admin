@@ -103,6 +103,11 @@ const navGroups: NavGroup[] = [
         href: "/pages/contact",
         icon: <ArticleIcon />,
       },
+      {
+        label: "Footer",
+        href: "/pages/footer",
+        icon: <ArticleIcon />,
+      },
     ],
   },
 ];

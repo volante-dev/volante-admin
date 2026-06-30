@@ -75,6 +75,8 @@ export const ModelName = {
   PageHeaderContentTranslation: 'PageHeaderContentTranslation',
   HomePageContent: 'HomePageContent',
   HomePageContentTranslation: 'HomePageContentTranslation',
+  FooterContent: 'FooterContent',
+  FooterContentTranslation: 'FooterContentTranslation',
   MediaAsset: 'MediaAsset',
   MediaAssetTranslation: 'MediaAssetTranslation',
   Testimonial: 'Testimonial'
@@ -507,6 +509,40 @@ export const HomePageContentTranslationScalarFieldEnum = {
 } as const
 
 export type HomePageContentTranslationScalarFieldEnum = (typeof HomePageContentTranslationScalarFieldEnum)[keyof typeof HomePageContentTranslationScalarFieldEnum]
+
+
+export const FooterContentScalarFieldEnum = {
+  id: 'id',
+  tagline: 'tagline',
+  contactHeading: 'contactHeading',
+  contactEmail: 'contactEmail',
+  contactSocialLabel: 'contactSocialLabel',
+  legalText: 'legalText',
+  madeWithCare: 'madeWithCare',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FooterContentScalarFieldEnum = (typeof FooterContentScalarFieldEnum)[keyof typeof FooterContentScalarFieldEnum]
+
+
+export const FooterContentTranslationScalarFieldEnum = {
+  id: 'id',
+  contentId: 'contentId',
+  locale: 'locale',
+  tagline: 'tagline',
+  contactHeading: 'contactHeading',
+  contactEmail: 'contactEmail',
+  contactSocialLabel: 'contactSocialLabel',
+  legalText: 'legalText',
+  madeWithCare: 'madeWithCare',
+  source: 'source',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type FooterContentTranslationScalarFieldEnum = (typeof FooterContentTranslationScalarFieldEnum)[keyof typeof FooterContentTranslationScalarFieldEnum]
 
 
 export const MediaAssetScalarFieldEnum = {
