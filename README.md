@@ -46,8 +46,9 @@ Notes :
 
 - `SITE_PROFILE` vaut `generic` si absent.
 - Pour Volante, definir explicitement `SITE_PROFILE=volante`.
-- `APP_URL` doit etre l'URL publique de l'admin, car elle sert au callback
-  OAuth.
+- `APP_URL` sert de fallback serveur hors requete HTTP. Le callback OAuth utilise
+  l'origin de la requete courante, ce qui permet aux previews Vercel de revenir
+  sur leur propre URL.
 - `FRONTEND_APP_URL` sert aux notifications IndexNow.
 
 ## Nouveau site
@@ -57,6 +58,13 @@ Notes :
 
 ```text
 https://admin.example.com/api/auth/callback/supabase
+```
+
+Pour les previews Vercel, autoriser aussi l'URL preview concernee ou un pattern
+compatible dans la configuration OAuth Supabase, par exemple :
+
+```text
+https://*.vercel.app/api/auth/callback/supabase
 ```
 
 3. Creer le projet Vercel de l'admin.

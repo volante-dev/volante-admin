@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import {
   getOAuthClientId,
   getOAuthIssuer,
-  getOAuthRedirectUri,
+  getOAuthRedirectUriForOrigin,
 } from "@/lib/config";
 import {
   createCodeChallenge,
@@ -24,11 +24,12 @@ export async function GET(request: NextRequest) {
     requestedNext.startsWith("/") && !requestedNext.startsWith("//")
       ? requestedNext
       : "/";
+  const redirectUri = getOAuthRedirectUriForOrigin(request.nextUrl.origin);
 
   const authorizeUrl = new URL(`${getOAuthIssuer()}/oauth/authorize`);
   authorizeUrl.searchParams.set("response_type", "code");
   authorizeUrl.searchParams.set("client_id", getOAuthClientId());
-  authorizeUrl.searchParams.set("redirect_uri", getOAuthRedirectUri());
+  authorizeUrl.searchParams.set("redirect_uri", redirectUri);
   authorizeUrl.searchParams.set("scope", "openid email profile");
   authorizeUrl.searchParams.set("state", state);
   authorizeUrl.searchParams.set("nonce", nonce);

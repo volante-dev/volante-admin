@@ -48,6 +48,10 @@ export function getOAuthRedirectUri() {
   return `${getAppUrl()}/api/auth/callback/supabase`;
 }
 
+export function getOAuthRedirectUriForOrigin(origin: string) {
+  return `${new URL(origin).origin}/api/auth/callback/supabase`;
+}
+
 export function getOpenAiApiKey() {
   return requiredEnv("OPENAI_API_KEY");
 }

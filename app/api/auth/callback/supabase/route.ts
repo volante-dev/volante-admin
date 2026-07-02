@@ -4,7 +4,7 @@ import {
   getOAuthClientId,
   getOAuthClientSecret,
   getOAuthIssuer,
-  getOAuthRedirectUri,
+  getOAuthRedirectUriForOrigin,
 } from "@/lib/config";
 import {
   createBasicAuthHeader,
@@ -61,7 +61,11 @@ export async function GET(request: NextRequest) {
     return redirectWithError(request, "invalid_oauth_state");
   }
 
-  const tokenResponse = await exchangeCodeForTokens(code, verifier);
+  const tokenResponse = await exchangeCodeForTokens(
+    code,
+    verifier,
+    getOAuthRedirectUriForOrigin(url.origin),
+  );
   if (
     tokenResponse.error ||
     !tokenResponse.access_token ||
@@ -104,7 +108,11 @@ export async function GET(request: NextRequest) {
   return response;
 }
 
-async function exchangeCodeForTokens(code: string, verifier: string) {
+async function exchangeCodeForTokens(
+  code: string,
+  verifier: string,
+  redirectUri: string,
+) {
   const clientSecret = getOAuthClientSecret();
   const headers: Record<string, string> = {
     "Content-Type": "application/x-www-form-urlencoded",
@@ -119,7 +127,7 @@ async function exchangeCodeForTokens(code: string, verifier: string) {
   const body = new URLSearchParams({
     grant_type: "authorization_code",
     code,
-    redirect_uri: getOAuthRedirectUri(),
+    redirect_uri: redirectUri,
     code_verifier: verifier,
   });
   if (!clientSecret) {
