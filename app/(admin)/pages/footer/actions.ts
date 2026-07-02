@@ -38,7 +38,7 @@ const footerContentFields = [
 ] as const satisfies readonly FooterContentField[];
 
 const requiredTextFields = [
-  ["tagline", "Le sous-titre Studio Volante est obligatoire."],
+  ["tagline", "Le sous-titre du footer est obligatoire."],
   ["contactHeading", "Le titre du bloc contact est obligatoire."],
   ["contactEmail", "L'email de contact est obligatoire."],
   ["contactSocialLabel", "Le lien social est obligatoire."],

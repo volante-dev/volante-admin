@@ -1,16 +1,14 @@
 import { getFrontendAppUrl } from "./config";
+import { getSiteProfile } from "./site-profile";
 
 export const notifyProjectIndexing = async (slug: string) => {
   const key = process.env.INDEXNOW_KEY;
   if (!key) return;
 
   const site = new URL(getFrontendAppUrl());
-  const urlList = [
-    new URL(`/portfolio/${slug}`, site).toString(),
-    new URL(`/en/portfolio/${slug}`, site).toString(),
-    new URL("/portfolio", site).toString(),
-    new URL("/en/portfolio", site).toString(),
-  ];
+  const urlList = getSiteProfile()
+    .indexNowProjectPaths(slug)
+    .map((path) => new URL(path, site).toString());
 
   try {
     const response = await fetch("https://api.indexnow.org/indexnow", {

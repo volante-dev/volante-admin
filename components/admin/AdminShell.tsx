@@ -26,6 +26,11 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import TranslateIcon from "@mui/icons-material/Translate";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Link from "next/link";
+import type {
+  AdminIconKey,
+  AdminNavGroupConfig,
+  AdminNavItemConfig,
+} from "@/lib/site-profile";
 
 const DRAWER_WIDTH = 240;
 
@@ -41,99 +46,57 @@ type NavGroup = {
   items: NavItem[];
 };
 
-const navGroups: NavGroup[] = [
-  {
-    items: [
-      { label: "Dashboard", href: "/", icon: <DashboardIcon /> },
-      { label: "Services", href: "/services", icon: <BuildIcon /> },
-      {
-        label: "Valeurs Studio",
-        href: "/studio-values",
-        icon: <AutoAwesomeIcon />,
-      },
-      { label: "Projects", href: "/projects", icon: <FolderIcon /> },
-      {
-        label: "Galerie de medias",
-        href: "/media-assets",
-        icon: <PermMediaIcon />,
-      },
-      {
-        label: "Taxonomies",
-        href: "/project-taxonomies",
-        icon: <CategoryIcon />,
-      },
-      {
-        label: "Trailblaze",
-        href: "/trailblaze",
-        icon: <ArticleIcon />,
-      },
-      {
-        label: "Testimonials",
-        href: "/testimonials",
-        icon: <FormatQuoteIcon />,
-        disabled: true,
-      },
-    ],
-  },
-  {
-    title: "Pages",
-    items: [
-      {
-        label: "Accueil",
-        href: "/pages/home",
-        icon: <ArticleIcon />,
-      },
-      {
-        label: "Studio",
-        href: "/pages/studio",
-        icon: <ArticleIcon />,
-      },
-      {
-        label: "Services",
-        href: "/pages/services",
-        icon: <ArticleIcon />,
-      },
-      {
-        label: "Portfolio",
-        href: "/pages/portfolio",
-        icon: <ArticleIcon />,
-      },
-      {
-        label: "Contact",
-        href: "/pages/contact",
-        icon: <ArticleIcon />,
-      },
-      {
-        label: "Footer",
-        href: "/pages/footer",
-        icon: <ArticleIcon />,
-      },
-    ],
-  },
-];
+const iconByKey: Record<AdminIconKey, React.ReactNode> = {
+  article: <ArticleIcon />,
+  autoAwesome: <AutoAwesomeIcon />,
+  build: <BuildIcon />,
+  category: <CategoryIcon />,
+  dashboard: <DashboardIcon />,
+  folder: <FolderIcon />,
+  media: <PermMediaIcon />,
+  quote: <FormatQuoteIcon />,
+  settings: <SettingsIcon fontSize="small" />,
+  translate: <TranslateIcon fontSize="small" />,
+};
 
-const settingsItems: NavItem[] = [
-  { label: "Header", href: "/header", icon: <SettingsIcon fontSize="small" /> },
-  {
-    label: "Langues",
-    href: "/settings/languages",
-    icon: <TranslateIcon fontSize="small" />,
-  },
-];
+const toNavItem = (item: AdminNavItemConfig): NavItem => ({
+  label: item.label,
+  href: item.href,
+  icon: iconByKey[item.icon],
+  disabled: item.disabled,
+});
+
+const toNavGroups = (groups: AdminNavGroupConfig[]): NavGroup[] =>
+  groups
+    .map((group) => ({
+      title: group.title,
+      items: group.items.filter((item) => item.enabled !== false).map(toNavItem),
+    }))
+    .filter((group) => group.items.length > 0);
 
 type AdminShellProps = {
+  appName: string;
   displayName: string;
   email: string;
+  navGroups: AdminNavGroupConfig[];
+  settingsItems: AdminNavItemConfig[];
   children: React.ReactNode;
 };
 
 export const AdminShell = ({
+  appName,
   displayName,
   email,
+  navGroups: navGroupConfig,
+  settingsItems: settingsItemConfig,
   children,
 }: AdminShellProps) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+  const navGroups = toNavGroups(navGroupConfig);
+  const settingsItems = settingsItemConfig
+    .filter((item) => item.enabled !== false)
+    .map(toNavItem);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -144,7 +107,7 @@ export const AdminShell = ({
     <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <Toolbar>
         <Typography variant="h3" sx={{ fontWeight: 600 }}>
-          Volante
+          {appName}
         </Typography>
       </Toolbar>
       <Divider />
@@ -270,7 +233,7 @@ export const AdminShell = ({
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h3">Volante</Typography>
+          <Typography variant="h3">{appName}</Typography>
         </Toolbar>
       </AppBar>
 

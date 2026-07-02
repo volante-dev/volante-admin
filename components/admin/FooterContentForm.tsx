@@ -65,7 +65,7 @@ const toEditableContent = (
 };
 
 const requiredFields = [
-  ["tagline", "Le sous-titre Studio Volante est obligatoire."],
+  ["tagline", "Le sous-titre du footer est obligatoire."],
   ["contactHeading", "Le titre du bloc contact est obligatoire."],
   ["contactEmail", "L'email de contact est obligatoire."],
   ["contactSocialLabel", "Le lien social est obligatoire."],
@@ -224,7 +224,7 @@ export const FooterContentForm = ({
                   {isDefaultLocale ? "Footer" : `Footer (${locale.code.toUpperCase()})`}
                 </Typography>
                 <TextFieldRow
-                  label="Sous-titre sous Studio Volante"
+                  label="Sous-titre du footer"
                   value={localeFields.tagline}
                   onChange={updateField(locale.code, "tagline")}
                   required={isDefaultLocale}
@@ -253,7 +253,7 @@ export const FooterContentForm = ({
                   value={localeFields.contactSocialLabel}
                   onChange={updateField(locale.code, "contactSocialLabel")}
                   required={isDefaultLocale}
-                  helperText="Exemple : @vlnt.studio"
+                  helperText="Exemple : @votre-site"
                 />
                 <TextFieldRow
                   label="Mention legale"

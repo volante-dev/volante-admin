@@ -8,6 +8,7 @@ import {
 } from "@/lib/config";
 import {
   createBasicAuthHeader,
+  OAUTH_LOGIN_NEXT_COOKIE,
   OAUTH_NONCE_COOKIE,
   OAUTH_STATE_COOKIE,
   OAUTH_VERIFIER_COOKIE,
@@ -46,7 +47,7 @@ export async function GET(request: NextRequest) {
   const expectedState = request.cookies.get(OAUTH_STATE_COOKIE)?.value;
   const expectedNonce = request.cookies.get(OAUTH_NONCE_COOKIE)?.value;
   const verifier = request.cookies.get(OAUTH_VERIFIER_COOKIE)?.value;
-  const requestedNext = request.cookies.get("volante_login_next")?.value ?? "/";
+  const requestedNext = request.cookies.get(OAUTH_LOGIN_NEXT_COOKIE)?.value ?? "/";
   const next =
     requestedNext.startsWith("/") && !requestedNext.startsWith("//")
       ? requestedNext
@@ -98,7 +99,7 @@ export async function GET(request: NextRequest) {
   response.cookies.delete(OAUTH_STATE_COOKIE);
   response.cookies.delete(OAUTH_NONCE_COOKIE);
   response.cookies.delete(OAUTH_VERIFIER_COOKIE);
-  response.cookies.delete("volante_login_next");
+  response.cookies.delete(OAUTH_LOGIN_NEXT_COOKIE);
 
   return response;
 }

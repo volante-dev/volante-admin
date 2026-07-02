@@ -1,7 +1,4 @@
-import {
-  defaultSiteLocaleCode,
-  initialTranslatedLocaleCode,
-} from "@/lib/admin-translations";
+import { getSiteProfile } from "@/lib/site-profile";
 
 export type FooterContentData = {
   id: "footer";
@@ -24,32 +21,5 @@ export type FooterContentData = {
 
 export const footerContentDefault: FooterContentData = {
   id: "footer",
-  tagline:
-    "Agence de communication créative. Nous donnons vie aux idées qui comptent.",
-  contactHeading: "Contact",
-  contactEmail: "yasmine@studio-volante.fr",
-  contactSocialLabel: "@vlnt.studio",
-  legalText: "Studio Volante. Tous droits réservés.",
-  madeWithCare: "Fait avec soin à Paris",
-  translations: [
-    {
-      locale: defaultSiteLocaleCode,
-      tagline:
-        "Agence de communication créative. Nous donnons vie aux idées qui comptent.",
-      contactHeading: "Contact",
-      contactEmail: "yasmine@studio-volante.fr",
-      contactSocialLabel: "@vlnt.studio",
-      legalText: "Studio Volante. Tous droits réservés.",
-      madeWithCare: "Fait avec soin à Paris",
-    },
-    {
-      locale: initialTranslatedLocaleCode,
-      tagline: "Creative communication agency. We bring meaningful ideas to life.",
-      contactHeading: "Contact",
-      contactEmail: "yasmine@studio-volante.fr",
-      contactSocialLabel: "@vlnt.studio",
-      legalText: "Studio Volante. All rights reserved.",
-      madeWithCare: "Made with care in Paris",
-    },
-  ],
+  ...getSiteProfile().footer,
 };

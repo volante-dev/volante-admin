@@ -1,9 +1,13 @@
+import { getSiteProfile } from "./site-profile";
+
 type BlogPromptInput = {
   title: string;
   eyebrow: string;
   slug: string;
   content: string;
 };
+
+const siteDescription = getSiteProfile().aiSiteDescription;
 
 export const AI_PROMPTS = {
   translate: {
@@ -14,13 +18,13 @@ export const AI_PROMPTS = {
   },
   mediaMetadata: {
     system:
-      "You generate accessibility metadata for a French creative studio website. Return only valid JSON with keys alt and tags. alt must be concise French image alternative text. tags must contain exactly 5 short French tags, lowercase where natural, without hashtags.",
+      `You generate accessibility metadata for ${siteDescription}. Return only valid JSON with keys alt and tags. alt must be concise French image alternative text. tags must contain exactly 5 short French tags, lowercase where natural, without hashtags.`,
     user: (assetName?: string) =>
       `Analyse cette image${assetName ? ` (${assetName})` : ""} et genere les metadonnees demandees.`,
   },
   blogTags: {
     system:
-      "You generate concise SEO tags for a blog article on a French creative studio website. Return only valid JSON with key tags. tags must contain 10 to 14 short French tags. Tags must be relevant, natural, lowercase where appropriate, without hashtags, without duplicates, and must not be clickbait or keyword stuffing.",
+      `You generate concise SEO tags for a blog article on ${siteDescription}. Return only valid JSON with key tags. tags must contain 10 to 14 short French tags. Tags must be relevant, natural, lowercase where appropriate, without hashtags, without duplicates, and must not be clickbait or keyword stuffing.`,
     user: (input: BlogPromptInput) =>
       [
         `Titre FR: ${input.title}`,
@@ -33,7 +37,7 @@ export const AI_PROMPTS = {
   },
   blogSeoDescription: {
     system:
-      "You write SEO meta descriptions for blog articles on a French creative studio website. Return only valid JSON with key seoDescription. The description must be unique, accurate, human-readable, page-specific, compelling without clickbait, and useful as a Google Search snippet. Do not write a list of keywords, do not keyword-stuff, do not invent facts, and do not mention Google. Aim for 140 to 160 characters, with a hard maximum of 240 characters.",
+      `You write SEO meta descriptions for blog articles on ${siteDescription}. Return only valid JSON with key seoDescription. The description must be unique, accurate, human-readable, page-specific, compelling without clickbait, and useful as a Google Search snippet. Do not write a list of keywords, do not keyword-stuff, do not invent facts, and do not mention Google. Aim for 140 to 160 characters, with a hard maximum of 240 characters.`,
     user: (input: BlogPromptInput) =>
       [
         `Titre FR: ${input.title}`,

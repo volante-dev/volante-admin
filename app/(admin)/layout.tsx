@@ -2,10 +2,12 @@ import { redirect } from "next/navigation";
 import { getSession } from "@/lib/session";
 import { getAccountSummary, getDisplayName } from "@/lib/account";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { getSiteProfile } from "@/lib/site-profile";
 
 export const dynamic = "force-dynamic";
 
 const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
+  const siteProfile = getSiteProfile();
   const session = await getSession();
 
   if (!session) {
@@ -63,7 +65,13 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <AdminShell displayName={displayName} email={email}>
+    <AdminShell
+      appName={siteProfile.appName}
+      displayName={displayName}
+      email={email}
+      navGroups={siteProfile.adminNav}
+      settingsItems={siteProfile.settingsNav}
+    >
       {children}
     </AdminShell>
   );

@@ -1,8 +1,9 @@
 import { createHash } from "crypto";
 import { cookies } from "next/headers";
 import { EncryptJWT, jwtDecrypt } from "jose";
+import { getSiteProfile } from "./site-profile";
 
-export const SESSION_COOKIE = "volante_admin_session";
+export const SESSION_COOKIE = `${getSiteProfile().cookiePrefix}_admin_session`;
 
 const SESSION_MAX_AGE = 60 * 60 * 24 * 7;
 

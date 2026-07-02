@@ -1,7 +1,4 @@
-import {
-  defaultSiteLocaleCode,
-  initialTranslatedLocaleCode,
-} from "@/lib/admin-translations";
+import { getSiteProfile } from "@/lib/site-profile";
 
 export type HomePageContentData = {
   id: "home";
@@ -22,30 +19,5 @@ export type HomePageContentData = {
 
 export const homePageContentDefault: HomePageContentData = {
   id: "home",
-  eyebrow: "Agence de communication créative",
-  title: "Nous donnons vie aux idées qui méritent d'exister.",
-  subheading:
-    "Studio Volante accompagne les marques ambitieuses dans leur communication — identité visuelle, stratégie de contenu, direction artistique.",
-  primaryCtaLabel: "Voir nos projets",
-  secondaryCtaLabel: "Travailler ensemble",
-  translations: [
-    {
-      locale: defaultSiteLocaleCode,
-      eyebrow: "Agence de communication créative",
-      title: "Nous donnons vie aux idées qui méritent d'exister.",
-      subheading:
-        "Studio Volante accompagne les marques ambitieuses dans leur communication — identité visuelle, stratégie de contenu, direction artistique.",
-      primaryCtaLabel: "Voir nos projets",
-      secondaryCtaLabel: "Travailler ensemble",
-    },
-    {
-      locale: initialTranslatedLocaleCode,
-      eyebrow: "Creative communication agency",
-      title: "We bring ideas worth sharing to life.",
-      subheading:
-        "Studio Volante helps ambitious brands shape their communication — visual identity, content strategy and art direction.",
-      primaryCtaLabel: "View our work",
-      secondaryCtaLabel: "Work with us",
-    },
-  ],
+  ...getSiteProfile().homePage,
 };

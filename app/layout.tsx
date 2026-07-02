@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 import { ThemeProvider } from "./theme/ThemeProvider";
 import { Toaster } from "sonner";
+import { getSiteProfile } from "@/lib/site-profile";
 import "./globals.css";
 
+const siteProfile = getSiteProfile();
+
 export const metadata: Metadata = {
-  title: "Admin Panel",
-  description: "Portail client Volante",
+  title: siteProfile.adminTitle,
+  description: siteProfile.adminDescription,
 };
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => (

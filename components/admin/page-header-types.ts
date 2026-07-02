@@ -1,11 +1,6 @@
-export const pageHeaderIds = [
-  "studio",
-  "services",
-  "portfolio",
-  "contact",
-] as const;
+import { getSiteProfile } from "@/lib/site-profile";
 
-export type PageHeaderId = (typeof pageHeaderIds)[number];
+export type PageHeaderId = string;
 
 export type PageHeaderContentData = {
   id: PageHeaderId;
@@ -20,43 +15,36 @@ export type PageHeaderContentData = {
   }[];
 };
 
-export const pageHeaderLabels: Record<PageHeaderId, string> = {
-  studio: "Studio",
-  services: "Services",
-  portfolio: "Portfolio",
-  contact: "Contact",
-};
+export const pageHeaderIds = getSiteProfile().pageHeaders.map(
+  (pageHeader) => pageHeader.id,
+);
 
-export const pageHeaderDefaults: Record<PageHeaderId, PageHeaderContentData> = {
-  studio: {
-    id: "studio",
-    eyebrow: "Qui sommes-nous",
-    title: "Un studio indépendant, une vision singulière.",
-    intro: null,
-    translations: [],
-  },
-  services: {
-    id: "services",
-    eyebrow: "Notre expertise",
-    title: "Des services pensés pour faire rayonner votre marque.",
-    intro: null,
-    translations: [],
-  },
-  portfolio: {
-    id: "portfolio",
-    eyebrow: "Nos réalisations",
-    title: "Des projets construits avec exigence.",
-    intro: null,
-    translations: [],
-  },
-  contact: {
-    id: "contact",
-    eyebrow: "Nous contacter",
-    title: "Parlons de votre projet.",
-    intro: null,
-    translations: [],
-  },
-};
+export const pageHeaderLabels: Record<PageHeaderId, string> = Object.fromEntries(
+  getSiteProfile().pageHeaders.map((pageHeader) => [
+    pageHeader.id,
+    pageHeader.label,
+  ]),
+);
+
+export const pageHeaderDefaults: Record<PageHeaderId, PageHeaderContentData> =
+  Object.fromEntries(
+    getSiteProfile().pageHeaders.map((pageHeader) => [
+      pageHeader.id,
+      {
+        id: pageHeader.id,
+        eyebrow: pageHeader.eyebrow,
+        title: pageHeader.title,
+        intro: pageHeader.intro,
+        translations: [],
+      },
+    ]),
+  );
+
+export const pageHeaderIdsWithDedicatedAdmin = new Set(
+  getSiteProfile()
+    .pageHeaders.filter((pageHeader) => pageHeader.dedicatedAdmin)
+    .map((pageHeader) => pageHeader.id),
+);
 
 export const isPageHeaderId = (value: string): value is PageHeaderId =>
-  pageHeaderIds.includes(value as PageHeaderId);
+  pageHeaderIds.includes(value);

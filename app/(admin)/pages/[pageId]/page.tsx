@@ -6,13 +6,11 @@ import { PageHeaderForm } from "@/components/admin/PageHeaderForm";
 import { getSiteLocales } from "@/lib/site-locales";
 import {
   isPageHeaderId,
+  pageHeaderIdsWithDedicatedAdmin,
   pageHeaderLabels,
-  type PageHeaderId,
 } from "@/components/admin/page-header-types";
 
 export const dynamic = "force-dynamic";
-
-const pageIdsWithDedicatedAdmin = new Set<PageHeaderId>(["studio"]);
 
 const PageAdmin = async ({
   params,
@@ -20,7 +18,10 @@ const PageAdmin = async ({
   params: Promise<{ pageId: string }>;
 }) => {
   const { pageId: rawPageId } = await params;
-  if (!isPageHeaderId(rawPageId) || pageIdsWithDedicatedAdmin.has(rawPageId)) {
+  if (
+    !isPageHeaderId(rawPageId) ||
+    pageHeaderIdsWithDedicatedAdmin.has(rawPageId)
+  ) {
     notFound();
   }
 

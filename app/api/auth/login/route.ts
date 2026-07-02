@@ -6,6 +6,7 @@ import {
 } from "@/lib/config";
 import {
   createCodeChallenge,
+  OAUTH_LOGIN_NEXT_COOKIE,
   OAUTH_COOKIE_MAX_AGE,
   OAUTH_NONCE_COOKIE,
   OAUTH_STATE_COOKIE,
@@ -46,7 +47,7 @@ export async function GET(request: NextRequest) {
   response.cookies.set(OAUTH_STATE_COOKIE, state, cookieOptions);
   response.cookies.set(OAUTH_NONCE_COOKIE, nonce, cookieOptions);
   response.cookies.set(OAUTH_VERIFIER_COOKIE, verifier, cookieOptions);
-  response.cookies.set("volante_login_next", next, cookieOptions);
+  response.cookies.set(OAUTH_LOGIN_NEXT_COOKIE, next, cookieOptions);
 
   return response;
 }

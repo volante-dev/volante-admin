@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:bootstrap": "prisma db push --skip-generate && node scripts/mark-migrations-applied.mjs && node scripts/seed-site-profile.mjs",
+    "db:seed": "node scripts/seed-site-profile.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
